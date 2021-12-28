@@ -1,0 +1,32 @@
+{
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.server.launchMode": "Standard",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "bin/": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true,
+    "**/*~": true
+  },
+  "cSpell.words": [
+    "AHRS",
+    "Fortnite",
+    "Holomonic",
+    "Holonomic",
+    "IRHB",
+    "LEDS",
+    "coord",
+    "deadzone",
+    "feedforward",
+    "izone",
+    "odometry",
+    "teleop",
+    "teleoperated"
+  ]
+}
