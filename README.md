@@ -29,8 +29,14 @@ This robot uses REV NEO Motors, Vex 775 Pro Motors, and Kauai Lab's NavX.
 | 8      |       |
 | 9      |       |
 
+
 ## Terminology note
 
 Code uses the word "angle" to describe the angle of the pivot of the module in degrees. It also uses "velocity" to describe the speed of the wheel in m/s (meters per second). Speed, RPM, or radians should not be used.
 
-+Nick Bull
+## Names
+Nico WQ
+Christian Piper
+Keller Yan
+Sungwon Yu
+Nick Bull
