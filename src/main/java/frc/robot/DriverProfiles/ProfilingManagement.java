@@ -14,6 +14,7 @@ package frc.robot.DriverProfiles;
 // Imports
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -80,23 +81,23 @@ public class ProfilingManagement extends SubsystemBase {
         // Saves the input profile for next boot
 
         // Strings
-        Parameters.savedParams.putString("NAME", profile.name);
+        Preferences.setString("NAME", profile.name);
 
         // Ints / Doubles
-        Parameters.savedParams.putDouble("JOYSTICK_DEADZONE", profile.joystickParams.getDeadzone());
-        Parameters.savedParams.putDouble(
+        Preferences.setDouble("JOYSTICK_DEADZONE", profile.joystickParams.getDeadzone());
+        Preferences.setDouble(
                 "JOYSTICK_RAMP_RATE", profile.joystickParams.getRampRate());
-        Parameters.savedParams.putInt(
+        Preferences.setInt(
                 "JOYSTICK_OUTPUT_TYPE", profile.joystickParams.getOutputType().getInt());
-        Parameters.savedParams.putInt("CONTROL_INPUTS", profile.inputType.getInt());
-        Parameters.savedParams.putDouble("MAX_STEER_RATE", profile.maxSteerRate);
-        Parameters.savedParams.putDouble("MAX_MOD_VELOCITY", profile.maxModVelocity);
-        Parameters.savedParams.putInt("DRIVE_BRAKE_MODE", profile.driveIdleMode.value);
-        Parameters.savedParams.putInt("STEER_BRAKE_MODE", profile.steerIdleMode.value);
+        Preferences.setInt("CONTROL_INPUTS", profile.inputType.getInt());
+        Preferences.setDouble("MAX_STEER_RATE", profile.maxSteerRate);
+        Preferences.setDouble("MAX_MOD_VELOCITY", profile.maxModVelocity);
+        Preferences.setInt("DRIVE_BRAKE_MODE", profile.driveIdleMode.value);
+        Preferences.setInt("STEER_BRAKE_MODE", profile.steerIdleMode.value);
 
         // Booleans
-        Parameters.savedParams.putBoolean("LOCKEM_UP", profile.lockemUp);
-        Parameters.savedParams.putBoolean("FIELD_CENTRIC", profile.fieldCentric);
+        Preferences.setBoolean("LOCKEM_UP", profile.lockemUp);
+        Preferences.setBoolean("FIELD_CENTRIC", profile.fieldCentric);
     }
 
     public void loadSavedProfile() {
@@ -107,21 +108,21 @@ public class ProfilingManagement extends SubsystemBase {
 
         // Strings
         profile.name =
-                Parameters.savedParams.getString(
+                Preferences.getString(
                         "NAME", Parameters.driver.defaultDriverProfile.name);
 
         // Ints / Doubles
         double deadzone =
-                Parameters.savedParams.getDouble(
+                Preferences.getDouble(
                         "JOYSTICK_DEADZONE",
                         Parameters.driver.defaultDriverProfile.joystickParams.getDeadzone());
         double rampRate =
-                Parameters.savedParams.getDouble(
+                Preferences.getDouble(
                         "JOYSTICK_RAMP_RATE",
                         Parameters.driver.defaultDriverProfile.joystickParams.getRampRate());
         JoystickOutputTypes outputType =
                 JoystickOutputTypes.fromInt(
-                        Parameters.savedParams.getInt(
+                        Preferences.getInt(
                                 "JOYSTICK_OUTPUT_TYPE",
                                 Parameters.driver
                                         .defaultDriverProfile
@@ -130,32 +131,32 @@ public class ProfilingManagement extends SubsystemBase {
                                         .getInt()));
         profile.inputType =
                 ControlInputs.fromInt(
-                        Parameters.savedParams.getInt(
+                        Preferences.getInt(
                                 "CONTROL_INPUTS",
                                 Parameters.driver.defaultDriverProfile.inputType.getInt()));
         profile.joystickParams = new JoystickParams(deadzone, outputType, rampRate);
         profile.maxSteerRate =
-                Parameters.savedParams.getDouble(
+                Preferences.getDouble(
                         "MAX_STEER_RATE", Parameters.driver.defaultDriverProfile.maxSteerRate);
         profile.maxModVelocity =
-                Parameters.savedParams.getDouble(
+                Preferences.getDouble(
                         "MAX_MOD_VELOCITY", Parameters.driver.defaultDriverProfile.maxModVelocity);
 
         // Booleans
         profile.lockemUp =
-                Parameters.savedParams.getBoolean(
+                Preferences.getBoolean(
                         "LOCKEM_UP", Parameters.driver.defaultDriverProfile.lockemUp);
         profile.fieldCentric =
-                Parameters.savedParams.getBoolean(
+                Preferences.getBoolean(
                         "FIELD_CENTRIC", Parameters.driver.defaultDriverProfile.fieldCentric);
 
         // Special (the braking modes)
         profile.driveIdleMode =
-                Parameters.savedParams.getInt("DRIVE_BRAKE_MODE", profile.driveIdleMode.value) == 0
+                Preferences.getInt("DRIVE_BRAKE_MODE", profile.driveIdleMode.value) == 0
                         ? IdleMode.kCoast
                         : IdleMode.kBrake;
         profile.steerIdleMode =
-                Parameters.savedParams.getInt("STEER_BRAKE_MODE", profile.steerIdleMode.value) == 0
+                Preferences.getInt("STEER_BRAKE_MODE", profile.steerIdleMode.value) == 0
                         ? IdleMode.kCoast
                         : IdleMode.kBrake;
 
