@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Parameters;
 
+// ! You thought this comment would mean something, but it was me, DIO!
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,7 +20,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   public Intake() {}
 
-  //create intake motor!!!!!!
+  //create intake motors!!!!!!
   CANSparkMax intakeMotorBottom = new CANSparkMax(Parameters.driveTrain.can.INTAKEMOTORBOTTOM_ID, MotorType.kBrushless);
   CANSparkMax intakeMotorTop = new CANSparkMax(Parameters.driveTrain.can.INTAKEMOTORTOP_ID, MotorType.kBrushless);
 
@@ -29,6 +30,7 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  //turns on the intake
   public void turnOn(){
     intakeMotorTop.set(Parameters.intake.INTAKEMOTORTOP_SPEED);
     intakeMotorBottom.set(Parameters.intake.INTAKEMOTORBOTTOM_SPEED);

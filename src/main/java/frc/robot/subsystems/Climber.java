@@ -14,15 +14,17 @@ import frc.robot.Parameters;
 
 public class Climber extends SubsystemBase {
 
-  //fun different comment colors are among us
+  //fun different comment colors are among us?
   // ? Hello
   // * Hello
   // TODO: Hello
-  // ! creates a motor| CHANGE NAME WHEN WE HAVE A CLIMBER DESIGN
+  // ! You thought that it was another hello comment, but it me me, DIO!
+
+  // ! cates a motor| CHANGE NAME WHEN WE HAVE A CLIMBER DESIGN
   CANSparkMax climberMotor1 = new CANSparkMax(Parameters.driveTrain.can.CLIMBMOTOR1_ID, MotorType.kBrushless);
   CANSparkMax climberMotor2 = new CANSparkMax(Parameters.driveTrain.can.CLIMBMOTOR2_ID, MotorType.kBrushless);
 
-  //creates a limit switch if needed
+  //TODO creates a limit switch if needed
 
   /** Creates a new Climber. */
   public Climber() {}

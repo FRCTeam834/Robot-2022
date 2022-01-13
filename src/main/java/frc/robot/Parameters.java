@@ -64,6 +64,8 @@ public final class Parameters {
                 -10; // What happens when Andrew is around the safety team... backwards progress
         public static final int CHRISTIAN_FORTNITE_WINS =
                 39; // The number of the lead programmer's Fortnite wins EASY DUBS LETS GO
+        public static final int DIO_COMMENTS = 
+                5; //You thought this was a comment that would explain what the parameter means, but it was me, DIO!
     }
 
     // All of the driver parameters
@@ -153,6 +155,8 @@ public final class Parameters {
             public static final int CLIMBMOTOR2_ID = 14;
             public static final int INTAKEMOTORBOTTOM_ID = 15;
             public static final int INTAKEMOTORTOP_ID = 16;
+            public static final int SHOOTERMOTOR1_ID = 17;
+            public static final int SHOOTERMOTOR2_ID = 18;
 
         }
 
@@ -350,5 +354,11 @@ public final class Parameters {
             public static final double INTAKEMOTORBOTTOM_SPEED = 0.0;
             public static final double INTAKEMOTORTOP_SPEED = 0.0;
 
+    }
+
+    public static final class shooter{
+            //motor speed for the shooter
+            public static final double SHOOTERMOTOR1_SPEED = 0.0;
+            public static final double SHOOTERMOTOR2_SPEED = 0.0;
     }
 }
