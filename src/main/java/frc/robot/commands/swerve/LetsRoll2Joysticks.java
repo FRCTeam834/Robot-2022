@@ -12,7 +12,6 @@
 package frc.robot.commands.swerve;
 
 // Imports
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
@@ -56,9 +55,9 @@ public class LetsRoll2Joysticks extends CommandBase {
             rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
             rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
         } else {
-            leftX = RobotContainer.constrainJoystick(RobotContainer.xbox.getX(Hand.kLeft));
-            rightX = RobotContainer.constrainJoystick(RobotContainer.xbox.getX(Hand.kRight));
-            rightY = RobotContainer.constrainJoystick(RobotContainer.xbox.getY(Hand.kRight));
+            leftX = RobotContainer.constrainJoystick(RobotContainer.xbox.getLeftX());
+            rightX = RobotContainer.constrainJoystick(RobotContainer.xbox.getRightX());
+            rightY = RobotContainer.constrainJoystick(RobotContainer.xbox.getRightY());
         }
 
         // If any of the sticks are out of range, then we need to move. Otherwise, lock up the

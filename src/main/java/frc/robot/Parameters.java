@@ -14,20 +14,19 @@ package frc.robot;
 
 // Imports
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.ControlType;
-
+import com.revrobotics.CANSparkMax.ControlType;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpiutil.math.MatBuilder;
-import edu.wpi.first.wpiutil.math.Matrix;
-import edu.wpi.first.wpiutil.math.Nat;
-import edu.wpi.first.wpiutil.math.numbers.*;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
+import edu.wpi.first.math.numbers.*;
 
 import frc.robot.DriverProfiles.DriverProfile;
 import frc.robot.DriverProfiles.JoystickParams;
@@ -59,12 +58,12 @@ public final class Parameters {
         public static final double MIN_IN_HR = 60; // Minutes in an hour
         public static final int BUILD_TEAM_BRAIN_CELLS = 1; // Brain cells owned by the build team
         public static final int CODING_TEAM_BRAIN_CELLS =
-                5; // Same as the amount of coding team members
+                15; // Same as the amount of coding team members
         public static final int SHRIMP_ON_THE_BARBIE = 3; // Number of shrimp on the barbecue
         public static final int ANDREWS_PROGRESS_WHEN_AROUND_SAFETY_TEAM =
                 -10; // What happens when Andrew is around the safety team... backwards progress
         public static final int CHRISTIAN_FORTNITE_WINS =
-                38; // The number of the lead programmer's Fortnite wins
+                39; // The number of the lead programmer's Fortnite wins EASY DUBS LETS GO
     }
 
     // All of the driver parameters

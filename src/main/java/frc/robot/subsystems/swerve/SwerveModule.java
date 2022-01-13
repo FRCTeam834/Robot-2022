@@ -15,17 +15,18 @@ package frc.robot.subsystems.swerve;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
-import com.revrobotics.CANEncoder;
-import com.revrobotics.CANPIDController.AccelStrategy;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import frc.robot.Parameters;
 import frc.robot.utilityClasses.CachedPIDController;
@@ -41,8 +42,8 @@ public class SwerveModule {
     private CachedPIDController steerMotorPID;
     private CachedPIDController driveMotorPID;
     private CANCoder steerCANCoder;
-    private CANEncoder steerMotorEncoder;
-    private CANEncoder driveMotorEncoder;
+    private RelativeEncoder steerMotorEncoder;
+    private RelativeEncoder driveMotorEncoder;
 
     // General info
     private double cancoderOffset = 0;
@@ -142,9 +143,9 @@ public class SwerveModule {
 
         // Set the angular velocity and acceleration values (if smart motion is being used)
         if (steerPIDParams.controlType.equals(ControlType.kSmartMotion)) {
-            steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL, 0);
-            steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY, 0);
-            steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kSCurve, 0);
+            steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
+            steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY);
+            steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
         }
 
         // Save the control type for the steering motor
@@ -519,19 +520,19 @@ public class SwerveModule {
         // Saves the configured configuration in the present tense
 
         // Steer PID
-        Parameters.savedParams.putDouble(name + "_STEER_P", steerMotorPID.getP());
-        Parameters.savedParams.putDouble(name + "_STEER_I", steerMotorPID.getI());
-        Parameters.savedParams.putDouble(name + "_STEER_D", steerMotorPID.getD());
-        Parameters.savedParams.putDouble(name + "_STEER_FF", steerMotorPID.getFF());
+        Preferences.setDouble(name + "_STEER_P", steerMotorPID.getP());
+        Preferences.setDouble(name + "_STEER_I", steerMotorPID.getI());
+        Preferences.setDouble(name + "_STEER_D", steerMotorPID.getD());
+        Preferences.setDouble(name + "_STEER_FF", steerMotorPID.getFF());
 
         // Drive PID
-        Parameters.savedParams.putDouble(name + "_DRIVE_P", driveMotorPID.getP());
-        Parameters.savedParams.putDouble(name + "_DRIVE_I", driveMotorPID.getI());
-        Parameters.savedParams.putDouble(name + "_DRIVE_D", driveMotorPID.getD());
-        Parameters.savedParams.putDouble(name + "_DRIVE_FF", driveMotorPID.getFF());
+        Preferences.setDouble(name + "_DRIVE_P", driveMotorPID.getP());
+        Preferences.setDouble(name + "_DRIVE_I", driveMotorPID.getI());
+        Preferences.setDouble(name + "_DRIVE_D", driveMotorPID.getD());
+        Preferences.setDouble(name + "_DRIVE_FF", driveMotorPID.getFF());
 
         // Encoder offset
-        Parameters.savedParams.putDouble(name + "_ENCODER_OFFSET", cancoderOffset);
+        Preferences.setDouble(name + "_ENCODER_OFFSET", cancoderOffset);
     }
 
     // Loads all of the parameters from the Rio's saved data
@@ -539,27 +540,27 @@ public class SwerveModule {
 
         // Steer PID
         steerMotorPID.setP(
-                Parameters.savedParams.getDouble(name + "_STEER_P", steerMotorPID.getP()));
+                Preferences.getDouble(name + "_STEER_P", steerMotorPID.getP()));
         steerMotorPID.setI(
-                Parameters.savedParams.getDouble(name + "_STEER_I", steerMotorPID.getI()));
+                Preferences.getDouble(name + "_STEER_I", steerMotorPID.getI()));
         steerMotorPID.setD(
-                Parameters.savedParams.getDouble(name + "_STEER_D", steerMotorPID.getD()));
+                Preferences.getDouble(name + "_STEER_D", steerMotorPID.getD()));
         steerMotorPID.setFF(
-                Parameters.savedParams.getDouble(name + "_STEER_FF", steerMotorPID.getFF()));
+                Preferences.getDouble(name + "_STEER_FF", steerMotorPID.getFF()));
 
         // Drive PID
         driveMotorPID.setP(
-                Parameters.savedParams.getDouble(name + "_DRIVE_P", driveMotorPID.getP()));
+                Preferences.getDouble(name + "_DRIVE_P", driveMotorPID.getP()));
         driveMotorPID.setI(
-                Parameters.savedParams.getDouble(name + "_DRIVE_I", driveMotorPID.getI()));
+                Preferences.getDouble(name + "_DRIVE_I", driveMotorPID.getI()));
         driveMotorPID.setD(
-                Parameters.savedParams.getDouble(name + "_DRIVE_D", driveMotorPID.getD()));
+                Preferences.getDouble(name + "_DRIVE_D", driveMotorPID.getD()));
         driveMotorPID.setFF(
-                Parameters.savedParams.getDouble(name + "_DRIVE_FF", driveMotorPID.getFF()));
+                Preferences.getDouble(name + "_DRIVE_FF", driveMotorPID.getFF()));
 
         // Encoder offset
         steerCANCoder.configMagnetOffset(
-                Parameters.savedParams.getDouble(name + "_ENCODER_OFFSET", cancoderOffset));
+                Preferences.getDouble(name + "_ENCODER_OFFSET", cancoderOffset));
         steerMotorEncoder.setPosition(getAngle());
 
         // Push the new values to the table
