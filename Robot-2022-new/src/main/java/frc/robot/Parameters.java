@@ -14,10 +14,9 @@ package frc.robot;
 
 // Imports
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -26,7 +25,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.wpiutil.math.Nat;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.numbers.*;
 
 import frc.robot.DriverProfiles.DriverProfile;
@@ -119,7 +118,7 @@ public final class Parameters {
     }
 
     // the saved preferences for the current driver
-    public static Preferences savedParams = Preferences.getInstance();
+    //public static Preferences savedParams = Preferences.getInstance();
 
     // All of the drivetrain parameters
     public static final class driveTrain {
@@ -294,7 +293,7 @@ public final class Parameters {
     }
 
     // DriverStation instance
-    public static DriverStation driverStation = DriverStation.getInstance();
+    //public static DriverStation driverStation = DriverStation.getInstance();
 
     // All of the starting position data
     public static final class positions {
@@ -311,7 +310,7 @@ public final class Parameters {
         // Actual starting position (declared in the global scope)
         public static Pose2d STARTING_POS =
                 Parameters.positions
-                        .POSSIBLE_STARTING_POSITIONS[Parameters.driverStation.getLocation()];
+                        .POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
     }
 
     // All of the joystick variables

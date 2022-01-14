@@ -652,19 +652,26 @@ public class DriveTrain extends SubsystemBase {
                 Preferences.getDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI()));
         ROTATION_PID.setD(
                 Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD()));
-
+  
+                /*
+        ROTATION_CONSTRAINTS.maxVelocity = Math.toRadians(
+                Preferences.getDouble(
+                        "DRIVETRAIN_ROTATION_PID_MAX_VEL",
+                        Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity)));
         // Rotation PID (Constraints)
         ROTATION_CONSTRAINTS.maxVelocity =
                 Math.toRadians(
                         Preferences.getDouble(
                                 "DRIVETRAIN_ROTATION_PID_MAX_VEL",
                                 Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity)));
+
         ROTATION_CONSTRAINTS.maxAcceleration =
                 Math.toRadians(
                         Preferences.getDouble(
                                 "DRIVETRAIN_ROTATION_PID_MAX_ACCEL",
                                 Math.toDegrees(ROTATION_CONSTRAINTS.maxAcceleration)));
         ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
+        */
 
         // Redeclare the drive controller
         driveController = new HolonomicDriveController(X_MOVE_PID, Y_MOVE_PID, ROTATION_PID);
@@ -699,9 +706,9 @@ public class DriveTrain extends SubsystemBase {
             ROTATION_PID.setP(ROTATION_PID_P_ENTRY.getDouble(ROTATION_PID.getP()));
             ROTATION_PID.setI(ROTATION_PID_I_ENTRY.getDouble(ROTATION_PID.getI()));
             ROTATION_PID.setD(ROTATION_PID_D_ENTRY.getDouble(ROTATION_PID.getD()));
-
+                /*
             // Rotation PID (Constraints)
-            ROTATION_CONSTRAINTS.maxVelocity =
+            ROTATION_CONSTRAINTS.
                     Math.toRadians(
                             ROTATION_PID_MAX_VEL_ENTRY.getDouble(
                                     Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity)));
@@ -710,7 +717,7 @@ public class DriveTrain extends SubsystemBase {
                             ROTATION_PID_MAX_ACCEL_ENTRY.getDouble(
                                     Math.toDegrees(ROTATION_CONSTRAINTS.maxAcceleration)));
             ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
-
+*/
             // Redeclare the drive controller
             driveController = new HolonomicDriveController(X_MOVE_PID, Y_MOVE_PID, ROTATION_PID);
         }

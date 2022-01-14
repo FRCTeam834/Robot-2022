@@ -3,11 +3,11 @@ package frc.robot.utilityClasses;
 
 // Imports
 import com.revrobotics.REVLibError;
-import com.revrobotics.CANPIDController;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.ControlType;;
 
-public class CachedPIDController extends CANPIDController {
+public class CachedPIDController extends SparkMaxPIDController {
 
     // Variables for caching
     double previousValue = 0;
@@ -27,6 +27,7 @@ public class CachedPIDController extends CANPIDController {
         // ! IGNORE THIS WARNING, there's no other way to create the new
         // controller. Even REV themselves use it
         super(device);
+        device.getPIDController();
     }
 
     /**

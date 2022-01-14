@@ -16,14 +16,15 @@ import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANPIDController.AccelStrategy;
+import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
@@ -53,8 +54,8 @@ public class SwerveModule {
     private boolean enabled = true;
 
     // PID control types
-    ControlType steerMControlType;
-    ControlType driveMControlType;
+    CANSparkMax.ControlType steerMControlType;
+    CANSparkMax.ControlType driveMControlType;
 
     // NetworkTable values
     private NetworkTableEntry steerPEntry;
