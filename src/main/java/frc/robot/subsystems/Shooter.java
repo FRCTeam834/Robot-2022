@@ -14,8 +14,8 @@ import frc.robot.Parameters;
 
 public class Shooter extends SubsystemBase {
 
-  CANSparkMax shooterMotor1 = new CANSparkMax(Parameters.driveTrain.can.SHOOTERMOTOR1_ID, MotorType.kBrushless);
-  CANSparkMax shooterMotor2 = new CANSparkMax(Parameters.driveTrain.can.SHOOTERMOTOR2_ID, MotorType.kBrushless);
+  CANSparkMax shooterMotor1 = new CANSparkMax(Parameters.shooter.can.SHOOTER_MOTOR_1_ID, MotorType.kBrushless);
+  CANSparkMax shooterMotor2 = new CANSparkMax(Parameters.shooter.can.SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
 
   /** Creates a new Shooter. */
   public Shooter() {}  
@@ -27,8 +27,8 @@ public class Shooter extends SubsystemBase {
   }
 
   public void spinShooterMotors() {
-    shooterMotor1.set(Parameters.shooter.SHOOTERMOTOR1_SPEED);
-    shooterMotor2.set(Parameters.shooter.SHOOTERMOTOR2_SPEED);
+    shooterMotor1.set(Parameters.shooter.SHOOTER_MOTOR_1_SPEED);
+    shooterMotor2.set(Parameters.shooter.SHOOTER_MOTOR_2_SPEED);
   }
 
   public void spinShooterMotors(double speed1, double speed2){

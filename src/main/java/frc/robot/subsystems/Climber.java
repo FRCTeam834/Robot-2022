@@ -20,9 +20,9 @@ public class Climber extends SubsystemBase {
   // TODO: Hello
   // ! You thought that it was another hello comment, but it me me, DIO!
 
-  // ! cates a motor| CHANGE NAME WHEN WE HAVE A CLIMBER DESIGN
-  CANSparkMax climberMotor1 = new CANSparkMax(Parameters.driveTrain.can.CLIMBMOTOR1_ID, MotorType.kBrushless);
-  CANSparkMax climberMotor2 = new CANSparkMax(Parameters.driveTrain.can.CLIMBMOTOR2_ID, MotorType.kBrushless);
+  // ! creates a motor| CHANGE NAME WHEN WE HAVE A CLIMBER DESIGN
+  CANSparkMax climberMotor1 = new CANSparkMax(Parameters.climber.can.CLIMB_MOTOR_1_ID, MotorType.kBrushless);
+  CANSparkMax climberMotor2 = new CANSparkMax(Parameters.climber.can.CLIMB_MOTOR_2_ID, MotorType.kBrushless);
 
   //TODO creates a limit switch if needed
 
@@ -36,7 +36,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void firstMotorSpin() {
-    climberMotor1.set(Parameters.climber.CLIMBMOTOR1_SPEED);
+    climberMotor1.set(Parameters.climber.CLIMB_MOTOR_1_SPEED);
   }
 
   public void firstMotorSpin(double speed){
@@ -44,8 +44,8 @@ public class Climber extends SubsystemBase {
   }
 
   public void spinBothMotors(){
-    climberMotor1.set(Parameters.climber.CLIMBMOTOR1_SPEED);
-    climberMotor2.set(Parameters.climber.CLIMBMOTOR2_SPEED);
+    climberMotor1.set(Parameters.climber.CLIMB_MOTOR_1_SPEED);
+    climberMotor2.set(Parameters.climber.CLIMB_MOTOR_2_SPEED);
   }
 
   public void spinBothMotors(double speed1, double speed2){

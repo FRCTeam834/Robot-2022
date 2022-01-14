@@ -21,8 +21,8 @@ public class Intake extends SubsystemBase {
   public Intake() {}
 
   //create intake motors!!!!!!
-  CANSparkMax intakeMotorBottom = new CANSparkMax(Parameters.driveTrain.can.INTAKEMOTORBOTTOM_ID, MotorType.kBrushless);
-  CANSparkMax intakeMotorTop = new CANSparkMax(Parameters.driveTrain.can.INTAKEMOTORTOP_ID, MotorType.kBrushless);
+  CANSparkMax intakeMotorBottom = new CANSparkMax(Parameters.intake.can.INTAKE_MOTOR_BOTTOM_ID, MotorType.kBrushless);
+  CANSparkMax intakeMotorTop = new CANSparkMax(Parameters.intake.can.INTAKE_MOTOR_TOP_ID, MotorType.kBrushless);
 
 
   @Override
@@ -32,8 +32,8 @@ public class Intake extends SubsystemBase {
 
   //turns on the intake
   public void turnOn(){
-    intakeMotorTop.set(Parameters.intake.INTAKEMOTORTOP_SPEED);
-    intakeMotorBottom.set(Parameters.intake.INTAKEMOTORBOTTOM_SPEED);
+    intakeMotorTop.set(Parameters.intake.INTAKE_MOTOR_TOP_SPEED);
+    intakeMotorBottom.set(Parameters.intake.INTAKE_MOTOR_BOTTOM_SPEED);
 
   }
 }

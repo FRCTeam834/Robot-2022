@@ -151,12 +151,7 @@ public final class Parameters {
             public static final int BL_CODER_ID = 11;
             public static final int BR_CODER_ID = 12;
 
-            public static final int CLIMBMOTOR1_ID = 13;
-            public static final int CLIMBMOTOR2_ID = 14;
-            public static final int INTAKEMOTORBOTTOM_ID = 15;
-            public static final int INTAKEMOTORTOP_ID = 16;
-            public static final int SHOOTERMOTOR1_ID = 17;
-            public static final int SHOOTERMOTOR2_ID = 18;
+
 
         }
 
@@ -344,21 +339,46 @@ public final class Parameters {
 
     public static final class climber{
             //motor speeds for climbers
-                public static final double CLIMBMOTOR1_SPEED = 0.0;
-                public static final double CLIMBMOTOR2_SPEED = 0.0;
+            //TODO fix names lol
+                public static final double CLIMB_MOTOR_1_SPEED = 0.0;
+                public static final double CLIMB_MOTOR_2_SPEED = 0.0;
+
+                public static final class can{
+                        public static final int CLIMB_MOTOR_1_ID = 13;
+                        public static final int CLIMB_MOTOR_2_ID = 14;
+                }
 
     }
 
     public static final class intake{
             //motor speed for intake
-            public static final double INTAKEMOTORBOTTOM_SPEED = 0.0;
-            public static final double INTAKEMOTORTOP_SPEED = 0.0;
+            public static final double INTAKE_MOTOR_BOTTOM_SPEED = 0.0;
+            public static final double INTAKE_MOTOR_TOP_SPEED = 0.0;
+
+            public static final class can{
+                public static final int INTAKE_MOTOR_BOTTOM_ID = 15;
+                public static final int INTAKE_MOTOR_TOP_ID = 16;
+            }
+ 
+
 
     }
 
     public static final class shooter{
             //motor speed for the shooter
-            public static final double SHOOTERMOTOR1_SPEED = 0.0;
-            public static final double SHOOTERMOTOR2_SPEED = 0.0;
+            //TODO fix names
+            public static final double SHOOTER_MOTOR_1_SPEED = 0.0;
+            public static final double SHOOTER_MOTOR_2_SPEED = 0.0;
+            public static final class can{
+                //TODO fix names
+                public static final int SHOOTER_MOTOR_1_ID = 17;
+                public static final int SHOOTER_MOTOR_2_ID = 18;
+                public static final double SHOOTER_MOTOR_1_SPEED = 0;
+
+            }
     }
+
+
+
+   
 }
