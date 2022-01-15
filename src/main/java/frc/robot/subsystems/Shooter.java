@@ -10,15 +10,31 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Parameters;
+import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.wpilibj.Encoder;
 
+//!add bang bang 
 
 public class Shooter extends SubsystemBase {
 
-  CANSparkMax shooterMotor1 = new CANSparkMax(Parameters.shooter.can.SHOOTER_MOTOR_1_ID, MotorType.kBrushless);
-  CANSparkMax shooterMotor2 = new CANSparkMax(Parameters.shooter.can.SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
+  //construct motors
+  CANSparkMax shooterMotor1 = new CANSparkMax(Parameters.shooter.ID.SHOOTER_MOTOR_1_ID, MotorType.kBrushless);
+  CANSparkMax shooterMotor2 = new CANSparkMax(Parameters.shooter.ID.SHOOTER_MOTOR_2_ID, MotorType.kBrushless);
+
+
+  //construct a bangbang controller
+  BangBangController bigBangTheory = new BangBangController();
+  //! maybe add feedforward as well
+
+  //construct a motor encode so that we can decode its encoding
+  Encoder encoder = new Encoder(Parameters.shooter.ID.SHOOTER_ENCODER_IN_PORT, Parameters.shooter.ID.SHOOTER_ENCODER_OUT_PORT);
 
   /** Creates a new Shooter. */
-  public Shooter() {}  
+  public Shooter() {
+  //! May have to be somewhere else
+  //set motor2 as a follower motor so they are the same speed
+  shooterMotor2.follow(shooterMotor1);
+  }  
 
   @Override
   public void periodic() {
@@ -27,12 +43,10 @@ public class Shooter extends SubsystemBase {
   }
 
   public void spinShooterMotors() {
-    shooterMotor1.set(Parameters.shooter.SHOOTER_MOTOR_1_SPEED);
-    shooterMotor2.set(Parameters.shooter.SHOOTER_MOTOR_2_SPEED);
+    shooterMotor1.set(bigBangTheory.calculate(encoder.getRate(), Parameters.shooter.SHOOTER_SPEED));
   }
 
-  public void spinShooterMotors(double speed1, double speed2){
-    shooterMotor1.set(speed1);
-    shooterMotor2.set(speed2);
+  public void spinShooterMotors(double speed){
+    shooterMotor1.set(speed);
   }
 }

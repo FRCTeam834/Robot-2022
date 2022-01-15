@@ -4,14 +4,30 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.ColorSensorV3;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Parameters;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ColorSensor extends SubsystemBase {
-  /** Creates a new ColorSensor. */
+  // Creates a new ColorSensor.
+  Port port;
+  ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kOnboard);
   public ColorSensor() {}
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public Color getReading(){
+    return colorSensor.getColor();
   }
 }

@@ -366,16 +366,24 @@ public final class Parameters {
 
     public static final class shooter{
             //motor speed for the shooter
-            //TODO fix names
-            public static final double SHOOTER_MOTOR_1_SPEED = 0.0;
-            public static final double SHOOTER_MOTOR_2_SPEED = 0.0;
-            public static final class can{
-                //TODO fix names
+            public static final double SHOOTER_SPEED = 0.0;
+            public static final class ID{
+                //motor CAN IDs
                 public static final int SHOOTER_MOTOR_1_ID = 17;
                 public static final int SHOOTER_MOTOR_2_ID = 18;
-                public static final double SHOOTER_MOTOR_1_SPEED = 0;
 
+                //Encoder DIO Ports
+                public static final int SHOOTER_ENCODER_IN_PORT = 9;
+                public static final int SHOOTER_ENCODER_OUT_PORT = 10;
             }
+
+
+    }
+
+    public static final class colorSensor{
+            
+            
+
     }
 
 

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
@@ -16,7 +17,7 @@ public class ShuffleboardSetup extends SubsystemBase {
 
   //TODO what idk what this is someone fix!!!!!!!!!!!!!!!!!!!!!!!!!! - fine I'll do it myself
   private ShuffleboardTab helmetScreenTab = Shuffleboard.getTab("Helmet_Screen");
-  private NetworkTableEntry placeHolder = helmetScreenTab.add("Place Holder", 1).getEntry();
+  private NetworkTableEntry status = helmetScreenTab.add("Place Holder", 1).getEntry();
 
   public ShuffleboardSetup() {}
 
