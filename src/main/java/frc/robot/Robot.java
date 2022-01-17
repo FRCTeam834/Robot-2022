@@ -13,8 +13,6 @@
 package frc.robot;
 
 // Imports
-import org.photonvision.PhotonCamera;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,6 +20,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.DriverProfiles.ProfilingManagement;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.swerve.DriveTrain;
+
+import org.photonvision.PhotonCamera;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
