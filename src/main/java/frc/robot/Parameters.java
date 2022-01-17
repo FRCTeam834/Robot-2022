@@ -15,7 +15,6 @@ package frc.robot;
 // Imports
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.ControlType;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -58,12 +57,12 @@ public final class Parameters {
         public static final double MIN_IN_HR = 60; // Minutes in an hour
         public static final int BUILD_TEAM_BRAIN_CELLS = 1; // Brain cells owned by the build team
         public static final int CODING_TEAM_BRAIN_CELLS =
-                5; // Same as the amount of coding team members
+                15; // Same as the amount of coding team members
         public static final int SHRIMP_ON_THE_BARBIE = 3; // Number of shrimp on the barbecue
         public static final int ANDREWS_PROGRESS_WHEN_AROUND_SAFETY_TEAM =
                 -10; // What happens when Andrew is around the safety team... backwards progress
         public static final int CHRISTIAN_FORTNITE_WINS =
-                38; // The number of the lead programmer's Fortnite wins
+                39; // The number of the lead programmer's Fortnite wins EASY DUBS LETS GO
     }
 
     // All of the driver parameters

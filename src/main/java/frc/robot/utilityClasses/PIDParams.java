@@ -4,8 +4,9 @@
  */
 package frc.robot.utilityClasses;
 
-import com.revrobotics.CANSparkMax;
 // Imports
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;;
 
 /** Class that organizes gains used when assigning values to slots */
 public class PIDParams {

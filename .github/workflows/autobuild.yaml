@@ -4,11 +4,7 @@ name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch.
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+on: [push, pull_request]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -18,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     # This grabs the WPILib docker container
-    container: wpilib/roborio-cross-ubuntu:2021-18.04
+    container: wpilib/roborio-cross-ubuntu:2022-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -42,4 +38,4 @@ jobs:
         with:
           args: "--aosp --replace"
           # Recommended if you use MacOS:
-          # githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
