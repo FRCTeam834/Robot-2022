@@ -104,9 +104,9 @@ public class RobotContainer {
             rJoystick9 = new JoystickButton(rightJoystick, 9),
             rJoystick10 = new JoystickButton(rightJoystick, 10),
             rJoystick11 = new JoystickButton(rightJoystick, 11);
-           
-      // xbox A button
-      public static final JoystickButton xboxA = new JoystickButton(xbox, 0);
+
+    // xbox A button
+    public static final JoystickButton xboxA = new JoystickButton(xbox, 0);
 
     // Arcade Buttons
     /*
@@ -163,8 +163,8 @@ public class RobotContainer {
 
         // Right joystick
         rJoystick1.toggleWhenPressed(zeroNavX);
-      
-        //xboxA.whenPressed(turnToVision);
+
+        // xboxA.whenPressed(turnToVision);
 
         /*
         // Try to assign the left joystick

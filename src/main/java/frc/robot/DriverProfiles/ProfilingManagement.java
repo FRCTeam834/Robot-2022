@@ -85,10 +85,8 @@ public class ProfilingManagement extends SubsystemBase {
 
         // Ints / Doubles
         Preferences.setDouble("JOYSTICK_DEADZONE", profile.joystickParams.getDeadzone());
-        Preferences.setDouble(
-                "JOYSTICK_RAMP_RATE", profile.joystickParams.getRampRate());
-        Preferences.setInt(
-                "JOYSTICK_OUTPUT_TYPE", profile.joystickParams.getOutputType().getInt());
+        Preferences.setDouble("JOYSTICK_RAMP_RATE", profile.joystickParams.getRampRate());
+        Preferences.setInt("JOYSTICK_OUTPUT_TYPE", profile.joystickParams.getOutputType().getInt());
         Preferences.setInt("CONTROL_INPUTS", profile.inputType.getInt());
         Preferences.setDouble("MAX_STEER_RATE", profile.maxSteerRate);
         Preferences.setDouble("MAX_MOD_VELOCITY", profile.maxModVelocity);
@@ -107,9 +105,7 @@ public class ProfilingManagement extends SubsystemBase {
         DriverProfile profile = new DriverProfile();
 
         // Strings
-        profile.name =
-                Preferences.getString(
-                        "NAME", Parameters.driver.defaultDriverProfile.name);
+        profile.name = Preferences.getString("NAME", Parameters.driver.defaultDriverProfile.name);
 
         // Ints / Doubles
         double deadzone =
