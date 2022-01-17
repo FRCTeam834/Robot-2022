@@ -12,7 +12,7 @@
 package frc.robot.commands.swerve;
 
 // Imports
-import edu.wpi.first.wpilibj.GenericHID.Hand;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
@@ -43,8 +43,8 @@ public class LetsRoll1Joystick extends CommandBase {
             leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
             leftY = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getY());
         } else {
-            leftX = RobotContainer.constrainJoystick(RobotContainer.xbox.getX(Hand.kRight));
-            leftY = RobotContainer.constrainJoystick(RobotContainer.xbox.getY(Hand.kRight));
+            leftX = RobotContainer.constrainJoystick(RobotContainer.xbox.getRightX());
+            leftY = RobotContainer.constrainJoystick(RobotContainer.xbox.getRightY());
         }
 
         // Declare here so the value is in scope

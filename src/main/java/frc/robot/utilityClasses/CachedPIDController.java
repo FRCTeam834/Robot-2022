@@ -2,17 +2,17 @@
 package frc.robot.utilityClasses;
 
 // Imports
-import com.revrobotics.CANError;
-import com.revrobotics.CANPIDController;
+import com.revrobotics.REVLibError;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.ControlType;;
 
-public class CachedPIDController extends CANPIDController {
+public class CachedPIDController extends SparkMaxPIDController {
 
     // Variables for caching
     double previousValue = 0;
     ControlType previousControlType = ControlType.kDutyCycle;
-    CANError previousCanError = CANError.kOk;
+    REVLibError previousREVLibError = REVLibError.kOk;
 
     /**
      * Creates a new Cached Spark Max object. This is useful for preventing the sending of repeated
@@ -27,6 +27,7 @@ public class CachedPIDController extends CANPIDController {
         // ! IGNORE THIS WARNING, there's no other way to create the new
         // controller. Even REV themselves use it
         super(device);
+        device.getPIDController();
     }
 
     /**
@@ -36,11 +37,11 @@ public class CachedPIDController extends CANPIDController {
      *     this should be a value between -1 and 1 Otherwise: Voltage Control: Voltage (volts)
      *     Velocity Control: Velocity (RPM) Position Control: Position (Rotations) Current Control:
      *     Current (Amps). Native units can be changed using the setPositionConversionFactor() or
-     *     setVelocityConversionFactor() methods of the CANEncoder class
+     *     setVelocityConversionFactor() methods of the RelativeEncoder class
      * @param ctrl is the control type
      * @return Set to REV_OK if successful
      */
-    public CANError setReference(double value, ControlType ctrl) {
+    public REVLibError setReference(double value, ControlType ctrl) {
 
         // Check if the values have been changed
         // We use separated if loops to reduce the typical amount of checks needed
@@ -54,13 +55,13 @@ public class CachedPIDController extends CANPIDController {
                 previousControlType = ctrl;
 
                 // Send the set command, saving the output
-                previousCanError = super.setReference(value, ctrl);
+                previousREVLibError = super.setReference(value, ctrl);
             }
         }
 
         // Return the current CAN error
         // We can just return the previous error each time as the variable is updated
         // when unique values are sent
-        return previousCanError;
+        return previousREVLibError;
     }
 }

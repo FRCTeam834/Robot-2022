@@ -4,8 +4,8 @@
  */
 package frc.robot.utilityClasses;
 
+import com.revrobotics.CANSparkMax;
 // Imports
-import com.revrobotics.ControlType;
 
 /** Class that organizes gains used when assigning values to slots */
 public class PIDParams {
@@ -17,8 +17,7 @@ public class PIDParams {
     public double kFF;
     public double iZone;
     public double maxOutput;
-    public ControlType controlType;
-
+    public CANSparkMax.ControlType controlType;
     // Creates a new set of PID Parameters
     public PIDParams(
             double kP,
@@ -27,7 +26,7 @@ public class PIDParams {
             double kFF,
             double iZone,
             double maxOutput,
-            ControlType ctrlType) {
+            CANSparkMax.ControlType ctrlType) {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;
@@ -39,7 +38,7 @@ public class PIDParams {
 
     // Creates a new set of PID Parameters
     public PIDParams(
-            double kP, double kI, double kD, double kFF, double maxOutput, ControlType ctrlType) {
+            double kP, double kI, double kD, double kFF, double maxOutput, CANSparkMax.ControlType ctrlType) {
         this.kP = kP;
         this.kI = kI;
         this.kD = kD;

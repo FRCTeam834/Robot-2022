@@ -15,18 +15,19 @@ package frc.robot.subsystems.swerve;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.HolonomicDriveController;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
-import edu.wpi.first.wpilibj.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -284,8 +285,7 @@ public class DriveTrain extends SubsystemBase {
                 kinematics.toSwerveModuleStates(chassisSpeeds, centerOfRotation);
 
         // Scale the velocities of the swerve modules so that none exceed the maximum
-        SwerveDriveKinematics.normalizeWheelSpeeds(
-                swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
 
         // Set each of the modules to their optimized state
         frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -308,7 +308,7 @@ public class DriveTrain extends SubsystemBase {
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
 
         // Scale the velocities of the swerve modules so that none exceed the maximum
-        SwerveDriveKinematics.normalizeWheelSpeeds(
+        SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
 
         // Set each of the modules to their optimized state
@@ -596,25 +596,26 @@ public class DriveTrain extends SubsystemBase {
         backRight.saveParameters();
 
         // X Movement PID
-        Parameters.savedParams.putDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP());
-        Parameters.savedParams.putDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI());
-        Parameters.savedParams.putDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD());
+        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP());
+        
+        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI());
+        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD());
 
         // Y Movement PID
-        Parameters.savedParams.putDouble("DRIVETRAIN_Y_MOVE_PID_P", Y_MOVE_PID.getP());
-        Parameters.savedParams.putDouble("DRIVETRAIN_Y_MOVE_PID_I", Y_MOVE_PID.getI());
-        Parameters.savedParams.putDouble("DRIVETRAIN_Y_MOVE_PID_D", Y_MOVE_PID.getD());
+        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_P", Y_MOVE_PID.getP());
+        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_I", Y_MOVE_PID.getI());
+        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_D", Y_MOVE_PID.getD());
 
         // Rotation PID (PID values)
-        Parameters.savedParams.putDouble("DRIVETRAIN_ROTATION_PID_P", ROTATION_PID.getP());
-        Parameters.savedParams.putDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI());
-        Parameters.savedParams.putDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD());
+        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_P", ROTATION_PID.getP());
+        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI());
+        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD());
 
         // Rotation PID (Constraints)
-        Parameters.savedParams.getDouble(
+        Preferences.getDouble(
                 "DRIVETRAIN_ROTATION_PID_MAX_VEL",
                 Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity));
-        Parameters.savedParams.getDouble(
+        Preferences.getDouble(
                 "DRIVETRAIN_ROTATION_PID_MAX_ACCEL",
                 Math.toDegrees(ROTATION_CONSTRAINTS.maxAcceleration));
     }
@@ -630,40 +631,47 @@ public class DriveTrain extends SubsystemBase {
 
         // X Movement PID
         X_MOVE_PID.setP(
-                Parameters.savedParams.getDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP()));
+                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP()));
         X_MOVE_PID.setI(
-                Parameters.savedParams.getDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI()));
+                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI()));
         X_MOVE_PID.setD(
-                Parameters.savedParams.getDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD()));
+                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD()));
 
         // Y Movement PID
         Y_MOVE_PID.setP(
-                Parameters.savedParams.getDouble("DRIVETRAIN_Y_MOVE_PID_P", Y_MOVE_PID.getP()));
+                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_P", Y_MOVE_PID.getP()));
         Y_MOVE_PID.setI(
-                Parameters.savedParams.getDouble("DRIVETRAIN_Y_MOVE_PID_I", Y_MOVE_PID.getI()));
+                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_I", Y_MOVE_PID.getI()));
         Y_MOVE_PID.setD(
-                Parameters.savedParams.getDouble("DRIVETRAIN_Y_MOVE_PID_D", Y_MOVE_PID.getD()));
+                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_D", Y_MOVE_PID.getD()));
 
         // Rotation PID (PID values)
         ROTATION_PID.setP(
-                Parameters.savedParams.getDouble("DRIVETRAIN_ROTATION_PID_P", ROTATION_PID.getP()));
+                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_P", ROTATION_PID.getP()));
         ROTATION_PID.setI(
-                Parameters.savedParams.getDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI()));
+                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI()));
         ROTATION_PID.setD(
-                Parameters.savedParams.getDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD()));
-
+                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD()));
+  
+                /*
+        ROTATION_CONSTRAINTS.maxVelocity = Math.toRadians(
+                Preferences.getDouble(
+                        "DRIVETRAIN_ROTATION_PID_MAX_VEL",
+                        Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity)));
         // Rotation PID (Constraints)
         ROTATION_CONSTRAINTS.maxVelocity =
                 Math.toRadians(
-                        Parameters.savedParams.getDouble(
+                        Preferences.getDouble(
                                 "DRIVETRAIN_ROTATION_PID_MAX_VEL",
                                 Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity)));
+
         ROTATION_CONSTRAINTS.maxAcceleration =
                 Math.toRadians(
-                        Parameters.savedParams.getDouble(
+                        Preferences.getDouble(
                                 "DRIVETRAIN_ROTATION_PID_MAX_ACCEL",
                                 Math.toDegrees(ROTATION_CONSTRAINTS.maxAcceleration)));
         ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
+        */
 
         // Redeclare the drive controller
         driveController = new HolonomicDriveController(X_MOVE_PID, Y_MOVE_PID, ROTATION_PID);
@@ -698,9 +706,9 @@ public class DriveTrain extends SubsystemBase {
             ROTATION_PID.setP(ROTATION_PID_P_ENTRY.getDouble(ROTATION_PID.getP()));
             ROTATION_PID.setI(ROTATION_PID_I_ENTRY.getDouble(ROTATION_PID.getI()));
             ROTATION_PID.setD(ROTATION_PID_D_ENTRY.getDouble(ROTATION_PID.getD()));
-
+                /*
             // Rotation PID (Constraints)
-            ROTATION_CONSTRAINTS.maxVelocity =
+            ROTATION_CONSTRAINTS.
                     Math.toRadians(
                             ROTATION_PID_MAX_VEL_ENTRY.getDouble(
                                     Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity)));
@@ -709,7 +717,7 @@ public class DriveTrain extends SubsystemBase {
                             ROTATION_PID_MAX_ACCEL_ENTRY.getDouble(
                                     Math.toDegrees(ROTATION_CONSTRAINTS.maxAcceleration)));
             ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
-
+*/
             // Redeclare the drive controller
             driveController = new HolonomicDriveController(X_MOVE_PID, Y_MOVE_PID, ROTATION_PID);
         }
