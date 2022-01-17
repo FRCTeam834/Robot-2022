@@ -12,11 +12,6 @@
 package frc.robot.subsystems.swerve;
 
 // Imports
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -28,6 +23,11 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -285,7 +285,8 @@ public class DriveTrain extends SubsystemBase {
                 kinematics.toSwerveModuleStates(chassisSpeeds, centerOfRotation);
 
         // Scale the velocities of the swerve modules so that none exceed the maximum
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
+        SwerveDriveKinematics.desaturateWheelSpeeds(
+                swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
 
         // Set each of the modules to their optimized state
         frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -630,28 +631,19 @@ public class DriveTrain extends SubsystemBase {
         backRight.loadParameters();
 
         // X Movement PID
-        X_MOVE_PID.setP(
-                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP()));
-        X_MOVE_PID.setI(
-                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI()));
-        X_MOVE_PID.setD(
-                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD()));
+        X_MOVE_PID.setP(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP()));
+        X_MOVE_PID.setI(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI()));
+        X_MOVE_PID.setD(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD()));
 
         // Y Movement PID
-        Y_MOVE_PID.setP(
-                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_P", Y_MOVE_PID.getP()));
-        Y_MOVE_PID.setI(
-                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_I", Y_MOVE_PID.getI()));
-        Y_MOVE_PID.setD(
-                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_D", Y_MOVE_PID.getD()));
+        Y_MOVE_PID.setP(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_P", Y_MOVE_PID.getP()));
+        Y_MOVE_PID.setI(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_I", Y_MOVE_PID.getI()));
+        Y_MOVE_PID.setD(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_D", Y_MOVE_PID.getD()));
 
         // Rotation PID (PID values)
-        ROTATION_PID.setP(
-                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_P", ROTATION_PID.getP()));
-        ROTATION_PID.setI(
-                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI()));
-        ROTATION_PID.setD(
-                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD()));
+        ROTATION_PID.setP(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_P", ROTATION_PID.getP()));
+        ROTATION_PID.setI(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI()));
+        ROTATION_PID.setD(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD()));
         // Rotation PID (Constraints)
         double maxVelocity =
                 Math.toRadians(

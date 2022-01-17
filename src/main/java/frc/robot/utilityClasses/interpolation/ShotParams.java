@@ -38,21 +38,23 @@ public class ShotParams {
     }
 
     public boolean equals(ShotParams other, double tolerance) {
-        if (Math.abs(angle - other.getAngle()) <= tolerance && Math.abs(speed - other.getSpeed()) <= tolerance) {
+        if (Math.abs(angle - other.getAngle()) <= tolerance
+                && Math.abs(speed - other.getSpeed()) <= tolerance) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    // Linear interpolation code, taken from: https://medium.com/swlh/youre-using-lerp-wrong-73579052a3c3
-    public double linearInterpolation(double y1, double y2, double t){
-        return y1 + t*(y2 -y1);
+    // Linear interpolation code, taken from:
+    // https://medium.com/swlh/youre-using-lerp-wrong-73579052a3c3
+    public double linearInterpolation(double y1, double y2, double t) {
+        return y1 + t * (y2 - y1);
     }
 
     public ShotParams interpolate(ShotParams a, double t) {
-        return new ShotParams(linearInterpolation(this.angle, a.getAngle(), t), (linearInterpolation(this.speed, a.getSpeed(), t)));
+        return new ShotParams(
+                linearInterpolation(this.angle, a.getAngle(), t),
+                (linearInterpolation(this.speed, a.getSpeed(), t)));
     }
-
 }
