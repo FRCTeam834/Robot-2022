@@ -38,4 +38,4 @@ jobs:
         with:
           args: "--aosp --replace"
           # Recommended if you use MacOS:
-          # githubToken: ${{ secrets.GITHUB_TOKEN }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
