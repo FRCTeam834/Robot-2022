@@ -1,0 +1,3 @@
+# Prevent the github files from being changed by anyone other than those in the admins folder
+# This is important to prevent abuse of Github Actions by members
+/.github/ @FRCTeam834/admins
