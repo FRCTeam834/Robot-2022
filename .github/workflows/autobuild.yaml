@@ -37,5 +37,5 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           args: "--aosp --replace"
-          # Recommended if you use MacOS:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          commitMessage: "Formatting fixes"
