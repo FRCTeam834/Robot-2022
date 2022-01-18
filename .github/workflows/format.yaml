@@ -7,7 +7,8 @@ name: Format
 on: [push, pull_request]
 
 # Allow all permissions
-permissions: write-all
+permissions:
+  pull-requests: write
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
