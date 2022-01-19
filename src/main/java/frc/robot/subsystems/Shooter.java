@@ -13,7 +13,6 @@ import frc.robot.Parameters;
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.Encoder;
 
-//!add bang bang 
 
 public class Shooter extends SubsystemBase {
 
