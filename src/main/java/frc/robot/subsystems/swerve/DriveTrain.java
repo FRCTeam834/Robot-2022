@@ -27,6 +27,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -46,8 +47,10 @@ public class DriveTrain extends SubsystemBase {
     // PID value storage, with default values from Parameters
     public PIDController X_MOVE_PID = Parameters.driveTrain.movement.movementPID;
     public PIDController Y_MOVE_PID = Parameters.driveTrain.movement.movementPID;
+    public PIDController MOVE_PID = Parameters.driveTrain.movement.movementPID;
     public Constraints ROTATION_CONSTRAINTS = Parameters.driveTrain.movement.rotationConstraints;
     public ProfiledPIDController ROTATION_PID = Parameters.driveTrain.movement.rotationPID;
+    
 
     // NetworkTable entries
     NetworkTableEntry X_MOVE_PID_P_ENTRY;
@@ -66,8 +69,9 @@ public class DriveTrain extends SubsystemBase {
     NetworkTableEntry ROTATIONAL_POSITION_ENTRY;
 
     // Define their position (relative to center of robot)
+                
     Translation2d FL_POS =
-            new Translation2d(
+        new Translation2d(
                     Parameters.driveTrain.dimensions.DRIVE_LENGTH / 2,
                     Parameters.driveTrain.dimensions.DRIVE_WIDTH / 2);
     Translation2d FR_POS =
@@ -774,6 +778,20 @@ public class DriveTrain extends SubsystemBase {
             ROTATIONAL_POSITION_ENTRY.setDouble(getThetaPosition().getDegrees());
         }
     }
+
+    //turns robot relatively to its itself using rotation PID
+    //@param double rotation desired 
+    public void turn(double desiredAngle){
+        //! test this when possible
+        //! might need negative values
+        this.setDesiredAngles(
+                MOVE_PID.calculate(this.getThetaPosition().getDegrees(), desiredAngle), 
+                MOVE_PID.calculate(this.getThetaPosition().getDegrees(), desiredAngle), 
+                MOVE_PID.calculate(this.getThetaPosition().getDegrees(), desiredAngle), 
+                MOVE_PID.calculate(this.getThetaPosition().getDegrees(), desiredAngle)
+                );
+            
+            }
 
     @Override
     public void periodic() {
