@@ -60,8 +60,7 @@ public class Vision extends SubsystemBase {
                             Parameters.camera.TARGET_HEIGHT,
                             Units.degreesToRadians(Parameters.camera.CAMERA_PITCH),
                             Units.degreesToRadians(target.getPitch()));
-        }
-        else {
+        } else {
             targetExists = false;
         }
     }
