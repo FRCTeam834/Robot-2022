@@ -17,8 +17,8 @@ import frc.robot.Parameters;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ColorSensor extends SubsystemBase {
+  
   // Creates a new ColorSensor.
-  Port port;
   ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kMXP);
   public ColorSensor() {}
 
@@ -31,3 +31,40 @@ public class ColorSensor extends SubsystemBase {
     return colorSensor.getColor();
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ! You thought that this would be a meaningful comment, but it was me, DIO!

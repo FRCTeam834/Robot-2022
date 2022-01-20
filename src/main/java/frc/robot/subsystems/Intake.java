@@ -31,9 +31,21 @@ public class Intake extends SubsystemBase {
   }
 
   //turns on the intake
-  public void turnOn(){
+  public void setForward(){
     intakeMotorTop.set(Parameters.intake.INTAKE_MOTOR_TOP_SPEED);
     intakeMotorBottom.set(Parameters.intake.INTAKE_MOTOR_BOTTOM_SPEED);
+  }
+
+  //Makes the intake go in reverse
+  public void setReverse(){
+    intakeMotorTop.set(-Parameters.intake.INTAKE_MOTOR_TOP_SPEED);
+    intakeMotorBottom.set(-Parameters.intake.INTAKE_MOTOR_BOTTOM_SPEED);
+  }
+
+  //Stops the intake motors
+  public void stop(){
+    intakeMotorTop.set(0);
+    intakeMotorBottom.set(0);
 
   }
 }

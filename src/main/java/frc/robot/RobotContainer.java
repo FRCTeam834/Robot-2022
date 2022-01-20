@@ -33,6 +33,7 @@ import frc.robot.commands.swerve.ZeroNavX;
 import frc.robot.enums.RobotState;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.ColorSensor;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -49,9 +50,9 @@ public class RobotContainer {
     // private final DriveTrain driveTrain = new DriveTrain();
     // private final UltrasonicSensor ultrasonicSensor = new UltrasonicSensor();
 
-    private final Climber climber = new Climber();
-    private final Intake intake = new Intake();
-
+    public static final Climber climber = new Climber();
+    public static final Intake intake = new Intake();
+    public static final ColorSensor colorSensor = new ColorSensor();
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
     private final LetsRoll1Joystick letsRoll1Joystick = new LetsRoll1Joystick();
