@@ -23,8 +23,6 @@ import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.swerve.DriveTrain;
 
-import org.photonvision.PhotonCamera;
-
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -38,7 +36,8 @@ public class Robot extends TimedRobot {
     public static ProfilingManagement profilingManagement;
     public static NavX navX;
     public static DriveTrain driveTrain;
-    public static Superstructure superstructure = new Superstructure(new Vision(), new DriveTrain());
+    public static Superstructure superstructure =
+            new Superstructure(new Vision(), new DriveTrain());
 
     // Commands
     // public static LetsRoll2Joysticks letsRoll2Joysticks;
