@@ -15,13 +15,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.Robot;
+import frc.robot.subsystems.Superstructure;
 
 import org.photonvision.targeting.PhotonPipelineResult;
 
 public class TurnToVision extends CommandBase {
 
     public TurnToVision() {
-        addRequirements(Robot.driveTrain);
+        addRequirements(Robot.driveTrain, Superstructure.vision);
     }
 
     // Called when the command is initially scheduled.
@@ -33,7 +34,7 @@ public class TurnToVision extends CommandBase {
     public void execute() {
 
         // Get a list of possible targets
-        PhotonPipelineResult targetList = Robot.goalCamera.getLatestResult();
+        PhotonPipelineResult targetList = Superstructure.vision.camera.getLatestResult();
 
         // Make sure there are targets available, otherwise there could be a null pointer exception
         if (targetList.hasTargets()) {

@@ -329,5 +329,9 @@ public final class Parameters {
         // Game-specific parameters (inches)
         public static final double GOAL_HEIGHT = 98.25;
         public static final double POWER_CELL_HEIGHT = 7;
+
+        public static final double CAMERA_HEIGHT_METERS = 0;
+        public static final double TARGET_HEIGHT_METERS = 0;
+        public static final double CAMERA_PITCH_RADIANS = 0;
     }
 }
