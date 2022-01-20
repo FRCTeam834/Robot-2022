@@ -320,12 +320,9 @@ public final class Parameters {
         // Camera-specific parameters (pixels)
         public static final double CAMERA_FOCAL_LENGTH = 333.82;
 
-        // Game-specific parameters (inches)
-        public static final double GOAL_HEIGHT = 98.25;
-        public static final double POWER_CELL_HEIGHT = 7;
-
-        public static final double CAMERA_HEIGHT_METERS = 0;
-        public static final double TARGET_HEIGHT_METERS = 0;
-        public static final double CAMERA_PITCH_RADIANS = 0;
+        // Game-specific parameters (meters and degrees)
+        public static final double CAMERA_HEIGHT = 0;
+        public static final double TARGET_HEIGHT = 0;
+        public static final double CAMERA_PITCH = 0;
     }
 }
