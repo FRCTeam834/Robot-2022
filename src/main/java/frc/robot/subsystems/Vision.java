@@ -56,10 +56,13 @@ public class Vision extends SubsystemBase {
             skew = target.getSkew();
             distance =
                     PhotonUtils.calculateDistanceToTargetMeters(
-                            Parameters.camera.CAMERA_HEIGHT_METERS,
-                            Parameters.camera.TARGET_HEIGHT_METERS,
-                            Parameters.camera.CAMERA_PITCH_RADIANS,
+                            Parameters.camera.CAMERA_HEIGHT,
+                            Parameters.camera.TARGET_HEIGHT,
+                            Units.degreesToRadians(Parameters.camera.CAMERA_PITCH),
                             Units.degreesToRadians(target.getPitch()));
+        }
+        else {
+            targetExists = false;
         }
     }
 }
