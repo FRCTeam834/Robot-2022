@@ -117,9 +117,6 @@ public final class Parameters {
         public static DriverProfile currentProfile = driverProfiles[0];
     }
 
-    // the saved preferences for the current driver
-    // public static Preferences savedParams = Preferences.getInstance();
-
     // All of the drivetrain parameters
     public static final class driveTrain {
 
@@ -291,9 +288,6 @@ public final class Parameters {
                     0.5; // The percentage of maxSteerRate (based on driver profile)
         }
     }
-
-    // DriverStation instance
-    // public static DriverStation driverStation = DriverStation.getInstance();
 
     // All of the starting position data
     public static final class positions {
