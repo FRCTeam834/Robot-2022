@@ -19,8 +19,9 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.RobotContainer;
 import frc.robot.DriverProfiles.ProfilingManagement;
+import frc.robot.Parameters.colorSensor;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.swerve.DriveTrain;
 
@@ -95,6 +96,8 @@ public class Robot extends TimedRobot {
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
+
+        System.out.println(RobotContainer.colorSensor.getReading());
         CommandScheduler.getInstance().run();
     }
 
