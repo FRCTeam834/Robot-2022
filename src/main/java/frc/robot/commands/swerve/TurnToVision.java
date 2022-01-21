@@ -10,13 +10,9 @@ package frc.robot.commands.swerve;
 
 import edu.wpi.first.math.MathUtil;
 // Imports
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.Parameters.driveTrain;
 import frc.robot.subsystems.Superstructure;
 
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -39,15 +35,22 @@ public class TurnToVision extends CommandBase {
         PhotonPipelineResult targetList = Superstructure.vision.camera.getLatestResult();
 
         if (targetList.hasTargets()) {
-            RobotContainer.driveTrain.drive(0.0, 0.0, MathUtil.clamp(RobotContainer.driveTrain.ROTATION_PID.calculate((targetList.getBestTarget().getYaw()), 0),.75,-.75), false);
-            
-          }
-        else{
-            //starts spinning to search for a target
-            //TODO:Fix inefficiencies, use gyro angle to get optimal rotation
+            RobotContainer.driveTrain.drive(
+                    0.0,
+                    0.0,
+                    MathUtil.clamp(
+                            RobotContainer.driveTrain.ROTATION_PID.calculate(
+                                    (targetList.getBestTarget().getYaw()), 0),
+                            .75,
+                            -.75),
+                    false);
+
+        } else {
+            // starts spinning to search for a target
+            // TODO:Fix inefficiencies, use gyro angle to get optimal rotation
             RobotContainer.driveTrain.drive(0, 0, .25, false);
         }
-        }
+    }
 
     // Called once the command ends or is interrupted.
     @Override

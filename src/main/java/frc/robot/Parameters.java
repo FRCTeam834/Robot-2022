@@ -264,7 +264,6 @@ public final class Parameters {
                     new Constraints(Math.toRadians(360), Math.toRadians(180));
             public static ProfiledPIDController rotationPID =
                     new ProfiledPIDController(1, 0, 0, rotationConstraints);
-
         }
 
         // The gear ratios of the module
