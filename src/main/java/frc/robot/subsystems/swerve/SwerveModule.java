@@ -54,8 +54,8 @@ public class SwerveModule {
     private boolean enabled = true;
 
     // PID control types
-    ControlType steerMControlType;
-    ControlType driveMControlType;
+    CANSparkMax.ControlType steerMControlType;
+    CANSparkMax.ControlType driveMControlType;
 
     // NetworkTable values
     private NetworkTableEntry steerPEntry;

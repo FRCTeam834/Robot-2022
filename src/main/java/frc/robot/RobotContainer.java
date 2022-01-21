@@ -28,6 +28,7 @@ import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TestModulePID;
 import frc.robot.commands.swerve.TestModuleVelocity;
 import frc.robot.commands.swerve.TestMovementPID;
+import frc.robot.commands.swerve.TurnToVision;
 import frc.robot.commands.swerve.ZeroCanCoders;
 import frc.robot.commands.swerve.ZeroNavX;
 import frc.robot.enums.RobotState;
@@ -58,6 +59,7 @@ public class RobotContainer {
     private final SaveSwerveParameters saveSwerveParameters = new SaveSwerveParameters();
     private final ZeroNavX zeroNavX = new ZeroNavX();
     private final StraightenWheels straightenWheels = new StraightenWheels();
+    private final TurnToVision turnToVision = new TurnToVision();
 
     // Timer (for delays)
     public static Timer timer = new Timer();
@@ -102,6 +104,9 @@ public class RobotContainer {
             rJoystick9 = new JoystickButton(rightJoystick, 9),
             rJoystick10 = new JoystickButton(rightJoystick, 10),
             rJoystick11 = new JoystickButton(rightJoystick, 11);
+
+    // xbox A button
+    public static final JoystickButton xboxA = new JoystickButton(xbox, 0);
 
     // Arcade Buttons
     /*
@@ -158,6 +163,8 @@ public class RobotContainer {
 
         // Right joystick
         rJoystick1.toggleWhenPressed(zeroNavX);
+
+        // xboxA.whenPressed(turnToVision);
 
         /*
         // Try to assign the left joystick

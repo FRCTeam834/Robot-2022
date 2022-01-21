@@ -18,7 +18,6 @@ public class PIDParams {
     public double iZone;
     public double maxOutput;
     public ControlType controlType;
-
     // Creates a new set of PID Parameters
     public PIDParams(
             double kP,

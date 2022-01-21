@@ -27,7 +27,6 @@ import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
 
 import frc.robot.DriverProfiles.DriverProfile;
 import frc.robot.DriverProfiles.JoystickParams;
@@ -117,9 +116,6 @@ public final class Parameters {
         // Current Driver Profile being used
         public static DriverProfile currentProfile = driverProfiles[0];
     }
-
-    // the saved preferences for the current driver
-    public static Preferences savedParams = Preferences.getInstance();
 
     // All of the drivetrain parameters
     public static final class driveTrain {
@@ -293,9 +289,6 @@ public final class Parameters {
         }
     }
 
-    // DriverStation instance
-    public static DriverStation driverStation = DriverStation.getInstance();
-
     // All of the starting position data
     public static final class positions {
 
@@ -310,8 +303,7 @@ public final class Parameters {
 
         // Actual starting position (declared in the global scope)
         public static Pose2d STARTING_POS =
-                Parameters.positions
-                        .POSSIBLE_STARTING_POSITIONS[Parameters.driverStation.getLocation()];
+                Parameters.positions.POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
     }
 
     // All of the joystick variables
@@ -328,8 +320,9 @@ public final class Parameters {
         // Camera-specific parameters (pixels)
         public static final double CAMERA_FOCAL_LENGTH = 333.82;
 
-        // Game-specific parameters (inches)
-        public static final double GOAL_HEIGHT = 98.25;
-        public static final double POWER_CELL_HEIGHT = 7;
+        // Game-specific parameters (meters and degrees)
+        public static final double CAMERA_HEIGHT = 0;
+        public static final double TARGET_HEIGHT = 0;
+        public static final double CAMERA_PITCH = 0;
     }
 }
