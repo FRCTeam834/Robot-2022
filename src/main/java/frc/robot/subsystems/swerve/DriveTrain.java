@@ -31,7 +31,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
@@ -91,7 +90,7 @@ public class DriveTrain extends SubsystemBase {
     private SwerveDrivePoseEstimator poseEstimator =
             new SwerveDrivePoseEstimator(
                     RobotContainer.navX.getRotation2d(),
-                    new Pose2d(0.0,0.0, new Rotation2d()),
+                    new Pose2d(0.0, 0.0, new Rotation2d()),
                     kinematics,
                     Parameters.driveTrain.movement.POSE_STD_DEV,
                     Parameters.driveTrain.movement.ENCODER_GYRO_DEV,
@@ -186,7 +185,7 @@ public class DriveTrain extends SubsystemBase {
         loadParameters();
         ROTATION_PID.setTolerance(5);
         // Center the odometry of the robot
-        resetOdometry(new Pose2d(0.0,0.0, new Rotation2d()));
+        resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
     }
 
     /**
@@ -294,7 +293,6 @@ public class DriveTrain extends SubsystemBase {
         frontRight.setDesiredState(swerveModuleStates[1]);
         backLeft.setDesiredState(swerveModuleStates[2]);
         backRight.setDesiredState(swerveModuleStates[3]);
-
     }
 
     /**
@@ -316,8 +314,6 @@ public class DriveTrain extends SubsystemBase {
         frontRight.setDesiredState(swerveModuleStates[1]);
         backLeft.setDesiredState(swerveModuleStates[2]);
         backRight.setDesiredState(swerveModuleStates[3]);
-
- 
     }
 
     /** Halts all of the modules */
@@ -766,6 +762,6 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-            updateOdometry();
+        updateOdometry();
     }
 }

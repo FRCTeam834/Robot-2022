@@ -85,7 +85,8 @@ public class TestMovementPID extends CommandBase {
                             RobotContainer.driveTrain.getXPosition(),
                             RobotContainer.driveTrain.getYPosition(),
                             Rotation2d.fromDegrees(
-                                    RobotContainer.driveTrain.getThetaPosition().getDegrees() - 90)),
+                                    RobotContainer.driveTrain.getThetaPosition().getDegrees()
+                                            - 90)),
                     1);
         }
 
@@ -96,7 +97,8 @@ public class TestMovementPID extends CommandBase {
                             RobotContainer.driveTrain.getXPosition(),
                             RobotContainer.driveTrain.getYPosition(),
                             Rotation2d.fromDegrees(
-                                    RobotContainer.driveTrain.getThetaPosition().getDegrees() + 90)),
+                                    RobotContainer.driveTrain.getThetaPosition().getDegrees()
+                                            + 90)),
                     1);
         }
 

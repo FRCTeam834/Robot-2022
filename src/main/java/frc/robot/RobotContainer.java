@@ -15,11 +15,10 @@ package frc.robot;
 // Imports
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.DriverProfiles.ProfilingManagement;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToVision;
@@ -42,7 +41,7 @@ import frc.robot.subsystems.swerve.DriveTrain;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
-    //subsystems
+    // subsystems
     public static ProfilingManagement profilingManagement = new ProfilingManagement();
     public static NavX navX = new NavX();
     public static DriveTrain driveTrain = new DriveTrain();
@@ -57,13 +56,11 @@ public class RobotContainer {
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final TurnToVision turnToVision = new TurnToVision();
 
-
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
     public static Joystick rightJoystick = new Joystick(1);
     public static XboxController xbox = new XboxController(2);
     public static Joystick buttonBoard = new Joystick(3);
-
 
     /*
     Button Naming Convention:
@@ -92,14 +89,14 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-        //joystick
+        // joystick
         new JoystickButton(leftJoystick, 1).whenPressed(letsRoll2Joysticks);
         new JoystickButton(leftJoystick, 8).whenPressed(driveTrain::zeroEncoders);
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
         new JoystickButton(rightJoystick, 1).whenPressed(navX::resetYaw);
 
-        //new JoystickButton(buttonBoard,1).whenPressed(zeroNavX)
-        //new JoystickButton(xbox, Button.kA.value).whenPressed(zeroNavX);
+        // new JoystickButton(buttonBoard,1).whenPressed(zeroNavX)
+        // new JoystickButton(xbox, Button.kA.value).whenPressed(zeroNavX);
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
