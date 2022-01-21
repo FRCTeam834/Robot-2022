@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.enums.ControlInputs;
 import frc.robot.enums.JoystickOutputTypes;
 
@@ -68,7 +68,7 @@ public class ProfilingManagement extends SubsystemBase {
         Parameters.driver.currentProfile = newProfile;
 
         // Update the swerve modules with the new values
-        Robot.driveTrain.updateParameters();
+        RobotContainer.driveTrain.updateParameters();
     }
 
     // Saves the current profile to memory

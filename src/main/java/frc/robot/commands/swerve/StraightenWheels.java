@@ -12,19 +12,19 @@ package frc.robot.commands.swerve;
 // Imports
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class StraightenWheels extends CommandBase {
     /** Creates a new StraighenWheels. */
     public StraightenWheels() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(Robot.driveTrain);
+        addRequirements(RobotContainer.driveTrain);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        Robot.driveTrain.setDesiredAngles(0, 0, 0, 0);
+        RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -34,12 +34,12 @@ public class StraightenWheels extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Robot.driveTrain.haltAllModules();
+        RobotContainer.driveTrain.haltAllModules();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return Robot.driveTrain.isAtDesiredAngles();
+        return RobotContainer.driveTrain.isAtDesiredAngles();
     }
 }

@@ -6,12 +6,11 @@
  * @author Christian Piper (@CAP1Sup)
  * @since 5/12/21
  */
-package frc.robot.commands.swerve;
+package frc.robot.commands.swerve.test;
 
 // Imports
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class TestModuleVelocity extends CommandBase {
@@ -22,14 +21,14 @@ public class TestModuleVelocity extends CommandBase {
 
     public TestModuleVelocity() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(Robot.driveTrain);
+        addRequirements(RobotContainer.driveTrain);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        Robot.driveTrain.frontLeft.setDesiredVelocity(0);
-        Robot.driveTrain.frontLeft.setDesiredAngle(0);
+        RobotContainer.driveTrain.frontLeft.setDesiredVelocity(0);
+        RobotContainer.driveTrain.frontLeft.setDesiredAngle(0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -45,16 +44,16 @@ public class TestModuleVelocity extends CommandBase {
         }
 
         // Move the modules to those positions
-        Robot.driveTrain.frontLeft.setDesiredVelocity(joystickValues[0]);
-        // Robot.driveTrain.frontRight.setDesiredAngle(joystickValues[1]);
-        // Robot.driveTrain.backLeft.setDesiredAngle(joystickValues[2]);
-        // Robot.driveTrain.backRight.setDesiredAngle(joystickValues[3]);
+        RobotContainer.driveTrain.frontLeft.setDesiredVelocity(joystickValues[0]);
+        // RobotContainer.driveTrain.frontRight.setDesiredAngle(joystickValues[1]);
+        // RobotContainer.driveTrain.backLeft.setDesiredAngle(joystickValues[2]);
+        // RobotContainer.driveTrain.backRight.setDesiredAngle(joystickValues[3]);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Robot.driveTrain.stopModules();
+        RobotContainer.driveTrain.stopModules();
     }
 
     // Returns true when the command should end.
