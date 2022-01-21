@@ -15,18 +15,18 @@ package frc.robot.subsystems.swerve;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.ControlType;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import frc.robot.Parameters;
 import frc.robot.utilityClasses.CachedPIDController;
@@ -539,24 +539,16 @@ public class SwerveModule {
     public void loadParameters() {
 
         // Steer PID
-        steerMotorPID.setP(
-                Preferences.getDouble(name + "_STEER_P", steerMotorPID.getP()));
-        steerMotorPID.setI(
-                Preferences.getDouble(name + "_STEER_I", steerMotorPID.getI()));
-        steerMotorPID.setD(
-                Preferences.getDouble(name + "_STEER_D", steerMotorPID.getD()));
-        steerMotorPID.setFF(
-                Preferences.getDouble(name + "_STEER_FF", steerMotorPID.getFF()));
+        steerMotorPID.setP(Preferences.getDouble(name + "_STEER_P", steerMotorPID.getP()));
+        steerMotorPID.setI(Preferences.getDouble(name + "_STEER_I", steerMotorPID.getI()));
+        steerMotorPID.setD(Preferences.getDouble(name + "_STEER_D", steerMotorPID.getD()));
+        steerMotorPID.setFF(Preferences.getDouble(name + "_STEER_FF", steerMotorPID.getFF()));
 
         // Drive PID
-        driveMotorPID.setP(
-                Preferences.getDouble(name + "_DRIVE_P", driveMotorPID.getP()));
-        driveMotorPID.setI(
-                Preferences.getDouble(name + "_DRIVE_I", driveMotorPID.getI()));
-        driveMotorPID.setD(
-                Preferences.getDouble(name + "_DRIVE_D", driveMotorPID.getD()));
-        driveMotorPID.setFF(
-                Preferences.getDouble(name + "_DRIVE_FF", driveMotorPID.getFF()));
+        driveMotorPID.setP(Preferences.getDouble(name + "_DRIVE_P", driveMotorPID.getP()));
+        driveMotorPID.setI(Preferences.getDouble(name + "_DRIVE_I", driveMotorPID.getI()));
+        driveMotorPID.setD(Preferences.getDouble(name + "_DRIVE_D", driveMotorPID.getD()));
+        driveMotorPID.setFF(Preferences.getDouble(name + "_DRIVE_FF", driveMotorPID.getFF()));
 
         // Encoder offset
         steerCANCoder.configMagnetOffset(
