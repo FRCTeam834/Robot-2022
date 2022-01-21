@@ -8,13 +8,15 @@
  */
 package frc.robot.commands.swerve;
 
+import edu.wpi.first.math.MathUtil;
 // Imports
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
+import frc.robot.Parameters.driveTrain;
 import frc.robot.subsystems.Superstructure;
 
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -22,7 +24,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 public class TurnToVision extends CommandBase {
 
     public TurnToVision() {
-        addRequirements(Robot.driveTrain, Superstructure.vision);
+        addRequirements(RobotContainer.driveTrain, Superstructure.vision);
     }
 
     // Called when the command is initially scheduled.
@@ -36,28 +38,23 @@ public class TurnToVision extends CommandBase {
         // Get a list of possible targets
         PhotonPipelineResult targetList = Superstructure.vision.camera.getLatestResult();
 
-        // Make sure there are targets available, otherwise there could be a null pointer exception
         if (targetList.hasTargets()) {
-
-            // Calculate the new pose needed based off the current one, then move there
-            Transform2d transformNeeded = targetList.getBestTarget().getCameraToTarget();
-            Pose2d newPose = Robot.driveTrain.getPose2D().transformBy(transformNeeded);
-            Robot.driveTrain.trajectoryFollow(
-                    newPose, Parameters.driver.currentProfile.maxModVelocity / 2);
-        } else {
-
-            // No target, so stop the modules
-            // ! THIS IS EXTREMELY IMPORTANT TO PREVENT THE ROBOT FROM BECOMING A BEYBLADE
-            Robot.driveTrain.stopModules();
+            RobotContainer.driveTrain.drive(0.0, 0.0, MathUtil.clamp(RobotContainer.driveTrain.ROTATION_PID.calculate((targetList.getBestTarget().getYaw()), 0),.75,-.75), false);
+            
+          }
+        else{
+            //starts spinning to search for a target
+            //TODO:Fix inefficiencies, use gyro angle to get optimal rotation
+            RobotContainer.driveTrain.drive(0, 0, .25, false);
         }
-    }
+        }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
 
         // Stop all of the modules (basically zero their velocities)
-        Robot.driveTrain.stopModules();
+        RobotContainer.driveTrain.stopModules();
     }
 
     // Returns true when the command should end.
@@ -65,6 +62,6 @@ public class TurnToVision extends CommandBase {
     public boolean isFinished() {
 
         // Return if the robot has finished the movement yet
-        return Robot.driveTrain.finishedMovement();
+        return RobotContainer.driveTrain.ROTATION_PID.atSetpoint();
     }
 }
