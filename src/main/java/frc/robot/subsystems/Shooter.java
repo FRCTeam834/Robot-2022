@@ -5,7 +5,7 @@
 
 package frc.robot.subsystems;
 
-//Imports
+// Imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -33,12 +33,12 @@ public class Shooter extends SubsystemBase {
   //! May have to be somewhere else
   //set motor2 as a follower motor so they are the same speed
   shooterMotor2.follow(shooterMotor1);
-  }  
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
+
   }
 
   public void spinShooterMotors() {

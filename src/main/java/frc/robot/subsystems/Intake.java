@@ -6,15 +6,10 @@
 package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Parameters;
-
-// ! You thought this comment would mean something, but it was me, DIO!
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */

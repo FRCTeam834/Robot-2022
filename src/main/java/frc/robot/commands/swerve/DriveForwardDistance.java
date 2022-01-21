@@ -39,7 +39,7 @@ public class DriveForwardDistance extends CommandBase {
         addRequirements(Robot.driveTrain);
 
         // Get the current position
-        Pose2d currentPosition = Robot.driveTrain.getPose2D();
+        Pose2d currentPosition = Robot.driveTrain.getEstPose2D();
         double newX = currentPosition.getX() + (distance * currentPosition.getRotation().getCos());
         double newY = currentPosition.getY() + (distance * currentPosition.getRotation().getSin());
         this.desiredPose2d = new Pose2d(newX, newY, currentPosition.getRotation());
@@ -57,7 +57,7 @@ public class DriveForwardDistance extends CommandBase {
         addRequirements(Robot.driveTrain);
 
         // Get the current position
-        Pose2d currentPosition = Robot.driveTrain.getPose2D();
+        Pose2d currentPosition = Robot.driveTrain.getEstPose2D();
 
         // Physics equations (done with basic logic)
         // double newX = currentPosition.getX() + (distance *

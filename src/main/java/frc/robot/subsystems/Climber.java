@@ -32,7 +32,6 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
   }
 
   public void firstMotorSpin() {
@@ -52,7 +51,4 @@ public class Climber extends SubsystemBase {
     climberMotor1.set(speed1);
     climberMotor2.set(speed2);
   }
-
-
-
 }

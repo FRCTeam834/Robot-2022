@@ -40,7 +40,7 @@ public class SnapToAngle extends CommandBase {
     public void initialize() {
 
         // Get the current position
-        Pose2d currentPose = Robot.driveTrain.getPose2D();
+        Pose2d currentPose = Robot.driveTrain.getEstPose2D();
 
         // Set the variables for the function
         this.desiredPosition =
