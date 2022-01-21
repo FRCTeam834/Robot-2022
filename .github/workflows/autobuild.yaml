@@ -1,6 +1,6 @@
 # This is a basic workflow to build robot code.
 
-name: CI
+name: Build
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch.
@@ -28,14 +28,3 @@ jobs:
     # Runs a single command using the runners shell
     - name: Compile and run tests on robot code
       run: ./gradlew build
-
-  # Formatting
-  formatting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2 # v2 minimum required
-      - uses: axel-op/googlejavaformat-action@v3
-        with:
-          args: "--aosp --replace"
-          # Recommended if you use MacOS:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
