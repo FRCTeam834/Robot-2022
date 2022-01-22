@@ -26,7 +26,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 
 import frc.robot.DriverProfiles.DriverProfile;
 import frc.robot.DriverProfiles.JoystickParams;
@@ -302,9 +301,8 @@ public final class Parameters {
         };
 
         // Actual starting position (declared in the global scope)
-        public static Pose2d STARTING_POS =
-                new Pose2d(0, 0, new Rotation2d());
-                //Parameters.positions.POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
+        public static Pose2d STARTING_POS = new Pose2d(0, 0, new Rotation2d());
+        // Parameters.positions.POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
     }
 
     // All of the joystick variables
