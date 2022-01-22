@@ -303,7 +303,8 @@ public final class Parameters {
 
         // Actual starting position (declared in the global scope)
         public static Pose2d STARTING_POS =
-                Parameters.positions.POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
+                new Pose2d(0, 0, new Rotation2d());
+                //Parameters.positions.POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
     }
 
     // All of the joystick variables

@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
         profilingManagement = new ProfilingManagement();
         navX = new NavX();
         driveTrain = new DriveTrain();
+        System.out.println("Hello");
 
         // Commands
         // letsRoll2Joysticks = new LetsRoll2Joysticks();

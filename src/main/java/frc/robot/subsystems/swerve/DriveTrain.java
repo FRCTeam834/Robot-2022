@@ -89,8 +89,8 @@ public class DriveTrain extends SubsystemBase {
     // Pose estimator
     private SwerveDrivePoseEstimator poseEstimator =
             new SwerveDrivePoseEstimator(
-                    Robot.navX.getRotation2d(),
-                    Parameters.positions.STARTING_POS,
+                    new Rotation2d(), //Robot.navX.getRotation2d(),
+                    new Pose2d(0, 0, new Rotation2d()), // Parameters.positions.STARTING_POS,
                     kinematics,
                     Parameters.driveTrain.movement.POSE_STD_DEV,
                     Parameters.driveTrain.movement.ENCODER_GYRO_DEV,
@@ -448,12 +448,12 @@ public class DriveTrain extends SubsystemBase {
 
     /** Updates the odometry. Should be called as frequently as possible to reduce error. */
     public void updateOdometry() {
-        poseEstimator.update(
+        /*poseEstimator.update(
                 Robot.navX.getRotation2d(),
                 frontLeft.getState(),
                 frontRight.getState(),
                 backLeft.getState(),
-                backRight.getState());
+                backRight.getState());*/
     }
 
     /**
@@ -462,7 +462,7 @@ public class DriveTrain extends SubsystemBase {
      * @param currentPosition The robot's current position
      */
     public void resetOdometry(Pose2d currentPosition) {
-        poseEstimator.resetPosition(currentPosition, Robot.navX.getRotation2d());
+        //poseEstimator.resetPosition(currentPosition, Robot.navX.getRotation2d());
     }
 
     /** Adds a vision position measurement */
