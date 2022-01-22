@@ -16,8 +16,7 @@ public class Intake extends SubsystemBase {
   public Intake() {}
 
   //create intake motors!!!!!!
-  CANSparkMax intakeMotorBottom = new CANSparkMax(Parameters.intake.can.INTAKE_MOTOR_BOTTOM_ID, MotorType.kBrushless);
-  CANSparkMax intakeMotorTop = new CANSparkMax(Parameters.intake.can.INTAKE_MOTOR_TOP_ID, MotorType.kBrushless);
+  CANSparkMax intakeMotor = new CANSparkMax(Parameters.intake.can.INTAKE_MOTOR, MotorType.kBrushless);
 
 
   @Override
@@ -27,20 +26,17 @@ public class Intake extends SubsystemBase {
 
   //turns on the intake
   public void setForward(){
-    intakeMotorTop.set(Parameters.intake.INTAKE_MOTOR_TOP_SPEED);
-    intakeMotorBottom.set(Parameters.intake.INTAKE_MOTOR_BOTTOM_SPEED);
+    intakeMotor.set(Parameters.intake.INTAKE_MOTOR_TOP_SPEED);
   }
 
   //Makes the intake go in reverse
   public void setReverse(){
-    intakeMotorTop.set(-Parameters.intake.INTAKE_MOTOR_TOP_SPEED);
-    intakeMotorBottom.set(-Parameters.intake.INTAKE_MOTOR_BOTTOM_SPEED);
+    intakeMotor.set(-Parameters.intake.INTAKE_MOTOR_SPEED);
   }
 
   //Stops the intake motors
   public void stop(){
-    intakeMotorTop.set(0);
-    intakeMotorBottom.set(0);
+    intakeMotor.set(0);
 
   }
 }
