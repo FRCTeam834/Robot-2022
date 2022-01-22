@@ -346,25 +346,25 @@ public final class Parameters {
 
     public static final class climber{
             //motor speeds for climbers
-            //TODO fix names lol
-                public static final double CLIMB_MOTOR_1_SPEED = 0.0;
-                public static final double CLIMB_MOTOR_2_SPEED = 0.0;
+            public static final double FRONT_MOTOR_SPEED = 0.0;
+            public static final double BACK_MOTOR_SPEED = 0.0;
 
                 public static final class can{
-                        public static final int CLIMB_MOTOR_1_ID = 13;
-                        public static final int CLIMB_MOTOR_2_ID = 14;
+                        public static final int FRONT_MOTOR_ID = 13;
+                        public static final int BACK_MOTOR_ID = 14;
+                        public static final int BACK_CANCODER_ID = 16;
+                        public static final int FRONT_CANCODER_ID = 17;
+
                 }
 
     }
 
     public static final class intake{
             //motor speed for intake
-            public static final double INTAKE_MOTOR_BOTTOM_SPEED = 0.0;
-            public static final double INTAKE_MOTOR_TOP_SPEED = 0.0;
+            public static final double INTAKE_MOTOR_SPEED = 0.0;
 
             public static final class can{
-                public static final int INTAKE_MOTOR_BOTTOM_ID = 15;
-                public static final int INTAKE_MOTOR_TOP_ID = 16;
+                public static final int INTAKE_MOTOR_ID = 15;
             }
  
 
@@ -376,12 +376,12 @@ public final class Parameters {
             public static final double SHOOTER_SPEED = 0.0;
             public static final class ID{
                 //motor CAN IDs
-                public static final int SHOOTER_MOTOR_1_ID = 17;
-                public static final int SHOOTER_MOTOR_2_ID = 18;
+                public static final int SHOOTER_MOTOR_FRONT_ID = 17;
+                public static final int SHOOTER_MOTOR_BACK_ID = 18;
 
-                //Encoder DIO Ports
-                public static final int SHOOTER_ENCODER_IN_PORT = 9;
-                public static final int SHOOTER_ENCODER_OUT_PORT = 10;
+                //Encoder CAN Ports
+                public static final int FRONT_CANCODER_ID = 9;
+                public static final int BACK_CANCODER_ID = 10;
             }
 
 
