@@ -102,7 +102,7 @@ public class CachedPIDController {
      * @return {@link REVLibError#kOk} if successful
      */
     public REVLibError setD(double gain) {
-        return setD(gain);
+        return pidController.setD(gain);
     }
 
     /**
@@ -114,7 +114,7 @@ public class CachedPIDController {
      * @return {@link REVLibError#kOk} if successful
      */
     public REVLibError setDFilter(double gain) {
-        return setDFilter(gain);
+        return pidController.setDFilter(gain);
     }
 
     /**
@@ -127,7 +127,7 @@ public class CachedPIDController {
      * @return {@link REVLibError#kOk} if successful
      */
     public REVLibError setFF(double gain) {
-        return setFF(gain);
+        return pidController.setFF(gain);
     }
 
     /**
@@ -142,7 +142,7 @@ public class CachedPIDController {
      * @return {@link REVLibError#kOk} if successful
      */
     public REVLibError setIZone(double IZone) {
-        return setIZone(IZone);
+        return pidController.setIZone(IZone);
     }
 
     /**
@@ -157,7 +157,7 @@ public class CachedPIDController {
      * @return {@link REVLibError#kOk} if successful
      */
     public REVLibError setOutputRange(double min, double max) {
-        return setOutputRange(min, max);
+        return pidController.setOutputRange(min, max);
     }
 
     /**
