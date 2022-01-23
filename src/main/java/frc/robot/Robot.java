@@ -19,6 +19,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.DriverProfiles.ProfilingManagement;
 import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.Superstructure;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.swerve.DriveTrain;
 
 /**
@@ -34,6 +36,8 @@ public class Robot extends TimedRobot {
     public static ProfilingManagement profilingManagement;
     public static NavX navX;
     public static DriveTrain driveTrain;
+    public static Superstructure superstructure =
+            new Superstructure(new Vision(), new DriveTrain());
 
     // Commands
     // public static LetsRoll2Joysticks letsRoll2Joysticks;

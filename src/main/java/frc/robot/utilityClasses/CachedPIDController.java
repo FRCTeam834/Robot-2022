@@ -26,8 +26,8 @@ public class CachedPIDController {
      */
     @SuppressWarnings("all")
     public CachedPIDController(CANSparkMax device) {
-        // ! IGNORE THIS WARNING, there's no other way to create the new
-        // controller. Even REV themselves use it
+        // Rev is annoying and made the constructor of the SparkMaxPIDController private, meaning
+        // that the entire class had to be redone from a class extension to a wrapper class.
         pidController = device.getPIDController();
     }
 
