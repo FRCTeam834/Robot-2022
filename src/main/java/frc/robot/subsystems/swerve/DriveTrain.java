@@ -598,7 +598,6 @@ public class DriveTrain extends SubsystemBase {
 
         // X Movement PID
         Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP());
-
         Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI());
         Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD());
 
