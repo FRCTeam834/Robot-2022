@@ -41,15 +41,15 @@ import frc.robot.subsystems.swerve.DriveTrain;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
-    // subsystems
+    // Subsystems
     public static ProfilingManagement profilingManagement = new ProfilingManagement();
     public static NavX navX = new NavX();
     public static DriveTrain driveTrain = new DriveTrain();
     public static Superstructure superstructure = new Superstructure(new Vision());
+
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
     private final LetsRoll1Joystick letsRoll1Joystick = new LetsRoll1Joystick();
-
     private final TestModulePID testModulePID = new TestModulePID();
     private final TestMovementPID testMovementPID = new TestMovementPID();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
