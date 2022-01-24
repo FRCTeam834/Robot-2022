@@ -17,7 +17,6 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class Vision extends SubsystemBase {
 
     public PhotonCamera camera = new PhotonCamera("camera");
-    private PhotonTrackedTarget target;
     private double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
     private boolean targetExists = false;
 

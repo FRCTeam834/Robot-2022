@@ -19,12 +19,9 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.*;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -242,6 +239,20 @@ public final class Parameters {
 
             public static final double MODULE_S_FF = 0.000000; // Must be tuned for the modules!
             public static final double MODULE_D_FF = 0.000000; // Maybe: 0.000156;
+
+
+            // PID controller (rotation constraints are max velocity and max acceleration)
+            public static final double DEFAULT_LINEAR_MOVE_P = 1;
+            public static final double DEFAULT_LINEAR_MOVE_I = 0;
+            public static final double DEFAULT_LINEAR_MOVE_D = 0;
+
+            public static final double DEFAULT_ROT_MOVE_P = 1;
+            public static final double DEFAULT_ROT_MOVE_I = 0;
+            public static final double DEFAULT_ROT_MOVE_D = 0;
+            public static final double DEFAULT_ROT_MAX_VELOCITY = 360; // deg/s
+            public static final double DEFAULT_ROT_MAX_ACCEL = 180; // deg/s
+            public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
+
         }
 
         // All of the movement control parameters
@@ -257,13 +268,6 @@ public final class Parameters {
                     new MatBuilder<>(Nat.N1(), Nat.N1()).fill(Math.toRadians(0.125));
             public static final Matrix<N3, N1> VISION_DEVIATION =
                     new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, Math.toRadians(0.125));
-
-            // PID controller (rotation constraints are max velocity and max acceleration)
-            public static PIDController movementPID = new PIDController(1, 0, 0);
-            public static Constraints rotationConstraints =
-                    new Constraints(Math.toRadians(360), Math.toRadians(180));
-            public static ProfiledPIDController rotationPID =
-                    new ProfiledPIDController(1, 0, 0, rotationConstraints);
         }
 
         // The gear ratios of the module
