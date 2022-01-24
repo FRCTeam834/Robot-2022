@@ -45,21 +45,26 @@ public class DriveTrain extends SubsystemBase {
     public SwerveModule backRight;
 
     // PID value storage, with default values from Parameters
-    public PIDController X_MOVE_PID = new PIDController(
-            Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
-            Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
-            Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
-    public PIDController Y_MOVE_PID = new PIDController(
-        Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
-        Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
-        Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
-    public ProfiledPIDController ROTATION_PID = new ProfiledPIDController(
-        Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_P,
-        Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_I,
-        Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_D,
-        new Constraints(
-                Units.degreesToRadians(Parameters.driveTrain.pid.DEFAULT_ROT_MAX_VELOCITY),
-                Units.degreesToRadians(Parameters.driveTrain.pid.DEFAULT_ROT_MAX_ACCEL)));
+    public PIDController X_MOVE_PID =
+            new PIDController(
+                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
+                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
+                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
+    public PIDController Y_MOVE_PID =
+            new PIDController(
+                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
+                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
+                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
+    public ProfiledPIDController ROTATION_PID =
+            new ProfiledPIDController(
+                    Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_P,
+                    Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_I,
+                    Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_D,
+                    new Constraints(
+                            Units.degreesToRadians(
+                                    Parameters.driveTrain.pid.DEFAULT_ROT_MAX_VELOCITY),
+                            Units.degreesToRadians(
+                                    Parameters.driveTrain.pid.DEFAULT_ROT_MAX_ACCEL)));
 
     // NetworkTable entries
     NetworkTableEntry X_MOVE_PID_P_ENTRY;
@@ -390,8 +395,7 @@ public class DriveTrain extends SubsystemBase {
      * @param BL Velocity of the back left module
      * @param BR Velocity of the back right module
      */
-    public void setDesiredVelocities(
-            double FL, double FR, double BL, double BR) {
+    public void setDesiredVelocities(double FL, double FR, double BL, double BR) {
 
         // Set the modules to run at the specified velocities
         frontLeft.setDesiredVelocity(FL);
@@ -404,12 +408,11 @@ public class DriveTrain extends SubsystemBase {
      * Moves the modules to the desired velocities, just with an array of velocities instead of
      * individual parameters
      *
-     * @param velocities An array of module velocities in form [Front Left, Front Right, Back
-     *     Left, Back Right]
+     * @param velocities An array of module velocities in form [Front Left, Front Right, Back Left,
+     *     Back Right]
      */
     public void setDesiredVelocities(double[] velocities) {
-        setDesiredVelocities(
-                velocities[0], velocities[1], velocities[2], velocities[3]);
+        setDesiredVelocities(velocities[0], velocities[1], velocities[2], velocities[3]);
     }
 
     /**

@@ -239,7 +239,6 @@ public final class Parameters {
             public static final double MODULE_S_FF = 0.000000; // Must be tuned for the modules!
             public static final double MODULE_D_FF = 0.000000; // Maybe: 0.000156;
 
-
             // PID controller (rotation constraints are max velocity and max acceleration)
             public static final double DEFAULT_LINEAR_MOVE_P = 1;
             public static final double DEFAULT_LINEAR_MOVE_I = 0;
@@ -251,7 +250,6 @@ public final class Parameters {
             public static final double DEFAULT_ROT_MAX_VELOCITY = 360; // deg/s
             public static final double DEFAULT_ROT_MAX_ACCEL = 180; // deg/s
             public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
-
         }
 
         // All of the movement control parameters
