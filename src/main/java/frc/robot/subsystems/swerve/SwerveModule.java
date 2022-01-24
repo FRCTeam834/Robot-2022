@@ -37,11 +37,11 @@ public class SwerveModule {
     // Define all of the variables in the global scope
 
     // Motors
-    private CANSparkMax steerMotor;
-    private CANSparkMax driveMotor;
+    public CANSparkMax steerMotor;
+    public CANSparkMax driveMotor;
     private CachedPIDController steerMotorPID;
     private CachedPIDController driveMotorPID;
-    private CANCoder steerCANCoder;
+    public CANCoder steerCANCoder;
     private RelativeEncoder steerMotorEncoder;
     private RelativeEncoder driveMotorEncoder;
 
@@ -272,33 +272,6 @@ public class SwerveModule {
 
         // Save the parameters (prevents loss of parameters after brownouts)
         driveMotor.burnFlash();
-    }
-
-    /**
-     * Gets the steering motor object for the selected module
-     *
-     * @return The steering motor object
-     */
-    public CANSparkMax getSteerMotor() {
-        return steerMotor;
-    }
-
-    /**
-     * Gets the drive motor object for the selected module
-     *
-     * @return The drive motor object
-     */
-    public CANSparkMax getDriveMotor() {
-        return driveMotor;
-    }
-
-    /**
-     * Gets the CANCoder object for the selected module
-     *
-     * @return The CANCoder object
-     */
-    public CANCoder getCANCoder() {
-        return steerCANCoder;
     }
 
     /**

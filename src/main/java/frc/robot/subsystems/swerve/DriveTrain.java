@@ -23,6 +23,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -31,7 +32,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
@@ -44,10 +45,21 @@ public class DriveTrain extends SubsystemBase {
     public SwerveModule backRight;
 
     // PID value storage, with default values from Parameters
-    public PIDController X_MOVE_PID = Parameters.driveTrain.movement.movementPID;
-    public PIDController Y_MOVE_PID = Parameters.driveTrain.movement.movementPID;
-    public Constraints ROTATION_CONSTRAINTS = Parameters.driveTrain.movement.rotationConstraints;
-    public ProfiledPIDController ROTATION_PID = Parameters.driveTrain.movement.rotationPID;
+    public PIDController X_MOVE_PID = new PIDController(
+            Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
+            Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
+            Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
+    public PIDController Y_MOVE_PID = new PIDController(
+        Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
+        Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
+        Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
+    public ProfiledPIDController ROTATION_PID = new ProfiledPIDController(
+        Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_P,
+        Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_I,
+        Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_D,
+        new Constraints(
+                Units.degreesToRadians(Parameters.driveTrain.pid.DEFAULT_ROT_MAX_VELOCITY),
+                Units.degreesToRadians(Parameters.driveTrain.pid.DEFAULT_ROT_MAX_ACCEL)));
 
     // NetworkTable entries
     NetworkTableEntry X_MOVE_PID_P_ENTRY;
@@ -89,8 +101,8 @@ public class DriveTrain extends SubsystemBase {
     // Pose estimator
     private SwerveDrivePoseEstimator poseEstimator =
             new SwerveDrivePoseEstimator(
-                    new Rotation2d(), // Robot.navX.getRotation2d(),
-                    new Pose2d(0, 0, new Rotation2d()), // Parameters.positions.STARTING_POS,
+                    RobotContainer.navX.getRotation2d(),
+                    new Pose2d(0.0, 0.0, new Rotation2d()),
                     kinematics,
                     Parameters.driveTrain.movement.POSE_STD_DEV,
                     Parameters.driveTrain.movement.ENCODER_GYRO_DEV,
@@ -141,6 +153,9 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.pid.BR_DRIVE_PID,
                         false);
 
+        // Set up the PID controllers
+        ROTATION_PID.setTolerance(Parameters.driveTrain.pid.DEFAULT_ROT_TOLERANCE);
+
         // Don't mess with NetworkTables unless we have to
         if (Parameters.networkTables) {
 
@@ -185,7 +200,7 @@ public class DriveTrain extends SubsystemBase {
         loadParameters();
 
         // Center the odometry of the robot
-        resetOdometry(Parameters.positions.STARTING_POS);
+        resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
     }
 
     /**
@@ -203,7 +218,7 @@ public class DriveTrain extends SubsystemBase {
         if (fieldRelative) {
             setModuleStates(
                     ChassisSpeeds.fromFieldRelativeSpeeds(
-                            xVelocity, yVelocity, rot, Robot.navX.getRotation2d()));
+                            xVelocity, yVelocity, rot, RobotContainer.navX.getRotation2d()));
         } else {
             setModuleStates(new ChassisSpeeds(xVelocity, yVelocity, rot));
         }
@@ -232,7 +247,7 @@ public class DriveTrain extends SubsystemBase {
         if (fieldRelative) {
             setModuleStates(
                     ChassisSpeeds.fromFieldRelativeSpeeds(
-                            xVelocity, yVelocity, rot, Robot.navX.getRotation2d()),
+                            xVelocity, yVelocity, rot, RobotContainer.navX.getRotation2d()),
                     relativeCenter);
         } else {
             setModuleStates(new ChassisSpeeds(xVelocity, yVelocity, rot), relativeCenter);
@@ -293,9 +308,6 @@ public class DriveTrain extends SubsystemBase {
         frontRight.setDesiredState(swerveModuleStates[1]);
         backLeft.setDesiredState(swerveModuleStates[2]);
         backRight.setDesiredState(swerveModuleStates[3]);
-
-        // Update the robot's odometry
-        updateOdometry();
     }
 
     /**
@@ -317,9 +329,6 @@ public class DriveTrain extends SubsystemBase {
         frontRight.setDesiredState(swerveModuleStates[1]);
         backLeft.setDesiredState(swerveModuleStates[2]);
         backRight.setDesiredState(swerveModuleStates[3]);
-
-        // Update the robot's odometry
-        updateOdometry();
     }
 
     /** Halts all of the modules */
@@ -335,29 +344,29 @@ public class DriveTrain extends SubsystemBase {
     /**
      * Moves all of the swerve modules to the specified angles
      *
-     * @param FLAngle Angle of the front left module
-     * @param FRAngle Angle of the front right module
-     * @param BLAngle Angle of the back left module
-     * @param BRAngle Angle of the back right module
+     * @param FL Angle of the front left module
+     * @param FR Angle of the front right module
+     * @param BL Angle of the back left module
+     * @param BR Angle of the back right module
      */
-    public void setDesiredAngles(double FLAngle, double FRAngle, double BLAngle, double BRAngle) {
+    public void setDesiredAngles(double FL, double FR, double BL, double BR) {
 
         // Set the desired angles
-        frontLeft.setDesiredAngle(FLAngle);
-        frontRight.setDesiredAngle(FRAngle);
-        backLeft.setDesiredAngle(BLAngle);
-        backRight.setDesiredAngle(BRAngle);
+        frontLeft.setDesiredAngle(FL);
+        frontRight.setDesiredAngle(FR);
+        backLeft.setDesiredAngle(BL);
+        backRight.setDesiredAngle(BR);
     }
 
     /**
      * Moves the modules to the desired angles, just with an array of angles instead of individual
      * parameters
      *
-     * @param angleArray An array of module angles in form [Front Left, Front Right, Back Left, Back
+     * @param angles An array of module angles in form [Front Left, Front Right, Back Left, Back
      *     Right]
      */
-    public void setDesiredAngles(double[] angleArray) {
-        setDesiredAngles(angleArray[0], angleArray[1], angleArray[2], angleArray[3]);
+    public void setDesiredAngles(double[] angles) {
+        setDesiredAngles(angles[0], angles[1], angles[2], angles[3]);
     }
 
     /**
@@ -366,7 +375,7 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return Are the modules at their desired angles?
      */
-    public boolean isAtDesiredAngles() {
+    public boolean areAtDesiredAngles() {
         return (frontLeft.isAtDesiredAngle()
                 && frontRight.isAtDesiredAngle()
                 && backLeft.isAtDesiredAngle()
@@ -376,31 +385,31 @@ public class DriveTrain extends SubsystemBase {
     /**
      * Sets all of the swerve modules to their specified velocities
      *
-     * @param FLVelocity Velocity of the front left module
-     * @param FRVelocity Velocity of the front right module
-     * @param BLVelocity Velocity of the back left module
-     * @param BRVelocity Velocity of the back right module
+     * @param FL Velocity of the front left module
+     * @param FR Velocity of the front right module
+     * @param BL Velocity of the back left module
+     * @param BR Velocity of the back right module
      */
     public void setDesiredVelocities(
-            double FLVelocity, double FRVelocity, double BLVelocity, double BRVelocity) {
+            double FL, double FR, double BL, double BR) {
 
         // Set the modules to run at the specified velocities
-        frontLeft.setDesiredVelocity(FLVelocity);
-        frontRight.setDesiredVelocity(FRVelocity);
-        backLeft.setDesiredVelocity(BLVelocity);
-        backRight.setDesiredVelocity(BRVelocity);
+        frontLeft.setDesiredVelocity(FL);
+        frontRight.setDesiredVelocity(FR);
+        backLeft.setDesiredVelocity(BL);
+        backRight.setDesiredVelocity(BR);
     }
 
     /**
      * Moves the modules to the desired velocities, just with an array of velocities instead of
      * individual parameters
      *
-     * @param velocityArray An array of module velocities in form [Front Left, Front Right, Back
+     * @param velocities An array of module velocities in form [Front Left, Front Right, Back
      *     Left, Back Right]
      */
-    public void setDesiredVelocities(double[] velocityArray) {
+    public void setDesiredVelocities(double[] velocities) {
         setDesiredVelocities(
-                velocityArray[0], velocityArray[1], velocityArray[2], velocityArray[3]);
+                velocities[0], velocities[1], velocities[2], velocities[3]);
     }
 
     /**
@@ -409,7 +418,7 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return Are the modules at their desired velocities?
      */
-    public boolean isAtDesiredVelocities() {
+    public boolean areAtDesiredVelocities() {
         return (frontLeft.isAtDesiredVelocity()
                 && frontRight.isAtDesiredVelocity()
                 && backLeft.isAtDesiredVelocity()
@@ -433,10 +442,11 @@ public class DriveTrain extends SubsystemBase {
     public void lockemUp() {
 
         // Halt all of the motors
-        frontLeft.getDriveMotor().stopMotor();
-        frontRight.getDriveMotor().stopMotor();
-        backLeft.getDriveMotor().stopMotor();
-        backRight.getDriveMotor().stopMotor();
+        // TODO: Change this to method calls instead of direct object interfacing?
+        frontLeft.driveMotor.stopMotor();
+        frontRight.driveMotor.stopMotor();
+        backLeft.driveMotor.stopMotor();
+        backRight.driveMotor.stopMotor();
 
         // Makes an X pattern with the swerve base
         // Set the modules to 45 degree angles
@@ -448,12 +458,12 @@ public class DriveTrain extends SubsystemBase {
 
     /** Updates the odometry. Should be called as frequently as possible to reduce error. */
     public void updateOdometry() {
-        /*poseEstimator.update(
-        Robot.navX.getRotation2d(),
-        frontLeft.getState(),
-        frontRight.getState(),
-        backLeft.getState(),
-        backRight.getState());*/
+        poseEstimator.update(
+                RobotContainer.navX.getRotation2d(),
+                frontLeft.getState(),
+                frontRight.getState(),
+                backLeft.getState(),
+                backRight.getState());
     }
 
     /**
@@ -462,7 +472,7 @@ public class DriveTrain extends SubsystemBase {
      * @param currentPosition The robot's current position
      */
     public void resetOdometry(Pose2d currentPosition) {
-        // poseEstimator.resetPosition(currentPosition, Robot.navX.getRotation2d());
+        poseEstimator.resetPosition(currentPosition, RobotContainer.navX.getRotation2d());
     }
 
     /** Adds a vision position measurement */
@@ -598,7 +608,6 @@ public class DriveTrain extends SubsystemBase {
 
         // X Movement PID
         Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP());
-
         Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI());
         Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD());
 
@@ -612,13 +621,7 @@ public class DriveTrain extends SubsystemBase {
         Preferences.setDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI());
         Preferences.setDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD());
 
-        // Rotation PID (Constraints)
-        Preferences.getDouble(
-                "DRIVETRAIN_ROTATION_PID_MAX_VEL",
-                Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity));
-        Preferences.getDouble(
-                "DRIVETRAIN_ROTATION_PID_MAX_ACCEL",
-                Math.toDegrees(ROTATION_CONSTRAINTS.maxAcceleration));
+        // TODO: Add rotational PID constraints
     }
 
     /** Loads all of the currently saved parameters */
@@ -646,6 +649,8 @@ public class DriveTrain extends SubsystemBase {
         ROTATION_PID.setD(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD()));
 
         // Rotation PID (Constraints)
+        // TODO: Fix!
+        /*
         double maxVelocity =
                 Math.toRadians(
                         Preferences.getDouble(
@@ -660,9 +665,7 @@ public class DriveTrain extends SubsystemBase {
         // Create a new rotation PID object, then set it
         ROTATION_CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
         ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
-
-        // Redeclare the drive controller
-        driveController = new HolonomicDriveController(X_MOVE_PID, Y_MOVE_PID, ROTATION_PID);
+        */
 
         // Publish the new tuning values
         publishTuningValues();
@@ -696,6 +699,8 @@ public class DriveTrain extends SubsystemBase {
             ROTATION_PID.setD(ROTATION_PID_D_ENTRY.getDouble(ROTATION_PID.getD()));
 
             // Rotation PID (Constraints)
+            // TODO: Fix
+            /*
             double maxVelocity =
                     Math.toRadians(
                             ROTATION_PID_MAX_VEL_ENTRY.getDouble(
@@ -708,9 +713,7 @@ public class DriveTrain extends SubsystemBase {
             // Create a new rotation PID contraints object
             ROTATION_CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
             ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
-
-            // Redeclare the drive controller
-            driveController = new HolonomicDriveController(X_MOVE_PID, Y_MOVE_PID, ROTATION_PID);
+            */
         }
     }
 
@@ -742,9 +745,12 @@ public class DriveTrain extends SubsystemBase {
             ROTATION_PID_D_ENTRY.setDouble(ROTATION_PID.getD());
 
             // Rotation PID (Constraints)
+            // TODO: Fix
+            /*
             ROTATION_PID_MAX_VEL_ENTRY.setDouble(Math.toDegrees(ROTATION_CONSTRAINTS.maxVelocity));
             ROTATION_PID_MAX_ACCEL_ENTRY.setDouble(
                     Math.toDegrees(ROTATION_CONSTRAINTS.maxAcceleration));
+            */
         }
     }
 
@@ -769,6 +775,6 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        updateOdometry();
     }
 }

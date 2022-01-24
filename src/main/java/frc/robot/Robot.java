@@ -17,12 +17,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import frc.robot.DriverProfiles.ProfilingManagement;
-import frc.robot.subsystems.NavX;
-import frc.robot.subsystems.Superstructure;
-import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.swerve.DriveTrain;
-
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -31,21 +25,6 @@ import frc.robot.subsystems.swerve.DriveTrain;
  */
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
-
-    // Subsystems
-    public static ProfilingManagement profilingManagement;
-    public static NavX navX;
-    public static DriveTrain driveTrain;
-    public static Superstructure superstructure =
-            new Superstructure(new Vision(), new DriveTrain());
-
-    // Commands
-    // public static LetsRoll2Joysticks letsRoll2Joysticks;
-    // public static LetsRoll1Joystick letsRoll1Joystick;
-    // public static ZeroCanCoders zeroCanCoders;
-    // public static PullNTSwerveParams pullNTSwerveParams;
-    // public static TestModulePID testPID;
-    // public static SaveSwerveParameters saveSwerveParameters;
 
     private RobotContainer m_robotContainer;
 
@@ -56,25 +35,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
 
-        // Profiling management should be first to avoid errors!
-        profilingManagement = new ProfilingManagement();
-        navX = new NavX();
-        driveTrain = new DriveTrain();
-        System.out.println("Hello");
-
-        // Commands
-        // letsRoll2Joysticks = new LetsRoll2Joysticks();
-        // letsRoll1Joystick = new LetsRoll1Joystick();
-        // zeroCanCoders = new ZeroCanCoders();
-        // pullNTSwerveParams = new PullNTSwerveParams();
-        // testPID = new TestModulePID();
-        // saveSwerveParameters = new SaveSwerveParameters();
-
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
 
-        navX.resetYaw();
+        // Reset the angle of the NavX
+        RobotContainer.navX.resetYaw();
     }
 
     /**

@@ -9,13 +9,12 @@
  * @author Christian Piper (@CAP1Sup)
  * @since 5/8/20
  */
-package frc.robot.commands.swerve;
+package frc.robot.commands.swerve.driving;
 
 // Imports
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.enums.ControlInputs;
 
@@ -26,7 +25,7 @@ public class LetsRoll2Joysticks extends CommandBase {
 
     public LetsRoll2Joysticks() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(Robot.driveTrain);
+        addRequirements(RobotContainer.driveTrain);
     }
 
     // Called when the command is initially scheduled.
@@ -67,25 +66,25 @@ public class LetsRoll2Joysticks extends CommandBase {
             // Move the drivetrain with the desired values (left right values are flipped from the
             // logical
             // way, thanks WPI)
-            Robot.driveTrain.drive(
+            RobotContainer.driveTrain.drive(
                     (rightY * Parameters.driver.currentProfile.maxModVelocity),
                     (rightX * Parameters.driver.currentProfile.maxModVelocity),
                     Math.toRadians(leftX * Parameters.driver.currentProfile.maxSteerRate),
                     fieldCentric);
         } else if (Parameters.driver.currentProfile.lockemUp) {
-            Robot.driveTrain.lockemUp();
+            RobotContainer.driveTrain.lockemUp();
         } else {
-            Robot.driveTrain.stopModules();
+            RobotContainer.driveTrain.stopModules();
         }
 
         // Update driver profile if available
-        Robot.profilingManagement.checkForUpdate();
+        RobotContainer.profilingManagement.checkForUpdate();
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Robot.driveTrain.stopModules();
+        RobotContainer.driveTrain.stopModules();
     }
 
     // Returns true when the command should end.
