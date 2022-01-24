@@ -12,11 +12,6 @@
 package frc.robot.subsystems.swerve;
 
 // Imports
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -29,17 +24,22 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.Robot;
-import frc.robot.subsystems.NavX;
 
 public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
 
     // Create the modules
     public SwerveModule frontLeft;
+
     public SwerveModule frontRight;
     public SwerveModule backLeft;
     public SwerveModule backRight;
@@ -49,7 +49,6 @@ public class DriveTrain extends SubsystemBase {
     public PIDController yMovePID = Parameters.driveTrain.movement.movementPID;
     public Constraints ROTATION_CONSTRAINTS = Parameters.driveTrain.movement.rotationConstraints;
     public ProfiledPIDController rotationPID = Parameters.driveTrain.movement.rotationPID;
-
 
     // NetworkTable entries
     NetworkTableEntry X_MOVE_PID_P_ENTRY;
@@ -70,7 +69,7 @@ public class DriveTrain extends SubsystemBase {
     // Define their position (relative to center of robot)
 
     Translation2d FL_POS =
-        new Translation2d(
+            new Translation2d(
                     Parameters.driveTrain.dimensions.DRIVE_LENGTH / 2,
                     Parameters.driveTrain.dimensions.DRIVE_WIDTH / 2);
     Translation2d FR_POS =
@@ -288,7 +287,8 @@ public class DriveTrain extends SubsystemBase {
                 kinematics.toSwerveModuleStates(chassisSpeeds, centerOfRotation);
 
         // Scale the velocities of the swerve modules so that none exceed the maximum
-        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
+        SwerveDriveKinematics.desaturateWheelSpeeds(
+                swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
 
         // Set each of the modules to their optimized state
         frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -633,28 +633,19 @@ public class DriveTrain extends SubsystemBase {
         backRight.loadParameters();
 
         // X Movement PID
-        xMovePID.setP(
-                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_P", xMovePID.getP()));
-        xMovePID.setI(
-                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_I", xMovePID.getI()));
-        xMovePID.setD(
-                Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_D", xMovePID.getD()));
+        xMovePID.setP(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_P", xMovePID.getP()));
+        xMovePID.setI(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_I", xMovePID.getI()));
+        xMovePID.setD(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_D", xMovePID.getD()));
 
         // Y Movement PID
-        yMovePID.setP(
-                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_P", yMovePID.getP()));
-        yMovePID.setI(
-                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_I", yMovePID.getI()));
-        yMovePID.setD(
-                Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_D", yMovePID.getD()));
+        yMovePID.setP(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_P", yMovePID.getP()));
+        yMovePID.setI(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_I", yMovePID.getI()));
+        yMovePID.setD(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_D", yMovePID.getD()));
 
         // Rotation PID (PID values)
-        rotationPID.setP(
-                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_P", rotationPID.getP()));
-        rotationPID.setI(
-                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_I", rotationPID.getI()));
-        rotationPID.setD(
-                Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", rotationPID.getD()));
+        rotationPID.setP(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_P", rotationPID.getP()));
+        rotationPID.setI(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_I", rotationPID.getI()));
+        rotationPID.setD(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", rotationPID.getD()));
 
         // Rotation PID (Constraints)
         double maxVelocity =
@@ -780,14 +771,19 @@ public class DriveTrain extends SubsystemBase {
 
     /**
      * Calculates the next angular speed for the drivetrain
+     *
      * @param desiredAngle the final angle desired (in deg) (using an absolute angle)
      * @return The correction output from the controller (in deg/s)
-    */
+     */
     public double turnToAbsoluteAngle(double desiredAngle) {
 
         // Calculate the next output, returning the feedforward result it returns
-        // Unfortunately, WPI uses radians under the hood, which means that we have to use radians as well
-        double radiansPerSec = rotationPID.calculate(Robot.navX.getRotation2d().getRadians(), Units.degreesToRadians(desiredAngle));
+        // Unfortunately, WPI uses radians under the hood, which means that we have to use radians
+        // as well
+        double radiansPerSec =
+                rotationPID.calculate(
+                        Robot.navX.getRotation2d().getRadians(),
+                        Units.degreesToRadians(desiredAngle));
         return Units.radiansToDegrees(radiansPerSec);
     }
 

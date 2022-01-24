@@ -5,38 +5,37 @@
 package frc.robot.commands.notSwerve;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import edu.wpi.first.wpilibj.util.Color;
+
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class RejectBall extends CommandBase {
-  /** Creates a new RejectBall. */
-
-  public RejectBall() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.intake);
-  }
-
-  @Override
-  public void initialize() {}
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (!RobotContainer.intake.suckABall().equals(Robot.getOurBallColor())) {
-      RobotContainer.intake.spitItOut();
+    /** Creates a new RejectBall. */
+    public RejectBall() {
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(RobotContainer.intake);
     }
-  }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    RobotContainer.intake.stop();
-  }
+    @Override
+    public void initialize() {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        if (!RobotContainer.intake.suckABall().equals(Robot.getOurBallColor())) {
+            RobotContainer.intake.spitItOut();
+        }
+    }
+
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        RobotContainer.intake.stop();
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

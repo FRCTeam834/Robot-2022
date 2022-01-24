@@ -4,14 +4,16 @@
 
 // Imports
 package frc.robot.subsystems;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters;
 
 public class Intake extends SubsystemBase {
@@ -69,7 +71,9 @@ public class Intake extends SubsystemBase {
         return ballColor;
     }
 
-    /** Get the closest color to the readings from the color sensor
+    /**
+     * Get the closest color to the readings from the color sensor
+     *
      * @return The closest color. If no color is close, this will return black
      */
     public Color getClosestColor() {
@@ -77,12 +81,12 @@ public class Intake extends SubsystemBase {
     }
 
     // Makes the intake go in reverse
-    public void spitItOut(){
+    public void spitItOut() {
         intakeMotor.set(-Parameters.intake.motor.SPEED);
     }
 
     // Stops the intake motors
-    public void stop(){
+    public void stop() {
         intakeMotor.set(0);
     }
 }

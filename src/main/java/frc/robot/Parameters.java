@@ -13,20 +13,21 @@
 package frc.robot;
 
 // Imports
-import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.ControlType;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
+import com.revrobotics.CANSparkMax.IdleMode;
+
+import edu.wpi.first.math.MatBuilder;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.math.MatBuilder;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.numbers.*;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 
 import frc.robot.DriverProfiles.DriverProfile;
 import frc.robot.DriverProfiles.JoystickParams;
@@ -65,15 +66,13 @@ public final class Parameters {
         public static final int CHRISTIAN_FORTNITE_WINS =
                 39; // The number of the lead programmer's Fortnite wins EASY DUBS LETS GO
         public static final int DIO_COMMENTS =
-                7; //You thought this was a comment that would explain what the parameter means, but it was me, DIO!
-        public static final int JOJO_PARTS =
-                8; //parts in JOJO
+                7; // You thought this was a comment that would explain what the parameter means,
+                   // but it was me, DIO!
+        public static final int JOJO_PARTS = 8; // parts in JOJO
         public static final int RIDICULOUS_QUESTIONS =
-                1; //How many times people have asked what this parameter is for
-        public static final String AMONG_US =
-                "sus"; //sus
+                1; // How many times people have asked what this parameter is for
+        public static final String AMONG_US = "sus"; // sus
     }
-
 
     // All of the driver parameters
     public static final class driver {
@@ -355,16 +354,17 @@ public final class Parameters {
             public static final double SPEED = 0.0;
             public static final int ID = 14;
         }
+
         public static final class backMotor {
-                public static final double SPEED = 0.0;
-                public static final int ID = 15;
+            public static final double SPEED = 0.0;
+            public static final int ID = 15;
         }
     }
 
     public static final class intake {
         public static final class motor {
-                public static final double SPEED = 0;
-                public static final int ID = 16;
+            public static final double SPEED = 0;
+            public static final int ID = 16;
         }
     }
 

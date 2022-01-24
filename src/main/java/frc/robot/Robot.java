@@ -16,12 +16,12 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 // Imports
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import frc.robot.DriverProfiles.ProfilingManagement;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.swerve.DriveTrain;
@@ -35,7 +35,7 @@ import frc.robot.subsystems.swerve.DriveTrain;
 public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
-    //Shuffleboard
+    // Shuffleboard
     public static NetworkTableEntry ballRejectColor;
     public static ShuffleboardTab ballRejectTab;
 
@@ -66,7 +66,6 @@ public class Robot extends TimedRobot {
         navX = new NavX();
         driveTrain = new DriveTrain();
 
-
         // Commands
         // letsRoll2Joysticks = new LetsRoll2Joysticks();
         // letsRoll1Joystick = new LetsRoll1Joystick();
@@ -89,7 +88,7 @@ public class Robot extends TimedRobot {
      * <p>This runs after the mode specific periodic functions, but before LiveWindow and
      * SmartDashboard integrated updating.
      *
-     * You thought this was a comment that would explain about this function, but it was me, DIO!
+     * <p>You thought this was a comment that would explain about this function, but it was me, DIO!
      */
     @Override
     public void robotPeriodic() {
@@ -141,14 +140,13 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        //isBlue: if true then we are blue
-        //! make sure it works
-        ballRejectColor = Shuffleboard.getTab("Ball Reject Tab")
-        .add("isBlue", false)
-        .withWidget("Toggle Button")
-        .getEntry();
-
-
+        // isBlue: if true then we are blue
+        // ! make sure it works
+        ballRejectColor =
+                Shuffleboard.getTab("Ball Reject Tab")
+                        .add("isBlue", false)
+                        .withWidget("Toggle Button")
+                        .getEntry();
     }
 
     @Override

@@ -7,12 +7,14 @@ package frc.robot.subsystems;
 
 // Imports
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Parameters;
+import com.revrobotics.RelativeEncoder;
+
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import frc.robot.Parameters;
 
 public class Shooter extends SubsystemBase {
 
@@ -55,9 +57,8 @@ public class Shooter extends SubsystemBase {
 
     public void spinShooterMotor() {
         shooterMotor.set(
-            bigBangTheory.calculate(
-                shooterMotorEncoder.getVelocity(),
-                Parameters.shooter.SPEED));
+                bigBangTheory.calculate(
+                        shooterMotorEncoder.getVelocity(), Parameters.shooter.SPEED));
     }
 
     public void stopMotor() {

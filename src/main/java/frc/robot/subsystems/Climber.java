@@ -5,10 +5,12 @@
 package frc.robot.subsystems;
 
 // Imports
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters;
 
 public class Climber extends SubsystemBase {
@@ -51,8 +53,5 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-
-    public void extendClimber() {
-
-    }
+    public void extendClimber() {}
 }
