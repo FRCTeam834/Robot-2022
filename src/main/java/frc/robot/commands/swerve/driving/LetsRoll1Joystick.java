@@ -9,7 +9,7 @@
  * @author Christian Piper (@CAP1Sup)
  * @since 5/8/20
  */
-package frc.robot.commands.swerve.drive;
+package frc.robot.commands.swerve.driving;
 
 // Imports
 import edu.wpi.first.wpilibj2.command.CommandBase;

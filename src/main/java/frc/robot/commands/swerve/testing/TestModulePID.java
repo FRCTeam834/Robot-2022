@@ -6,7 +6,7 @@
  * @author Christian Piper (@CAP1Sup)
  * @since 3/9/21
  */
-package frc.robot.commands.swerve.test;
+package frc.robot.commands.swerve.testing;
 
 // Imports
 import edu.wpi.first.wpilibj.Timer;

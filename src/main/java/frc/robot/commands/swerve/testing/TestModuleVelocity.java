@@ -6,7 +6,7 @@
  * @author Christian Piper (@CAP1Sup)
  * @since 5/12/21
  */
-package frc.robot.commands.swerve.test;
+package frc.robot.commands.swerve.testing;
 
 // Imports
 import edu.wpi.first.wpilibj2.command.CommandBase;
