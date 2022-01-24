@@ -710,7 +710,7 @@ public class DriveTrain extends SubsystemBase {
                             ROTATION_PID_MAX_ACCEL_ENTRY.getDouble(
                                     Math.toDegrees(ROTATION_CONSTRAINTS.maxAcceleration)));
 
-            // Create a new rotation PID contraints object
+            // Create a new rotation PID constraints object
             ROTATION_CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
             ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
             */
