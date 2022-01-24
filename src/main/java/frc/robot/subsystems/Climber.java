@@ -6,47 +6,53 @@ package frc.robot.subsystems;
 
 // Imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Encoder;
 import frc.robot.Parameters;
 
 public class Climber extends SubsystemBase {
 
-  //fun different comment colors are among us?
-  // ? Hello
-  // * Hello
-  // TODO: Hello
-  // ! You thought that it was another hello comment, but it me me, DIO!
+    // Motor objects
+    CANSparkMax frontMotor;
+    CANSparkMax backMotor;
 
-  CANSparkMax frontMotor = new CANSparkMax(Parameters.climber.can.FRONT_MOTOR_ID, MotorType.kBrushless);
-  CANSparkMax backMotor = new CANSparkMax(Parameters.climber.can.BACK_MOTOR_ID, MotorType.kBrushless);
+    // Encoder objects (from NEOs)
+    RelativeEncoder frontEncoder;
+    RelativeEncoder backEncoder;
 
-  CANCoder frontCANCoder = new CANCoder(Parameters.climber.can.FRONT_MOTOR_ID);
-  CANCoder backCANCoder = new CANCoder(Parameters.climber.can.BACK_MOTOR_ID);
-  
+    /** Creates a new Climber. */
+    public Climber() {
 
-  //TODO creates a limit switch if needed
-  DigitalInput frontLimitSwitch = new DigitalInput(0);
+        // Create the motors
+        frontMotor = new CANSparkMax(Parameters.climber.frontMotor.ID, MotorType.kBrushless);
+        backMotor = new CANSparkMax(Parameters.climber.backMotor.ID, MotorType.kBrushless);
+
+        // Get the encoders from the motors
+        frontEncoder = frontMotor.getEncoder();
+        backEncoder = backMotor.getEncoder();
+
+        // Enable voltage compensation
+        frontMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
+        backMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
+
+        // Set the position conversion factors
+        frontEncoder.setPositionConversionFactor(Parameters.climber.POS_CONV_FACTOR);
+        backEncoder.setPositionConversionFactor(Parameters.climber.POS_CONV_FACTOR);
+
+        // Set the current position of the climber to 0
+        // ! This means that the climber must start at the every bottom every time!
+        frontEncoder.setPosition(0);
+        backEncoder.setPosition(0);
+    }
+
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 
 
-  /** Creates a new Climber. */
-  public Climber() {}
+    public void extendClimber() {
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-
-  public void extendClimber(){
-
-  } 
-
-
+    }
 }

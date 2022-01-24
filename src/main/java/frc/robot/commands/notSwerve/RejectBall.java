@@ -7,44 +7,24 @@ package frc.robot.commands.notSwerve;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.util.Color;
-import frc.robot.subsystems.ColorSensor;
 import frc.robot.Robot;
 
 public class RejectBall extends CommandBase {
   /** Creates a new RejectBall. */
 
-  Color color;
-
   public RejectBall() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.colorSensor, RobotContainer.intake);
+    addRequirements(RobotContainer.intake);
   }
 
-  // You thought that this comment would explain what initialize does, but it was me, DIO!
   @Override
-  public void initialize() {
-    //spin the intake motors
-
-    //Todo set value for ball color
-    if(Robot.ballRejectColor.getBoolean(false)){
-      color = Color.kRed;
-      RobotContainer.intake.setForward();
-    }
-    else{
-      color = Color.kBlue;
-      RobotContainer.intake.setReverse();
-    }
-    RobotContainer.intake.setForward();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.colorSensor.getReading() == color) {
-      RobotContainer.intake.setReverse();
-    }
-    else {
-      RobotContainer.intake.setForward();
+    if (!RobotContainer.intake.suckABall().equals(Robot.getOurBallColor())) {
+      RobotContainer.intake.spitItOut();
     }
   }
 

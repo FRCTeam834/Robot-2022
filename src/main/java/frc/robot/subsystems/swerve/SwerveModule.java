@@ -104,7 +104,7 @@ public class SwerveModule {
         // Steering motor
         steerMotor = new CANSparkMax(steerMID, CANSparkMax.MotorType.kBrushless);
         steerMotor.restoreFactoryDefaults();
-        steerMotor.enableVoltageCompensation(Parameters.driveTrain.nominalVoltage);
+        steerMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
         steerMotor.setIdleMode(Parameters.driver.currentProfile.steerIdleMode);
         steerMotor.setSmartCurrentLimit(Parameters.driveTrain.maximums.MAX_STEER_CURRENT);
         steerMotor.setInverted(false);
@@ -154,7 +154,7 @@ public class SwerveModule {
         // Drive motor
         driveMotor = new CANSparkMax(driveMID, CANSparkMax.MotorType.kBrushless);
         driveMotor.restoreFactoryDefaults();
-        driveMotor.enableVoltageCompensation(Parameters.driveTrain.nominalVoltage);
+        driveMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
         driveMotor.setSmartCurrentLimit(Parameters.driveTrain.maximums.MAX_DRIVE_CURRENT);
         driveMotor.setIdleMode(Parameters.driver.currentProfile.driveIdleMode);
         driveMotor.setSmartCurrentLimit(30);

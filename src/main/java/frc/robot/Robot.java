@@ -13,15 +13,16 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.DriverStation;
 // Imports
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.RobotContainer;
 import frc.robot.DriverProfiles.ProfilingManagement;
-import frc.robot.Parameters.colorSensor;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.swerve.DriveTrain;
 
@@ -64,7 +65,7 @@ public class Robot extends TimedRobot {
         profilingManagement = new ProfilingManagement();
         navX = new NavX();
         driveTrain = new DriveTrain();
-        
+
 
         // Commands
         // letsRoll2Joysticks = new LetsRoll2Joysticks();
@@ -97,7 +98,8 @@ public class Robot extends TimedRobot {
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
 
-        System.out.println(RobotContainer.colorSensor.getReading());
+        // TODO: REMOVE, THIS REDUCES PERFORMANCE
+        System.out.println(RobotContainer.intake.getClosestColor());
         CommandScheduler.getInstance().run();
     }
 
@@ -145,7 +147,7 @@ public class Robot extends TimedRobot {
         .add("isBlue", false)
         .withWidget("Toggle Button")
         .getEntry();
-        
+
 
     }
 
@@ -158,4 +160,19 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {}
+
+    // Returns the color of ball that we should be collecting
+    public static Color getOurBallColor() {
+
+        // Get the alliance that we're on
+        // Default to blue balls
+        switch (DriverStation.getAlliance()) {
+            case Red:
+                return Color.kRed;
+            case Blue:
+                return Color.kBlue;
+            default: // Used when the alliance isn't valid (not set)
+                return Color.kBlue;
+        }
+    }
 }
