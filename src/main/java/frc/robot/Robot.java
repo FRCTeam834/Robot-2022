@@ -21,11 +21,12 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import frc.robot.DriverProfiles.ProfilingManagement;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
-import frc.robot.DriverProfiles.ProfilingManagement;
 import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swerve.DriveTrain;
 
 /**

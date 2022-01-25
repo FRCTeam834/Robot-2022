@@ -56,9 +56,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void spinShooterMotor(double speed) {
-        shooterMotor.set(
-                bigBangTheory.calculate(
-                        shooterMotorEncoder.getVelocity(), speed));
+        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), speed));
     }
 
     public void stopMotor() {

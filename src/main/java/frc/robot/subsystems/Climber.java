@@ -65,17 +65,13 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    public void extendClimber() {
+    public void extendClimber() {}
 
-    }
-
-
-    public boolean getBackLimitSwitchValue(){
+    public boolean getBackLimitSwitchValue() {
         return backLimitSwitch.get();
     }
-    
-    public boolean getFrontLimitSwitchValue(){
+
+    public boolean getFrontLimitSwitchValue() {
         return frontLimitSwitch.get();
     }
-
 }

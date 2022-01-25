@@ -31,8 +31,6 @@ import frc.robot.commands.swerve.TestMovementPID;
 import frc.robot.commands.swerve.ZeroCanCoders;
 import frc.robot.commands.swerve.ZeroNavX;
 import frc.robot.enums.RobotState;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Intake;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -48,8 +46,6 @@ public class RobotContainer {
     // private final NavX navX = new NavX();
     // private final DriveTrain driveTrain = new DriveTrain();
     // private final UltrasonicSensor ultrasonicSensor = new UltrasonicSensor();
-
-
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
