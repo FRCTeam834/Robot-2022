@@ -7,13 +7,12 @@ package frc.robot.commands.notSwerve;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
 
 public class RejectBall extends CommandBase {
     /** Creates a new RejectBall. */
     public RejectBall() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.intake);
+        addRequirements(Robot.intake);
     }
 
     @Override
@@ -22,15 +21,15 @@ public class RejectBall extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (!RobotContainer.intake.suckABall().equals(Robot.getOurBallColor())) {
-            RobotContainer.intake.spitItOut();
+        if (!Robot.intake.suckABall().equals(Robot.getOurBallColor())) {
+            Robot.intake.spitItOut();
         }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.intake.stop();
+        Robot.intake.stop();
     }
 
     // Returns true when the command should end.

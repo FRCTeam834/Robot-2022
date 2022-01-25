@@ -21,7 +21,9 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.DriverProfiles.ProfilingManagement;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.swerve.DriveTrain;
@@ -43,6 +45,9 @@ public class Robot extends TimedRobot {
     public static ProfilingManagement profilingManagement;
     public static NavX navX;
     public static DriveTrain driveTrain;
+    public static final Climber climber = new Climber();
+    public static final Intake intake = new Intake();
+    public static final Shooter shooter = new Shooter();
 
     // Commands
     // public static LetsRoll2Joysticks letsRoll2Joysticks;
@@ -98,7 +103,7 @@ public class Robot extends TimedRobot {
         // block in order for anything in the Command-based framework to work.
 
         // TODO: REMOVE, THIS REDUCES PERFORMANCE
-        System.out.println(RobotContainer.intake.getClosestColor());
+        System.out.println(Robot.intake.getClosestColor());
         CommandScheduler.getInstance().run();
     }
 
