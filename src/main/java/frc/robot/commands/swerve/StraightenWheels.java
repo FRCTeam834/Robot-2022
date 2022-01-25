@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 public class StraightenWheels extends CommandBase {
-    /** Creates a new StraighenWheels. */
+    /** Creates a new StraightenWheels. */
     public StraightenWheels() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.driveTrain);
@@ -40,6 +40,6 @@ public class StraightenWheels extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return RobotContainer.driveTrain.areAtDesiredAngles();
+        return RobotContainer.driveTrain.areAtDesiredAngles(0, 0, 0, 0);
     }
 }

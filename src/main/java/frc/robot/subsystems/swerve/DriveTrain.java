@@ -367,17 +367,32 @@ public class DriveTrain extends SubsystemBase {
         setDesiredAngles(angles[0], angles[1], angles[2], angles[3]);
     }
 
+
     /**
      * Checks if the modules are at their desired angles (must all be at desired angles in order to
      * return true)
      *
      * @return Are the modules at their desired angles?
      */
-    public boolean areAtDesiredAngles() {
-        return (frontLeft.isAtDesiredAngle()
-                && frontRight.isAtDesiredAngle()
-                && backLeft.isAtDesiredAngle()
-                && backRight.isAtDesiredAngle());
+    public boolean areAtDesiredAngles(double FLDA, double FRDA, double BLDA, double BRDA) {
+        return (frontLeft.isAtDesiredAngle(FLDA)
+                && frontRight.isAtDesiredAngle(FRDA)
+                && backLeft.isAtDesiredAngle(BLDA)
+                && backRight.isAtDesiredAngle(BRDA));
+    }
+
+
+    /**
+     * Checks if the modules are at their desired angles (must all be at desired angles in order to
+     * return true)
+     *
+     * @return Are the modules at their desired angles?
+     */
+    public boolean areAtDesiredAngles(double[] desiredAngles) {
+        return (frontLeft.isAtDesiredAngle(desiredAngles[0])
+                && frontRight.isAtDesiredAngle(desiredAngles[1])
+                && backLeft.isAtDesiredAngle(desiredAngles[2])
+                && backRight.isAtDesiredAngle(desiredAngles[3]));
     }
 
     /**
@@ -408,17 +423,32 @@ public class DriveTrain extends SubsystemBase {
         setDesiredVelocities(velocities[0], velocities[1], velocities[2], velocities[3]);
     }
 
+
     /**
      * Checks if the modules are at their desired velocities (must all be at desired velocities in
      * order to return true)
      *
      * @return Are the modules at their desired velocities?
      */
-    public boolean areAtDesiredVelocities() {
-        return (frontLeft.isAtDesiredVelocity()
-                && frontRight.isAtDesiredVelocity()
-                && backLeft.isAtDesiredVelocity()
-                && backRight.isAtDesiredVelocity());
+    public boolean areAtDesiredVelocities(double FLDV, double FRDV, double BLDV, double BRDV) {
+        return (frontLeft.isAtDesiredVelocity(FLDV)
+                && frontRight.isAtDesiredVelocity(FRDV)
+                && backLeft.isAtDesiredVelocity(BLDV)
+                && backRight.isAtDesiredVelocity(BRDV));
+    }
+
+
+    /**
+     * Checks if the modules are at their desired velocities (must all be at desired velocities in
+     * order to return true)
+     *
+     * @return Are the modules at their desired velocities?
+     */
+    public boolean areAtDesiredVelocities(double[] desiredVelocities) {
+        return (frontLeft.isAtDesiredVelocity(desiredVelocities[0])
+                && frontRight.isAtDesiredVelocity(desiredVelocities[1])
+                && backLeft.isAtDesiredVelocity(desiredVelocities[2])
+                && backRight.isAtDesiredVelocity(desiredVelocities[3]));
     }
 
     /** Stops the drive wheel of the modules and sets it to hold stopped */
