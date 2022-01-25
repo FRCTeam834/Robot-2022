@@ -782,6 +782,12 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        // NetworkTables updates
+        publishPerformanceData();
+        pullTuningValues();
+
+        // Update the odometry as frequently as possible
         updateOdometry();
     }
 }
