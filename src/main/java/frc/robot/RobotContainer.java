@@ -142,10 +142,8 @@ public class RobotContainer {
                          * the joysticks is always 1
                          */
                         return Math.signum(rawValue)
-                                * ((Math.abs(rawValue)
-                                                - Parameters.driver.joysticks.deadzone)
-                                        / (1
-                                                - Parameters.driver.joysticks.deadzone));
+                                * ((Math.abs(rawValue) - Parameters.driver.joysticks.deadzone)
+                                        / (1 - Parameters.driver.joysticks.deadzone));
                     }
                 case ZEROED_QUAD:
                     {
@@ -158,10 +156,7 @@ public class RobotContainer {
                                                 Math.abs(rawValue)
                                                         - Parameters.driver.joysticks.deadzone,
                                                 2)
-                                        / Math.pow(
-                                                Parameters.driver.joysticks.deadzone
-                                                        - 1,
-                                                2));
+                                        / Math.pow(Parameters.driver.joysticks.deadzone - 1, 2));
                     }
                 default:
                     // This will never be reached, but a default case is needed (0 for no output)

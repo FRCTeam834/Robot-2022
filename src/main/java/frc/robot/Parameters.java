@@ -87,6 +87,7 @@ public final class Parameters {
          * @param inputType The devices used to control the robot
          */
         public static final String name = "CAP1Sup";
+
         public static final double maxSteerRate = 180;
         public static final boolean lockemUp = true;
         public static final boolean fieldCentric = true;
