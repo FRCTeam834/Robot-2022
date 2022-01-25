@@ -65,7 +65,9 @@ public class Robot extends TimedRobot {
         // block in order for anything in the Command-based framework to work.
 
         // TODO: REMOVE, THIS REDUCES PERFORMANCE
-        System.out.println(RobotContainer.intake.getClosestColor());
+        // Get the closest color
+        Color closest = RobotContainer.intake.getClosestColor();
+        System.out.println("R: " + closest.red + " | G: " + closest.green + " | B: " + closest.blue);
         CommandScheduler.getInstance().run();
     }
 
