@@ -132,7 +132,8 @@ public class SwerveModule {
         // Set the angular velocity and acceleration values (if smart motion is being used)
         if (Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
             this.steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
-            this.steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY);
+            this.steerMotorPID.setSmartMotionMaxVelocity(
+                    Parameters.driveTrain.maximums.MAX_VELOCITY);
             this.steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
         }
 
@@ -295,7 +296,11 @@ public class SwerveModule {
 
             // Compute the error factor (based on how close the actual angle is to the desired)
             percentFactor =
-                    1 - Math.abs(((targetAngle + this.angularOffset) - this.getActualSteerMotorAngle()) / 90);
+                    1
+                            - Math.abs(
+                                    ((targetAngle + this.angularOffset)
+                                                    - this.getActualSteerMotorAngle())
+                                            / 90);
 
             // Print the percent error if debugging is enabled
             if (Parameters.debug) {
@@ -319,8 +324,7 @@ public class SwerveModule {
 
         // Return if the velocity is within tolerance
         return ((currentVelocity < (desiredVelocity + Parameters.driveTrain.velocityTolerance))
-                && (currentVelocity
-                        > (desiredVelocity - Parameters.driveTrain.velocityTolerance)));
+                && (currentVelocity > (desiredVelocity - Parameters.driveTrain.velocityTolerance)));
     }
 
     // Sets the desired state of the module
@@ -360,7 +364,8 @@ public class SwerveModule {
     public void setEncoderOffset(double correctPosition) {
 
         // Set the cancoder offset variable
-        this.cancoderOffset = correctPosition - (this.getAngle() - this.steerCANCoder.configGetMagnetOffset());
+        this.cancoderOffset =
+                correctPosition - (this.getAngle() - this.steerCANCoder.configGetMagnetOffset());
 
         // Set the offset on the encoder
         this.steerCANCoder.configMagnetOffset(this.cancoderOffset);
@@ -404,18 +409,28 @@ public class SwerveModule {
     public void loadParameters() {
 
         // Steer PID
-        this.steerMotorPID.setP(Preferences.getDouble(this.name + "_STEER_P", this.steerMotorPID.getP()));
-        this.steerMotorPID.setI(Preferences.getDouble(this.name + "_STEER_I", this.steerMotorPID.getI()));
-        this.steerMotorPID.setIZone(Preferences.getDouble(this.name + "_STEER_I_ZONE", this.steerMotorPID.getIZone()));
-        this.steerMotorPID.setD(Preferences.getDouble(this.name + "_STEER_D", this.steerMotorPID.getD()));
-        this.steerMotorPID.setFF(Preferences.getDouble(this.name + "_STEER_FF", this.steerMotorPID.getFF()));
+        this.steerMotorPID.setP(
+                Preferences.getDouble(this.name + "_STEER_P", this.steerMotorPID.getP()));
+        this.steerMotorPID.setI(
+                Preferences.getDouble(this.name + "_STEER_I", this.steerMotorPID.getI()));
+        this.steerMotorPID.setIZone(
+                Preferences.getDouble(this.name + "_STEER_I_ZONE", this.steerMotorPID.getIZone()));
+        this.steerMotorPID.setD(
+                Preferences.getDouble(this.name + "_STEER_D", this.steerMotorPID.getD()));
+        this.steerMotorPID.setFF(
+                Preferences.getDouble(this.name + "_STEER_FF", this.steerMotorPID.getFF()));
 
         // Drive PID
-        this.driveMotorPID.setP(Preferences.getDouble(this.name + "_DRIVE_P", this.driveMotorPID.getP()));
-        this.driveMotorPID.setI(Preferences.getDouble(this.name + "_DRIVE_I", this.driveMotorPID.getI()));
-        this.driveMotorPID.setIZone(Preferences.getDouble(this.name + "_DRIVE_I_ZONE", this.driveMotorPID.getIZone()));
-        this.driveMotorPID.setD(Preferences.getDouble(this.name + "_DRIVE_D", this.driveMotorPID.getD()));
-        this.driveMotorPID.setFF(Preferences.getDouble(this.name + "_DRIVE_FF", this.driveMotorPID.getFF()));
+        this.driveMotorPID.setP(
+                Preferences.getDouble(this.name + "_DRIVE_P", this.driveMotorPID.getP()));
+        this.driveMotorPID.setI(
+                Preferences.getDouble(this.name + "_DRIVE_I", this.driveMotorPID.getI()));
+        this.driveMotorPID.setIZone(
+                Preferences.getDouble(this.name + "_DRIVE_I_ZONE", this.driveMotorPID.getIZone()));
+        this.driveMotorPID.setD(
+                Preferences.getDouble(this.name + "_DRIVE_D", this.driveMotorPID.getD()));
+        this.driveMotorPID.setFF(
+                Preferences.getDouble(this.name + "_DRIVE_FF", this.driveMotorPID.getFF()));
 
         // Encoder offset
         this.steerCANCoder.configMagnetOffset(
@@ -478,14 +493,16 @@ public class SwerveModule {
             // Steer PIDs
             this.steerMotorPID.setP(this.steerPEntry.getDouble(this.steerMotorPID.getP()));
             this.steerMotorPID.setI(this.steerIEntry.getDouble(this.steerMotorPID.getI()));
-            this.steerMotorPID.setIZone(this.steerIZoneEntry.getDouble(this.steerMotorPID.getIZone()));
+            this.steerMotorPID.setIZone(
+                    this.steerIZoneEntry.getDouble(this.steerMotorPID.getIZone()));
             this.steerMotorPID.setD(this.steerDEntry.getDouble(this.steerMotorPID.getD()));
             this.steerMotorPID.setFF(this.steerFFEntry.getDouble(this.steerMotorPID.getFF()));
 
             // Drive PIDs
             this.driveMotorPID.setP(this.drivePEntry.getDouble(this.driveMotorPID.getP()));
             this.driveMotorPID.setI(this.driveIEntry.getDouble(this.driveMotorPID.getI()));
-            this.driveMotorPID.setIZone(this.driveIZoneEntry.getDouble(this.driveMotorPID.getIZone()));
+            this.driveMotorPID.setIZone(
+                    this.driveIZoneEntry.getDouble(this.driveMotorPID.getIZone()));
             this.driveMotorPID.setD(this.driveDEntry.getDouble(this.driveMotorPID.getD()));
             this.driveMotorPID.setFF(this.driveFFEntry.getDouble(this.driveMotorPID.getFF()));
         }
