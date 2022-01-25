@@ -353,11 +353,13 @@ public final class Parameters {
         public static final class frontMotor {
             public static final double SPEED = 0.0;
             public static final int ID = 14;
+            public static final int LIMIT_SWITCH_CHANNEL_ID = 17;
         }
 
         public static final class backMotor {
             public static final double SPEED = 0.0;
             public static final int ID = 15;
+            public static final int LIMIT_SWITCH_CHANNEL_ID = 18;
         }
     }
 

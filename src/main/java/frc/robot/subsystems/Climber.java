@@ -9,9 +9,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.Parameters.climber.frontMotor;
 
 public class Climber extends SubsystemBase {
 
@@ -22,6 +24,11 @@ public class Climber extends SubsystemBase {
     // Encoder objects (from NEOs)
     RelativeEncoder frontEncoder;
     RelativeEncoder backEncoder;
+
+    // Limit Switch
+
+    DigitalInput frontLimitSwitch;
+    DigitalInput backLimitSwitch;
 
     /** Creates a new Climber. */
     public Climber() {
@@ -46,6 +53,11 @@ public class Climber extends SubsystemBase {
         // ! This means that the climber must start at the every bottom every time!
         frontEncoder.setPosition(0);
         backEncoder.setPosition(0);
+
+        // Create the limit switches
+
+        backLimitSwitch = new DigitalInput(Parameters.climber.backMotor.LIMIT_SWITCH_CHANNEL_ID);
+        frontLimitSwitch = new DigitalInput(Parameters.climber.frontMotor.LIMIT_SWITCH_CHANNEL_ID);
     }
 
     @Override
@@ -53,5 +65,17 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    public void extendClimber() {}
+    public void extendClimber() {
+
+    }
+
+
+    public boolean getBackLimitSwitchValue(){
+        return backLimitSwitch.get();
+    }
+    
+    public boolean getFrontLimitSwitchValue(){
+        return frontLimitSwitch.get();
+    }
+
 }

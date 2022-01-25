@@ -49,9 +49,7 @@ public class RobotContainer {
     // private final DriveTrain driveTrain = new DriveTrain();
     // private final UltrasonicSensor ultrasonicSensor = new UltrasonicSensor();
 
-    // Subsystems
-    public static final Climber climber = new Climber();
-    public static final Intake intake = new Intake();
+
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
