@@ -164,6 +164,7 @@ public final class Parameters {
             public static class steer {
                 public static final double DEFAULT_P = 1;
                 public static final double DEFAULT_I = 0;
+                public static final double DEFAULT_I_ZONE = 0;
                 public static final double DEFAULT_D = 0;
                 public static final double DEFAULT_MAX_OUTPUT = 8; // TODO: Fix later
                 public static final double DEFAULT_FF = 0;
@@ -173,6 +174,7 @@ public final class Parameters {
             public static class drive {
                 public static final double DEFAULT_P = 0.5;
                 public static final double DEFAULT_I = 0;
+                public static final double DEFAULT_I_ZONE = 0;
                 public static final double DEFAULT_D = 0;
                 public static final double DEFAULT_MAX_OUTPUT = 8; // TODO: Fix later
                 public static final double DEFAULT_FF = 0;

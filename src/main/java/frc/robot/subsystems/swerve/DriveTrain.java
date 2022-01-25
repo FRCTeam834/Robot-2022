@@ -541,18 +541,6 @@ public class DriveTrain extends SubsystemBase {
         return driveController.atReference();
     }
 
-    /** Updates all of the steering parameters, such as PID loops and driver settings */
-    public void updateParameters() {
-
-        // Update the drive idle modes
-        frontLeft.setDriveIdleMode(Parameters.driver.driveIdleMode);
-        frontRight.setDriveIdleMode(Parameters.driver.driveIdleMode);
-        backLeft.setDriveIdleMode(Parameters.driver.driveIdleMode);
-        backRight.setDriveIdleMode(Parameters.driver.driveIdleMode);
-
-        // TODO: Update the maximum velocities
-    }
-
     // Sets all of the modules to treat their current position as the zero position.
     public void zeroEncoders() {
 
