@@ -336,8 +336,7 @@ public class SwerveModule {
             }
 
             // Calculate the optimal angle for the motor (needs to be corrected as it thinks that
-            // the
-            // position is 0 at it's startup location)
+            // the position is 0 at it's startup location)
             desiredAngle = targetAngle + angularOffset;
 
             // Set the PID reference

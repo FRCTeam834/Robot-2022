@@ -196,7 +196,6 @@ public final class Parameters {
                             driveTrain.pid.MODULE_S_FF,
                             driver.currentProfile.maxModVelocity,
                             ControlType.kPosition);
-
             public static PIDParams FR_STEER_PID =
                     new PIDParams(
                             1.0,
@@ -350,16 +349,24 @@ public final class Parameters {
         // TODO: Find this factor
         public static final double POS_CONV_FACTOR = 1;
 
-        public static final class frontMotor {
-            public static final double SPEED = 0.0;
-            public static final int ID = 14;
-            public static final int LIMIT_SWITCH_CHANNEL_ID = 17;
+        public static final class front {
+            public static final class motor {
+                public static final double SPEED = 0.0;
+                public static final int ID = 14;
+            }
+            public static final class limitSwitch {
+                public static final int DIO_CHAN = 0;
+            }
         }
 
-        public static final class backMotor {
-            public static final double SPEED = 0.0;
-            public static final int ID = 15;
-            public static final int LIMIT_SWITCH_CHANNEL_ID = 18;
+        public static final class back {
+            public static final class motor {
+                public static final double SPEED = 0.0;
+                public static final int ID = 15;
+            }
+            public static final class limitSwitch {
+                public static final int DIO_CHAN = 1;
+            }
         }
     }
 
