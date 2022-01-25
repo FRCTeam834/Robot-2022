@@ -197,6 +197,7 @@ public final class Parameters {
                             driveTrain.pid.MODULE_S_FF,
                             driver.currentProfile.maxModVelocity,
                             ControlType.kPosition);
+
             public static PIDParams FR_STEER_PID =
                     new PIDParams(
                             1.0,
@@ -345,6 +346,7 @@ public final class Parameters {
                 public static final double SPEED = 0.0;
                 public static final int ID = 14;
             }
+
             public static final class limitSwitch {
                 public static final int DIO_CHAN = 0;
             }
@@ -355,6 +357,7 @@ public final class Parameters {
                 public static final double SPEED = 0.0;
                 public static final int ID = 15;
             }
+
             public static final class limitSwitch {
                 public static final int DIO_CHAN = 1;
             }
