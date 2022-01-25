@@ -367,7 +367,6 @@ public class DriveTrain extends SubsystemBase {
         setDesiredAngles(angles[0], angles[1], angles[2], angles[3]);
     }
 
-
     /**
      * Checks if the modules are at their desired angles (must all be at desired angles in order to
      * return true)
@@ -380,7 +379,6 @@ public class DriveTrain extends SubsystemBase {
                 && backLeft.isAtDesiredAngle(BLDA)
                 && backRight.isAtDesiredAngle(BRDA));
     }
-
 
     /**
      * Checks if the modules are at their desired angles (must all be at desired angles in order to
@@ -423,7 +421,6 @@ public class DriveTrain extends SubsystemBase {
         setDesiredVelocities(velocities[0], velocities[1], velocities[2], velocities[3]);
     }
 
-
     /**
      * Checks if the modules are at their desired velocities (must all be at desired velocities in
      * order to return true)
@@ -436,7 +433,6 @@ public class DriveTrain extends SubsystemBase {
                 && backLeft.isAtDesiredVelocity(BLDV)
                 && backRight.isAtDesiredVelocity(BRDV));
     }
-
 
     /**
      * Checks if the modules are at their desired velocities (must all be at desired velocities in
