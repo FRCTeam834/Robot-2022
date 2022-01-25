@@ -2,7 +2,7 @@
  * @author Christian Piper (@CAP1Sup)
  * @since 10/21/21
  */
-package frc.robot.enums;
+package frc.robot.utilityClasses;
 
 public enum JoystickOutputTypes {
 

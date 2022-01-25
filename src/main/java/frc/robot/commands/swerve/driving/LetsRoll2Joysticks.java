@@ -16,12 +16,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.enums.ControlInputs;
 
 public class LetsRoll2Joysticks extends CommandBase {
 
     // Stores robot driving type (between FOD and ROD)
-    boolean fieldCentric = Parameters.driver.currentProfile.fieldCentric;
+    boolean fieldCentric = Parameters.driver.fieldCentric;
 
     public LetsRoll2Joysticks() {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -49,15 +48,9 @@ public class LetsRoll2Joysticks extends CommandBase {
         double leftX, rightX, rightY;
 
         // Get all of the current joystick inputs
-        if (Parameters.driver.currentProfile.inputType == ControlInputs.JOYSTICKS) {
-            leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
-            rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
-            rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
-        } else {
-            leftX = RobotContainer.constrainJoystick(RobotContainer.xbox.getLeftX());
-            rightX = RobotContainer.constrainJoystick(RobotContainer.xbox.getRightX());
-            rightY = RobotContainer.constrainJoystick(RobotContainer.xbox.getRightY());
-        }
+        leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
+        rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
+        rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
 
         // If any of the sticks are out of range, then we need to move. Otherwise, lock up the
         // drivetrain (if specified) or just halt the modules
@@ -67,18 +60,15 @@ public class LetsRoll2Joysticks extends CommandBase {
             // logical
             // way, thanks WPI)
             RobotContainer.driveTrain.drive(
-                    (rightY * Parameters.driver.currentProfile.maxModVelocity),
-                    (rightX * Parameters.driver.currentProfile.maxModVelocity),
-                    Math.toRadians(leftX * Parameters.driver.currentProfile.maxSteerRate),
+                    (rightY * Parameters.driver.maxModVelocity),
+                    (rightX * Parameters.driver.maxModVelocity),
+                    Math.toRadians(leftX * Parameters.driver.maxSteerRate),
                     fieldCentric);
-        } else if (Parameters.driver.currentProfile.lockemUp) {
+        } else if (Parameters.driver.lockemUp) {
             RobotContainer.driveTrain.lockemUp();
         } else {
             RobotContainer.driveTrain.stopModules();
         }
-
-        // Update driver profile if available
-        RobotContainer.profilingManagement.checkForUpdate();
     }
 
     // Called once the command ends or is interrupted.

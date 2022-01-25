@@ -19,10 +19,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.DriverProfiles.ProfilingManagement;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToVision;
-import frc.robot.commands.swerve.driving.LetsRoll1Joystick;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
@@ -45,7 +43,6 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
     // Subsystems
-    public static ProfilingManagement profilingManagement = new ProfilingManagement();
     public static NavX navX = new NavX();
     public static DriveTrain driveTrain = new DriveTrain();
     public static Superstructure superstructure = new Superstructure(new Vision());
@@ -55,7 +52,6 @@ public class RobotContainer {
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
-    private final LetsRoll1Joystick letsRoll1Joystick = new LetsRoll1Joystick();
     private final TestModulePID testModulePID = new TestModulePID();
     private final TestMovementPID testMovementPID = new TestMovementPID();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
@@ -126,10 +122,10 @@ public class RobotContainer {
 
         // If the value is out of tolerance, then zero it. Otherwise return the value of the
         // joystick
-        if (Math.abs(rawValue) < Parameters.driver.currentProfile.joystickParams.getDeadzone()) {
+        if (Math.abs(rawValue) < Parameters.driver.joysticks.deadzone) {
             return 0;
         } else {
-            switch (Parameters.driver.currentProfile.joystickParams.getOutputType()) {
+            switch (Parameters.driver.joysticks.clampingType) {
                 case LINEAR:
                     {
                         return rawValue;
@@ -147,11 +143,9 @@ public class RobotContainer {
                          */
                         return Math.signum(rawValue)
                                 * ((Math.abs(rawValue)
-                                                - Parameters.driver.currentProfile.joystickParams
-                                                        .getDeadzone())
+                                                - Parameters.driver.joysticks.deadzone)
                                         / (1
-                                                - Parameters.driver.currentProfile.joystickParams
-                                                        .getDeadzone()));
+                                                - Parameters.driver.joysticks.deadzone));
                     }
                 case ZEROED_QUAD:
                     {
@@ -162,45 +156,12 @@ public class RobotContainer {
                         return Math.signum(rawValue)
                                 * (Math.pow(
                                                 Math.abs(rawValue)
-                                                        - Parameters.driver.currentProfile
-                                                                .joystickParams.getDeadzone(),
+                                                        - Parameters.driver.joysticks.deadzone,
                                                 2)
                                         / Math.pow(
-                                                Parameters.driver.currentProfile.joystickParams
-                                                                .getDeadzone()
+                                                Parameters.driver.joysticks.deadzone
                                                         - 1,
                                                 2));
-                    }
-                case ZEROED_QUAD_LINEAR:
-                    {
-                        /**
-                         * Implements an output for the joysticks that uses a quadratic on the lower
-                         * end and a linear slope up to 1. I'm not going to bother explaining it,
-                         * here's the graph: https://www.desmos.com/calculator/5lqgnstb1k
-                         */
-
-                        // No need to implement the threshold checking, that is done above
-                        if (Math.abs(rawValue)
-                                < Parameters.driver.currentProfile.joystickParams
-                                        .getCrossoverValue()) {
-
-                            // This is the quadratic range, return the result of the scaled
-                            // quadratic
-                            return (Math.signum(rawValue)
-                                    * Parameters.driver.currentProfile.joystickParams.getRampRate()
-                                    * Math.pow(
-                                            Math.abs(rawValue)
-                                                    - Parameters.driver.currentProfile
-                                                            .joystickParams.getDeadzone(),
-                                            2));
-                        } else {
-                            // Linear equation range
-                            return Math.signum(rawValue)
-                                    * ((Parameters.driver.currentProfile.joystickParams
-                                                            .getLinearSlope()
-                                                    * (Math.abs(rawValue) - 1))
-                                            + 1);
-                        }
                     }
                 default:
                     // This will never be reached, but a default case is needed (0 for no output)

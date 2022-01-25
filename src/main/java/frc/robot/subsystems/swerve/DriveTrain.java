@@ -544,18 +544,11 @@ public class DriveTrain extends SubsystemBase {
     /** Updates all of the steering parameters, such as PID loops and driver settings */
     public void updateParameters() {
 
-        // Update the idle modes
-        // Steer idle modes
-        frontLeft.setSteerIdleMode(Parameters.driver.currentProfile.steerIdleMode);
-        frontRight.setSteerIdleMode(Parameters.driver.currentProfile.steerIdleMode);
-        backLeft.setSteerIdleMode(Parameters.driver.currentProfile.steerIdleMode);
-        backRight.setSteerIdleMode(Parameters.driver.currentProfile.steerIdleMode);
-
-        // Drive idle modes
-        frontLeft.setDriveIdleMode(Parameters.driver.currentProfile.driveIdleMode);
-        frontRight.setDriveIdleMode(Parameters.driver.currentProfile.driveIdleMode);
-        backLeft.setDriveIdleMode(Parameters.driver.currentProfile.driveIdleMode);
-        backRight.setDriveIdleMode(Parameters.driver.currentProfile.driveIdleMode);
+        // Update the drive idle modes
+        frontLeft.setDriveIdleMode(Parameters.driver.driveIdleMode);
+        frontRight.setDriveIdleMode(Parameters.driver.driveIdleMode);
+        backLeft.setDriveIdleMode(Parameters.driver.driveIdleMode);
+        backRight.setDriveIdleMode(Parameters.driver.driveIdleMode);
 
         // TODO: Update the maximum velocities
     }

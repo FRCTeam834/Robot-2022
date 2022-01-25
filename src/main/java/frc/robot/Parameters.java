@@ -24,10 +24,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.util.Units;
 
-import frc.robot.DriverProfiles.DriverProfile;
-import frc.robot.DriverProfiles.JoystickParams;
-import frc.robot.enums.ControlInputs;
-import frc.robot.enums.JoystickOutputTypes;
+import frc.robot.utilityClasses.JoystickOutputTypes;
 
 /**
  * The Parameters class provides a convenient place for teams to hold robot-wide numerical or
@@ -89,34 +86,18 @@ public final class Parameters {
          *     current set velocity. Modules will most likely only work with braking enabled
          * @param inputType The devices used to control the robot
          */
-        public static DriverProfile[] driverProfiles = {
-            new DriverProfile(
-                    "CAP1Sup",
-                    new JoystickParams(0.075, JoystickOutputTypes.ZEROED_QUAD),
-                    180.0,
-                    true,
-                    false,
-                    8.0,
-                    IdleMode.kBrake,
-                    IdleMode.kBrake,
-                    ControlInputs.JOYSTICKS),
-            new DriverProfile(
-                    "Test",
-                    new JoystickParams(0.1, JoystickOutputTypes.ZEROED_LINEAR),
-                    45.0,
-                    true,
-                    false,
-                    1.0,
-                    IdleMode.kBrake,
-                    IdleMode.kBrake,
-                    ControlInputs.JOYSTICKS)
-        };
+        public static final String name = "CAP1Sup";
+        public static final double maxSteerRate = 180;
+        public static final boolean lockemUp = true;
+        public static final boolean fieldCentric = true;
+        public static final double maxModVelocity = 8;
+        public static final IdleMode driveIdleMode = IdleMode.kBrake;
 
-        // Default profile (must be kept!)
-        public static final DriverProfile defaultDriverProfile = driverProfiles[0];
-
-        // Current Driver Profile being used
-        public static DriverProfile currentProfile = driverProfiles[0];
+        // Joystick settings
+        public static final class joysticks {
+            public static final double deadzone = 0.075;
+            public static final JoystickOutputTypes clampingType = JoystickOutputTypes.ZEROED_QUAD;
+        }
     }
 
     // A place for general, robot wide parameters

@@ -99,7 +99,7 @@ public class SwerveModule {
         steerMotor = new CANSparkMax(steerMID, CANSparkMax.MotorType.kBrushless);
         steerMotor.restoreFactoryDefaults();
         steerMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
-        steerMotor.setIdleMode(Parameters.driver.currentProfile.steerIdleMode);
+        steerMotor.setIdleMode(IdleMode.kBrake);
         steerMotor.setSmartCurrentLimit(Parameters.driveTrain.maximums.MAX_STEER_CURRENT);
         steerMotor.setInverted(false);
         steerMotor.setSmartCurrentLimit(20);
@@ -145,7 +145,7 @@ public class SwerveModule {
         driveMotor.restoreFactoryDefaults();
         driveMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
         driveMotor.setSmartCurrentLimit(Parameters.driveTrain.maximums.MAX_DRIVE_CURRENT);
-        driveMotor.setIdleMode(Parameters.driver.currentProfile.driveIdleMode);
+        driveMotor.setIdleMode(Parameters.driver.driveIdleMode);
         driveMotor.setSmartCurrentLimit(30);
 
         // Reverse the motor direction if specified
