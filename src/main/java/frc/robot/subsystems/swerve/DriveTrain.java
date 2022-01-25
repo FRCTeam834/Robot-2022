@@ -644,11 +644,11 @@ public class DriveTrain extends SubsystemBase {
 
         // Publish the new tuning values
         publishTuningValues();
-
     }
 
     /**
-     * Resets all of the parameters of the drivetrain back to compile defaults (from Parameters.java)
+     * Resets all of the parameters of the drivetrain back to compile defaults (from
+     * Parameters.java)
      */
     public void defaultParameters() {
 

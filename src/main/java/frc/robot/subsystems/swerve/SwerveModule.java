@@ -83,11 +83,7 @@ public class SwerveModule {
      * @param reversedDrive If the drive motor should be reversed
      */
     public SwerveModule(
-            String moduleName,
-            int steerMID,
-            int driveMID,
-            int CANCoderID,
-            boolean reversedDrive) {
+            String moduleName, int steerMID, int driveMID, int CANCoderID, boolean reversedDrive) {
 
         // Set the name
         name = moduleName;
@@ -270,6 +266,7 @@ public class SwerveModule {
 
     /**
      * Sets the idle mode of the steer motor
+     *
      * @param newMode The new idle mode to set
      */
     public void setSteerIdleMode(IdleMode newMode) {
@@ -278,6 +275,7 @@ public class SwerveModule {
 
     /**
      * Sets the idle mode of the drive motor
+     *
      * @param newMode The new idle mode to set
      */
     public void setDriveIdleMode(IdleMode newMode) {
@@ -540,7 +538,6 @@ public class SwerveModule {
         // Push the new values to the table
         publishTuningValues();
     }
-
 
     // Resets all of the parameters to their default values (as per Parameters.java upon compile)
     public void defaultParameters() {

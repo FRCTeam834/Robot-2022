@@ -28,7 +28,6 @@ import frc.robot.DriverProfiles.DriverProfile;
 import frc.robot.DriverProfiles.JoystickParams;
 import frc.robot.enums.ControlInputs;
 import frc.robot.enums.JoystickOutputTypes;
-import frc.robot.utilityClasses.PIDParams;
 
 /**
  * The Parameters class provides a convenient place for teams to hold robot-wide numerical or
@@ -180,7 +179,6 @@ public final class Parameters {
              * PID parameters Gains used in each module's steering motor, to be adjusted accordingly
              * Gains(kp, ki, kd, feedforward, iZone, peak output);
              */
-
             public static class steer {
                 public static final double DEFAULT_P = 1;
                 public static final double DEFAULT_I = 0;
