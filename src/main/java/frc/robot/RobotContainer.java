@@ -27,7 +27,10 @@ import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
 import frc.robot.commands.swerve.testing.TestMovementPID;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NavX;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Superstructure;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.swerve.DriveTrain;
@@ -46,6 +49,9 @@ public class RobotContainer {
     public static NavX navX = new NavX();
     public static DriveTrain driveTrain = new DriveTrain();
     public static Superstructure superstructure = new Superstructure(new Vision());
+    public static Climber climber = new Climber();
+    public static Intake intake = new Intake();
+    public static Shooter shooter = new Shooter();
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();

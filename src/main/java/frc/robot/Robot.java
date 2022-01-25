@@ -12,8 +12,10 @@
  */
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 // Imports
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -24,8 +26,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-    private Command m_autonomousCommand;
 
+    private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
 
     /**
@@ -49,6 +51,8 @@ public class Robot extends TimedRobot {
      *
      * <p>This runs after the mode specific periodic functions, but before LiveWindow and
      * SmartDashboard integrated updating.
+     *
+     * <p>You thought this was a comment that would explain about this function, but it was me, DIO!
      */
     @Override
     public void robotPeriodic() {
@@ -56,6 +60,12 @@ public class Robot extends TimedRobot {
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
+
+        // TODO: REMOVE, THIS REDUCES PERFORMANCE
+        // Get the closest color
+        Color closest = RobotContainer.intake.getClosestColor();
+        System.out.println(
+                "R: " + closest.red + " | G: " + closest.green + " | B: " + closest.blue);
         CommandScheduler.getInstance().run();
     }
 
@@ -107,4 +117,19 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {}
+
+    // Returns the color of ball that we should be collecting
+    public static Color getOurBallColor() {
+
+        // Get the alliance that we're on
+        // Default to blue balls
+        switch (DriverStation.getAlliance()) {
+            case Red:
+                return Color.kRed;
+            case Blue:
+                return Color.kBlue;
+            default: // Used when the alliance isn't valid (not set)
+                return Color.kBlue;
+        }
+    }
 }

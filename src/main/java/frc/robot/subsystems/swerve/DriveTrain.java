@@ -45,17 +45,17 @@ public class DriveTrain extends SubsystemBase {
     public SwerveModule backRight;
 
     // PID value storage, with default values from Parameters
-    public PIDController X_MOVE_PID =
+    public PIDController xMovePID =
             new PIDController(
                     Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
                     Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
                     Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
-    public PIDController Y_MOVE_PID =
+    public PIDController yMovePID =
             new PIDController(
                     Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
                     Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
                     Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
-    public ProfiledPIDController ROTATION_PID =
+    public ProfiledPIDController rotationPID =
             new ProfiledPIDController(
                     Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_P,
                     Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_I,
@@ -83,6 +83,7 @@ public class DriveTrain extends SubsystemBase {
     NetworkTableEntry ROTATIONAL_POSITION_ENTRY;
 
     // Define their position (relative to center of robot)
+
     Translation2d FL_POS =
             new Translation2d(
                     Parameters.driveTrain.dimensions.DRIVE_LENGTH / 2,
@@ -115,7 +116,7 @@ public class DriveTrain extends SubsystemBase {
 
     // Holomonic drive controller
     private HolonomicDriveController driveController =
-            new HolonomicDriveController(X_MOVE_PID, Y_MOVE_PID, ROTATION_PID);
+            new HolonomicDriveController(xMovePID, yMovePID, rotationPID);
 
     /** Creates a new Drivetrain object */
     public DriveTrain() {
@@ -159,7 +160,7 @@ public class DriveTrain extends SubsystemBase {
                         false);
 
         // Set up the PID controllers
-        ROTATION_PID.setTolerance(Parameters.driveTrain.pid.DEFAULT_ROT_TOLERANCE);
+        rotationPID.setTolerance(Parameters.driveTrain.pid.DEFAULT_ROT_TOLERANCE);
 
         // Don't mess with NetworkTables unless we have to
         if (Parameters.networkTables) {
@@ -508,7 +509,7 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return Estimated X position (m)
      */
-    public double getXPosition() {
+    public double getEstXPos() {
         return poseEstimator.getEstimatedPosition().getX();
     }
 
@@ -517,7 +518,7 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return Estimated Y position (m)
      */
-    public double getYPosition() {
+    public double getEstYPos() {
         return poseEstimator.getEstimatedPosition().getY();
     }
 
@@ -526,7 +527,7 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return Estimated angle (Rotation2d)
      */
-    public Rotation2d getThetaPosition() {
+    public Rotation2d getEstAngle() {
         return poseEstimator.getEstimatedPosition().getRotation();
     }
 
@@ -535,7 +536,7 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return The orientation of the robot (Pose2d) (units in m)
      */
-    public Pose2d getPose2D() {
+    public Pose2d getEstPose2D() {
         return poseEstimator.getEstimatedPosition();
     }
 
@@ -610,19 +611,19 @@ public class DriveTrain extends SubsystemBase {
         backRight.saveParameters();
 
         // X Movement PID
-        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP());
-        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI());
-        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD());
+        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_P", xMovePID.getP());
+        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_I", xMovePID.getI());
+        Preferences.setDouble("DRIVETRAIN_X_MOVE_PID_D", xMovePID.getD());
 
         // Y Movement PID
-        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_P", Y_MOVE_PID.getP());
-        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_I", Y_MOVE_PID.getI());
-        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_D", Y_MOVE_PID.getD());
+        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_P", yMovePID.getP());
+        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_I", yMovePID.getI());
+        Preferences.setDouble("DRIVETRAIN_Y_MOVE_PID_D", yMovePID.getD());
 
         // Rotation PID (PID values)
-        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_P", ROTATION_PID.getP());
-        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI());
-        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD());
+        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_P", rotationPID.getP());
+        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_I", rotationPID.getI());
+        Preferences.setDouble("DRIVETRAIN_ROTATION_PID_D", rotationPID.getD());
 
         // TODO: Add rotational PID constraints
     }
@@ -637,19 +638,19 @@ public class DriveTrain extends SubsystemBase {
         backRight.loadParameters();
 
         // X Movement PID
-        X_MOVE_PID.setP(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_P", X_MOVE_PID.getP()));
-        X_MOVE_PID.setI(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_I", X_MOVE_PID.getI()));
-        X_MOVE_PID.setD(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_D", X_MOVE_PID.getD()));
+        xMovePID.setP(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_P", xMovePID.getP()));
+        xMovePID.setI(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_I", xMovePID.getI()));
+        xMovePID.setD(Preferences.getDouble("DRIVETRAIN_X_MOVE_PID_D", xMovePID.getD()));
 
         // Y Movement PID
-        Y_MOVE_PID.setP(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_P", Y_MOVE_PID.getP()));
-        Y_MOVE_PID.setI(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_I", Y_MOVE_PID.getI()));
-        Y_MOVE_PID.setD(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_D", Y_MOVE_PID.getD()));
+        yMovePID.setP(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_P", yMovePID.getP()));
+        yMovePID.setI(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_I", yMovePID.getI()));
+        yMovePID.setD(Preferences.getDouble("DRIVETRAIN_Y_MOVE_PID_D", yMovePID.getD()));
 
         // Rotation PID (PID values)
-        ROTATION_PID.setP(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_P", ROTATION_PID.getP()));
-        ROTATION_PID.setI(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_I", ROTATION_PID.getI()));
-        ROTATION_PID.setD(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", ROTATION_PID.getD()));
+        rotationPID.setP(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_P", rotationPID.getP()));
+        rotationPID.setI(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_I", rotationPID.getI()));
+        rotationPID.setD(Preferences.getDouble("DRIVETRAIN_ROTATION_PID_D", rotationPID.getD()));
 
         // Rotation PID (Constraints)
         // TODO: Fix!
@@ -667,11 +668,14 @@ public class DriveTrain extends SubsystemBase {
 
         // Create a new rotation PID object, then set it
         ROTATION_CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
-        ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
-        */
+        rotationPID.setConstraints(ROTATION_CONSTRAINTS);
+
+        // Redeclare the drive controller
+        driveController = new HolonomicDriveController(xMovePID, yMovePID, rotationPID);
 
         // Publish the new tuning values
         publishTuningValues();
+        */
     }
 
     /** Loads all of the NetworkTable parameters */
@@ -687,19 +691,19 @@ public class DriveTrain extends SubsystemBase {
             backRight.pullTuningValues();
 
             // X Movement PID
-            X_MOVE_PID.setP(X_MOVE_PID_P_ENTRY.getDouble(X_MOVE_PID.getP()));
-            X_MOVE_PID.setI(X_MOVE_PID_I_ENTRY.getDouble(X_MOVE_PID.getI()));
-            X_MOVE_PID.setD(X_MOVE_PID_D_ENTRY.getDouble(X_MOVE_PID.getD()));
+            xMovePID.setP(X_MOVE_PID_P_ENTRY.getDouble(xMovePID.getP()));
+            xMovePID.setI(X_MOVE_PID_I_ENTRY.getDouble(xMovePID.getI()));
+            xMovePID.setD(X_MOVE_PID_D_ENTRY.getDouble(xMovePID.getD()));
 
             // Y Movement PID
-            Y_MOVE_PID.setP(Y_MOVE_PID_P_ENTRY.getDouble(Y_MOVE_PID.getP()));
-            Y_MOVE_PID.setI(Y_MOVE_PID_I_ENTRY.getDouble(Y_MOVE_PID.getI()));
-            Y_MOVE_PID.setD(Y_MOVE_PID_D_ENTRY.getDouble(Y_MOVE_PID.getD()));
+            yMovePID.setP(Y_MOVE_PID_P_ENTRY.getDouble(yMovePID.getP()));
+            yMovePID.setI(Y_MOVE_PID_I_ENTRY.getDouble(yMovePID.getI()));
+            yMovePID.setD(Y_MOVE_PID_D_ENTRY.getDouble(yMovePID.getD()));
 
             // Rotation PID (PID values)
-            ROTATION_PID.setP(ROTATION_PID_P_ENTRY.getDouble(ROTATION_PID.getP()));
-            ROTATION_PID.setI(ROTATION_PID_I_ENTRY.getDouble(ROTATION_PID.getI()));
-            ROTATION_PID.setD(ROTATION_PID_D_ENTRY.getDouble(ROTATION_PID.getD()));
+            rotationPID.setP(ROTATION_PID_P_ENTRY.getDouble(rotationPID.getP()));
+            rotationPID.setI(ROTATION_PID_I_ENTRY.getDouble(rotationPID.getI()));
+            rotationPID.setD(ROTATION_PID_D_ENTRY.getDouble(rotationPID.getD()));
 
             // Rotation PID (Constraints)
             // TODO: Fix
@@ -715,8 +719,10 @@ public class DriveTrain extends SubsystemBase {
 
             // Create a new rotation PID constraints object
             ROTATION_CONSTRAINTS = new Constraints(maxVelocity, maxAcceleration);
-            ROTATION_PID.setConstraints(ROTATION_CONSTRAINTS);
-            */
+            rotationPID.setConstraints(ROTATION_CONSTRAINTS);
+
+            // Redeclare the drive controller
+            driveController = new HolonomicDriveController(xMovePID, yMovePID, rotationPID);*/
         }
     }
 
@@ -733,19 +739,19 @@ public class DriveTrain extends SubsystemBase {
             backRight.publishTuningValues();
 
             // X Movement PID
-            X_MOVE_PID_P_ENTRY.setDouble(X_MOVE_PID.getP());
-            X_MOVE_PID_I_ENTRY.setDouble(X_MOVE_PID.getI());
-            X_MOVE_PID_D_ENTRY.setDouble(X_MOVE_PID.getD());
+            X_MOVE_PID_P_ENTRY.setDouble(xMovePID.getP());
+            X_MOVE_PID_I_ENTRY.setDouble(xMovePID.getI());
+            X_MOVE_PID_D_ENTRY.setDouble(xMovePID.getD());
 
             // Y Movement PID
-            Y_MOVE_PID_P_ENTRY.setDouble(Y_MOVE_PID.getP());
-            Y_MOVE_PID_I_ENTRY.setDouble(Y_MOVE_PID.getI());
-            Y_MOVE_PID_D_ENTRY.setDouble(Y_MOVE_PID.getD());
+            Y_MOVE_PID_P_ENTRY.setDouble(yMovePID.getP());
+            Y_MOVE_PID_I_ENTRY.setDouble(yMovePID.getI());
+            Y_MOVE_PID_D_ENTRY.setDouble(yMovePID.getD());
 
             // Rotation PID (PID values)
-            ROTATION_PID_P_ENTRY.setDouble(ROTATION_PID.getP());
-            ROTATION_PID_I_ENTRY.setDouble(ROTATION_PID.getI());
-            ROTATION_PID_D_ENTRY.setDouble(ROTATION_PID.getD());
+            ROTATION_PID_P_ENTRY.setDouble(rotationPID.getP());
+            ROTATION_PID_I_ENTRY.setDouble(rotationPID.getI());
+            ROTATION_PID_D_ENTRY.setDouble(rotationPID.getD());
 
             // Rotation PID (Constraints)
             // TODO: Fix
@@ -770,10 +776,28 @@ public class DriveTrain extends SubsystemBase {
             backRight.publishPerformanceData();
 
             // Publish the positional data of the robot
-            X_POSITION_ENTRY.setDouble(getXPosition());
-            Y_POSITION_ENTRY.setDouble(getYPosition());
-            ROTATIONAL_POSITION_ENTRY.setDouble(getThetaPosition().getDegrees());
+            X_POSITION_ENTRY.setDouble(getEstXPos());
+            Y_POSITION_ENTRY.setDouble(getEstYPos());
+            ROTATIONAL_POSITION_ENTRY.setDouble(getEstAngle().getDegrees());
         }
+    }
+
+    /**
+     * Calculates the next angular speed for the drivetrain
+     *
+     * @param desiredAngle the final angle desired (in deg) (using an absolute angle)
+     * @return The correction output from the controller (in deg/s)
+     */
+    public double turnToAbsoluteAngle(double desiredAngle) {
+
+        // Calculate the next output, returning the feedforward result it returns
+        // Unfortunately, WPI uses radians under the hood, which means that we have to use radians
+        // as well
+        double radiansPerSec =
+                rotationPID.calculate(
+                        RobotContainer.navX.getRotation2d().getRadians(),
+                        Units.degreesToRadians(desiredAngle));
+        return Units.radiansToDegrees(radiansPerSec);
     }
 
     @Override

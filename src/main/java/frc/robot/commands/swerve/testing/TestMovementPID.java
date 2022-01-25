@@ -42,8 +42,8 @@ public class TestMovementPID extends CommandBase {
         if (RobotContainer.leftJoystick.getRawButton(3)) {
             RobotContainer.driveTrain.trajectoryFollow(
                     new Pose2d(
-                            RobotContainer.driveTrain.getXPosition() + 1,
-                            RobotContainer.driveTrain.getYPosition(),
+                            RobotContainer.driveTrain.getEstXPos() + 1,
+                            RobotContainer.driveTrain.getEstYPos(),
                             new Rotation2d()),
                     1);
         }
@@ -52,8 +52,8 @@ public class TestMovementPID extends CommandBase {
         else if (RobotContainer.leftJoystick.getRawButton(2)) {
             RobotContainer.driveTrain.trajectoryFollow(
                     new Pose2d(
-                            RobotContainer.driveTrain.getXPosition() - 1,
-                            RobotContainer.driveTrain.getYPosition(),
+                            RobotContainer.driveTrain.getEstXPos() - 1,
+                            RobotContainer.driveTrain.getEstYPos(),
                             new Rotation2d()),
                     1);
         }
@@ -62,8 +62,8 @@ public class TestMovementPID extends CommandBase {
         else if (RobotContainer.leftJoystick.getRawButton(4)) {
             RobotContainer.driveTrain.trajectoryFollow(
                     new Pose2d(
-                            RobotContainer.driveTrain.getXPosition(),
-                            RobotContainer.driveTrain.getYPosition() - 1,
+                            RobotContainer.driveTrain.getEstXPos(),
+                            RobotContainer.driveTrain.getEstYPos() - 1,
                             new Rotation2d()),
                     1);
         }
@@ -72,8 +72,8 @@ public class TestMovementPID extends CommandBase {
         else if (RobotContainer.leftJoystick.getRawButton(5)) {
             RobotContainer.driveTrain.trajectoryFollow(
                     new Pose2d(
-                            RobotContainer.driveTrain.getXPosition(),
-                            RobotContainer.driveTrain.getYPosition() + 1,
+                            RobotContainer.driveTrain.getEstXPos(),
+                            RobotContainer.driveTrain.getEstYPos() + 1,
                             new Rotation2d()),
                     1);
         }
@@ -82,11 +82,10 @@ public class TestMovementPID extends CommandBase {
         else if (RobotContainer.leftJoystick.getRawButton(8)) {
             RobotContainer.driveTrain.trajectoryFollow(
                     new Pose2d(
-                            RobotContainer.driveTrain.getXPosition(),
-                            RobotContainer.driveTrain.getYPosition(),
+                            RobotContainer.driveTrain.getEstXPos(),
+                            RobotContainer.driveTrain.getEstYPos(),
                             Rotation2d.fromDegrees(
-                                    RobotContainer.driveTrain.getThetaPosition().getDegrees()
-                                            - 90)),
+                                    RobotContainer.driveTrain.getEstAngle().getDegrees() - 90)),
                     1);
         }
 
@@ -94,11 +93,10 @@ public class TestMovementPID extends CommandBase {
         else if (RobotContainer.leftJoystick.getRawButton(9)) {
             RobotContainer.driveTrain.trajectoryFollow(
                     new Pose2d(
-                            RobotContainer.driveTrain.getXPosition(),
-                            RobotContainer.driveTrain.getYPosition(),
+                            RobotContainer.driveTrain.getEstXPos(),
+                            RobotContainer.driveTrain.getEstYPos(),
                             Rotation2d.fromDegrees(
-                                    RobotContainer.driveTrain.getThetaPosition().getDegrees()
-                                            + 90)),
+                                    RobotContainer.driveTrain.getEstAngle().getDegrees() + 90)),
                     1);
         }
 

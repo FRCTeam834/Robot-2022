@@ -39,7 +39,7 @@ public class TurnToVision extends CommandBase {
                     0.0,
                     0.0,
                     MathUtil.clamp(
-                            RobotContainer.driveTrain.ROTATION_PID.calculate(
+                            RobotContainer.driveTrain.rotationPID.calculate(
                                     (targetList.getBestTarget().getYaw()), 0),
                             .75,
                             -.75),
@@ -47,7 +47,7 @@ public class TurnToVision extends CommandBase {
 
         } else {
             // starts spinning to search for a target
-            // TODO:Fix inefficiencies, use gyro angle to get optimal rotation
+            // TODO: Fix inefficiencies, use gyro angle to get optimal rotation
             RobotContainer.driveTrain.drive(0, 0, .25, false);
         }
     }
@@ -65,6 +65,6 @@ public class TurnToVision extends CommandBase {
     public boolean isFinished() {
 
         // Return if the robot has finished the movement yet
-        return RobotContainer.driveTrain.ROTATION_PID.atSetpoint();
+        return RobotContainer.driveTrain.rotationPID.atSetpoint();
     }
 }

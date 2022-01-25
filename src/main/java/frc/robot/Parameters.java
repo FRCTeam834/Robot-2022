@@ -60,6 +60,13 @@ public final class Parameters {
                 -10; // What happens when Andrew is around the safety team... backwards progress
         public static final int CHRISTIAN_FORTNITE_WINS =
                 39; // The number of the lead programmer's Fortnite wins EASY DUBS LETS GO
+        public static final int DIO_COMMENTS =
+                7; // You thought this was a comment that would explain what the parameter means,
+        // but it was me, DIO!
+        public static final int JOJO_PARTS = 8; // parts in JOJO
+        public static final int RIDICULOUS_QUESTIONS =
+                1; // How many times people have asked what this parameter is for
+        public static final String AMONG_US = "sus"; // sus
     }
 
     // All of the driver parameters
@@ -113,15 +120,19 @@ public final class Parameters {
         public static DriverProfile currentProfile = driverProfiles[0];
     }
 
+    // A place for general, robot wide parameters
+    public static final class general {
+
+        // Nominal voltage
+        public static final double nominalVoltage = 12;
+    }
+
     // All of the drivetrain parameters
     public static final class driveTrain {
 
         // Tolerances for completing movements
         public static final double angleTolerance = 2; // deg
         public static final double velocityTolerance = 0.01; // m/s
-
-        // Nominal voltage
-        public static final double nominalVoltage = 12;
 
         // All of the CAN IDs
         public static final class can {
@@ -315,15 +326,66 @@ public final class Parameters {
         public static final int JOYSTICK_BUTTON_COUNT = 11;
     }
 
-    // Vision parameters - used for distance calculations
-    public static final class camera {
+    public static final class climber {
 
-        // Camera-specific parameters (pixels)
-        public static final double CAMERA_FOCAL_LENGTH = 333.82;
+        // Position conversion factor (from encoder counts to meters)
+        // TODO: Find this factor
+        public static final double POS_CONV_FACTOR = 1;
+
+        public static final class front {
+            public static final class motor {
+                public static final double SPEED = 0.0;
+                public static final int ID = 14;
+            }
+
+            public static final class limitSwitch {
+                public static final int DIO_CHAN = 0;
+            }
+        }
+
+        public static final class back {
+            public static final class motor {
+                public static final double SPEED = 0.0;
+                public static final int ID = 15;
+            }
+
+            public static final class limitSwitch {
+                public static final int DIO_CHAN = 1;
+            }
+        }
+    }
+
+    public static final class intake {
+        public static final class motor {
+            public static final double SPEED = 0;
+            public static final int ID = 16;
+        }
+    }
+
+    public static final class shooter {
+
+        // Velocity conversion factor
+        // Converts from RPM to m/s of linear speed on the wheels of the shooter
+        // TODO: Calculate this
+        public static final double VEL_CONV_FACTOR = 1;
+
+        // Speed of shooter (in m/s of linear wheel speed)
+        // TODO: Calculate this
+        public static final double SPEED = 2;
+
+        public static final class motor {
+            public static final double SPEED = 0;
+            public static final int ID = 17;
+        }
 
         // Game-specific parameters (meters and degrees)
-        public static final double CAMERA_HEIGHT = 0;
-        public static final double TARGET_HEIGHT = 0;
-        public static final double CAMERA_PITCH = 0;
+        public static final class camera {
+            public static final double HEIGHT = 0;
+            public static final double TARGET_HEIGHT = 0;
+            public static final double PITCH = 0;
+
+            // Camera-specific parameters (pixels)
+            public static final double CAMERA_FOCAL_LENGTH = 333.82;
+        }
     }
 }
