@@ -1,41 +1,45 @@
 # This is a basic workflow to build robot code.
 
-name: CI
+name: Build
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch.
 on: [push, pull_request]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # JOB to run change detection
+  #check-changes:
+  #  runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+  #  outputs:
+  #    build: ${{ steps.filter.outputs.build }}
+  #  steps:
+    # For pull requests it's not necessary to checkout the code
+  #  - uses: dorny/paths-filter@v2
+  #    id: filter
+  #    with:
+  #      filters: |
+  #        build:
+  #          - 'src/**'
+
+  # JOB to build and test build code
   build:
-    # The type of runner that the job will run on
+    #needs: check-changes
+    #if: ${{ needs.changes.outputs.build == 'true' }}
     runs-on: ubuntu-latest
 
     # This grabs the WPILib docker container
-    container: wpilib/roborio-cross-ubuntu:2021-18.04
+    container: wpilib/roborio-cross-ubuntu:2022-20.04
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    # Build the code
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    # Grant execute permission for gradlew
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      # Grant execute permission for gradlew
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    # Runs a single command using the runners shell
-    - name: Compile and run tests on robot code
-      run: ./gradlew build
-
-  # Formatting
-  formatting:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2 # v2 minimum required
-      - uses: axel-op/googlejavaformat-action@v3
-        with:
-          args: "--aosp --replace"
-          # Recommended if you use MacOS:
-          # githubToken: ${{ secrets.GITHUB_TOKEN }}
+      # Runs a single command using the runners shell
+      - name: Compile and run tests on robot code
+        run: ./gradlew build

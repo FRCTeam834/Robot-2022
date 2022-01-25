@@ -28,6 +28,10 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.numbers.*;
+import edu.wpi.first.math.util.Units;
 
 import frc.robot.DriverProfiles.DriverProfile;
 import frc.robot.DriverProfiles.JoystickParams;
@@ -124,9 +128,6 @@ public final class Parameters {
         // Current Driver Profile being used
         public static DriverProfile currentProfile = driverProfiles[0];
     }
-
-    // the saved preferences for the current driver
-    public static Preferences savedParams = Preferences.getInstance();
 
     // A place for general, robot wide parameters
     public static final class general {
@@ -256,6 +257,18 @@ public final class Parameters {
 
             public static final double MODULE_S_FF = 0.000000; // Must be tuned for the modules!
             public static final double MODULE_D_FF = 0.000000; // Maybe: 0.000156;
+
+            // PID controller (rotation constraints are max velocity and max acceleration)
+            public static final double DEFAULT_LINEAR_MOVE_P = 1;
+            public static final double DEFAULT_LINEAR_MOVE_I = 0;
+            public static final double DEFAULT_LINEAR_MOVE_D = 0;
+
+            public static final double DEFAULT_ROT_MOVE_P = 1;
+            public static final double DEFAULT_ROT_MOVE_I = 0;
+            public static final double DEFAULT_ROT_MOVE_D = 0;
+            public static final double DEFAULT_ROT_MAX_VELOCITY = 360; // deg/s
+            public static final double DEFAULT_ROT_MAX_ACCEL = 180; // deg/s
+            public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
         }
 
         // All of the movement control parameters
@@ -271,13 +284,6 @@ public final class Parameters {
                     new MatBuilder<>(Nat.N1(), Nat.N1()).fill(Math.toRadians(0.125));
             public static final Matrix<N3, N1> VISION_DEVIATION =
                     new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, Math.toRadians(0.125));
-
-            // PID controller (rotation constraints are max velocity and max acceleration)
-            public static PIDController movementPID = new PIDController(1, 0, 0);
-            public static Constraints rotationConstraints =
-                    new Constraints(Math.toRadians(360), Math.toRadians(180));
-            public static ProfiledPIDController rotationPID =
-                    new ProfiledPIDController(1, 0, 0, rotationConstraints);
         }
 
         // The gear ratios of the module
@@ -303,9 +309,6 @@ public final class Parameters {
         }
     }
 
-    // DriverStation instance
-    public static DriverStation driverStation = DriverStation.getInstance();
-
     // All of the starting position data
     public static final class positions {
 
@@ -319,9 +322,8 @@ public final class Parameters {
         };
 
         // Actual starting position (declared in the global scope)
-        public static Pose2d STARTING_POS =
-                Parameters.positions
-                        .POSSIBLE_STARTING_POSITIONS[Parameters.driverStation.getLocation()];
+        public static Pose2d STARTING_POS = new Pose2d(0, 0, new Rotation2d());
+        // Parameters.positions.POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
     }
 
     // All of the joystick variables
@@ -330,17 +332,6 @@ public final class Parameters {
         // Dynamically allocated Joysticks
         // Joysticks have 11 buttons
         public static final int JOYSTICK_BUTTON_COUNT = 11;
-    }
-
-    // Vision parameters - used for distance calculations
-    public static final class camera {
-
-        // Camera-specific parameters (pixels)
-        public static final double CAMERA_FOCAL_LENGTH = 333.82;
-
-        // Game-specific parameters (inches)
-        public static final double GOAL_HEIGHT = 98.25;
-        public static final double POWER_CELL_HEIGHT = 7;
     }
 
     public static final class climber {
@@ -391,6 +382,16 @@ public final class Parameters {
         public static final class motor {
             public static final double SPEED = 0;
             public static final int ID = 17;
+        }
+
+        // Game-specific parameters (meters and degrees)
+        public static final class camera {
+            public static final double HEIGHT = 0;
+            public static final double TARGET_HEIGHT = 0;
+            public static final double PITCH = 0;
+
+            // Camera-specific parameters (pixels)
+            public static final double CAMERA_FOCAL_LENGTH = 333.82;
         }
     }
 }

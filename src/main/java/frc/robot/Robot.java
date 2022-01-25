@@ -22,13 +22,6 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import frc.robot.DriverProfiles.ProfilingManagement;
-import frc.robot.subsystems.Climber;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.NavX;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.swerve.DriveTrain;
-
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -36,28 +29,8 @@ import frc.robot.subsystems.swerve.DriveTrain;
  * project.
  */
 public class Robot extends TimedRobot {
+
     private Command m_autonomousCommand;
-
-    // Shuffleboard
-    public static NetworkTableEntry ballRejectColor;
-    public static ShuffleboardTab ballRejectTab;
-
-    // Subsystems
-    public static ProfilingManagement profilingManagement;
-    public static NavX navX;
-    public static DriveTrain driveTrain;
-    public static final Climber climber = new Climber();
-    public static final Intake intake = new Intake();
-    public static final Shooter shooter = new Shooter();
-
-    // Commands
-    // public static LetsRoll2Joysticks letsRoll2Joysticks;
-    // public static LetsRoll1Joystick letsRoll1Joystick;
-    // public static ZeroCanCoders zeroCanCoders;
-    // public static PullNTSwerveParams pullNTSwerveParams;
-    // public static TestModulePID testPID;
-    // public static SaveSwerveParameters saveSwerveParameters;
-
     private RobotContainer m_robotContainer;
 
     /**
@@ -67,24 +40,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
 
-        // Profiling management should be first to avoid errors!
-        profilingManagement = new ProfilingManagement();
-        navX = new NavX();
-        driveTrain = new DriveTrain();
-
-        // Commands
-        // letsRoll2Joysticks = new LetsRoll2Joysticks();
-        // letsRoll1Joystick = new LetsRoll1Joystick();
-        // zeroCanCoders = new ZeroCanCoders();
-        // pullNTSwerveParams = new PullNTSwerveParams();
-        // testPID = new TestModulePID();
-        // saveSwerveParameters = new SaveSwerveParameters();
-
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
 
-        navX.resetYaw();
+        // Reset the angle of the NavX
+        RobotContainer.navX.resetYaw();
     }
 
     /**
@@ -104,7 +65,7 @@ public class Robot extends TimedRobot {
         // block in order for anything in the Command-based framework to work.
 
         // TODO: REMOVE, THIS REDUCES PERFORMANCE
-        System.out.println(Robot.intake.getClosestColor());
+        System.out.println(RobotContainer.intake.getClosestColor());
         CommandScheduler.getInstance().run();
     }
 
@@ -145,15 +106,7 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {
-        // isBlue: if true then we are blue
-        // ! make sure it works
-        ballRejectColor =
-                Shuffleboard.getTab("Ball Reject Tab")
-                        .add("isBlue", false)
-                        .withWidget("Toggle Button")
-                        .getEntry();
-    }
+    public void teleopPeriodic() {}
 
     @Override
     public void testInit() {

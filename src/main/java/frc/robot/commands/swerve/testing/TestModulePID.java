@@ -6,20 +6,19 @@
  * @author Christian Piper (@CAP1Sup)
  * @since 3/9/21
  */
-package frc.robot.commands.swerve;
+package frc.robot.commands.swerve.testing;
 
 // Imports
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class TestModulePID extends CommandBase {
     /** Creates a new TestPID. */
     public TestModulePID() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(Robot.driveTrain);
+        addRequirements(RobotContainer.driveTrain);
     }
 
     // Called when the command is initially scheduled.
@@ -30,7 +29,7 @@ public class TestModulePID extends CommandBase {
         Timer.delay(.5);
 
         // Move each of the wheels to 0
-        Robot.driveTrain.setDesiredAngles(0, 0, 0, 0);
+        RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -39,75 +38,75 @@ public class TestModulePID extends CommandBase {
 
         // The top right button
         if (RobotContainer.leftJoystick.getRawButton(11)) {
-            Robot.driveTrain.frontRight.setDesiredAngle(45);
+            RobotContainer.driveTrain.frontRight.setDesiredAngle(45);
             Timer.delay(1);
-            Robot.driveTrain.frontRight.setDesiredAngle(-45);
+            RobotContainer.driveTrain.frontRight.setDesiredAngle(-45);
             Timer.delay(1);
         }
 
         // The top left button
         else if (RobotContainer.leftJoystick.getRawButton(6)) {
-            Robot.driveTrain.frontLeft.setDesiredAngle(45);
+            RobotContainer.driveTrain.frontLeft.setDesiredAngle(45);
             Timer.delay(1);
-            Robot.driveTrain.frontLeft.setDesiredAngle(-45);
+            RobotContainer.driveTrain.frontLeft.setDesiredAngle(-45);
             Timer.delay(1);
         }
 
         // The bottom left button
         else if (RobotContainer.leftJoystick.getRawButton(7)) {
-            Robot.driveTrain.backLeft.setDesiredAngle(45);
+            RobotContainer.driveTrain.backLeft.setDesiredAngle(45);
             Timer.delay(1);
-            Robot.driveTrain.backLeft.setDesiredAngle(-45);
+            RobotContainer.driveTrain.backLeft.setDesiredAngle(-45);
             Timer.delay(1);
         }
 
         // The bottom right button
         else if (RobotContainer.leftJoystick.getRawButton(10)) {
-            Robot.driveTrain.backRight.setDesiredAngle(45);
+            RobotContainer.driveTrain.backRight.setDesiredAngle(45);
             Timer.delay(1);
-            Robot.driveTrain.backRight.setDesiredAngle(-45);
+            RobotContainer.driveTrain.backRight.setDesiredAngle(-45);
             Timer.delay(1);
         }
 
         // The top right button
         else if (RobotContainer.rightJoystick.getRawButton(11)) {
-            Robot.driveTrain.frontRight.setDesiredVelocity(2);
+            RobotContainer.driveTrain.frontRight.setDesiredVelocity(2);
             Timer.delay(3);
-            Robot.driveTrain.frontRight.setDesiredVelocity(-2);
+            RobotContainer.driveTrain.frontRight.setDesiredVelocity(-2);
             Timer.delay(3);
         }
 
         // The top left button
         else if (RobotContainer.rightJoystick.getRawButton(6)) {
-            Robot.driveTrain.frontLeft.setDesiredVelocity(2);
+            RobotContainer.driveTrain.frontLeft.setDesiredVelocity(2);
             Timer.delay(3);
-            Robot.driveTrain.frontLeft.setDesiredVelocity(-2);
+            RobotContainer.driveTrain.frontLeft.setDesiredVelocity(-2);
             Timer.delay(3);
         }
 
         // The bottom left button
         else if (RobotContainer.rightJoystick.getRawButton(7)) {
-            Robot.driveTrain.backLeft.setDesiredVelocity(2);
+            RobotContainer.driveTrain.backLeft.setDesiredVelocity(2);
             Timer.delay(3);
-            Robot.driveTrain.backLeft.setDesiredVelocity(-2);
+            RobotContainer.driveTrain.backLeft.setDesiredVelocity(-2);
             Timer.delay(3);
         }
 
         // The bottom right button
         else if (RobotContainer.rightJoystick.getRawButton(10)) {
-            Robot.driveTrain.backRight.setDesiredVelocity(2);
+            RobotContainer.driveTrain.backRight.setDesiredVelocity(2);
             Timer.delay(3);
-            Robot.driveTrain.backRight.setDesiredVelocity(-2);
+            RobotContainer.driveTrain.backRight.setDesiredVelocity(-2);
             Timer.delay(3);
         } else {
 
             // Halt the motors, then move to the zeros
-            Robot.driveTrain.setDesiredVelocities(0, 0, 0, 0);
-            Robot.driveTrain.setDesiredAngles(0, 0, 0, 0);
+            RobotContainer.driveTrain.setDesiredVelocities(0, 0, 0, 0);
+            RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0);
         }
 
         // Publishes velocity and angle to network tables
-        Robot.driveTrain.publishPerformanceData();
+        RobotContainer.driveTrain.publishPerformanceData();
     }
 
     // Called once the command ends or is interrupted.

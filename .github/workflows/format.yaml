@@ -1,0 +1,23 @@
+# This is a basic workflow to build robot code.
+
+name: Format
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch.
+on: [push, pull_request]
+
+# Allow all permissions
+permissions: write-all
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # Formatting
+  formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 # v2 minimum required
+      - uses: axel-op/googlejavaformat-action@v3
+        with:
+          args: "--aosp --replace"
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          commitMessage: "Formatting fixes"
