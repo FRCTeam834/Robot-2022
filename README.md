@@ -32,6 +32,10 @@ This robot uses REV NEO Motors, Vex 775 Pro Motors, and Kauai Lab's NavX.
 | 11     | Back Left CANCoder                  |
 | 12     | Back Right CANCoder                 |
 | 13     | Power Distribution Hub (PDH)        |
+| 14     | Front Climber Motor                 |
+| 15     | Back Climber Motor                  |
+| 16     | Intake Motor                        |
+| 17     | Shooter Motor                       |
 
 ## Terminology note
 
