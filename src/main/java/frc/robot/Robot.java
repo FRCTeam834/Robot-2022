@@ -64,7 +64,8 @@ public class Robot extends TimedRobot {
         // TODO: REMOVE, THIS REDUCES PERFORMANCE
         // Get the closest color
         Color closest = RobotContainer.intake.getClosestColor();
-        System.out.println("R: " + closest.red + " | G: " + closest.green + " | B: " + closest.blue);
+        System.out.println(
+                "R: " + closest.red + " | G: " + closest.green + " | B: " + closest.blue);
         CommandScheduler.getInstance().run();
     }
 
