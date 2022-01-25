@@ -180,75 +180,24 @@ public final class Parameters {
              * PID parameters Gains used in each module's steering motor, to be adjusted accordingly
              * Gains(kp, ki, kd, feedforward, iZone, peak output);
              */
-            public static PIDParams FL_STEER_PID =
-                    new PIDParams(
-                            1.0,
-                            0.0,
-                            0.1,
-                            driveTrain.pid.MODULE_S_FF,
-                            driver.currentProfile.maxModVelocity,
-                            ControlType.kPosition);
 
-            public static PIDParams FR_STEER_PID =
-                    new PIDParams(
-                            1.0,
-                            0.0,
-                            0.1,
-                            driveTrain.pid.MODULE_S_FF,
-                            driver.currentProfile.maxModVelocity,
-                            ControlType.kPosition);
-            public static PIDParams BL_STEER_PID =
-                    new PIDParams(
-                            1.0,
-                            0.0,
-                            0.1,
-                            driveTrain.pid.MODULE_S_FF,
-                            driver.currentProfile.maxModVelocity,
-                            ControlType.kPosition);
-            public static PIDParams BR_STEER_PID =
-                    new PIDParams(
-                            1.0,
-                            0.0,
-                            0.1,
-                            driveTrain.pid.MODULE_S_FF,
-                            driver.currentProfile.maxModVelocity,
-                            ControlType.kPosition);
+            public static class steer {
+                public static final double DEFAULT_P = 1;
+                public static final double DEFAULT_I = 0;
+                public static final double DEFAULT_D = 0;
+                public static final double DEFAULT_MAX_OUTPUT = 8; // TODO: Fix later
+                public static final double DEFAULT_FF = 0;
+                public static final ControlType DEFAULT_CONTROL_TYPE = ControlType.kPosition;
+            }
 
-            public static PIDParams FL_DRIVE_PID =
-                    new PIDParams(
-                            0.500,
-                            0.0,
-                            0.00,
-                            driveTrain.pid.MODULE_D_FF,
-                            driver.currentProfile.maxModVelocity,
-                            ControlType.kVelocity);
-            public static PIDParams FR_DRIVE_PID =
-                    new PIDParams(
-                            0.500,
-                            0.0,
-                            0.00,
-                            driveTrain.pid.MODULE_D_FF,
-                            driver.currentProfile.maxModVelocity,
-                            ControlType.kVelocity);
-            public static PIDParams BL_DRIVE_PID =
-                    new PIDParams(
-                            0.500,
-                            0.0,
-                            0.00,
-                            driveTrain.pid.MODULE_D_FF,
-                            driver.currentProfile.maxModVelocity,
-                            ControlType.kVelocity);
-            public static PIDParams BR_DRIVE_PID =
-                    new PIDParams(
-                            0.500,
-                            0.0,
-                            0.00,
-                            driveTrain.pid.MODULE_D_FF,
-                            driver.currentProfile.maxModVelocity,
-                            ControlType.kVelocity);
-
-            public static final double MODULE_S_FF = 0.000000; // Must be tuned for the modules!
-            public static final double MODULE_D_FF = 0.000000; // Maybe: 0.000156;
+            public static class drive {
+                public static final double DEFAULT_P = 0.5;
+                public static final double DEFAULT_I = 0;
+                public static final double DEFAULT_D = 0;
+                public static final double DEFAULT_MAX_OUTPUT = 8; // TODO: Fix later
+                public static final double DEFAULT_FF = 0;
+                public static final ControlType DEFAULT_CONTROL_TYPE = ControlType.kVelocity;
+            }
 
             // PID controller (rotation constraints are max velocity and max acceleration)
             public static final double DEFAULT_LINEAR_MOVE_P = 1;

@@ -128,8 +128,6 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FL_STEER_ID,
                         Parameters.driveTrain.can.FL_DRIVE_ID,
                         Parameters.driveTrain.can.FL_CODER_ID,
-                        Parameters.driveTrain.pid.FL_STEER_PID,
-                        Parameters.driveTrain.pid.FL_DRIVE_PID,
                         true);
         frontRight =
                 new SwerveModule(
@@ -137,8 +135,6 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FR_STEER_ID,
                         Parameters.driveTrain.can.FR_DRIVE_ID,
                         Parameters.driveTrain.can.FR_CODER_ID,
-                        Parameters.driveTrain.pid.FR_STEER_PID,
-                        Parameters.driveTrain.pid.FR_DRIVE_PID,
                         false);
         backLeft =
                 new SwerveModule(
@@ -146,8 +142,6 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.BL_STEER_ID,
                         Parameters.driveTrain.can.BL_DRIVE_ID,
                         Parameters.driveTrain.can.BL_CODER_ID,
-                        Parameters.driveTrain.pid.BL_STEER_PID,
-                        Parameters.driveTrain.pid.BL_DRIVE_PID,
                         true);
         backRight =
                 new SwerveModule(
@@ -155,8 +149,6 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.BR_STEER_ID,
                         Parameters.driveTrain.can.BR_DRIVE_ID,
                         Parameters.driveTrain.can.BR_CODER_ID,
-                        Parameters.driveTrain.pid.BR_STEER_PID,
-                        Parameters.driveTrain.pid.BR_DRIVE_PID,
                         false);
 
         // Set up the PID controllers
@@ -552,43 +544,20 @@ public class DriveTrain extends SubsystemBase {
     /** Updates all of the steering parameters, such as PID loops and driver settings */
     public void updateParameters() {
 
-        // Update the PID parameters with the new driver profile values
-        Parameters.driveTrain.pid.FL_STEER_PID.setPeakOutput(
-                Parameters.driver.currentProfile.maxModVelocity);
-        Parameters.driveTrain.pid.FR_STEER_PID.setPeakOutput(
-                Parameters.driver.currentProfile.maxModVelocity);
-        Parameters.driveTrain.pid.BL_STEER_PID.setPeakOutput(
-                Parameters.driver.currentProfile.maxModVelocity);
-        Parameters.driveTrain.pid.BR_STEER_PID.setPeakOutput(
-                Parameters.driver.currentProfile.maxModVelocity);
+        // Update the idle modes
+        // Steer idle modes
+        frontLeft.setSteerIdleMode(Parameters.driver.currentProfile.steerIdleMode);
+        frontRight.setSteerIdleMode(Parameters.driver.currentProfile.steerIdleMode);
+        backLeft.setSteerIdleMode(Parameters.driver.currentProfile.steerIdleMode);
+        backRight.setSteerIdleMode(Parameters.driver.currentProfile.steerIdleMode);
 
-        // Set steering parameters
-        frontLeft.setSteerMParams(
-                Parameters.driveTrain.pid.FL_STEER_PID,
-                Parameters.driver.currentProfile.steerIdleMode);
-        frontRight.setSteerMParams(
-                Parameters.driveTrain.pid.FR_STEER_PID,
-                Parameters.driver.currentProfile.steerIdleMode);
-        backLeft.setSteerMParams(
-                Parameters.driveTrain.pid.BL_STEER_PID,
-                Parameters.driver.currentProfile.steerIdleMode);
-        backRight.setSteerMParams(
-                Parameters.driveTrain.pid.BR_STEER_PID,
-                Parameters.driver.currentProfile.steerIdleMode);
+        // Drive idle modes
+        frontLeft.setDriveIdleMode(Parameters.driver.currentProfile.driveIdleMode);
+        frontRight.setDriveIdleMode(Parameters.driver.currentProfile.driveIdleMode);
+        backLeft.setDriveIdleMode(Parameters.driver.currentProfile.driveIdleMode);
+        backRight.setDriveIdleMode(Parameters.driver.currentProfile.driveIdleMode);
 
-        // Set driving parameters
-        frontLeft.setDriveMParams(
-                Parameters.driveTrain.pid.FL_DRIVE_PID,
-                Parameters.driver.currentProfile.driveIdleMode);
-        frontRight.setDriveMParams(
-                Parameters.driveTrain.pid.FR_DRIVE_PID,
-                Parameters.driver.currentProfile.driveIdleMode);
-        backLeft.setDriveMParams(
-                Parameters.driveTrain.pid.BL_DRIVE_PID,
-                Parameters.driver.currentProfile.driveIdleMode);
-        backRight.setDriveMParams(
-                Parameters.driveTrain.pid.BR_DRIVE_PID,
-                Parameters.driver.currentProfile.driveIdleMode);
+        // TODO: Update the maximum velocities
     }
 
     // Sets all of the modules to treat their current position as the zero position.
@@ -671,11 +640,41 @@ public class DriveTrain extends SubsystemBase {
         rotationPID.setConstraints(ROTATION_CONSTRAINTS);
 
         // Redeclare the drive controller
-        driveController = new HolonomicDriveController(xMovePID, yMovePID, rotationPID);
+        driveController = new HolonomicDriveController(xMovePID, yMovePID, rotationPID);*/
 
         // Publish the new tuning values
         publishTuningValues();
-        */
+
+    }
+
+    /**
+     * Resets all of the parameters of the drivetrain back to compile defaults (from Parameters.java)
+     */
+    public void defaultParameters() {
+
+        // Load module values
+        frontLeft.defaultParameters();
+        frontRight.defaultParameters();
+        backLeft.defaultParameters();
+        backRight.defaultParameters();
+
+        // X Movement PID
+        xMovePID.setP(Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P);
+        xMovePID.setI(Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I);
+        xMovePID.setD(Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
+
+        // Y Movement PID
+        yMovePID.setP(Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P);
+        yMovePID.setI(Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I);
+        yMovePID.setD(Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
+
+        // Rotation PID (PID values)
+        rotationPID.setP(Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_P);
+        rotationPID.setI(Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_I);
+        rotationPID.setD(Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_D);
+
+        // Publish the new tuning values
+        publishTuningValues();
     }
 
     /** Loads all of the NetworkTable parameters */

@@ -87,8 +87,6 @@ public class SwerveModule {
             int steerMID,
             int driveMID,
             int CANCoderID,
-            PIDParams steerPIDParams,
-            PIDParams drivePIDParams,
             boolean reversedDrive) {
 
         // Set the name
@@ -130,26 +128,21 @@ public class SwerveModule {
         // This version of the PID controller checks if the desired setpoint is already set.
         // This reduces the load on the CAN bus, as we can only send a set amount across at once.
         steerMotorPID = new CachedPIDController(steerMotor);
-        steerMotorPID.setP(steerPIDParams.kP);
-        steerMotorPID.setI(steerPIDParams.kI);
-        steerMotorPID.setD(steerPIDParams.kD);
-        steerMotorPID.setIZone(steerPIDParams.iZone);
+        steerMotorPID.setP(Parameters.driveTrain.pid.steer.DEFAULT_P);
+        steerMotorPID.setI(Parameters.driveTrain.pid.steer.DEFAULT_I);
+        steerMotorPID.setD(Parameters.driveTrain.pid.steer.DEFAULT_D);
+        steerMotorPID.setFF(Parameters.driveTrain.pid.steer.DEFAULT_FF);
         steerMotorPID.setOutputRange(-1, 1);
 
-        // Only set feedforward if it's a non-zero
-        if (steerPIDParams.kFF != 0) {
-            steerMotorPID.setFF(steerPIDParams.kFF);
-        }
-
         // Set the angular velocity and acceleration values (if smart motion is being used)
-        if (steerPIDParams.controlType.equals(ControlType.kSmartMotion)) {
+        if (Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
             steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
             steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY);
             steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
         }
 
         // Save the control type for the steering motor
-        steerMControlType = steerPIDParams.controlType;
+        steerMControlType = Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE;
 
         // Drive motor
         driveMotor = new CANSparkMax(driveMID, CANSparkMax.MotorType.kBrushless);
@@ -182,19 +175,14 @@ public class SwerveModule {
         // This version of the PID controller checks if the desired setpoint is already set.
         // This reduces the load on the CAN bus, as we can only send a set amount across at once.
         driveMotorPID = new CachedPIDController(driveMotor);
-        driveMotorPID.setP(drivePIDParams.kP);
-        driveMotorPID.setI(drivePIDParams.kI);
-        driveMotorPID.setD(drivePIDParams.kD);
-        driveMotorPID.setIZone(drivePIDParams.iZone);
+        driveMotorPID.setP(Parameters.driveTrain.pid.drive.DEFAULT_P);
+        driveMotorPID.setI(Parameters.driveTrain.pid.drive.DEFAULT_I);
+        driveMotorPID.setD(Parameters.driveTrain.pid.drive.DEFAULT_D);
+        driveMotorPID.setFF(Parameters.driveTrain.pid.drive.DEFAULT_FF);
         driveMotorPID.setOutputRange(-1, 1);
 
-        // Only set feedforward if it's a non-zero
-        if (drivePIDParams.kFF != 0) {
-            driveMotorPID.setFF(drivePIDParams.kFF);
-        }
-
         // Save the control type for the drive motor
-        driveMControlType = drivePIDParams.controlType;
+        driveMControlType = Parameters.driveTrain.pid.drive.DEFAULT_CONTROL_TYPE;
 
         // Burn the flash parameters to the Sparks (prevents loss of parameters after brownouts)
         steerMotor.burnFlash();
@@ -234,7 +222,7 @@ public class SwerveModule {
      */
     public void setSteerMParams(PIDParams pidParams, IdleMode idleMode) {
 
-        // PID parameters
+        // PIDF parameters
         steerMotorPID.setP(pidParams.kP);
         steerMotorPID.setI(pidParams.kI);
         steerMotorPID.setD(pidParams.kD);
@@ -242,6 +230,9 @@ public class SwerveModule {
 
         // Idle mode of the motor
         steerMotor.setIdleMode(idleMode);
+
+        // Maximum output of the motor
+        steerMotorPID.setOutputRange(-pidParams.maxOutput, pidParams.maxOutput);
 
         // Set the control type
         steerMControlType = pidParams.controlType;
@@ -267,11 +258,30 @@ public class SwerveModule {
         // Idle mode of the motor
         driveMotor.setIdleMode(idleMode);
 
+        // Maximum output of the motor
+        driveMotorPID.setOutputRange(-pidParams.maxOutput, pidParams.maxOutput);
+
         // Set the control type
         driveMControlType = pidParams.controlType;
 
         // Save the parameters (prevents loss of parameters after brownouts)
         driveMotor.burnFlash();
+    }
+
+    /**
+     * Sets the idle mode of the steer motor
+     * @param newMode The new idle mode to set
+     */
+    public void setSteerIdleMode(IdleMode newMode) {
+        this.steerMotor.setIdleMode(newMode);
+    }
+
+    /**
+     * Sets the idle mode of the drive motor
+     * @param newMode The new idle mode to set
+     */
+    public void setDriveIdleMode(IdleMode newMode) {
+        this.driveMotor.setIdleMode(newMode);
     }
 
     /**
@@ -526,6 +536,26 @@ public class SwerveModule {
         steerCANCoder.configMagnetOffset(
                 Preferences.getDouble(name + "_ENCODER_OFFSET", cancoderOffset));
         steerMotorEncoder.setPosition(getAngle());
+
+        // Push the new values to the table
+        publishTuningValues();
+    }
+
+
+    // Resets all of the parameters to their default values (as per Parameters.java upon compile)
+    public void defaultParameters() {
+
+        // Steer PID
+        steerMotorPID.setP(Parameters.driveTrain.pid.steer.DEFAULT_P);
+        steerMotorPID.setI(Parameters.driveTrain.pid.steer.DEFAULT_I);
+        steerMotorPID.setD(Parameters.driveTrain.pid.steer.DEFAULT_D);
+        steerMotorPID.setFF(Parameters.driveTrain.pid.steer.DEFAULT_FF);
+
+        // Drive PID
+        driveMotorPID.setP(Parameters.driveTrain.pid.drive.DEFAULT_P);
+        driveMotorPID.setI(Parameters.driveTrain.pid.drive.DEFAULT_I);
+        driveMotorPID.setD(Parameters.driveTrain.pid.drive.DEFAULT_D);
+        driveMotorPID.setFF(Parameters.driveTrain.pid.drive.DEFAULT_FF);
 
         // Push the new values to the table
         publishTuningValues();
