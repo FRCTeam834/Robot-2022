@@ -8,7 +8,6 @@
  */
 package frc.robot.commands.swerve.testing;
 
-import com.revrobotics.CANSparkMax.ControlType;
 
 import edu.wpi.first.wpilibj.Joystick;
 // Imports
@@ -21,6 +20,7 @@ public class TestModulePositioning extends CommandBase {
 
     // Joystick value array, in form (LX, LY, RX, RY)
     double[] joystickValues = new double[4];
+
     Joystick leftJoystick = new Joystick(0);
     Joystick rightJoystick = new Joystick(1);
 
@@ -43,18 +43,18 @@ public class TestModulePositioning extends CommandBase {
     public void execute() {
 
         // Get the values of the joysticks
-        //joystickValues = RobotContainer.getJoystickValues();
+        // joystickValues = RobotContainer.getJoystickValues();
 
         // Multiply each of the elements by the angle value
-        //for (int index = 0; index < joystickValues.length; index++) {
+        // for (int index = 0; index < joystickValues.length; index++) {
         //    joystickValues[index] = joystickValues[index] * 360;
-        //}
+        // }
 
         // Move the modules to those positions
-        RobotContainer.driveTrain.frontLeft.setDesiredAngle(leftJoystick.getX()*360);
-        RobotContainer.driveTrain.frontRight.setDesiredAngle(leftJoystick.getY()*360);
-        RobotContainer.driveTrain.backLeft.setDesiredAngle(rightJoystick.getX()*360);
-        RobotContainer.driveTrain.backRight.setDesiredAngle(rightJoystick.getY()*360);
+        RobotContainer.driveTrain.frontLeft.setDesiredAngle(leftJoystick.getX() * 360);
+        RobotContainer.driveTrain.frontRight.setDesiredAngle(leftJoystick.getY() * 360);
+        RobotContainer.driveTrain.backLeft.setDesiredAngle(rightJoystick.getX() * 360);
+        RobotContainer.driveTrain.backRight.setDesiredAngle(rightJoystick.getY() * 360);
     }
 
     // Called once the command ends or is interrupted.
