@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Parameters;
 import frc.robot.Parameters.climber.backMotor;
 import frc.robot.Parameters.climber.frontMotor;
-import frc.robot.Parameters.driveTrain.pid;
 
 public class Climber extends SubsystemBase {
 
@@ -72,52 +71,46 @@ public class Climber extends SubsystemBase {
 
     // Unravels spools simultaneuously to extend both arms at the same time
     public void extendClimber(double speed, double setPoint) {
-        do{
-            if(frontEncoder.getPosition() < backEncoder.getPosition()){
-                frontMotor.set(cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
-            }
-            else if(frontEncoder.getPosition() > backEncoder.getPosition()){
-                backMotor.set(cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
-            }
-            else{
+        do {
+            if (frontEncoder.getPosition() < backEncoder.getPosition()) {
+                frontMotor.set(
+                        cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
+            } else if (frontEncoder.getPosition() > backEncoder.getPosition()) {
+                backMotor.set(
+                        cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
+            } else {
                 frontMotor.set(speed);
                 backMotor.set(speed);
             }
 
-        } while( frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint );
-
+        } while (frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint);
     }
-
- 
 
     public void doAPullUp(double speed) {
-        do{
-            if(frontEncoder.getPosition() < backEncoder.getPosition()){
-                frontMotor.set(cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
-            }
-            else if(frontEncoder.getPosition() > backEncoder.getPosition()){
-                backMotor.set(cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
-            }
-            else{
+        do {
+            if (frontEncoder.getPosition() < backEncoder.getPosition()) {
+                frontMotor.set(
+                        cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
+            } else if (frontEncoder.getPosition() > backEncoder.getPosition()) {
+                backMotor.set(
+                        cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
+            } else {
                 frontMotor.set(speed);
                 backMotor.set(speed);
             }
 
-        } while( frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint );
-
+        } while (frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint);
     }
 
-
-    public boolean getBackLimitSwitchValue(){
+    public boolean getBackLimitSwitchValue() {
         return backLimitSwitch.get();
     }
-    
-    public boolean getFrontLimitSwitchValue(){
+
+    public boolean getFrontLimitSwitchValue() {
         return frontLimitSwitch.get();
     }
 
-    public double getFrontEncoder(){
+    public double getFrontEncoder() {
         return frontEncoder.get();
     }
-
 }
