@@ -69,39 +69,6 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    // Unravels spools simultaneuously to extend both arms at the same time
-    public void extendClimber(double speed, double setPoint) {
-        do {
-            if (frontEncoder.getPosition() < backEncoder.getPosition()) {
-                frontMotor.set(
-                        cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
-            } else if (frontEncoder.getPosition() > backEncoder.getPosition()) {
-                backMotor.set(
-                        cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
-            } else {
-                frontMotor.set(speed);
-                backMotor.set(speed);
-            }
-
-        } while (frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint);
-    }
-
-    public void doAPullUp(double speed) {
-        do {
-            if (frontEncoder.getPosition() < backEncoder.getPosition()) {
-                frontMotor.set(
-                        cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
-            } else if (frontEncoder.getPosition() > backEncoder.getPosition()) {
-                backMotor.set(
-                        cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
-            } else {
-                frontMotor.set(speed);
-                backMotor.set(speed);
-            }
-
-        } while (frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint);
-    }
-
     public boolean getBackLimitSwitchValue() {
         return backLimitSwitch.get();
     }
@@ -110,7 +77,29 @@ public class Climber extends SubsystemBase {
         return frontLimitSwitch.get();
     }
 
-    public double getFrontEncoder() {
-        return frontEncoder.get();
+    public double getFrontPosition() {
+        return frontEncoder.getPosition();
+    }
+
+    public double getBackPosition() {
+        return backEncoder.getPosition();
+    }
+    
+    public double getPIDValue(double current, double setPoint){
+        return cPid.calculate(current, setPoint);
+        
+    }
+
+    public void setFrontMotor(double speed){
+        frontMotor.set(speed);
+    }
+
+    public void setBackMotor(double speed){
+        backMotor.set(speed);
+    }
+    
+    public void stopMotors(){
+        backMotor.set(0);
+        frontMotor.set(0);
     }
 }
