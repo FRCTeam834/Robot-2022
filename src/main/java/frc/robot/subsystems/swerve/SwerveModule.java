@@ -16,6 +16,7 @@ import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
@@ -99,7 +100,6 @@ public class SwerveModule {
         this.steerMotor.setIdleMode(IdleMode.kBrake);
         this.steerMotor.setSmartCurrentLimit(Parameters.driveTrain.maximums.MAX_STEER_CURRENT);
         this.steerMotor.setInverted(false);
-        this.steerMotor.setSmartCurrentLimit(20);
 
         // Steer motor encoder (position is converted from rotations to degrees)
         // (For the conversion factor) First we multiply by 360 to convert rotations to degrees,
@@ -128,12 +128,11 @@ public class SwerveModule {
         this.steerMotorPID.setOutputRange(-1, 1);
 
         // Set the angular velocity and acceleration values (if smart motion is being used)
-        // if
-        // (Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
-        this.steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
-        this.steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY);
-        this.steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
-        // }
+        if (Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
+            this.steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
+            this.steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY);
+            this.steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
+        }
 
         // Save the control type for the steering motor
         this.steerMControlType = Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE;
@@ -144,7 +143,6 @@ public class SwerveModule {
         this.driveMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
         this.driveMotor.setSmartCurrentLimit(Parameters.driveTrain.maximums.MAX_DRIVE_CURRENT);
         this.driveMotor.setIdleMode(Parameters.driver.driveIdleMode);
-        this.driveMotor.setSmartCurrentLimit(30);
 
         // Reverse the motor direction if specified
         this.driveMotor.setInverted(reversedDrive);
@@ -179,9 +177,13 @@ public class SwerveModule {
         // Save the control type for the drive motor
         this.driveMControlType = Parameters.driveTrain.pid.drive.DEFAULT_CONTROL_TYPE;
 
-        // Burn the flash parameters to the Sparks (prevents loss of parameters after brownouts)
-        this.steerMotor.burnFlash();
-        this.driveMotor.burnFlash();
+        // Burn the flash parameters to the Sparks (prevents loss of parameters
+        // after brownouts) Note that the flash will degrade over time, so we
+        // only want to burn the flash when we're in a competition scenario
+        if (Parameters.flashControllers) {
+            this.steerMotor.burnFlash();
+            this.driveMotor.burnFlash();
+        }
 
         // Don't mess with NetworkTables unless we have to
         if (Parameters.networkTables) {

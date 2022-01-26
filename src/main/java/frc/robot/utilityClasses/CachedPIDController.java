@@ -42,22 +42,20 @@ public class CachedPIDController {
      * @param ctrl is the control type
      * @return Set to REV_OK if successful
      */
-    public REVLibError setReference(double value, ControlType ctrl) {
+    public REVLibError setReference(double value, ControlType ctrlType) {
 
         // Check if the values have been changed
         // We use separated if loops to reduce the typical amount of checks needed
         // Values change the most, so we check those first, then control types
-        if (value != previousValue) {
-            if (!ctrl.equals(previousControlType)) {
+        if ((value != previousValue) || (!ctrlType.equals(previousControlType))) {
 
-                // We need to send the values
-                // First save the current values for the next cycle
-                previousValue = value;
-                previousControlType = ctrl;
+            // We need to send the values
+            // First save the current values for the next cycle
+            previousValue = value;
+            previousControlType = ctrlType;
 
-                // Send the set command, saving the output
-                previousREVLibError = pidController.setReference(value, ctrl);
-            }
+            // Send the set command, saving the output
+            previousREVLibError = pidController.setReference(value, ctrlType);
         }
 
         // Return the current CAN error

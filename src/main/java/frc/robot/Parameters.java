@@ -40,6 +40,11 @@ public final class Parameters {
     public static final boolean debug = true;
     public static final boolean networkTables = true;
 
+    // Competition configurations
+    // Flashing the controllers degrades them, so we should limit the number
+    // of times that we flash. Basically, only competition scenarios
+    public static final boolean flashControllers = false;
+
     // All of the fun parameters
     public static final class funParameters {
 

@@ -39,7 +39,6 @@ public class DriveTrain extends SubsystemBase {
 
     // Create the modules
     public SwerveModule frontLeft;
-
     public SwerveModule frontRight;
     public SwerveModule backLeft;
     public SwerveModule backRight;
@@ -814,6 +813,6 @@ public class DriveTrain extends SubsystemBase {
         pullTuningValues();
 
         // Update the odometry as frequently as possible
-        // updateOdometry();
+        updateOdometry();
     }
 }
