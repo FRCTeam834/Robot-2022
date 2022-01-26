@@ -8,7 +8,6 @@
  */
 package frc.robot.commands.swerve.testing;
 
-
 import edu.wpi.first.wpilibj.Joystick;
 // Imports
 import edu.wpi.first.wpilibj2.command.CommandBase;

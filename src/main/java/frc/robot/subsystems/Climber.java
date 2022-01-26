@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 // Imports
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -34,8 +33,8 @@ public class Climber extends SubsystemBase {
     public Climber() {
 
         // Create the motors
-        //frontMotor = new CANSparkMax(Parameters.climber.frontMotor.ID, MotorType.kBrushless);
-        //backMotor = new CANSparkMax(Parameters.climber.backMotor.ID, MotorType.kBrushless);
+        // frontMotor = new CANSparkMax(Parameters.climber.frontMotor.ID, MotorType.kBrushless);
+        // backMotor = new CANSparkMax(Parameters.climber.backMotor.ID, MotorType.kBrushless);
 
         // Get the encoders from the motors
         frontEncoder = frontMotor.getEncoder();
@@ -55,8 +54,9 @@ public class Climber extends SubsystemBase {
         backEncoder.setPosition(0);
 
         // Create the limit switches
-        //backLimitSwitch = new DigitalInput(Parameters.climber.backMotor.LIMIT_SWITCH_CHANNEL_ID);
-        //frontLimitSwitch = new DigitalInput(Parameters.climber.frontMotor.LIMIT_SWITCH_CHANNEL_ID);
+        // backLimitSwitch = new DigitalInput(Parameters.climber.backMotor.LIMIT_SWITCH_CHANNEL_ID);
+        // frontLimitSwitch = new
+        // DigitalInput(Parameters.climber.frontMotor.LIMIT_SWITCH_CHANNEL_ID);
 
         // PID
         PIDController cPid = new PIDController(1, 0, 0);

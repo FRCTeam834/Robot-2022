@@ -16,7 +16,6 @@ import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
@@ -112,7 +111,7 @@ public class SwerveModule {
         this.steerMotorEncoder = this.steerMotor.getEncoder();
         this.steerMotorEncoder.setPositionConversionFactor(
                 360.0 / Parameters.driveTrain.ratios.STEER_GEAR_RATIO);
-        //this.steerMotorEncoder.setVelocityConversionFactor(
+        // this.steerMotorEncoder.setVelocityConversionFactor(
         //        360.0 / (Parameters.driveTrain.ratios.STEER_GEAR_RATIO * 60));
         this.steerMotorEncoder.setPosition(this.getAngle());
 
@@ -129,12 +128,12 @@ public class SwerveModule {
         this.steerMotorPID.setOutputRange(-1, 1);
 
         // Set the angular velocity and acceleration values (if smart motion is being used)
-        //if (Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
-            this.steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
-            this.steerMotorPID.setSmartMotionMaxVelocity(
-                    Parameters.driveTrain.maximums.MAX_VELOCITY);
-            this.steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
-        //}
+        // if
+        // (Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
+        this.steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
+        this.steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY);
+        this.steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
+        // }
 
         // Save the control type for the steering motor
         this.steerMControlType = Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE;
