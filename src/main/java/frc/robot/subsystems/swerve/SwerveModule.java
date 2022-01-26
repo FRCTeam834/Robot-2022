@@ -130,7 +130,8 @@ public class SwerveModule {
         // Set the angular velocity and acceleration values (if smart motion is being used)
         if (Parameters.driveTrain.pid.steer.DEFAULT_CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
             this.steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
-            this.steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY);
+            this.steerMotorPID.setSmartMotionMaxVelocity(
+                    Parameters.driveTrain.maximums.MAX_VELOCITY);
             this.steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
         }
 

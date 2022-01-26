@@ -15,7 +15,6 @@ import frc.robot.RobotContainer;
 
 public class TestModulePositioning extends CommandBase {
     /** Creates a new TestModulePositioning. */
-
     public TestModulePositioning() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.driveTrain);
@@ -39,7 +38,7 @@ public class TestModulePositioning extends CommandBase {
 
         // Multiply each of the elements by the angle value
         for (int index = 0; index < joystickValues.length; index++) {
-           joystickValues[index] = joystickValues[index] * 360;
+            joystickValues[index] = joystickValues[index] * 360;
         }
 
         // Move the modules to those positions
