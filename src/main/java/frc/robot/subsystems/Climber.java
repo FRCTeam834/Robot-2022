@@ -9,10 +9,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.Parameters.climber.backMotor;
+import frc.robot.Parameters.climber.frontMotor;
+import frc.robot.Parameters.driveTrain.pid;
 
 public class Climber extends SubsystemBase {
 
@@ -21,20 +25,20 @@ public class Climber extends SubsystemBase {
     CANSparkMax backMotor;
 
     // Encoder objects (from NEOs)
-    RelativeEncoder frontEncoder;
-    RelativeEncoder backEncoder;
+    public RelativeEncoder frontEncoder;
+    public RelativeEncoder backEncoder;
 
     // Limit Switch
-
     DigitalInput frontLimitSwitch;
     DigitalInput backLimitSwitch;
+    private PIDController cPid;
 
     /** Creates a new Climber. */
     public Climber() {
 
         // Create the motors
-        frontMotor = new CANSparkMax(Parameters.climber.front.motor.ID, MotorType.kBrushless);
-        backMotor = new CANSparkMax(Parameters.climber.back.motor.ID, MotorType.kBrushless);
+        frontMotor = new CANSparkMax(Parameters.climber.frontMotor.ID, MotorType.kBrushless);
+        backMotor = new CANSparkMax(Parameters.climber.backMotor.ID, MotorType.kBrushless);
 
         // Get the encoders from the motors
         frontEncoder = frontMotor.getEncoder();
@@ -54,8 +58,11 @@ public class Climber extends SubsystemBase {
         backEncoder.setPosition(0);
 
         // Create the limit switches
-        backLimitSwitch = new DigitalInput(Parameters.climber.back.limitSwitch.DIO_CHAN);
-        frontLimitSwitch = new DigitalInput(Parameters.climber.front.limitSwitch.DIO_CHAN);
+        backLimitSwitch = new DigitalInput(Parameters.climber.backMotor.LIMIT_SWITCH_CHANNEL_ID);
+        frontLimitSwitch = new DigitalInput(Parameters.climber.frontMotor.LIMIT_SWITCH_CHANNEL_ID);
+
+        // PID
+        PIDController cPid = new PIDController(1, 0, 0);
     }
 
     @Override
@@ -63,13 +70,54 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    public void extendClimber() {}
+    // Unravels spools simultaneuously to extend both arms at the same time
+    public void extendClimber(double speed, double setPoint) {
+        do{
+            if(frontEncoder.getPosition() < backEncoder.getPosition()){
+                frontMotor.set(cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
+            }
+            else if(frontEncoder.getPosition() > backEncoder.getPosition()){
+                backMotor.set(cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
+            }
+            else{
+                frontMotor.set(speed);
+                backMotor.set(speed);
+            }
 
-    public boolean getBackLimitSwitchValue() {
+        } while( frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint );
+
+    }
+
+ 
+
+    public void doAPullUp(double speed) {
+        do{
+            if(frontEncoder.getPosition() < backEncoder.getPosition()){
+                frontMotor.set(cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
+            }
+            else if(frontEncoder.getPosition() > backEncoder.getPosition()){
+                backMotor.set(cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
+            }
+            else{
+                frontMotor.set(speed);
+                backMotor.set(speed);
+            }
+
+        } while( frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint );
+
+    }
+
+
+    public boolean getBackLimitSwitchValue(){
         return backLimitSwitch.get();
     }
-
-    public boolean getFrontLimitSwitchValue() {
+    
+    public boolean getFrontLimitSwitchValue(){
         return frontLimitSwitch.get();
     }
+
+    public double getFrontEncoder(){
+        return frontEncoder.get();
+    }
+
 }
