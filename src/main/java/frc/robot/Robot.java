@@ -15,6 +15,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 // Imports
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -41,6 +42,9 @@ public class Robot extends TimedRobot {
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
 
+        // We don't need the telemetry
+        //LiveWindow.disableAllTelemetry();
+
         // Reset the angle of the NavX
         RobotContainer.navX.resetYaw();
     }
@@ -63,9 +67,9 @@ public class Robot extends TimedRobot {
 
         // TODO: REMOVE, THIS REDUCES PERFORMANCE
         // Get the closest color
-        Color closest = RobotContainer.intake.getClosestColor();
-        System.out.println(
-                "R: " + closest.red + " | G: " + closest.green + " | B: " + closest.blue);
+        //Color closest = RobotContainer.intake.getClosestColor();
+        //System.out.println(
+        //        "R: " + closest.red + " | G: " + closest.green + " | B: " + closest.blue);
         CommandScheduler.getInstance().run();
     }
 

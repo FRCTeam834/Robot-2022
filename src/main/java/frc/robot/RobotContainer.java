@@ -17,12 +17,15 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToVision;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
+import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
 import frc.robot.commands.swerve.testing.TestMovementPID;
 import frc.robot.subsystems.Climber;
@@ -45,18 +48,19 @@ public class RobotContainer {
     // Subsystems
     public static NavX navX = new NavX();
     public static DriveTrain driveTrain = new DriveTrain();
-    public static Superstructure superstructure = new Superstructure(new Vision());
-    public static Climber climber = new Climber();
-    public static Intake intake = new Intake();
-    public static Shooter shooter = new Shooter();
+    //public static Superstructure superstructure = new Superstructure(new Vision());
+    //public static Climber climber = new Climber();
+    //public static Intake intake = new Intake();
+    //public static Shooter shooter = new Shooter();
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
     private final TestModulePID testModulePID = new TestModulePID();
     private final TestMovementPID testMovementPID = new TestMovementPID();
+    private final TestModulePositioning testModulePositioning = new TestModulePositioning();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
-    private final TurnToVision turnToVision = new TurnToVision();
+    //private final TurnToVision turnToVision = new TurnToVision();
 
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
@@ -91,9 +95,9 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
-        // joystick
-        new JoystickButton(leftJoystick, 1).whenPressed(letsRoll2Joysticks);
-        new JoystickButton(leftJoystick, 8).whenPressed(driveTrain::zeroEncoders);
+        // Joystick
+        new JoystickButton(leftJoystick, 1).whenPressed(testModulePositioning);
+        new JoystickButton(leftJoystick, 8).whenPressed(new InstantCommand(driveTrain::zeroEncoders).andThen(new PrintCommand("Zeroed!")));
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
         new JoystickButton(rightJoystick, 1).whenPressed(navX::resetYaw);
 

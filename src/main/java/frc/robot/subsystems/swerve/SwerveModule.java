@@ -108,8 +108,7 @@ public class SwerveModule {
         // full
         // module rotation
         // For the velocity, we can use the same conversion factor and divide by 60 to convert RPM
-        // to
-        // deg/s
+        // to deg/s
         this.steerMotorEncoder = this.steerMotor.getEncoder();
         this.steerMotorEncoder.setPositionConversionFactor(
                 360.0 / Parameters.driveTrain.ratios.STEER_GEAR_RATIO);

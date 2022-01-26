@@ -37,8 +37,8 @@ import frc.robot.utilityClasses.JoystickOutputTypes;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = false;
-    public static final boolean networkTables = false;
+    public static final boolean debug = true;
+    public static final boolean networkTables = true;
 
     // All of the fun parameters
     public static final class funParameters {
@@ -162,7 +162,7 @@ public final class Parameters {
              * Gains(kp, ki, kd, feedforward, iZone, peak output);
              */
             public static class steer {
-                public static final double DEFAULT_P = 1;
+                public static final double DEFAULT_P = 0.01;
                 public static final double DEFAULT_I = 0;
                 public static final double DEFAULT_I_ZONE = 0;
                 public static final double DEFAULT_D = 0;
@@ -214,7 +214,7 @@ public final class Parameters {
 
             // For converting CANCoder data to steer motor data
             public static final double STEER_GEAR_RATIO = 12.8;
-            public static final double DRIVE_GEAR_RATIO = 8.16;
+            public static final double DRIVE_GEAR_RATIO = 8.14;
         }
 
         // Auton Constants

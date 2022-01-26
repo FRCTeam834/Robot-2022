@@ -814,6 +814,6 @@ public class DriveTrain extends SubsystemBase {
         pullTuningValues();
 
         // Update the odometry as frequently as possible
-        updateOdometry();
+        //updateOdometry();
     }
 }

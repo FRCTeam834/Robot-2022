@@ -13,7 +13,7 @@ public class RejectBall extends CommandBase {
     /** Creates a new RejectBall. */
     public RejectBall() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.intake);
+        //addRequirements(RobotContainer.intake);
     }
 
     @Override
@@ -22,15 +22,15 @@ public class RejectBall extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (!RobotContainer.intake.suckABall().equals(Robot.getOurBallColor())) {
-            RobotContainer.intake.spitItOut();
-        }
+        //if (!RobotContainer.intake.suckABall().equals(Robot.getOurBallColor())) {
+        //    RobotContainer.intake.spitItOut();
+        //}
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.intake.stop();
+        //RobotContainer.intake.stop();
     }
 
     // Returns true when the command should end.
