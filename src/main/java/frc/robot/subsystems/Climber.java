@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.Parameters.climber.backMotor;
-import frc.robot.Parameters.climber.frontMotor;
 
 public class Climber extends SubsystemBase {
 
@@ -36,8 +34,8 @@ public class Climber extends SubsystemBase {
     public Climber() {
 
         // Create the motors
-        frontMotor = new CANSparkMax(Parameters.climber.frontMotor.ID, MotorType.kBrushless);
-        backMotor = new CANSparkMax(Parameters.climber.backMotor.ID, MotorType.kBrushless);
+        //frontMotor = new CANSparkMax(Parameters.climber.frontMotor.ID, MotorType.kBrushless);
+        //backMotor = new CANSparkMax(Parameters.climber.backMotor.ID, MotorType.kBrushless);
 
         // Get the encoders from the motors
         frontEncoder = frontMotor.getEncoder();
@@ -57,8 +55,8 @@ public class Climber extends SubsystemBase {
         backEncoder.setPosition(0);
 
         // Create the limit switches
-        backLimitSwitch = new DigitalInput(Parameters.climber.backMotor.LIMIT_SWITCH_CHANNEL_ID);
-        frontLimitSwitch = new DigitalInput(Parameters.climber.frontMotor.LIMIT_SWITCH_CHANNEL_ID);
+        //backLimitSwitch = new DigitalInput(Parameters.climber.backMotor.LIMIT_SWITCH_CHANNEL_ID);
+        //frontLimitSwitch = new DigitalInput(Parameters.climber.frontMotor.LIMIT_SWITCH_CHANNEL_ID);
 
         // PID
         PIDController cPid = new PIDController(1, 0, 0);
@@ -87,6 +85,7 @@ public class Climber extends SubsystemBase {
     }
 
     public void doAPullUp(double speed) {
+        /*
         do {
             if (frontEncoder.getPosition() < backEncoder.getPosition()) {
                 frontMotor.set(
@@ -99,7 +98,7 @@ public class Climber extends SubsystemBase {
                 backMotor.set(speed);
             }
 
-        } while (frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint);
+        } while (frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint);*/
     }
 
     public boolean getBackLimitSwitchValue() {
@@ -111,6 +110,6 @@ public class Climber extends SubsystemBase {
     }
 
     public double getFrontEncoder() {
-        return frontEncoder.get();
+        return frontEncoder.getPosition();
     }
 }
