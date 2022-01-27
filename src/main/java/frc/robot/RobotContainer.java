@@ -90,13 +90,15 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // Joystick
-        new JoystickButton(leftJoystick, 1).whenPressed(testModulePositioning);
+        new JoystickButton(leftJoystick, 1).whenPressed(letsRoll2Joysticks);
+        new JoystickButton(leftJoystick, 2).whenPressed(testModulePositioning);
         new JoystickButton(leftJoystick, 8)
                 .whenPressed(
                         new InstantCommand(driveTrain::zeroEncoders)
                                 .andThen(new PrintCommand("Zeroed!")));
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
         new JoystickButton(rightJoystick, 1).whenPressed(navX::resetYaw);
+        new JoystickButton(rightJoystick, 8).whenPressed(new InstantCommand(driveTrain::saveParameters).andThen(new PrintCommand("Saved!")));
 
         // new JoystickButton(buttonBoard,1).whenPressed(zeroNavX)
         // new JoystickButton(xbox, Button.kA.value).whenPressed(zeroNavX);
