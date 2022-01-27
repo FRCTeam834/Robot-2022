@@ -167,13 +167,13 @@ public final class Parameters {
              * Gains(kp, ki, kd, feedforward, iZone, peak output);
              */
             public static class steer {
-                public static final double DEFAULT_P = 0.00000009;
+                public static final double DEFAULT_P = 0.05;
                 public static final double DEFAULT_I = 0;
                 public static final double DEFAULT_I_ZONE = 0;
-                public static final double DEFAULT_D = 0;
+                public static final double DEFAULT_D = 0.01;
                 public static final double DEFAULT_MAX_OUTPUT = 8; // TODO: Fix later
                 public static final double DEFAULT_FF = 0;
-                public static final ControlType DEFAULT_CONTROL_TYPE = ControlType.kSmartMotion;
+                public static final ControlType DEFAULT_CONTROL_TYPE = ControlType.kPosition;
             }
 
             public static class drive {

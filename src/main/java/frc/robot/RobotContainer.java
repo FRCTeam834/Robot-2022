@@ -99,6 +99,7 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
         new JoystickButton(rightJoystick, 1).whenPressed(navX::resetYaw);
         new JoystickButton(rightJoystick, 8).whenPressed(new InstantCommand(driveTrain::saveParameters).andThen(new PrintCommand("Saved!")));
+        new JoystickButton(rightJoystick, 9).whenPressed(new InstantCommand(driveTrain::defaultParameters).andThen(new PrintCommand("Defaulted!")))
 
         // new JoystickButton(buttonBoard,1).whenPressed(zeroNavX)
         // new JoystickButton(xbox, Button.kA.value).whenPressed(zeroNavX);

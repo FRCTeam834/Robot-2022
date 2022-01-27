@@ -63,7 +63,7 @@ public class LetsRoll2Joysticks extends CommandBase {
                     (rightY * Parameters.driver.maxModVelocity),
                     (rightX * Parameters.driver.maxModVelocity),
                     Math.toRadians(leftX * Parameters.driver.maxSteerRate),
-                    fieldCentric);
+                    true);
         } else if (Parameters.driver.lockemUp) {
             RobotContainer.driveTrain.lockemUp();
         } else {
