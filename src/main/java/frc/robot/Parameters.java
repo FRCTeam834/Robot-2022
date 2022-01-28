@@ -272,6 +272,9 @@ public final class Parameters {
 
         public static final double SETPOINT = 0;
 
+        // The allowable tolerance between the two climbing hooks while climbing (in m)
+        public static final double ALLOWABLE_DEVIATION = 0.05;
+
         public static final class front {
             public static final class motor {
                 public static final double SPEED = 0.0;

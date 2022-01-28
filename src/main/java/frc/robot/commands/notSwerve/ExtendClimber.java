@@ -26,7 +26,8 @@ public class ExtendClimber extends CommandBase {
     @Override
     public void execute() {
 
-        if (RobotContainer.climber.getFrontPosition() < RobotContainer.climber.getBackPosition()) {
+        if (RobotContainer.climber.getFrontPosition()
+                < RobotContainer.climber.getBackPosition() - Parameters.climber.ALLOWABLE_DEVIATION) {
 
             RobotContainer.climber.setFrontMotor(
                     RobotContainer.climber.getPIDValue(
@@ -38,7 +39,7 @@ public class ExtendClimber extends CommandBase {
                             RobotContainer.climber.getBackPosition(), Parameters.climber.SETPOINT));
 
         } else if (RobotContainer.climber.getFrontPosition()
-                > RobotContainer.climber.getBackPosition()) {
+                > RobotContainer.climber.getBackPosition() - Parameters.climber.ALLOWABLE_DEVIATION) {
 
             RobotContainer.climber.setBackMotor(
                     RobotContainer.climber.getPIDValue(

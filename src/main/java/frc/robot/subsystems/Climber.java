@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 // Imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -63,40 +64,6 @@ public class Climber extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-    }
-
-    // Unravels spools simultaneously to extend both arms at the same time
-    public void extendClimber(double speed, double setPoint) {
-        do {
-            if (frontEncoder.getPosition() < backEncoder.getPosition()) {
-                frontMotor.set(
-                        cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
-            } else if (frontEncoder.getPosition() > backEncoder.getPosition()) {
-                backMotor.set(
-                        cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
-            } else {
-                frontMotor.set(speed);
-                backMotor.set(speed);
-            }
-
-        } while (frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint);
-    }
-
-    public void doAPullUp(double speed) {
-        /*
-        do {
-            if (frontEncoder.getPosition() < backEncoder.getPosition()) {
-                frontMotor.set(
-                        cPid.calculate(frontEncoder.getPosition(), backEncoder.getPosition()));
-            } else if (frontEncoder.getPosition() > backEncoder.getPosition()) {
-                backMotor.set(
-                        cPid.calculate(backEncoder.getPosition(), frontEncoder.getPosition()));
-            } else {
-                frontMotor.set(speed);
-                backMotor.set(speed);
-            }
-
-        } while (frontEncoder.getPosition() < setPoint || backEncoder.getPosition() < setPoint);*/
     }
 
     public boolean getBackLimitSwitchValue() {
