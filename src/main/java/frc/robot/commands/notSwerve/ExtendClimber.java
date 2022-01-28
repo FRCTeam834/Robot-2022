@@ -4,8 +4,6 @@
 
 package frc.robot.commands.notSwerve;
 
-
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
@@ -27,7 +25,8 @@ public class ExtendClimber extends CommandBase {
     public void execute() {
 
         if (RobotContainer.climber.getFrontPosition()
-                < RobotContainer.climber.getBackPosition() - Parameters.climber.ALLOWABLE_DEVIATION) {
+                < RobotContainer.climber.getBackPosition()
+                        - Parameters.climber.ALLOWABLE_DEVIATION) {
 
             RobotContainer.climber.setFrontMotor(
                     RobotContainer.climber.getPIDValue(
@@ -39,7 +38,8 @@ public class ExtendClimber extends CommandBase {
                             RobotContainer.climber.getBackPosition(), Parameters.climber.SETPOINT));
 
         } else if (RobotContainer.climber.getFrontPosition()
-                > RobotContainer.climber.getBackPosition() - Parameters.climber.ALLOWABLE_DEVIATION) {
+                > RobotContainer.climber.getBackPosition()
+                        - Parameters.climber.ALLOWABLE_DEVIATION) {
 
             RobotContainer.climber.setBackMotor(
                     RobotContainer.climber.getPIDValue(

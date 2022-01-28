@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Parameters.driveTrain.pid.drive;
+
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
@@ -64,15 +64,15 @@ public class RobotContainer {
     public static Joystick buttonBoard = new Joystick(3);
 
     // Button Board Naming Convention Variables:
-    private static final int BBTL = 7;  // Top Left
-    private static final int BBTM = 2;  // Top Middle
-    private static final int BBTR = 4;  // Top Right
-    private static final int BBML = 1;  // Middle Left
-    private static final int BBMM = 6;  // Middle Middle
-    private static final int BBMR = 3;  // Middle Right
+    private static final int BBTL = 7; // Top Left
+    private static final int BBTM = 2; // Top Middle
+    private static final int BBTR = 4; // Top Right
+    private static final int BBML = 1; // Middle Left
+    private static final int BBMM = 6; // Middle Middle
+    private static final int BBMR = 3; // Middle Right
     private static final int BBBL = 10; // Bottom Left
-    private static final int BBBM = 9;  // Bottom Middle
-    private static final int BBBR = 8;  // Bottom Right
+    private static final int BBBM = 9; // Bottom Middle
+    private static final int BBBR = 8; // Bottom Right
 
     /*
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -99,13 +99,24 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
 
         // Right Joystick
-        new JoystickButton(rightJoystick, 1).whenPressed(new InstantCommand(navX::resetYaw, navX).andThen(new PrintCommand("Reset NavX!")));
-        new JoystickButton(rightJoystick, 8).whenPressed(new InstantCommand(driveTrain::saveParameters, driveTrain).andThen(new PrintCommand("Saved tunings!")));
-        new JoystickButton(rightJoystick, 9).whenPressed(new InstantCommand(driveTrain::defaultParameters, driveTrain).andThen(new PrintCommand("Defaulted tunings!")));
+        new JoystickButton(rightJoystick, 1)
+                .whenPressed(
+                        new InstantCommand(navX::resetYaw, navX)
+                                .andThen(new PrintCommand("Reset NavX!")));
+        new JoystickButton(rightJoystick, 8)
+                .whenPressed(
+                        new InstantCommand(driveTrain::saveParameters, driveTrain)
+                                .andThen(new PrintCommand("Saved tunings!")));
+        new JoystickButton(rightJoystick, 9)
+                .whenPressed(
+                        new InstantCommand(driveTrain::defaultParameters, driveTrain)
+                                .andThen(new PrintCommand("Defaulted tunings!")));
 
         // Button board
-        new JoystickButton(buttonBoard, BBTR).whenPressed(new InstantCommand(climber::runRightMotor, climber));
-        new JoystickButton(buttonBoard, BBTR).whenReleased(new InstantCommand(climber::stopMotors, climber));
+        new JoystickButton(buttonBoard, BBTR)
+                .whenPressed(new InstantCommand(climber::runRightMotor, climber));
+        new JoystickButton(buttonBoard, BBTR)
+                .whenReleased(new InstantCommand(climber::stopMotors, climber));
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
