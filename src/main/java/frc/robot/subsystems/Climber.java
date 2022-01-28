@@ -9,7 +9,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -22,11 +21,11 @@ public class Climber extends SubsystemBase {
 
     // Encoder objects (from NEOs)
     private RelativeEncoder rightEncoder;
-    //private RelativeEncoder leftEncoder;
+    // private RelativeEncoder leftEncoder;
 
     // Limit Switch
-    //DigitalInput rightBottomLimitSwitch;
-    //DigitalInput leftBottomLimitSwitch;
+    // DigitalInput rightBottomLimitSwitch;
+    // DigitalInput leftBottomLimitSwitch;
 
     /** Creates a new Climber. */
     public Climber() {
