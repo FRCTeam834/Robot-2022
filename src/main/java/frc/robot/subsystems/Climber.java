@@ -17,48 +17,44 @@ import frc.robot.Parameters;
 public class Climber extends SubsystemBase {
 
     // Motor objects
-    CANSparkMax frontMotor;
-    CANSparkMax backMotor;
+    CANSparkMax rightMotor;
+    //CANSparkMax leftMotor;
 
     // Encoder objects (from NEOs)
-    public RelativeEncoder frontEncoder;
-    public RelativeEncoder backEncoder;
+    public RelativeEncoder rightEncoder;
+    //public RelativeEncoder leftEncoder;
 
     // Limit Switch
-    DigitalInput frontLimitSwitch;
-    DigitalInput backLimitSwitch;
-    private PIDController cPid;
+    DigitalInput rightBottomLimitSwitch;
+    //DigitalInput leftBottomLimitSwitch;
 
     /** Creates a new Climber. */
     public Climber() {
 
         // Create the motors
-        frontMotor = new CANSparkMax(Parameters.climber.front.motor.ID, MotorType.kBrushless);
-        backMotor = new CANSparkMax(Parameters.climber.back.motor.ID, MotorType.kBrushless);
+        rightMotor = new CANSparkMax(Parameters.climber.right.motor.ID, MotorType.kBrushless);
+        //leftMotor = new CANSparkMax(Parameters.climber.left.motor.ID, MotorType.kBrushless);
 
         // Get the encoders from the motors
-        frontEncoder = frontMotor.getEncoder();
-        backEncoder = backMotor.getEncoder();
+        rightEncoder = rightMotor.getEncoder();
+        //leftEncoder = leftMotor.getEncoder();
 
         // Enable voltage compensation
-        frontMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
-        backMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
+        rightMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
+        //leftMotor.enableVoltageCompensation(Parameters.general.nominalVoltage);
 
         // Set the position conversion factors
-        frontEncoder.setPositionConversionFactor(Parameters.climber.POS_CONV_FACTOR);
-        backEncoder.setPositionConversionFactor(Parameters.climber.POS_CONV_FACTOR);
+        rightEncoder.setPositionConversionFactor(Parameters.climber.POS_CONV_FACTOR);
+        //leftEncoder.setPositionConversionFactor(Parameters.climber.POS_CONV_FACTOR);
 
         // Set the current position of the climber to 0
         // ! This means that the climber must start at the every bottom every time!
-        frontEncoder.setPosition(0);
-        backEncoder.setPosition(0);
+        rightEncoder.setPosition(0);
+        //leftEncoder.setPosition(0);
 
         // Create the limit switches
-        frontLimitSwitch = new DigitalInput(Parameters.climber.front.limitSwitch.DIO_CHAN);
-        backLimitSwitch = new DigitalInput(Parameters.climber.back.limitSwitch.DIO_CHAN);
-
-        // PID
-        cPid = new PIDController(1, 0, 0);
+        //frontBottomLimitSwitch = new DigitalInput(Parameters.climber.front.limitSwitch.DIO_CHAN);
+        //backBottomLimitSwitch = new DigitalInput(Parameters.climber.back.limitSwitch.DIO_CHAN);
     }
 
     @Override
@@ -66,36 +62,28 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    public boolean getBackLimitSwitchValue() {
-        return backLimitSwitch.get();
+    public double getRightPosition() {
+        return rightEncoder.getPosition();
     }
 
-    public boolean getFrontLimitSwitchValue() {
-        return frontLimitSwitch.get();
+    //public double getLeftPosition() {
+    //    return leftEncoder.getPosition();
+    //}
+
+    public void setRightMotor(double speed) {
+        rightMotor.set(speed);
     }
 
-    public double getFrontPosition() {
-        return frontEncoder.getPosition();
+    public void runRightMotor() {
+        rightMotor.set(Parameters.climber.DEFAULT_SPEED);
     }
 
-    public double getBackPosition() {
-        return backEncoder.getPosition();
-    }
-
-    public double getPIDValue(double current, double setPoint) {
-        return cPid.calculate(current, setPoint);
-    }
-
-    public void setFrontMotor(double speed) {
-        frontMotor.set(speed);
-    }
-
-    public void setBackMotor(double speed) {
-        backMotor.set(speed);
-    }
+    //public void setBackMotor(double speed) {
+    //    leftMotor.set(speed);
+    //}
 
     public void stopMotors() {
-        backMotor.set(0);
-        frontMotor.set(0);
+        rightMotor.set(0);
+        //leftMotor.set(0);
     }
 }

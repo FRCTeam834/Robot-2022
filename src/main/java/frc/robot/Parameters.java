@@ -275,9 +275,11 @@ public final class Parameters {
         // The allowable tolerance between the two climbing hooks while climbing (in m)
         public static final double ALLOWABLE_DEVIATION = 0.05;
 
-        public static final class front {
+        // The default speed for running the climber
+        public static final double DEFAULT_SPEED = 0.25;
+
+        public static final class right {
             public static final class motor {
-                public static final double SPEED = 0.0;
                 public static final int ID = 14;
             }
 
@@ -286,9 +288,8 @@ public final class Parameters {
             }
         }
 
-        public static final class back {
+        public static final class left {
             public static final class motor {
-                public static final double SPEED = 0.0;
                 public static final int ID = 15;
             }
 
