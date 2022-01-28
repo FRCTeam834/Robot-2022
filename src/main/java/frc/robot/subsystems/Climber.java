@@ -84,21 +84,20 @@ public class Climber extends SubsystemBase {
     public double getBackPosition() {
         return backEncoder.getPosition();
     }
-    
-    public double getPIDValue(double current, double setPoint){
+
+    public double getPIDValue(double current, double setPoint) {
         return cPid.calculate(current, setPoint);
-        
     }
 
-    public void setFrontMotor(double speed){
+    public void setFrontMotor(double speed) {
         frontMotor.set(speed);
     }
 
-    public void setBackMotor(double speed){
+    public void setBackMotor(double speed) {
         backMotor.set(speed);
     }
-    
-    public void stopMotors(){
+
+    public void stopMotors() {
         backMotor.set(0);
         frontMotor.set(0);
     }
