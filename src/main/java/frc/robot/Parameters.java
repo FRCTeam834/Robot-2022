@@ -268,6 +268,10 @@ public final class Parameters {
         // TODO: Find this factor
         public static final double POS_CONV_FACTOR = 1;
 
+        // TODO: Find setpoint
+
+        public static final double SETPOINT = 0;
+
         public static final class front {
             public static final class motor {
                 public static final double SPEED = 0.0;

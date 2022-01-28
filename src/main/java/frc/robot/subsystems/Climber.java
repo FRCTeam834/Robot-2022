@@ -11,7 +11,6 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Parameters;
 
 public class Climber extends SubsystemBase {
@@ -33,8 +32,8 @@ public class Climber extends SubsystemBase {
     public Climber() {
 
         // Create the motors
-        // frontMotor = new CANSparkMax(Parameters.climber.frontMotor.ID, MotorType.kBrushless);
-        // backMotor = new CANSparkMax(Parameters.climber.backMotor.ID, MotorType.kBrushless);
+        frontMotor = new CANSparkMax(Parameters.climber.front.motor.ID, MotorType.kBrushless);
+        backMotor = new CANSparkMax(Parameters.climber.back.motor.ID, MotorType.kBrushless);
 
         // Get the encoders from the motors
         frontEncoder = frontMotor.getEncoder();
@@ -54,12 +53,11 @@ public class Climber extends SubsystemBase {
         backEncoder.setPosition(0);
 
         // Create the limit switches
-        // backLimitSwitch = new DigitalInput(Parameters.climber.backMotor.LIMIT_SWITCH_CHANNEL_ID);
-        // frontLimitSwitch = new
-        // DigitalInput(Parameters.climber.frontMotor.LIMIT_SWITCH_CHANNEL_ID);
+        frontLimitSwitch = new DigitalInput(Parameters.climber.front.limitSwitch.DIO_CHAN);
+        backLimitSwitch = new DigitalInput(Parameters.climber.back.limitSwitch.DIO_CHAN);
 
         // PID
-        PIDController cPid = new PIDController(1, 0, 0);
+        cPid = new PIDController(1, 0, 0);
     }
 
     @Override
@@ -67,7 +65,7 @@ public class Climber extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    // Unravels spools simultaneuously to extend both arms at the same time
+    // Unravels spools simultaneously to extend both arms at the same time
     public void extendClimber(double speed, double setPoint) {
         do {
             if (frontEncoder.getPosition() < backEncoder.getPosition()) {
@@ -109,7 +107,28 @@ public class Climber extends SubsystemBase {
         return frontLimitSwitch.get();
     }
 
-    public double getFrontEncoder() {
+    public double getFrontPosition() {
         return frontEncoder.getPosition();
+    }
+
+    public double getBackPosition() {
+        return backEncoder.getPosition();
+    }
+
+    public double getPIDValue(double current, double setPoint) {
+        return cPid.calculate(current, setPoint);
+    }
+
+    public void setFrontMotor(double speed) {
+        frontMotor.set(speed);
+    }
+
+    public void setBackMotor(double speed) {
+        backMotor.set(speed);
+    }
+
+    public void stopMotors() {
+        backMotor.set(0);
+        frontMotor.set(0);
     }
 }
