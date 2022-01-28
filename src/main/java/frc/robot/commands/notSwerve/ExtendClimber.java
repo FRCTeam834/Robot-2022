@@ -72,10 +72,7 @@ public class ExtendClimber extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-
-        if (RobotContainer.climber.getFrontPosition() >= Parameters.climber.SETPOINT
-                && RobotContainer.climber.getBackPosition() >= Parameters.climber.SETPOINT) {
-            return false;
-        }
+        return (RobotContainer.climber.getFrontPosition() >= Parameters.climber.SETPOINT
+                && RobotContainer.climber.getBackPosition() >= Parameters.climber.SETPOINT);
     }
 }
