@@ -373,11 +373,11 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return Are the modules at their desired angles?
      */
-    public boolean areAtDesiredAngles(double FLDA, double FRDA, double BLDA, double BRDA) {
-        return (frontLeft.isAtDesiredAngle(FLDA)
-                && frontRight.isAtDesiredAngle(FRDA)
-                && backLeft.isAtDesiredAngle(BLDA)
-                && backRight.isAtDesiredAngle(BRDA));
+    public boolean areAtDesiredAngles(double FL, double FR, double BL, double BR) {
+        return (frontLeft.isAtDesiredAngle(FL)
+                && frontRight.isAtDesiredAngle(FR)
+                && backLeft.isAtDesiredAngle(BL)
+                && backRight.isAtDesiredAngle(BR));
     }
 
     /**
@@ -427,11 +427,11 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return Are the modules at their desired velocities?
      */
-    public boolean areAtDesiredVelocities(double FLDV, double FRDV, double BLDV, double BRDV) {
-        return (frontLeft.isAtDesiredVelocity(FLDV)
-                && frontRight.isAtDesiredVelocity(FRDV)
-                && backLeft.isAtDesiredVelocity(BLDV)
-                && backRight.isAtDesiredVelocity(BRDV));
+    public boolean areAtDesiredVelocities(double FL, double FR, double BL, double BR) {
+        return (frontLeft.isAtDesiredVelocity(FL)
+                && frontRight.isAtDesiredVelocity(FR)
+                && backLeft.isAtDesiredVelocity(BL)
+                && backRight.isAtDesiredVelocity(BR));
     }
 
     /**

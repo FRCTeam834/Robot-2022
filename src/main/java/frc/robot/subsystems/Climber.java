@@ -21,12 +21,12 @@ public class Climber extends SubsystemBase {
     // CANSparkMax leftMotor;
 
     // Encoder objects (from NEOs)
-    public RelativeEncoder rightEncoder;
-    // public RelativeEncoder leftEncoder;
+    private RelativeEncoder rightEncoder;
+    //private RelativeEncoder leftEncoder;
 
     // Limit Switch
-    DigitalInput rightBottomLimitSwitch;
-    // DigitalInput leftBottomLimitSwitch;
+    //DigitalInput rightBottomLimitSwitch;
+    //DigitalInput leftBottomLimitSwitch;
 
     /** Creates a new Climber. */
     public Climber() {
@@ -66,9 +66,9 @@ public class Climber extends SubsystemBase {
         return rightEncoder.getPosition();
     }
 
-    // public double getLeftPosition() {
-    //    return leftEncoder.getPosition();
-    // }
+    /*public double getLeftPosition() {
+       return leftEncoder.getPosition();
+    }*/
 
     public void setRightMotor(double speed) {
         rightMotor.set(speed);
@@ -78,9 +78,9 @@ public class Climber extends SubsystemBase {
         rightMotor.set(Parameters.climber.DEFAULT_SPEED);
     }
 
-    // public void setBackMotor(double speed) {
-    //    leftMotor.set(speed);
-    // }
+    /*public void setLeftMotor(double speed) {
+        leftMotor.set(speed);
+    }*/
 
     public void stopMotors() {
         rightMotor.set(0);

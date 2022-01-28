@@ -268,15 +268,18 @@ public final class Parameters {
         // TODO: Find this factor
         public static final double POS_CONV_FACTOR = 1;
 
-        // TODO: Find setpoint
-
-        public static final double SETPOINT = 0;
+        // TODO: Find distance of a full climber move
+        public static final double MOVE_DISTANCE = 0;
 
         // The allowable tolerance between the two climbing hooks while climbing (in m)
         public static final double ALLOWABLE_DEVIATION = 0.05;
 
         // The default speed for running the climber
         public static final double DEFAULT_SPEED = 0.25;
+
+        // The adjustment to the speed of the climbers if they aren't equal
+        // This is added to the slower motor and subtracted from the faster one
+        public static final double SPEED_REDUCTION = 0.05;
 
         public static final class right {
             public static final class motor {
