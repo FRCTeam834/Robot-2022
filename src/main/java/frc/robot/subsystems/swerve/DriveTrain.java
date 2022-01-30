@@ -66,21 +66,6 @@ public class DriveTrain extends SubsystemBase {
                             Units.degreesToRadians(
                                     Parameters.driveTrain.pid.DEFAULT_ROT_MAX_ACCEL)));
 
-    // NetworkTable entries
-    NetworkTableEntry X_MOVE_PID_P_ENTRY;
-    NetworkTableEntry X_MOVE_PID_I_ENTRY;
-    NetworkTableEntry X_MOVE_PID_D_ENTRY;
-    NetworkTableEntry Y_MOVE_PID_P_ENTRY;
-    NetworkTableEntry Y_MOVE_PID_I_ENTRY;
-    NetworkTableEntry Y_MOVE_PID_D_ENTRY;
-    NetworkTableEntry ROTATION_PID_P_ENTRY;
-    NetworkTableEntry ROTATION_PID_I_ENTRY;
-    NetworkTableEntry ROTATION_PID_D_ENTRY;
-    NetworkTableEntry ROTATION_PID_MAX_ACCEL_ENTRY;
-    NetworkTableEntry ROTATION_PID_MAX_VEL_ENTRY;
-    NetworkTableEntry X_POSITION_ENTRY;
-    NetworkTableEntry Y_POSITION_ENTRY;
-    NetworkTableEntry ROTATIONAL_POSITION_ENTRY;
 
     // Define their position (relative to center of robot)
 
@@ -128,7 +113,7 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FL_STEER_ID,
                         Parameters.driveTrain.can.FL_DRIVE_ID,
                         Parameters.driveTrain.can.FL_CODER_ID,
-                         true);
+                        true);
         frontRight =
                 new SwerveModule(
                         "FR",
@@ -154,10 +139,11 @@ public class DriveTrain extends SubsystemBase {
         // Set up the PID controllers
         rotationPID.setTolerance(Parameters.driveTrain.pid.DEFAULT_ROT_TOLERANCE);
 
-
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
-    }
+        }
+
+    
 
     /**
      * Moves the entire drivetrain with the specified X and Y velocity with rotation
@@ -332,13 +318,24 @@ public class DriveTrain extends SubsystemBase {
      * @return Are the modules at their desired angles?
      */
     public boolean areAtDesiredAngles(double FL, double FR, double BL, double BR) {
-        return (frontLeft.isAtDesiredAngle()
-                && frontRight.isAtDesiredAngle()
-                && backLeft.isAtDesiredAngle()
-                && backRight.isAtDesiredAngle());
+        return (frontLeft.isAtDesiredAngle(FL)
+                && frontRight.isAtDesiredAngle(FR)
+                && backLeft.isAtDesiredAngle(BL)
+                && backRight.isAtDesiredAngle(BR));
     }
 
-
+    /**
+     * Checks if the modules are at their desired angles (must all be at desired angles in order to
+     * return true)
+     *
+     * @return Are the modules at their desired angles?
+     */
+    public boolean areAtDesiredAngles(double[] desiredAngles) {
+        return (frontLeft.isAtDesiredAngle(desiredAngles[0])
+                && frontRight.isAtDesiredAngle(desiredAngles[1])
+                && backLeft.isAtDesiredAngle(desiredAngles[2])
+                && backRight.isAtDesiredAngle(desiredAngles[3]));
+    }
 
     /**
      * Sets all of the swerve modules to their specified velocities
@@ -375,10 +372,10 @@ public class DriveTrain extends SubsystemBase {
      * @return Are the modules at their desired velocities?
      */
     public boolean areAtDesiredVelocities(double FL, double FR, double BL, double BR) {
-        return (frontLeft.isAtDesiredVelocity()
-                && frontRight.isAtDesiredVelocity()
-                && backLeft.isAtDesiredVelocity()
-                && backRight.isAtDesiredVelocity());
+        return (frontLeft.isAtDesiredVelocity(FL)
+                && frontRight.isAtDesiredVelocity(FR)
+                && backLeft.isAtDesiredVelocity(BL)
+                && backRight.isAtDesiredVelocity(BR));
     }
 
     /**
@@ -387,7 +384,12 @@ public class DriveTrain extends SubsystemBase {
      *
      * @return Are the modules at their desired velocities?
      */
- 
+    public boolean areAtDesiredVelocities(double[] desiredVelocities) {
+        return (frontLeft.isAtDesiredVelocity(desiredVelocities[0])
+                && frontRight.isAtDesiredVelocity(desiredVelocities[1])
+                && backLeft.isAtDesiredVelocity(desiredVelocities[2])
+                && backRight.isAtDesiredVelocity(desiredVelocities[3]));
+    }
 
     /** Stops the drive wheel of the modules and sets it to hold stopped */
     public void stopModules() {
@@ -443,7 +445,7 @@ public class DriveTrain extends SubsystemBase {
     public void visionPositionMeasurement(Pose2d visionRobotPose) {
         poseEstimator.addVisionMeasurement(visionRobotPose, Timer.getFPGATimestamp());
     }
-
+ 
 
     /**
      * Gets the estimated X position of the drivetrain on the field
@@ -500,13 +502,28 @@ public class DriveTrain extends SubsystemBase {
         backRight.setEncoderOffset(0);
     }
 
+    
+
+    /**
+     * Calculates the next angular speed for the drivetrain
+     *
+     * @param desiredAngle the final angle desired (in deg) (using an absolute angle)
+     * @return The correction output from the controller (in deg/s)
+     */
+    public double turnToAbsoluteAngle(double desiredAngle) {
+
+        // Calculate the next output, returning the feedforward result it returns
+        // Unfortunately, WPI uses radians under the hood, which means that we have to use radians
+        // as well
+        double radiansPerSec =
+                rotationPID.calculate(
+                        RobotContainer.navX.getRotation2d().getRadians(),
+                        Units.degreesToRadians(desiredAngle));
+        return Units.radiansToDegrees(radiansPerSec);
+    }
 
     @Override
     public void periodic() {
-
-        // NetworkTables updates
-        //publishPerformanceData();
-        //pullTuningValues();
 
         // Update the odometry as frequently as possible
         updateOdometry();

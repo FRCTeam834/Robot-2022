@@ -315,7 +315,7 @@ public class SwerveModule extends SubsystemBase {
      *
      * @return Has the module reached it's desired angle?
      */
-    public boolean isAtDesiredAngle() {
+    public boolean isAtDesiredAngle(double desiredAngle) {
 
         // We need to check if the module is supposed to be enabled or not
         if (enabled) {
@@ -383,11 +383,11 @@ public class SwerveModule extends SubsystemBase {
         // Return if we have reached our desired velocity (should always return correctly,
         // regardless of
         // enable state)
-        return isAtDesiredVelocity();
+        return isAtDesiredVelocity(targetVelocity);
     }
 
     // Checks if a module's velocity is within tolerance
-    public boolean isAtDesiredVelocity() {
+    public boolean isAtDesiredVelocity(double desiredVelocity) {
 
         // Check to see if the module is enabled
         if (enabled) {
