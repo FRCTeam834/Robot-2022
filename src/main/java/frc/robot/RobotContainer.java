@@ -26,7 +26,6 @@ import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
-import frc.robot.commands.swerve.testing.TestMovementPID;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.swerve.DriveTrain;
@@ -51,7 +50,6 @@ public class RobotContainer {
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
     private final TestModulePID testModulePID = new TestModulePID();
-    private final TestMovementPID testMovementPID = new TestMovementPID();
     private final TestModulePositioning testModulePositioning = new TestModulePositioning();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
@@ -99,18 +97,7 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
 
         // Right Joystick
-        new JoystickButton(rightJoystick, 1)
-                .whenPressed(
-                        new InstantCommand(navX::resetYaw, navX)
-                                .andThen(new PrintCommand("Reset NavX!")));
-        new JoystickButton(rightJoystick, 8)
-                .whenPressed(
-                        new InstantCommand(driveTrain::saveParameters, driveTrain)
-                                .andThen(new PrintCommand("Saved tunings!")));
-        new JoystickButton(rightJoystick, 9)
-                .whenPressed(
-                        new InstantCommand(driveTrain::defaultParameters, driveTrain)
-                                .andThen(new PrintCommand("Defaulted tunings!")));
+
 
         // Button board
         new JoystickButton(buttonBoard, BBTR)

@@ -105,8 +105,6 @@ public class TestModulePID extends CommandBase {
             RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0);
         }
 
-        // Publishes velocity and angle to network tables
-        RobotContainer.driveTrain.publishPerformanceData();
     }
 
     // Called once the command ends or is interrupted.

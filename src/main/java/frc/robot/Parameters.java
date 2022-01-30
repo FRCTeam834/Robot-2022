@@ -25,6 +25,7 @@ import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.util.Units;
 
 import frc.robot.utilityClasses.JoystickOutputTypes;
+import frc.robot.utilityClasses.TuneableNumber;
 
 /**
  * The Parameters class provides a convenient place for teams to hold robot-wide numerical or
@@ -92,7 +93,7 @@ public final class Parameters {
          * @param inputType The devices used to control the robot
          */
         public static final String name = "CAP1Sup";
-
+        public static final boolean tuningMode = false;
         public static final double maxSteerRate = 180;
         public static final boolean lockemUp = true;
         public static final boolean fieldCentric = true;
@@ -167,22 +168,16 @@ public final class Parameters {
              * Gains(kp, ki, kd, feedforward, iZone, peak output);
              */
             public static class steer {
-                public static final double DEFAULT_P = 0.05;
-                public static final double DEFAULT_I = 0;
-                public static final double DEFAULT_I_ZONE = 0;
-                public static final double DEFAULT_D = 0.01;
-                public static final double DEFAULT_MAX_OUTPUT = 8; // TODO: Fix later
-                public static final double DEFAULT_FF = 0;
-                public static final ControlType DEFAULT_CONTROL_TYPE = ControlType.kPosition;
+                public static final TuneableNumber kP = new TuneableNumber("Steer kP", 0.05);
+                public static final TuneableNumber kD = new TuneableNumber("Steer kD",0.01);
+                public static final double kMAX_OUTPUT = 8; // TODO: Fix later
+                public static final ControlType kControl_Type = ControlType.kPosition;
             }
 
             public static class drive {
-                public static final double DEFAULT_P = 0.5;
-                public static final double DEFAULT_I = 0;
-                public static final double DEFAULT_I_ZONE = 0;
-                public static final double DEFAULT_D = 0;
-                public static final double DEFAULT_MAX_OUTPUT = 8; // TODO: Fix later
-                public static final double DEFAULT_FF = 0;
+                public static final TuneableNumber kP = new TuneableNumber("Drive kP",.5);
+                public static final TuneableNumber kD = new TuneableNumber("Drive kD",0);
+                public static final double kMAX_OUTPUT = 8; // TODO: Fix later
                 public static final ControlType DEFAULT_CONTROL_TYPE = ControlType.kVelocity;
             }
 
