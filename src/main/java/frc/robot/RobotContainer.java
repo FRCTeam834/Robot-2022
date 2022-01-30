@@ -98,7 +98,6 @@ public class RobotContainer {
 
         // Right Joystick
 
-
         // Button board
         new JoystickButton(buttonBoard, BBTR)
                 .whenPressed(new InstantCommand(climber::runRightMotor, climber));

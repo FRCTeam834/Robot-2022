@@ -11,7 +11,6 @@
  */
 package frc.robot.subsystems.swerve;
 
-import java.util.ResourceBundle.Control;
 
 // Imports
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
@@ -25,11 +24,9 @@ import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters;
 import frc.robot.Parameters.driveTrain.pid;
 import frc.robot.utilityClasses.CachedPIDController;
@@ -86,11 +83,7 @@ public class SwerveModule extends SubsystemBase {
      * @param reversedDrive If the drive motor should be reversed
      */
     public SwerveModule(
-            String moduleName,
-            int steerMID,
-            int driveMID,
-            int CANCoderID,
-            boolean reversedDrive) {
+            String moduleName, int steerMID, int driveMID, int CANCoderID, boolean reversedDrive) {
 
         // Set the name
         name = moduleName;
@@ -170,7 +163,9 @@ public class SwerveModule extends SubsystemBase {
         //                / Parameters.driveTrain.ratios.DRIVE_GEAR_RATIO);
         // ! Reset the position conversion factor back to 1
         // ! This should hopefully fix the issues with the PID
-        driveMotorEncoder.setPositionConversionFactor((Math.PI * Parameters.driveTrain.dimensions.MODULE_WHEEL_DIA_M)/ (Parameters.driveTrain.ratios.DRIVE_GEAR_RATIO));
+        driveMotorEncoder.setPositionConversionFactor(
+                (Math.PI * Parameters.driveTrain.dimensions.MODULE_WHEEL_DIA_M)
+                        / (Parameters.driveTrain.ratios.DRIVE_GEAR_RATIO));
 
         // Drive motor PID controller (from motor)
         // Note that we use a "cached" controller.
@@ -475,7 +470,6 @@ public class SwerveModule extends SubsystemBase {
         enabled = true;
     }
 
-
     // Print out a debug string
     public void printDebugString(double targetAngle) {
         System.out.println(
@@ -492,13 +486,27 @@ public class SwerveModule extends SubsystemBase {
                         + Math.round(angularOffset));
     }
 
-@Override
-public void periodic()
-{
-    if(Parameters.driver.tuningMode)
-    {
-        setDriveMParams(new PIDParams(pid.drive.kP.get(), 0, pid.drive.kD.get(),0,pid.drive.kMAX_OUTPUT, pid.drive.DEFAULT_CONTROL_TYPE), IdleMode.kBrake);
-        setSteerMParams(new PIDParams(pid.steer.kP.get(), 0, pid.steer.kD.get(),0,pid.steer.kMAX_OUTPUT, pid.steer.kControl_Type), IdleMode.kBrake);
+    @Override
+    public void periodic() {
+        if (Parameters.driver.tuningMode) {
+            setDriveMParams(
+                    new PIDParams(
+                            pid.drive.kP.get(),
+                            0,
+                            pid.drive.kD.get(),
+                            0,
+                            pid.drive.kMAX_OUTPUT,
+                            pid.drive.DEFAULT_CONTROL_TYPE),
+                    IdleMode.kBrake);
+            setSteerMParams(
+                    new PIDParams(
+                            pid.steer.kP.get(),
+                            0,
+                            pid.steer.kD.get(),
+                            0,
+                            pid.steer.kMAX_OUTPUT,
+                            pid.steer.kControl_Type),
+                    IdleMode.kBrake);
+        }
     }
-}
 }

@@ -24,10 +24,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -65,7 +61,6 @@ public class DriveTrain extends SubsystemBase {
                                     Parameters.driveTrain.pid.DEFAULT_ROT_MAX_VELOCITY),
                             Units.degreesToRadians(
                                     Parameters.driveTrain.pid.DEFAULT_ROT_MAX_ACCEL)));
-
 
     // Define their position (relative to center of robot)
 
@@ -141,9 +136,7 @@ public class DriveTrain extends SubsystemBase {
 
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
-        }
-
-    
+    }
 
     /**
      * Moves the entire drivetrain with the specified X and Y velocity with rotation
@@ -445,7 +438,6 @@ public class DriveTrain extends SubsystemBase {
     public void visionPositionMeasurement(Pose2d visionRobotPose) {
         poseEstimator.addVisionMeasurement(visionRobotPose, Timer.getFPGATimestamp());
     }
- 
 
     /**
      * Gets the estimated X position of the drivetrain on the field
@@ -501,8 +493,6 @@ public class DriveTrain extends SubsystemBase {
         backLeft.setEncoderOffset(0);
         backRight.setEncoderOffset(0);
     }
-
-    
 
     /**
      * Calculates the next angular speed for the drivetrain
