@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.utilityClasses.VisionPoint;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -19,6 +22,10 @@ public class Vision extends SubsystemBase {
     public PhotonCamera camera = new PhotonCamera("camera");
     private double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
     private boolean targetExists = false;
+    private double vph;
+    private double vpw;
+    private Rotation2d horizontalPlaneToLens;
+    private double lensHeightMeters;
 
     public Vision() {}
 
@@ -41,6 +48,32 @@ public class Vision extends SubsystemBase {
     public boolean hasTarget() {
         return targetExists;
     }
+
+    private Translation2d solveCameraToTargetTranslation(VisionPoint corner,
+      double goalHeight) {
+    double yPixels = corner.getX();
+    double zPixels = corner.getY();
+
+    // Robot frame of reference
+    double nY = -((yPixels - 480.0) / 480.0);
+    double nZ = -((zPixels - 360.0) / 360.0);
+
+    Translation2d xzPlaneTranslation =
+        new Translation2d(1.0, vph / 2.0 * nZ).rotateBy(horizontalPlaneToLens);
+    double x = xzPlaneTranslation.getX();
+    double y = vpw / 2.0 * nY;
+    double z = xzPlaneTranslation.getY();
+
+    double differentialHeight = lensHeightMeters - goalHeight;
+    if ((z < 0.0) == (differentialHeight > 0.0)) {
+      double scaling = differentialHeight / -z;
+      double distance = Math.hypot(x, y) * scaling;
+      Rotation2d angle = new Rotation2d(x, y);
+      return new Translation2d(distance * angle.getCos(),
+          distance * angle.getSin());
+    }
+    return null;
+  }
 
     @Override
     public void periodic() {

@@ -271,7 +271,7 @@ public final class Parameters {
         public static final double ALLOWABLE_DEVIATION = 0.05;
 
         // The default speed for running the climber
-        public static final double DEFAULT_SPEED = 0.25;
+        public static final double DEFAULT_SPEED = 0.75;
 
         // The adjustment to the speed of the climbers if they aren't equal
         // This is added to the slower motor and subtracted from the faster one

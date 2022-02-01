@@ -126,8 +126,8 @@ public class RobotContainer {
         // Right Joystick
 
         // Button board
-        TR.whenPressed(new InstantCommand(climber::runRightMotor, climber));
-        TR.whenReleased(new InstantCommand(climber::stopMotors, climber));
+        TL.whenPressed(new InstantCommand(climber::runRightMotor, climber));
+        TL.whenReleased(new InstantCommand(climber::stopMotors, climber));
         TM.whenPressed(new InstantCommand(climber::runRightMotorBackward, climber));
         TM.whenReleased(new InstantCommand(climber::stopMotors, climber));
     }
