@@ -83,7 +83,7 @@ public class RobotContainer {
     BM = Bottom Middle = 9
     BR = Bottom Right = 8
     You thought that this would be a comment that would explain a button naming convention, but it was me, DIO!
-    
+
     */
     /*
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -95,9 +95,15 @@ public class RobotContainer {
     // Button Box enum
 
     public enum ButtonBoard {
-        TL, TM, TR,
-        ML, MM, MR,
-        BL, BM, BR
+        TL,
+        TM,
+        TR,
+        ML,
+        MM,
+        MR,
+        BL,
+        BM,
+        BR
     }
 
     /**

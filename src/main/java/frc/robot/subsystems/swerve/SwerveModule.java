@@ -11,7 +11,6 @@
  */
 package frc.robot.subsystems.swerve;
 
-
 // Imports
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
