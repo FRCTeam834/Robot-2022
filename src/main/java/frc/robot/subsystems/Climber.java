@@ -77,6 +77,10 @@ public class Climber extends SubsystemBase {
         rightMotor.set(Parameters.climber.DEFAULT_SPEED);
     }
 
+    public void runRightMotorBackward() {
+        rightMotor.set(-Parameters.climber.DEFAULT_SPEED);
+    }
+
     /*public void setLeftMotor(double speed) {
         leftMotor.set(speed);
     }*/

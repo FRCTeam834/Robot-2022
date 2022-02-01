@@ -61,22 +61,43 @@ public class RobotContainer {
     public static XboxController xbox = new XboxController(2);
     public static Joystick buttonBoard = new Joystick(3);
 
-    // Button Board Naming Convention Variables:
-    private static final int BBTL = 7; // Top Left
-    private static final int BBTM = 2; // Top Middle
-    private static final int BBTR = 4; // Top Right
-    private static final int BBML = 1; // Middle Left
-    private static final int BBMM = 6; // Middle Middle
-    private static final int BBMR = 3; // Middle Right
-    private static final int BBBL = 10; // Bottom Left
-    private static final int BBBM = 9; // Bottom Middle
-    private static final int BBBR = 8; // Bottom Right
-
+    // Define button board buttons
+    public static JoystickButton TL = new JoystickButton(buttonBoard, 7);
+    public static JoystickButton TM = new JoystickButton(buttonBoard, 2);
+    public static JoystickButton TR = new JoystickButton(buttonBoard, 4);
+    public static JoystickButton ML = new JoystickButton(buttonBoard, 1);
+    public static JoystickButton MM = new JoystickButton(buttonBoard, 6);
+    public static JoystickButton MR = new JoystickButton(buttonBoard, 3);
+    public static JoystickButton BL = new JoystickButton(buttonBoard, 10);
+    public static JoystickButton BM = new JoystickButton(buttonBoard, 9);
+    public static JoystickButton BR = new JoystickButton(buttonBoard, 8);
+    /*
+    Button Naming Convention:
+    TL = Top Left = 7
+    TM = Top Middle = 2
+    TR = Top Right = 4
+    ML = Middle Left = 1
+    MM = Middle Middle = 6
+    MR = Middle Right = 3
+    BL = Bottom Left = 10
+    BM = Bottom Middle = 9
+    BR = Bottom Right = 8
+    You thought that this would be a comment that would explain a button naming convention, but it was me, DIO!
+    
+    */
     /*
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
+    }
+
+    // Button Box enum
+
+    public enum ButtonBoard {
+        TL, TM, TR,
+        ML, MM, MR,
+        BL, BM, BR
     }
 
     /**
@@ -99,10 +120,10 @@ public class RobotContainer {
         // Right Joystick
 
         // Button board
-        new JoystickButton(buttonBoard, BBTR)
-                .whenPressed(new InstantCommand(climber::runRightMotor, climber));
-        new JoystickButton(buttonBoard, BBTR)
-                .whenReleased(new InstantCommand(climber::stopMotors, climber));
+        TR.whenPressed(new InstantCommand(climber::runRightMotor, climber));
+        TR.whenReleased(new InstantCommand(climber::stopMotors, climber));
+        TM.whenPressed(new InstantCommand(climber::runRightMotorBackward, climber));
+        TM.whenReleased(new InstantCommand(climber::stopMotors, climber));
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
