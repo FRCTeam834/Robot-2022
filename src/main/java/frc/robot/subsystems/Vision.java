@@ -49,31 +49,29 @@ public class Vision extends SubsystemBase {
         return targetExists;
     }
 
-    private Translation2d solveCameraToTargetTranslation(VisionPoint corner,
-      double goalHeight) {
-    double yPixels = corner.getX();
-    double zPixels = corner.getY();
+    private Translation2d solveCameraToTargetTranslation(VisionPoint corner, double goalHeight) {
+        double yPixels = corner.getX();
+        double zPixels = corner.getY();
 
-    // Robot frame of reference
-    double nY = -((yPixels - 480.0) / 480.0);
-    double nZ = -((zPixels - 360.0) / 360.0);
+        // Robot frame of reference
+        double nY = -((yPixels - 480.0) / 480.0);
+        double nZ = -((zPixels - 360.0) / 360.0);
 
-    Translation2d xzPlaneTranslation =
-        new Translation2d(1.0, vph / 2.0 * nZ).rotateBy(horizontalPlaneToLens);
-    double x = xzPlaneTranslation.getX();
-    double y = vpw / 2.0 * nY;
-    double z = xzPlaneTranslation.getY();
+        Translation2d xzPlaneTranslation =
+                new Translation2d(1.0, vph / 2.0 * nZ).rotateBy(horizontalPlaneToLens);
+        double x = xzPlaneTranslation.getX();
+        double y = vpw / 2.0 * nY;
+        double z = xzPlaneTranslation.getY();
 
-    double differentialHeight = lensHeightMeters - goalHeight;
-    if ((z < 0.0) == (differentialHeight > 0.0)) {
-      double scaling = differentialHeight / -z;
-      double distance = Math.hypot(x, y) * scaling;
-      Rotation2d angle = new Rotation2d(x, y);
-      return new Translation2d(distance * angle.getCos(),
-          distance * angle.getSin());
+        double differentialHeight = lensHeightMeters - goalHeight;
+        if ((z < 0.0) == (differentialHeight > 0.0)) {
+            double scaling = differentialHeight / -z;
+            double distance = Math.hypot(x, y) * scaling;
+            Rotation2d angle = new Rotation2d(x, y);
+            return new Translation2d(distance * angle.getCos(), distance * angle.getSin());
+        }
+        return null;
     }
-    return null;
-  }
 
     @Override
     public void periodic() {
