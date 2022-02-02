@@ -10,9 +10,14 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-
+import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorMatchResult;
+import com.revrobotics.ColorSensorV3;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 
 import frc.robot.Parameters;
 
@@ -24,6 +29,14 @@ public class Shooter extends SubsystemBase {
 
     // Bang-bang controller
     BangBangController bigBangTheory;
+
+    // Color sensor object
+    ColorSensorV3 colorSensor;
+
+    // Color matching object
+    ColorMatch colorMatcher;
+
+    Color toReturn;
 
     /** Creates a new Shooter. */
     public Shooter() {
@@ -47,6 +60,11 @@ public class Shooter extends SubsystemBase {
 
         // Create a new bang-bang controller
         bigBangTheory = new BangBangController();
+
+        colorSensor = new ColorSensorV3(Port.kMXP);
+
+        // Create color matching object
+        colorMatcher = new ColorMatch();
     }
 
     @Override
@@ -62,4 +80,11 @@ public class Shooter extends SubsystemBase {
     public void stopMotor() {
         shooterMotor.set(0);
     }
+
+    public Color getClosestColor(){
+        toReturn = colorMatcher.matchClosestColor(colorSensor.getColor()).color;
+        return toReturn;
+
+    }
+    
 }

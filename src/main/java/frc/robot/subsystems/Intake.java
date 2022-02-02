@@ -21,11 +21,7 @@ public class Intake extends SubsystemBase {
     // Declare motor object
     CANSparkMax intakeMotor;
 
-    // Color sensor object
-    ColorSensorV3 colorSensor;
 
-    // Color matching object
-    ColorMatch colorMatcher;
 
     /** Creates a new Intake. */
     public Intake() {
@@ -34,10 +30,7 @@ public class Intake extends SubsystemBase {
         intakeMotor = new CANSparkMax(Parameters.intake.motor.ID, MotorType.kBrushless);
 
         // Create color sensor
-        colorSensor = new ColorSensorV3(Port.kMXP);
 
-        // Create color matching object
-        colorMatcher = new ColorMatch();
     }
 
     @Override
@@ -71,14 +64,7 @@ public class Intake extends SubsystemBase {
         return ballColor;
     }
 
-    /**
-     * Get the closest color to the readings from the color sensor
-     *
-     * @return The closest color. If no color is close, this will return black
-     */
-    public Color getClosestColor() {
-        return colorMatcher.matchClosestColor(colorSensor.getColor()).color;
-    }
+
 
     // Makes the intake go in reverse
     public void spitItOut() {

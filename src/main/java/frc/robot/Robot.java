@@ -119,7 +119,11 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during test mode. */
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+
+
+        System.out.println(RobotContainer.ButtonBoard.TL.ordinal());
+    }
 
     // Returns the color of ball that we should be collecting
     public static Color getOurBallColor() {

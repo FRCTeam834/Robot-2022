@@ -29,6 +29,7 @@ import frc.robot.commands.swerve.testing.TestModuleVelocity;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.swerve.DriveTrain;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,7 +46,7 @@ public class RobotContainer {
     // public static Superstructure superstructure = new Superstructure(new Vision());
     public static Climber climber = new Climber();
     // public static Intake intake = new Intake();
-    // public static Shooter shooter = new Shooter();
+    public static Shooter shooter = new Shooter();
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
@@ -62,15 +63,16 @@ public class RobotContainer {
     public static Joystick buttonBoard = new Joystick(3);
 
     // Define button board buttons
-    public static JoystickButton TL = new JoystickButton(buttonBoard, 7);
-    public static JoystickButton TM = new JoystickButton(buttonBoard, 2);
-    public static JoystickButton TR = new JoystickButton(buttonBoard, 4);
-    public static JoystickButton ML = new JoystickButton(buttonBoard, 1);
-    public static JoystickButton MM = new JoystickButton(buttonBoard, 6);
-    public static JoystickButton MR = new JoystickButton(buttonBoard, 3);
-    public static JoystickButton BL = new JoystickButton(buttonBoard, 10);
-    public static JoystickButton BM = new JoystickButton(buttonBoard, 9);
-    public static JoystickButton BR = new JoystickButton(buttonBoard, 8);
+    //! MIGHT NOT WORK PLEASE TEST WHEN YOU USE ROBOT CODE
+    public static JoystickButton TL = new JoystickButton(buttonBoard, ButtonBoard.TL.value);
+    public static JoystickButton TM = new JoystickButton(buttonBoard, ButtonBoard.TM.value);
+    public static JoystickButton TR = new JoystickButton(buttonBoard, ButtonBoard.TR.value);
+    public static JoystickButton ML = new JoystickButton(buttonBoard, ButtonBoard.ML.value);
+    public static JoystickButton MM = new JoystickButton(buttonBoard, ButtonBoard.MM.value);
+    public static JoystickButton MR = new JoystickButton(buttonBoard, ButtonBoard.MR.value);
+    public static JoystickButton BL = new JoystickButton(buttonBoard, ButtonBoard.BL.value);
+    public static JoystickButton BM = new JoystickButton(buttonBoard, ButtonBoard.BM.value);
+    public static JoystickButton BR = new JoystickButton(buttonBoard, ButtonBoard.BR.value);
     /*
     Button Naming Convention:
     TL = Top Left = 7
@@ -95,15 +97,26 @@ public class RobotContainer {
     // Button Box enum
 
     public enum ButtonBoard {
-        TL,
-        TM,
-        TR,
-        ML,
-        MM,
-        MR,
-        BL,
-        BM,
-        BR
+        TL(7), TM(2), TR(4),
+        ML(1), MM(6), MR(3),
+        BL(10), BM(9), BR(8);
+
+        public final int value;
+
+        private ButtonBoard(int value){
+            this.value = value;
+        }
+
+        public static int getValue(String ID) {
+            for(ButtonBoard buttonBoard: values()){
+                if(values().equals(ID)){
+                    return values().valueOf();
+                }
+                
+                return null;
+
+            }
+        }
     }
 
     /**

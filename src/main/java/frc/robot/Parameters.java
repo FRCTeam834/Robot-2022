@@ -315,6 +315,7 @@ public final class Parameters {
         // Speed of shooter (in m/s of linear wheel speed)
         // TODO: Calculate this
         public static final double SPEED = 2;
+        public static final double LOW_SPEED = 0.5;
 
         public static final class motor {
             public static final double SPEED = 0;
