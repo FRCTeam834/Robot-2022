@@ -39,31 +39,9 @@ public class Intake extends SubsystemBase {
     }
 
     // Turns on the intake
-    public void suckItIn() {
+    public void intake() {
         intakeMotor.set(Parameters.intake.motor.SPEED);
     }
-
-    // Run the intake till a ball is sucked in, then return the color
-    public Color suckABall() {
-
-        // Create a variable to store the ball's color
-        Color ballColor;
-
-        // Start the intake
-        suckItIn();
-
-        // Wait for a ball in the color sensor
-        do {
-            ballColor = getClosestColor();
-        } while (!ballColor.equals(Color.kRed) && !ballColor.equals(Color.kBlue));
-
-        // Stop the intake
-        stop();
-
-        // Return the found color
-        return ballColor;
-    }
-
 
 
     // Makes the intake go in reverse

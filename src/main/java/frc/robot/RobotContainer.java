@@ -107,16 +107,7 @@ public class RobotContainer {
             this.value = value;
         }
 
-        public static int getValue(String ID) {
-            for(ButtonBoard buttonBoard: values()){
-                if(values().equals(ID)){
-                    return values().valueOf();
-                }
-                
-                return null;
 
-            }
-        }
     }
 
     /**
