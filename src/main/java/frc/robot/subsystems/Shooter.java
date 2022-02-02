@@ -9,15 +9,14 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 
 import frc.robot.Parameters;
 
@@ -81,10 +80,8 @@ public class Shooter extends SubsystemBase {
         shooterMotor.set(0);
     }
 
-    public Color getClosestColor(){
+    public Color getClosestColor() {
         toReturn = colorMatcher.matchClosestColor(colorSensor.getColor()).color;
         return toReturn;
-
     }
-    
 }

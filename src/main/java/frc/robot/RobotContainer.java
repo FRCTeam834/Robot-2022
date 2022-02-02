@@ -28,8 +28,8 @@ import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.NavX;
-import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.swerve.DriveTrain;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -63,7 +63,7 @@ public class RobotContainer {
     public static Joystick buttonBoard = new Joystick(3);
 
     // Define button board buttons
-    //! MIGHT NOT WORK PLEASE TEST WHEN YOU USE ROBOT CODE
+    // ! MIGHT NOT WORK PLEASE TEST WHEN YOU USE ROBOT CODE
     public static JoystickButton TL = new JoystickButton(buttonBoard, ButtonBoard.TL.value);
     public static JoystickButton TM = new JoystickButton(buttonBoard, ButtonBoard.TM.value);
     public static JoystickButton TR = new JoystickButton(buttonBoard, ButtonBoard.TR.value);
@@ -97,16 +97,21 @@ public class RobotContainer {
     // Button Box enum
 
     public enum ButtonBoard {
-        TL(7), TM(2), TR(4),
-        ML(1), MM(6), MR(3),
-        BL(10), BM(9), BR(8);
+        TL(7),
+        TM(2),
+        TR(4),
+        ML(1),
+        MM(6),
+        MR(3),
+        BL(10),
+        BM(9),
+        BR(8);
 
         public final int value;
 
-        private ButtonBoard(int value){
+        private ButtonBoard(int value) {
             this.value = value;
         }
-
 
     }
 
