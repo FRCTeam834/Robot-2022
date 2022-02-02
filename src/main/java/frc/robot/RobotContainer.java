@@ -112,7 +112,6 @@ public class RobotContainer {
         private ButtonBoard(int value) {
             this.value = value;
         }
-
     }
 
     /**

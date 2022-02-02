@@ -8,7 +8,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -37,7 +36,6 @@ public class Intake extends SubsystemBase {
     public void intake() {
         intakeMotor.set(Parameters.intake.motor.SPEED);
     }
-
 
     // Makes the intake go in reverse
     public void spitItOut() {
