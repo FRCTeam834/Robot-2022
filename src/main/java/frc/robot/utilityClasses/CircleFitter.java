@@ -23,7 +23,7 @@ public class CircleFitter {
     static SimpleMatrix b = new SimpleMatrix(3, 1);
     static SimpleMatrix c = new SimpleMatrix(2, 1);
 
-    public void CirlceFitter(List<VisionPoint> points, double radius) {
+    public void CircleFitter(List<VisionPoint> points, double radius) {
         circlePoints = points;
         this.radius = radius;
     }
