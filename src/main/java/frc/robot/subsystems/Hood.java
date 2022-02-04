@@ -5,42 +5,42 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters;
 
 public class Hood extends SubsystemBase {
-  /** Creates a new Hood. */
-  // Create motor, limit switch, etc.
+    /** Creates a new Hood. */
+    // Create motor, limit switch, etc.
 
-    CANSparkMax hoodMotor; 
+    CANSparkMax hoodMotor;
+
     DigitalInput limitSwitch;
     RelativeEncoder hoodEncoder;
 
-
     public Hood() {
 
-      hoodMotor = new CANSparkMax(Parameters.hood.MOTOR_ID, MotorType.kBrushless);
+        hoodMotor = new CANSparkMax(Parameters.hood.MOTOR_ID, MotorType.kBrushless);
 
-      limitSwitch = new DigitalInput(Parameters.hood.LS_PORT);
+        limitSwitch = new DigitalInput(Parameters.hood.LS_PORT);
 
-      hoodEncoder = hoodMotor.getEncoder();
-
+        hoodEncoder = hoodMotor.getEncoder();
     }
 
     @Override
     public void periodic() {
-    // This method will be called once per scheduler run
+        // This method will be called once per scheduler run
     }
 
-    public void hoodBackwards(){
+    public void hoodBackwards() {
         hoodMotor.set(Parameters.hood.SPEED);
     }
 
-    public boolean getLSValue(){
+    public boolean getLSValue() {
         return limitSwitch.get();
     }
 }

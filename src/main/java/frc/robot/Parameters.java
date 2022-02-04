@@ -334,12 +334,10 @@ public final class Parameters {
     }
 
     public static final class hood {
-        // TODO set these 
+        // TODO set these
         public static final int MOTOR_ID = 15;
         public static final int LS_PORT = 13;
 
         public static final double SPEED = -0.05;
-
-
     }
 }

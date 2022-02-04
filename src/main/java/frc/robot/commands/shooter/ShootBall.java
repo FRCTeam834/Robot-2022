@@ -4,7 +4,6 @@
 
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
@@ -18,18 +17,17 @@ public class ShootBall extends CommandBase {
     public ShootBall() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.shooter);
-    } 
+    }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         RobotContainer.shooter.set(Parameters.shooter.SPEED);
-        if(Robot.getOurBallColor() == "red"){
+        if (Robot.getOurBallColor() == "red") {
             wrongBallColor = "blue";
         } else {
             wrongBallColor = "red";
         }
-        
     }
 
     // Called every time the scheduler runs while the command is scheduled.

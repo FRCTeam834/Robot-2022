@@ -3,38 +3,36 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.hood;
-import frc.robot.subsystems.Hood;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.RobotContainer;
 
 public class SetBase extends CommandBase {
-  /** Creates a new SetBase. */
-  public SetBase() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    
-    addRequirements(RobotContainer.hood);
-    
-  }
+    /** Creates a new SetBase. */
+    public SetBase() {
+        // Use addRequirements() here to declare subsystem dependencies.
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-      RobotContainer.hood.hoodBackwards();
-  }
+        addRequirements(RobotContainer.hood);
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-      
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        RobotContainer.hood.hoodBackwards();
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {}
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

@@ -15,7 +15,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 // Imports
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -119,9 +118,7 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during test mode. */
     @Override
-    public void testPeriodic() {
-    }
-    
+    public void testPeriodic() {}
 
     // Returns the color of ball that we should be collecting
     public static String getOurBallColor() {
@@ -136,6 +133,5 @@ public class Robot extends TimedRobot {
             default: // Used when the alliance isn't valid (not set)
                 return "blue";
         }
-        
     }
 }
