@@ -15,6 +15,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 // Imports
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -121,17 +122,17 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {}
 
     // Returns the color of ball that we should be collecting
-    public static String getOurBallColor() {
+    public static Color getOurBallColor() {
 
         // Get the alliance that we're on
         // Default to blue balls
         switch (DriverStation.getAlliance()) {
             case Red:
-                return "red";
+                return Color.kRed;
             case Blue:
-                return "blue";
+                return Color.kBlue;
             default: // Used when the alliance isn't valid (not set)
-                return "blue";
+                return Color.kBlue;
         }
     }
 }

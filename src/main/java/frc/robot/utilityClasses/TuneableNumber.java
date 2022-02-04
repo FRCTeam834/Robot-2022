@@ -1,6 +1,7 @@
 package frc.robot.utilityClasses;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 
 import frc.robot.Parameters;
 
@@ -8,12 +9,12 @@ import frc.robot.Parameters;
 // https://github.com/Mechanical-Advantage/RobotCode2020/blob/master/src/main/java/frc/robot/util/TunableNumber.java
 
 public class TuneableNumber {
-    private String key;
+    private NetworkTableEntry entry;
     private double defaultValue;
 
     /** Create a new TunableNumber */
-    public TuneableNumber(String dashboardKey, double defaultValue) {
-        this.key = dashboardKey;
+    public TuneableNumber(NetworkTable table, String name, double defaultValue) {
+        this.entry = table.getEntry(name);
         setDefault(defaultValue);
     }
 
@@ -35,7 +36,7 @@ public class TuneableNumber {
         this.defaultValue = defaultValue;
         if (Parameters.driver.tuningMode) {
             // This makes sure the data is on NetworkTables but will not change it
-            SmartDashboard.putNumber(key, SmartDashboard.getNumber(key, defaultValue));
+            entry.setDouble(defaultValue);
         }
     }
 
@@ -46,7 +47,7 @@ public class TuneableNumber {
      */
     public double get() {
         return Parameters.driver.tuningMode
-                ? SmartDashboard.getNumber(key, defaultValue)
+                ? entry.getDouble(defaultValue)
                 : defaultValue;
     }
 }

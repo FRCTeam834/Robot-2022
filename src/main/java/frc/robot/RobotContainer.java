@@ -31,6 +31,7 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swerve.DriveTrain;
+import frc.robot.utilityClasses.ButtonBoard;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,55 +67,20 @@ public class RobotContainer {
     public static Joystick buttonBoard = new Joystick(3);
 
     // Define button board buttons
-    // ! MIGHT NOT WORK PLEASE TEST WHEN YOU USE ROBOT CODE
-    public static JoystickButton TL = new JoystickButton(buttonBoard, ButtonBoard.TL.value);
-    public static JoystickButton TM = new JoystickButton(buttonBoard, ButtonBoard.TM.value);
-    public static JoystickButton TR = new JoystickButton(buttonBoard, ButtonBoard.TR.value);
-    public static JoystickButton ML = new JoystickButton(buttonBoard, ButtonBoard.ML.value);
-    public static JoystickButton MM = new JoystickButton(buttonBoard, ButtonBoard.MM.value);
-    public static JoystickButton MR = new JoystickButton(buttonBoard, ButtonBoard.MR.value);
-    public static JoystickButton BL = new JoystickButton(buttonBoard, ButtonBoard.BL.value);
-    public static JoystickButton BM = new JoystickButton(buttonBoard, ButtonBoard.BM.value);
-    public static JoystickButton BR = new JoystickButton(buttonBoard, ButtonBoard.BR.value);
-    /*
-    Button Naming Convention:
-    TL = Top Left = 7
-    TM = Top Middle = 2
-    TR = Top Right = 4
-    ML = Middle Left = 1
-    MM = Middle Middle = 6
-    MR = Middle Right = 3
-    BL = Bottom Left = 10
-    BM = Bottom Middle = 9
-    BR = Bottom Right = 8
-    You thought that this would be a comment that would explain a button naming convention, but it was me, DIO!
+    public static JoystickButton TL = new JoystickButton(buttonBoard, ButtonBoard.TL);
+    public static JoystickButton TM = new JoystickButton(buttonBoard, ButtonBoard.TM);
+    public static JoystickButton TR = new JoystickButton(buttonBoard, ButtonBoard.TR);
+    public static JoystickButton ML = new JoystickButton(buttonBoard, ButtonBoard.ML);
+    public static JoystickButton MM = new JoystickButton(buttonBoard, ButtonBoard.MM);
+    public static JoystickButton MR = new JoystickButton(buttonBoard, ButtonBoard.MR);
+    public static JoystickButton BL = new JoystickButton(buttonBoard, ButtonBoard.BL);
+    public static JoystickButton BM = new JoystickButton(buttonBoard, ButtonBoard.BM);
+    public static JoystickButton BR = new JoystickButton(buttonBoard, ButtonBoard.BR);
 
-    */
-    /*
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
-    }
-
-    // Button Box enum
-
-    public enum ButtonBoard {
-        TL(7),
-        TM(2),
-        TR(4),
-        ML(1),
-        MM(6),
-        MR(3),
-        BL(10),
-        BM(9),
-        BR(8);
-
-        public final int value;
-
-        private ButtonBoard(int value) {
-            this.value = value;
-        }
     }
 
     /**

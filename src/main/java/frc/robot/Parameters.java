@@ -23,7 +23,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.util.Units;
-
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.utilityClasses.JoystickOutputTypes;
 import frc.robot.utilityClasses.TuneableNumber;
 
@@ -122,6 +123,9 @@ public final class Parameters {
         public static final double angleTolerance = 2; // deg
         public static final double velocityTolerance = 0.01; // m/s
 
+        // Main table for all swerve data
+        public static final NetworkTable SWERVE_TABLE = NetworkTableInstance.getDefault().getTable("Swerve");
+
         // All of the CAN IDs
         public static final class can {
 
@@ -169,17 +173,17 @@ public final class Parameters {
              * Gains(kp, ki, kd, feedforward, iZone, peak output);
              */
             public static class steer {
-                public static final TuneableNumber kP = new TuneableNumber("Steer kP", 0.05);
-                public static final TuneableNumber kD = new TuneableNumber("Steer kD", 0.01);
+                public static final TuneableNumber kP = new TuneableNumber(SWERVE_TABLE, "Steer kP", 0.05);
+                public static final TuneableNumber kD = new TuneableNumber(SWERVE_TABLE, "Steer kD", 0.01);
                 public static final double kMAX_OUTPUT = 8; // TODO: Fix later
-                public static final ControlType kControl_Type = ControlType.kPosition;
+                public static final ControlType CONTROL_TYPE = ControlType.kPosition;
             }
 
             public static class drive {
-                public static final TuneableNumber kP = new TuneableNumber("Drive kP", .5);
-                public static final TuneableNumber kD = new TuneableNumber("Drive kD", 0);
+                public static final TuneableNumber kP = new TuneableNumber(SWERVE_TABLE, "Drive kP", .5);
+                public static final TuneableNumber kD = new TuneableNumber(SWERVE_TABLE, "Drive kD", 0);
                 public static final double kMAX_OUTPUT = 8; // TODO: Fix later
-                public static final ControlType DEFAULT_CONTROL_TYPE = ControlType.kVelocity;
+                public static final ControlType CONTROL_TYPE = ControlType.kVelocity;
             }
 
             // PID controller (rotation constraints are max velocity and max acceleration)
@@ -312,13 +316,13 @@ public final class Parameters {
         // TODO: Calculate this
         public static final double VEL_CONV_FACTOR = 1;
 
-        // Speed of shooter (in m/s of linear wheel speed)
-        // TODO: Calculate this
-        public static final double SPEED = 2;
-        public static final double LOW_SPEED = 0.5;
+        // The time for a shot to take place (in s)
+        public static final double SHOT_TIME = 5;
 
         public static final class motor {
-            public static final double SPEED = 0;
+            // Speed of shooter (in m/s of linear wheel speed)
+            public static final double STD_SPEED = 2;
+            public static final double LOW_SPEED = 0.5;
             public static final int ID = 17;
         }
 
@@ -334,10 +338,25 @@ public final class Parameters {
     }
 
     public static final class hood {
-        // TODO set these
-        public static final int MOTOR_ID = 15;
-        public static final int LS_PORT = 13;
 
-        public static final double SPEED = -0.05;
+        // TODO set these
+        // Ports
+        public static final int MOTOR_ID = 15;
+        public static final int LS_PORT = 0;
+
+        // Homing info
+        public static final double HOME_SPEED = 0.05;
+        public static final double HOME_ANGLE = 0; // The angle at home
+
+        // Basic info
+        public static final double GEAR_RATIO = 1; // Ratio of motor turns to hood turns
+        public static final double ALLOWABLE_RANGE = 30; // The range of motion, in degrees
+
+        public static class pid {
+            public static final NetworkTable HOOD_TABLE = NetworkTableInstance.getDefault().getTable("Hood");
+            public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.05);
+            public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.01);
+            public static final ControlType CONTROL_TYPE = ControlType.kPosition;
+        }
     }
 }

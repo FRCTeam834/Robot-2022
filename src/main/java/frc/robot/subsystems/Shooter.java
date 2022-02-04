@@ -35,6 +35,9 @@ public class Shooter extends SubsystemBase {
     // Color matching object
     ColorMatch colorMatcher;
 
+    // The speed that the motor should be running at (in m/s)
+    double setSpeed = 0;
+
     /** Creates a new Shooter. */
     public Shooter() {
 
@@ -58,6 +61,7 @@ public class Shooter extends SubsystemBase {
         // Create a new bang-bang controller
         bigBangTheory = new BangBangController();
 
+        // Create color sensor (uses the MXP I2C)
         colorSensor = new ColorSensorV3(Port.kMXP);
 
         // Create color matching object
@@ -68,17 +72,23 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
 
+        // Set the shooter motor's power
+        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), setSpeed));
     }
 
-    public void set(double speed) {
-        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), speed));
+    /**
+     * Sets the desired speed of the shooter
+     * @param speed The speed in m/s
+     */
+    public void setDesiredSpeed(double speed) {
+        this.setSpeed = speed;
     }
 
-    public void stopMotor() {
+    public void stop() {
         shooterMotor.set(0);
     }
 
-    // ! DOESN'T WORK AND IS SUPPOSED TO
+    // ! DOESN'T WORK
     // Returns closest color match
     public Color getClosestColor() {
         colorMatcher.setConfidenceThreshold(.5);
@@ -86,18 +96,18 @@ public class Shooter extends SubsystemBase {
     }
 
     // Determine if either red or blue is detected, if not returns neither
-    public String getColorEasy() {
+    public Color getColor() {
         if ((colorSensor.getColor().red / colorSensor.getColor().blue) > 4) {
-            return "red";
+            return Color.kRed;
         } else if ((colorSensor.getColor().blue / colorSensor.getColor().red) > 4) {
-            return "blue";
+            return Color.kBlue;
         } else {
-            return "neither";
+            return Color.kBlack;
         }
     }
-    // return ratio red to blue
-    public double ratio() {
+
+    // Return ratio of red to blue
+    public double getRedBlueRatio() {
         return colorSensor.getColor().red / colorSensor.getColor().blue;
     }
-    // L + ratio + bozo + cringe + stay mad + blocked = you^∞ + co2 + c6h12o6 + small weewee
 }

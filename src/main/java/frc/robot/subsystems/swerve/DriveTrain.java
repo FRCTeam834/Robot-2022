@@ -62,8 +62,7 @@ public class DriveTrain extends SubsystemBase {
                             Units.degreesToRadians(
                                     Parameters.driveTrain.pid.DEFAULT_ROT_MAX_ACCEL)));
 
-    // Define their position (relative to center of robot)
-
+    // Define module positions (relative to center of robot)
     Translation2d FL_POS =
             new Translation2d(
                     Parameters.driveTrain.dimensions.DRIVE_LENGTH / 2,
@@ -270,10 +269,10 @@ public class DriveTrain extends SubsystemBase {
     public void haltAllModules() {
 
         // Stop the motors of each of the modules
-        frontLeft.stopMotors();
-        frontRight.stopMotors();
-        backLeft.stopMotors();
-        backRight.stopMotors();
+        frontLeft.stop();
+        frontRight.stop();
+        backLeft.stop();
+        backRight.stop();
     }
 
     /**
