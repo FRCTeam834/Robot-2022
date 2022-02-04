@@ -25,6 +25,7 @@ import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+
 import frc.robot.utilityClasses.JoystickOutputTypes;
 import frc.robot.utilityClasses.TuneableNumber;
 
@@ -124,7 +125,8 @@ public final class Parameters {
         public static final double velocityTolerance = 0.01; // m/s
 
         // Main table for all swerve data
-        public static final NetworkTable SWERVE_TABLE = NetworkTableInstance.getDefault().getTable("Swerve");
+        public static final NetworkTable SWERVE_TABLE =
+                NetworkTableInstance.getDefault().getTable("Swerve");
 
         // All of the CAN IDs
         public static final class can {
@@ -173,15 +175,19 @@ public final class Parameters {
              * Gains(kp, ki, kd, feedforward, iZone, peak output);
              */
             public static class steer {
-                public static final TuneableNumber kP = new TuneableNumber(SWERVE_TABLE, "Steer kP", 0.05);
-                public static final TuneableNumber kD = new TuneableNumber(SWERVE_TABLE, "Steer kD", 0.01);
+                public static final TuneableNumber kP =
+                        new TuneableNumber(SWERVE_TABLE, "Steer kP", 0.05);
+                public static final TuneableNumber kD =
+                        new TuneableNumber(SWERVE_TABLE, "Steer kD", 0.01);
                 public static final double kMAX_OUTPUT = 8; // TODO: Fix later
                 public static final ControlType CONTROL_TYPE = ControlType.kPosition;
             }
 
             public static class drive {
-                public static final TuneableNumber kP = new TuneableNumber(SWERVE_TABLE, "Drive kP", .5);
-                public static final TuneableNumber kD = new TuneableNumber(SWERVE_TABLE, "Drive kD", 0);
+                public static final TuneableNumber kP =
+                        new TuneableNumber(SWERVE_TABLE, "Drive kP", .5);
+                public static final TuneableNumber kD =
+                        new TuneableNumber(SWERVE_TABLE, "Drive kD", 0);
                 public static final double kMAX_OUTPUT = 8; // TODO: Fix later
                 public static final ControlType CONTROL_TYPE = ControlType.kVelocity;
             }
@@ -353,7 +359,8 @@ public final class Parameters {
         public static final double ALLOWABLE_RANGE = 30; // The range of motion, in degrees
 
         public static class pid {
-            public static final NetworkTable HOOD_TABLE = NetworkTableInstance.getDefault().getTable("Hood");
+            public static final NetworkTable HOOD_TABLE =
+                    NetworkTableInstance.getDefault().getTable("Hood");
             public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.05);
             public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.01);
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;

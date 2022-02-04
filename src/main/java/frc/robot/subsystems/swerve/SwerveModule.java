@@ -135,7 +135,6 @@ public class SwerveModule extends SubsystemBase {
                 (Math.PI * Parameters.driveTrain.dimensions.MODULE_WHEEL_DIA_M)
                         / (60.0 * Parameters.driveTrain.ratios.DRIVE_GEAR_RATIO));
 
-
         // Drive motor PID controller (from motor)
         // Note that we use a "cached" controller.
         // This version of the PID controller checks if the desired setpoint is already set.
@@ -231,7 +230,8 @@ public class SwerveModule extends SubsystemBase {
         // Get the angle once, reducing the number of CAN bus readings we need to do
         double actualMotorAngle = getActSteerMotorAngle();
 
-        // Keep optimizing until the angular deviation is below 90. We should never have to turn past 90 degrees
+        // Keep optimizing until the angular deviation is below 90. We should never have to turn
+        // past 90 degrees
         while (Math.abs((actualMotorAngle - angularOffset) - targetAngle) >= 90) {
 
             // Calculate the angular deviation
@@ -290,7 +290,8 @@ public class SwerveModule extends SubsystemBase {
 
         // Print out debug info if needed
         if (Parameters.debug) {
-            System.out.println(String.format("D_SPD: %.3f | A_SPD: %.3f", targetVelocity, getVelocity()));
+            System.out.println(
+                    String.format("D_SPD: %.3f | A_SPD: %.3f", targetVelocity, getVelocity()));
         }
 
         // Save the desired velocity
@@ -330,8 +331,7 @@ public class SwerveModule extends SubsystemBase {
 
         // Return if the velocity is within tolerance
         return ((currentVelocity < (desiredVelocity + Parameters.driveTrain.velocityTolerance))
-                && (currentVelocity
-                        > (desiredVelocity - Parameters.driveTrain.velocityTolerance)));
+                && (currentVelocity > (desiredVelocity - Parameters.driveTrain.velocityTolerance)));
     }
 
     // Sets the desired state of the module
@@ -391,7 +391,15 @@ public class SwerveModule extends SubsystemBase {
 
     // Print out a debug string
     public void printDebugString(double targetAngle) {
-        System.out.println(String.format("%s | TAR_A: %.2f | ACT_A: %.2f | ADJ_A: %.2f | MOT_A: %.2f | OFF: %.2f", name, targetAngle, getAngle(), getAdjSteerMotorAng(), getActSteerMotorAngle(), angularOffset));
+        System.out.println(
+                String.format(
+                        "%s | TAR_A: %.2f | ACT_A: %.2f | ADJ_A: %.2f | MOT_A: %.2f | OFF: %.2f",
+                        name,
+                        targetAngle,
+                        getAngle(),
+                        getAdjSteerMotorAng(),
+                        getActSteerMotorAngle(),
+                        angularOffset));
     }
 
     @Override
