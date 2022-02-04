@@ -34,7 +34,7 @@ public class TuneableNumber {
      */
     public void setDefault(double defaultValue) {
         this.defaultValue = defaultValue;
-        if (Parameters.driver.tuningMode) {
+        if (Parameters.tuningMode) {
             // This makes sure the data is on NetworkTables but will not change it
             entry.setDouble(defaultValue);
         }
@@ -46,7 +46,7 @@ public class TuneableNumber {
      * @return The current value
      */
     public double get() {
-        return Parameters.driver.tuningMode
+        return Parameters.tuningMode
                 ? entry.getDouble(defaultValue)
                 : defaultValue;
     }

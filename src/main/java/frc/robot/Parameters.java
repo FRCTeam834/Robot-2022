@@ -40,7 +40,7 @@ public final class Parameters {
 
     // Enables all debug statements
     public static final boolean debug = true;
-    public static final boolean networkTables = true;
+    public static final boolean tuningMode = false;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -94,8 +94,6 @@ public final class Parameters {
          * @param inputType The devices used to control the robot
          */
         public static final String name = "CAP1Sup";
-
-        public static final boolean tuningMode = false;
         public static final double maxSteerRate = 180;
         public static final boolean lockemUp = true;
         public static final boolean fieldCentric = true;

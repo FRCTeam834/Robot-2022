@@ -63,9 +63,11 @@ public class Hood extends SubsystemBase {
             homed = true;
         }*/
 
-        // Update the PID constants
-        pidController.setP(Parameters.hood.pid.kP.get());
-        pidController.setD(Parameters.hood.pid.kD.get());
+        // Update the PID constants (if they are tunable)
+        if (Parameters.tuningMode) {
+            pidController.setP(Parameters.hood.pid.kP.get());
+            pidController.setD(Parameters.hood.pid.kD.get());
+        }
     }
 
     /**

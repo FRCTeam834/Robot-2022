@@ -396,7 +396,7 @@ public class SwerveModule extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (Parameters.driver.tuningMode) {
+        if (Parameters.tuningMode) {
             setDriveMParams(
                     new PIDParams(
                             pid.drive.kP.get(),
