@@ -27,6 +27,7 @@ import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
 import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swerve.DriveTrain;
@@ -43,6 +44,8 @@ public class RobotContainer {
     // Subsystems
     public static NavX navX = new NavX();
     public static DriveTrain driveTrain = new DriveTrain();
+    public static Hood hood = new Hood();
+
     // public static Superstructure superstructure = new Superstructure(new Vision());
     public static Climber climber = new Climber();
     // public static Intake intake = new Intake();

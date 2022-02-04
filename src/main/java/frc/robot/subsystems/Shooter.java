@@ -35,7 +35,6 @@ public class Shooter extends SubsystemBase {
     // Color matching object
     ColorMatch colorMatcher;
 
-    Color toReturn;
 
     /** Creates a new Shooter. */
     public Shooter() {
@@ -72,7 +71,7 @@ public class Shooter extends SubsystemBase {
 
     }
 
-    public void spinShooterMotor(double speed) {
+    public void set(double speed) {
         shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), speed));
     }
 
@@ -80,8 +79,28 @@ public class Shooter extends SubsystemBase {
         shooterMotor.set(0);
     }
 
+    //! DOESN'T WORK AND IS SUPPOSED TO 
+    // Returns closest color match
     public Color getClosestColor() {
-        toReturn = colorMatcher.matchClosestColor(colorSensor.getColor()).color;
-        return toReturn;
+        colorMatcher.setConfidenceThreshold(.5);
+        return colorMatcher.matchClosestColor(colorSensor.getColor()).color;
     }
-}
+
+    // Determine if either red or blue is detected, if not returns neither
+    public String getColorEasy(){
+        if((colorSensor.getColor().red / colorSensor.getColor().blue) > 4){
+            return "red";
+        }
+        else if((colorSensor.getColor().blue / colorSensor.getColor().red) > 4){
+            return "blue";
+        }
+        else{
+            return "neither";
+        }
+    }
+    // return ratio red to blue
+    public double ratio(){
+        return colorSensor.getColor().red / colorSensor.getColor().blue;
+    }
+    // L + ratio + bozo + cringe + stay mad + blocked = you^∞ + co2 + c6h12o6 + small weewee
+} 

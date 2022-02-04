@@ -8,38 +8,38 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class ShootBall extends CommandBase {
 
-    Color ourTeam;
+    String wrongBallColor;
     /** Creates a new ShootBall. */
     public ShootBall() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.shooter);
-    }
+    } 
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.shooter.spinShooterMotor(Parameters.shooter.SPEED);
-        // TODO set up way to get team color
-        if (1 == 1) {
-
-            ourTeam = Color.kRed;
+        RobotContainer.shooter.set(Parameters.shooter.SPEED);
+        if(Robot.getOurBallColor() == "red"){
+            wrongBallColor = "blue";
         } else {
-            ourTeam = Color.kBlue;
+            wrongBallColor = "red";
         }
+        
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     // If ball is the wrong color, squib the shot if not shoot it properly
     @Override
     public void execute() {
-        if (RobotContainer.shooter.getClosestColor().equals(ourTeam)) {
-            RobotContainer.shooter.spinShooterMotor(Parameters.shooter.SPEED);
+        if (RobotContainer.shooter.getColorEasy().equals(wrongBallColor)) {
+            RobotContainer.shooter.set(Parameters.shooter.LOW_SPEED);
         } else {
-            RobotContainer.shooter.spinShooterMotor(Parameters.shooter.LOW_SPEED);
+            RobotContainer.shooter.set(Parameters.shooter.SPEED);
         }
     }
 

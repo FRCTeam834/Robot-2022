@@ -332,4 +332,14 @@ public final class Parameters {
             public static final double CAMERA_FOCAL_LENGTH = 333.82;
         }
     }
+
+    public static final class hood {
+        // TODO set these 
+        public static final int MOTOR_ID = 15;
+        public static final int LS_PORT = 13;
+
+        public static final double SPEED = -0.05;
+
+
+    }
 }

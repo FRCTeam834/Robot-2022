@@ -120,22 +120,22 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {
-
-        System.out.println(RobotContainer.ButtonBoard.TL.ordinal());
     }
+    
 
     // Returns the color of ball that we should be collecting
-    public static Color getOurBallColor() {
+    public static String getOurBallColor() {
 
         // Get the alliance that we're on
         // Default to blue balls
         switch (DriverStation.getAlliance()) {
             case Red:
-                return Color.kRed;
+                return "red";
             case Blue:
-                return Color.kBlue;
+                return "blue";
             default: // Used when the alliance isn't valid (not set)
-                return Color.kBlue;
+                return "blue";
         }
+        
     }
 }
