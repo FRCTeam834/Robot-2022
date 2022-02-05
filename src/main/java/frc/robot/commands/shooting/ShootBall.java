@@ -4,17 +4,20 @@
 
 package frc.robot.commands.shooting;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Shooter;
 
 public class ShootBall extends CommandBase {
 
     // Shot timing (shooter runs for specified amount of time)
     Timer timer = new Timer();
+    boolean increment = false;
 
     /** Creates a new ShootBall. */
     public ShootBall() {
@@ -41,8 +44,29 @@ public class ShootBall extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     // If ball is the wrong color, squib the shot if not shoot it properly
+
     @Override
-    public void execute() {}
+    public void execute() {
+        /* Changes ball count when the sensor stops detecting a ball. If the top sensor doesn't detect a ball
+        the lower motor will spin until the ball reaches the top sensor.
+        */
+        if(!RobotContainer.shooter.getTopSensor()){
+            RobotContainer.shooter.setBottomMotorSpeed(Parameters.shooter.motor.BOTTOM_SPEED);
+
+            if(increment){
+                increment = false;
+                RobotContainer.shooter.addBallCount(-1);
+            }
+        } else {
+            RobotContainer.shooter.setBottomMotorSpeed(0);
+            increment = true;
+            
+        }
+    
+
+
+
+    }
 
     // Called once the command ends or is interrupted.
     @Override

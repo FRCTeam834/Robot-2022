@@ -324,11 +324,16 @@ public final class Parameters {
         // The time for a shot to take place (in s)
         public static final double SHOT_TIME = 5;
 
+        // TODO: set this to a real port
+        public static final int BOTTOM_SENSOR_PORT = 18;
+
         public static final class motor {
             // Speed of shooter (in m/s of linear wheel speed)
             public static final double STD_SPEED = 2;
             public static final double LOW_SPEED = 0.5;
-            public static final int ID = 17;
+            public static final double BOTTOM_SPEED = 0.1;
+            public static final int TOP_ID = 17;
+            public static final int BOTTOM_ID = 18;
         }
 
         // Game-specific parameters (meters and degrees)

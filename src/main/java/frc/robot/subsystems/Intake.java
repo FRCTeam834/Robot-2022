@@ -22,8 +22,8 @@ public class Intake extends SubsystemBase {
 
         // Create intake motor
         intakeMotor = new CANSparkMax(Parameters.intake.motor.ID, MotorType.kBrushless);
+     
 
-        // Create color sensor
 
     }
 
@@ -34,12 +34,12 @@ public class Intake extends SubsystemBase {
 
     // Turns on the intake
     public void intake() {
-        intakeMotor.set(Parameters.intake.motor.SPEED);
+        intakeMotor.set(Parameters.intake.motor.TOP_SPEED);
     }
 
     // Makes the intake go in reverse
     public void spitItOut() {
-        intakeMotor.set(-Parameters.intake.motor.SPEED);
+        intakeMotor.set(-Parameters.intake.motor.TOP_SPEED);
     }
 
     // Stops the intake motors
