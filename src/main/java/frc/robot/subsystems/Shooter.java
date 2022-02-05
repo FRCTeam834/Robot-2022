@@ -47,25 +47,25 @@ public class Shooter extends SubsystemBase {
 
     // The speed that the motor should be running at (in m/s)
     double setSpeed = 0;
-    
+
     // A count of how many balls the robot has
     int ballCount = 0;
-    
+
     /** Creates a new Shooter. */
     public Shooter() {
 
         // Create the shooter motor
         shooterMotorTop = new CANSparkMax(Parameters.shooter.motor.TOP_ID, MotorType.kBrushless);
-        shooterMotorBottom = new CANSparkMax(Parameters.shooter.motor.BOTTOM_ID, MotorType.kBrushless);
+        shooterMotorBottom =
+                new CANSparkMax(Parameters.shooter.motor.BOTTOM_ID, MotorType.kBrushless);
 
         // Configure the motor's settings
         // ! MOTOR MUST BE ON COAST FOR BANG-BANG
         shooterMotorTop.restoreFactoryDefaults();
         shooterMotorTop.setIdleMode(IdleMode.kBrake);
-    
+
         shooterMotorBottom.restoreFactoryDefaults();
         shooterMotorBottom.setIdleMode(IdleMode.kCoast);
-        
 
         // Get the encoder of the shooter motor
         shooterMotorTopEncoder = shooterMotorTop.getEncoder();
@@ -95,7 +95,8 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
-        shooterMotorTop.set(bigBangTheory.calculate(shooterMotorTopEncoder.getVelocity(), setSpeed));
+        shooterMotorTop.set(
+                bigBangTheory.calculate(shooterMotorTopEncoder.getVelocity(), setSpeed));
     }
 
     /**
@@ -107,7 +108,7 @@ public class Shooter extends SubsystemBase {
         this.setSpeed = speed;
     }
 
-    public void setBottomMotorSpeed(double speed){
+    public void setBottomMotorSpeed(double speed) {
         shooterMotorBottom.set(speed);
     }
 
@@ -138,41 +139,37 @@ public class Shooter extends SubsystemBase {
         return colorSensor.getColor().red / colorSensor.getColor().blue;
     }
 
-    //Returns value for bottom sensor
+    // Returns value for bottom sensor
     public boolean getBottomSensor() {
         return bottomSensor.get();
     }
-    
+
     // For top sensor: if there is an object close returns true if theres not returns false
-    public boolean getTopSensor(){
-        if(colorSensor.getProximity() > 1800){
+    public boolean getTopSensor() {
+        if (colorSensor.getProximity() > 1800) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
-    
-    public int getBallCount(){
+
+    public int getBallCount() {
         return ballCount;
     }
-    public void setBallCount(int newValue){
+
+    public void setBallCount(int newValue) {
         ballCount = newValue;
     }
-    public void addBallCount(int newValue){
+
+    public void addBallCount(int newValue) {
         ballCount += newValue;
     }
-    
-    public boolean getSensorChanged(){
+
+    public boolean getSensorChanged() {
         return sensorChanged;
     }
-    
-    public void setSensorChanged(boolean newValue){
+
+    public void setSensorChanged(boolean newValue) {
         sensorChanged = newValue;
     }
-
-    
-    
-
-
 }

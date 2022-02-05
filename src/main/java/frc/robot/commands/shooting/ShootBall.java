@@ -4,14 +4,12 @@
 
 package frc.robot.commands.shooting;
 
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Shooter;
 
 public class ShootBall extends CommandBase {
 
@@ -50,22 +48,17 @@ public class ShootBall extends CommandBase {
         /* Changes ball count when the sensor stops detecting a ball. If the top sensor doesn't detect a ball
         the lower motor will spin until the ball reaches the top sensor.
         */
-        if(!RobotContainer.shooter.getTopSensor()){
+        if (!RobotContainer.shooter.getTopSensor()) {
             RobotContainer.shooter.setBottomMotorSpeed(Parameters.shooter.motor.BOTTOM_SPEED);
 
-            if(increment){
+            if (increment) {
                 increment = false;
                 RobotContainer.shooter.addBallCount(-1);
             }
         } else {
             RobotContainer.shooter.setBottomMotorSpeed(0);
             increment = true;
-            
         }
-    
-
-
-
     }
 
     // Called once the command ends or is interrupted.
