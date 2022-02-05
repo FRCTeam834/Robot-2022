@@ -5,10 +5,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -21,6 +21,7 @@ public class Hood extends SubsystemBase {
 
     // Motor objects
     CANSparkMax hoodMotor;
+
     RelativeEncoder hoodMotorEncoder;
     CachedPIDController pidController;
 
@@ -41,10 +42,8 @@ public class Hood extends SubsystemBase {
 
         // Set up the encoder of the hood motor
         hoodMotorEncoder = hoodMotor.getEncoder();
-        hoodMotorEncoder.setPositionConversionFactor(
-            360.0 / Parameters.hood.GEAR_RATIO);
-        hoodMotorEncoder.setVelocityConversionFactor(
-            360.0 / (Parameters.hood.GEAR_RATIO * 60));
+        hoodMotorEncoder.setPositionConversionFactor(360.0 / Parameters.hood.GEAR_RATIO);
+        hoodMotorEncoder.setVelocityConversionFactor(360.0 / (Parameters.hood.GEAR_RATIO * 60));
 
         // Set up the PID controller
         pidController = new CachedPIDController(hoodMotor);
@@ -72,21 +71,21 @@ public class Hood extends SubsystemBase {
 
     /**
      * Runs the motor at a set percentage
+     *
      * @param percent to run motor at
      */
     public void runMotor(double percent) {
         hoodMotor.set(percent);
     }
 
-    /**
-     * Stops the hood
-     */
+    /** Stops the hood */
     public void stop() {
         hoodMotor.stopMotor();
     }
 
     /**
      * Tells the hood to move to a specific angle
+     *
      * @param deg The angle, in degrees, to move the hood to
      */
     public void setDesiredAngle(double deg) {
@@ -95,6 +94,7 @@ public class Hood extends SubsystemBase {
 
     /**
      * Sets the current angle of the hood. This should be used when homing the hood.
+     *
      * @param currentAngle
      */
     public void setCurrentAngle(double currentAngle) {
@@ -103,9 +103,12 @@ public class Hood extends SubsystemBase {
         hoodMotorEncoder.setPosition(currentAngle);
 
         // Set the soft limits
-        // Soft limits are basically the controller not allowing certain values to be set for the PID loop
-        hoodMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)currentAngle);
-        hoodMotor.setSoftLimit(SoftLimitDirection.kForward, (float)(currentAngle + Parameters.hood.ALLOWABLE_RANGE));
+        // Soft limits are basically the controller not allowing certain values to be set for the
+        // PID loop
+        hoodMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) currentAngle);
+        hoodMotor.setSoftLimit(
+                SoftLimitDirection.kForward,
+                (float) (currentAngle + Parameters.hood.ALLOWABLE_RANGE));
 
         // Enable the soft limits
         hoodMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
@@ -114,6 +117,7 @@ public class Hood extends SubsystemBase {
 
     /**
      * Gets if the limit switch is triggered
+     *
      * @return Is the hood currently at home?
      */
     public boolean getLSValue() {

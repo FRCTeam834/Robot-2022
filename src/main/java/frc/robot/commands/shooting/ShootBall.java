@@ -42,9 +42,7 @@ public class ShootBall extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     // If ball is the wrong color, squib the shot if not shoot it properly
     @Override
-    public void execute() {
-
-    }
+    public void execute() {}
 
     // Called once the command ends or is interrupted.
     @Override

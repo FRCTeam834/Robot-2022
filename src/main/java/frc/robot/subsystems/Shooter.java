@@ -78,6 +78,7 @@ public class Shooter extends SubsystemBase {
 
     /**
      * Sets the desired speed of the shooter
+     *
      * @param speed The speed in m/s
      */
     public void setDesiredSpeed(double speed) {

@@ -46,8 +46,6 @@ public class TuneableNumber {
      * @return The current value
      */
     public double get() {
-        return Parameters.tuningMode
-                ? entry.getDouble(defaultValue)
-                : defaultValue;
+        return Parameters.tuningMode ? entry.getDouble(defaultValue) : defaultValue;
     }
 }

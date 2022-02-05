@@ -2,7 +2,7 @@ package frc.robot.utilityClasses;
 
 public class ButtonBoard {
 
-        /*
+    /*
     Button Naming Convention:
     TL = Top Left = 7
     TM = Top Middle = 2

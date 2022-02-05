@@ -5,6 +5,7 @@
 package frc.robot.commands.hood;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
@@ -18,7 +19,8 @@ public class Home extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.hood.runMotor(-Parameters.hood.HOME_SPEED);;
+        RobotContainer.hood.runMotor(-Parameters.hood.HOME_SPEED);
+        ;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -33,7 +35,8 @@ public class Home extends CommandBase {
         // ! THIS NEEDS TO BE DONE TO PREVENT OVERDRIVING THE MOTOR
         RobotContainer.hood.stop();
 
-        // If the command wasn't interrupted (like another command needing the hood), then we can say that we're at the home position of the shooter
+        // If the command wasn't interrupted (like another command needing the hood), then we can
+        // say that we're at the home position of the shooter
         if (!interrupted) {
             RobotContainer.hood.setCurrentAngle(Parameters.hood.HOME_ANGLE);
         }
