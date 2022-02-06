@@ -15,11 +15,14 @@ import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import org.photonvision.targeting.TargetCorner;
+
 public class Vision extends SubsystemBase {
 
     public PhotonCamera camera = new PhotonCamera("camera");
     private double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
     private boolean targetExists = false;
+
     private double vph;
     private double vpw;
     private Rotation2d horizontalPlaneToLens;
@@ -27,45 +30,33 @@ public class Vision extends SubsystemBase {
 
     public Vision() {}
 
-    public double getYaw() {
-        return yaw;
-    }
-
-    public double getPitch() {
-        return pitch;
-    }
-
-    public double getSkew() {
-        return skew;
-    }
-
-    public double getDistance() {
-        return distance;
-    }
-
-    public boolean hasTarget() {
-        return targetExists;
-    }
+    public double getYaw() { return yaw; }
+    public double getPitch() { return pitch; }
+    public double getSkew() { return skew; }
+    public double getDistance() { return distance; }
+    public boolean hasTarget() { return targetExists; }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         PhotonPipelineResult targetList = camera.getLatestResult();
-
-        if (targetList.hasTargets()) {
-            PhotonTrackedTarget target = targetList.getBestTarget();
-            targetExists = true;
-            yaw = target.getYaw();
-            pitch = target.getPitch();
-            skew = target.getSkew();
-            distance =
-                    PhotonUtils.calculateDistanceToTargetMeters(
-                            Parameters.shooter.camera.HEIGHT,
-                            Parameters.shooter.camera.TARGET_HEIGHT,
-                            Units.degreesToRadians(Parameters.shooter.camera.PITCH),
-                            Units.degreesToRadians(target.getPitch()));
-        } else {
+        
+        if(!targetList.hasTargets()) {
             targetExists = false;
+            return;
         }
+
+        PhotonTrackedTarget bestTarget = targetList.getBestTarget();
+        yaw = bestTarget.getYaw();
+        pitch = bestTarget.getPitch();
+        skew = bestTarget.getSkew();
+
+        distance = PhotonUtils.calculateDistanceToTargetMeters(
+            Parameters.shooter.camera.HEIGHT,
+            Parameters.shooter.camera.TARGET_HEIGHT,
+            Units.degreesToRadians(Parameters.shooter.camera.PITCH),
+            Units.degreesToRadians(bestTarget.getPitch())
+        );
+        targetExists = true;
     }
 }
