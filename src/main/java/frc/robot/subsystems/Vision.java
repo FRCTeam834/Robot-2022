@@ -15,8 +15,6 @@ import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-import org.photonvision.targeting.TargetCorner;
-
 public class Vision extends SubsystemBase {
 
     public PhotonCamera camera = new PhotonCamera("camera");
@@ -30,18 +28,32 @@ public class Vision extends SubsystemBase {
 
     public Vision() {}
 
-    public double getYaw() { return yaw; }
-    public double getPitch() { return pitch; }
-    public double getSkew() { return skew; }
-    public double getDistance() { return distance; }
-    public boolean hasTarget() { return targetExists; }
+    public double getYaw() {
+        return yaw;
+    }
+
+    public double getPitch() {
+        return pitch;
+    }
+
+    public double getSkew() {
+        return skew;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public boolean hasTarget() {
+        return targetExists;
+    }
 
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         PhotonPipelineResult targetList = camera.getLatestResult();
-        
-        if(!targetList.hasTargets()) {
+
+        if (!targetList.hasTargets()) {
             targetExists = false;
             return;
         }
@@ -51,12 +63,12 @@ public class Vision extends SubsystemBase {
         pitch = bestTarget.getPitch();
         skew = bestTarget.getSkew();
 
-        distance = PhotonUtils.calculateDistanceToTargetMeters(
-            Parameters.shooter.camera.HEIGHT,
-            Parameters.shooter.camera.TARGET_HEIGHT,
-            Units.degreesToRadians(Parameters.shooter.camera.PITCH),
-            Units.degreesToRadians(bestTarget.getPitch())
-        );
+        distance =
+                PhotonUtils.calculateDistanceToTargetMeters(
+                        Parameters.shooter.camera.HEIGHT,
+                        Parameters.shooter.camera.TARGET_HEIGHT,
+                        Units.degreesToRadians(Parameters.shooter.camera.PITCH),
+                        Units.degreesToRadians(bestTarget.getPitch()));
         targetExists = true;
     }
 }
