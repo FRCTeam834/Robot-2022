@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Vision extends SubsystemBase {
 
@@ -56,12 +56,12 @@ public class Vision extends SubsystemBase {
     private List<List<TargetCorner>> getTargetCorners() {
         // I think this is cached
         PhotonPipelineResult pipelineResult = camera.getLatestResult();
-        if(!pipelineResult.hasTargets()) return null;
+        if (!pipelineResult.hasTargets()) return null;
 
         List<List<TargetCorner>> ret = new ArrayList<>();
         List<PhotonTrackedTarget> targets = pipelineResult.getTargets();
-        
-        for(PhotonTrackedTarget target : targets) {
+
+        for (PhotonTrackedTarget target : targets) {
             ret.add(target.getCorners());
         }
 
@@ -70,26 +70,26 @@ public class Vision extends SubsystemBase {
 
     private List<TargetCorner> parseTargetCorners() {
         List<List<TargetCorner>> cornerData = getTargetCorners();
-        if(cornerData == null) return null;
+        if (cornerData == null) return null;
 
         List<TargetCorner> ret = new ArrayList<>();
-        
+
         // assumes target contours are rectangles
-        for(List<TargetCorner> corners : cornerData) {
+        for (List<TargetCorner> corners : cornerData) {
             TargetCorner p1 = corners.get(0);
             TargetCorner p2 = corners.get(1);
             TargetCorner p3 = corners.get(2);
             TargetCorner p4 = corners.get(3);
-            
+
             // following canvas axises (down is larger)
             double midY = (p1.y + p2.y + p3.y + p4.y) / 4;
 
-            if(p1.y < midY) ret.add(p1);
-            if(p2.y < midY) ret.add(p2);
-            if(p3.y < midY) ret.add(p3);
-            if(p4.y < midY) ret.add(p4);
+            if (p1.y < midY) ret.add(p1);
+            if (p2.y < midY) ret.add(p2);
+            if (p3.y < midY) ret.add(p3);
+            if (p4.y < midY) ret.add(p4);
         }
-        
+
         return ret;
     }
 
@@ -97,7 +97,7 @@ public class Vision extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         PhotonPipelineResult pipelineResult = camera.getLatestResult();
-        
+
         if (!pipelineResult.hasTargets()) {
             targetExists = false;
             return;
