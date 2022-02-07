@@ -13,7 +13,7 @@ public class ExtendClimber extends CommandBase {
     /** Creates a new ExtendClimber. */
     public ExtendClimber() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.climber);
+        //addRequirements(RobotContainer.climber);
     } /*
 
       // Called when the command is initially scheduled.

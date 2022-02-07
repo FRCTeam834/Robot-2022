@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.Parameters.hood;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
@@ -49,7 +49,7 @@ public class RobotContainer {
     public static Hood hood = new Hood();
 
     // public static Superstructure superstructure = new Superstructure(new Vision());
-    public static Climber climber = new Climber();
+    //public static Climber climber = new Climber();
     public static Intake intake = new Intake();
     public static Shooter shooter = new Shooter();
 
@@ -104,10 +104,14 @@ public class RobotContainer {
         // Right Joystick
 
         // Button board
-        TL.whenPressed(new InstantCommand(climber::runRightMotor, climber));
-        TL.whenReleased(new InstantCommand(climber::stopMotors, climber));
-        TM.whenPressed(new InstantCommand(climber::runRightMotorBackward, climber));
-        TM.whenReleased(new InstantCommand(climber::stopMotors, climber));
+        TL.whenPressed(new InstantCommand(hood::runMotorForward, hood));
+        TL.whenReleased(new InstantCommand(hood::stop, hood));
+        ML.whenPressed(new InstantCommand(hood::runMotorBackward, hood));
+        ML.whenReleased(new InstantCommand(hood::stop, hood));
+        TM.whenPressed(new InstantCommand(shooter::runShooter));
+        MM.whenPressed(new InstantCommand(intake::intake));
+        TR.whenPressed(new InstantCommand(shooter::stop));
+        MR.whenPressed(new InstantCommand(intake::stop));
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)

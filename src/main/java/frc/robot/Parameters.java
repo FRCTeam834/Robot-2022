@@ -319,7 +319,8 @@ public final class Parameters {
         // Velocity conversion factor
         // Converts from RPM to m/s of linear speed on the wheels of the shooter
         // TODO: Calculate this
-        public static final double VEL_CONV_FACTOR = 1;
+        public static final double WHEEL_DIA_IN = 1;
+        public static final double WHEEL_DIA_M = Units.inchesToMeters(WHEEL_DIA_IN);
 
         // The time for a shot to take place (in s)
         public static final double SHOT_TIME = 5;
@@ -327,12 +328,16 @@ public final class Parameters {
         // TODO: set this to a real port
         public static final int BOTTOM_SENSOR_PORT = 18;
 
+        // ! TESTING ONLY
+        public static final double SHOT_SPEED = 1; // In m/s
+        public static final double LOAD_SPEED = 0.25; // In percent
+
         public static final class motor {
             // Speed of shooter (in m/s of linear wheel speed)
             public static final double STD_SPEED = 2;
             public static final double LOW_SPEED = 0.5;
             public static final double BOTTOM_SPEED = 0.1;
-            public static final int TOP_ID = 17;
+            public static final int ID = 17;
             public static final int BOTTOM_ID = 18;
         }
 
@@ -359,8 +364,12 @@ public final class Parameters {
         public static final double HOME_ANGLE = 0; // The angle at home
 
         // Basic info
-        public static final double GEAR_RATIO = 1; // Ratio of motor turns to hood turns
+        public static final double GEARBOX_RATIO = 25; // Ratio of motor turns to gearbox output turns
+        public static final double CHAIN_RATIO = (64.0/22.0); // Ratio of motor turns to hood movement
         public static final double ALLOWABLE_RANGE = 30; // The range of motion, in degrees
+
+        // Temporary movement info
+        public static final double MOVE_SPEED = 0.25;
 
         public static class pid {
             public static final NetworkTable HOOD_TABLE =

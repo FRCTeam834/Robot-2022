@@ -11,7 +11,7 @@ import frc.robot.RobotContainer;
 
 public class ExtendClimberOneMotor extends CommandBase {
 
-    /** Creates a new ExtendClimberOneMotor. */
+    /** Creates a new ExtendClimberOneMotor.
     public ExtendClimberOneMotor() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.climber);
@@ -37,5 +37,5 @@ public class ExtendClimberOneMotor extends CommandBase {
     @Override
     public boolean isFinished() {
         return (RobotContainer.climber.getRightPosition() >= Parameters.climber.MOVE_DISTANCE);
-    }
+    }*/
 }

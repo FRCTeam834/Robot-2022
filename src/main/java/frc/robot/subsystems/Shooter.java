@@ -24,20 +24,14 @@ import frc.robot.Parameters;
 public class Shooter extends SubsystemBase {
 
     // Motor and motor encoder object
-    CANSparkMax shooterMotorTop;
-    RelativeEncoder shooterMotorTopEncoder;
-
-    CANSparkMax shooterMotorBottom;
-    RelativeEncoder shooterMotorBottomEncoder;
+    CANSparkMax shooterMotor;
+    RelativeEncoder shooterMotorEncoder;
 
     // Bang-bang controller
     BangBangController bigBangTheory;
 
     // Color sensor object
     ColorSensorV3 colorSensor;
-
-    // bottom sensor object
-    DigitalInput bottomSensor;
 
     // Boolean to keep track of the status of the bottom sensor in some of the intake ball methods
     Boolean sensorChanged;
@@ -55,36 +49,24 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
 
         // Create the shooter motor
-        shooterMotorTop = new CANSparkMax(Parameters.shooter.motor.TOP_ID, MotorType.kBrushless);
-        shooterMotorBottom =
-                new CANSparkMax(Parameters.shooter.motor.BOTTOM_ID, MotorType.kBrushless);
+        shooterMotor = new CANSparkMax(Parameters.shooter.motor.ID, MotorType.kBrushless);
 
         // Configure the motor's settings
         // ! MOTOR MUST BE ON COAST FOR BANG-BANG
-        shooterMotorTop.restoreFactoryDefaults();
-        shooterMotorTop.setIdleMode(IdleMode.kBrake);
-
-        shooterMotorBottom.restoreFactoryDefaults();
-        shooterMotorBottom.setIdleMode(IdleMode.kCoast);
+        shooterMotor.restoreFactoryDefaults();
+        shooterMotor.setIdleMode(IdleMode.kCoast);
 
         // Get the encoder of the shooter motor
-        shooterMotorTopEncoder = shooterMotorTop.getEncoder();
-        shooterMotorBottomEncoder = shooterMotorBottom.getEncoder();
+        shooterMotorEncoder = shooterMotor.getEncoder();
 
         // Set up the encoder's conversion factor
-        shooterMotorTopEncoder.setVelocityConversionFactor(Parameters.shooter.VEL_CONV_FACTOR);
-        shooterMotorBottomEncoder.setVelocityConversionFactor(Parameters.shooter.VEL_CONV_FACTOR);
-        // Burn the flash of the Spark, prevents issues during brownouts
-        shooterMotorTop.burnFlash();
-        shooterMotorBottom.burnFlash();
+        shooterMotorEncoder.setVelocityConversionFactor(Parameters.shooter.WHEEL_DIA_M * Math.PI);
 
         // Create a new bang-bang controller
         bigBangTheory = new BangBangController();
 
         // Create color sensor (uses the MXP I2C)
         colorSensor = new ColorSensorV3(Port.kMXP);
-
-        bottomSensor = new DigitalInput(Parameters.shooter.BOTTOM_SENSOR_PORT);
 
         // Create color matching object
         colorMatcher = new ColorMatch();
@@ -95,8 +77,8 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
-        shooterMotorTop.set(
-                bigBangTheory.calculate(shooterMotorTopEncoder.getVelocity(), setSpeed));
+        shooterMotor.set(
+                bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), setSpeed));
     }
 
     /**
@@ -108,12 +90,12 @@ public class Shooter extends SubsystemBase {
         this.setSpeed = speed;
     }
 
-    public void setBottomMotorSpeed(double speed) {
-        shooterMotorBottom.set(speed);
+    public void runShooter() {
+        this.setSpeed = Parameters.shooter.SHOT_SPEED;
     }
 
     public void stop() {
-        shooterMotorTop.set(0);
+        this.setSpeed = 0; // This should make the bang-bang controller stop the motor
     }
 
     // ! DOESN'T WORK
@@ -137,11 +119,6 @@ public class Shooter extends SubsystemBase {
     // Return ratio of red to blue
     public double getRedBlueRatio() {
         return colorSensor.getColor().red / colorSensor.getColor().blue;
-    }
-
-    // Returns value for bottom sensor
-    public boolean getBottomSensor() {
-        return bottomSensor.get();
     }
 
     // For top sensor: if there is an object close returns true if theres not returns false

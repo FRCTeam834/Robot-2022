@@ -31,12 +31,12 @@ public class Intake extends SubsystemBase {
 
     // Turns on the intake
     public void intake() {
-        intakeMotor.set(Parameters.intake.motor.TOP_SPEED);
+        intakeMotor.set(Parameters.intake.motor.SPEED);
     }
 
     // Makes the intake go in reverse
     public void spitItOut() {
-        intakeMotor.set(-Parameters.intake.motor.TOP_SPEED);
+        intakeMotor.set(-Parameters.intake.motor.SPEED);
     }
 
     // Stops the intake motors
