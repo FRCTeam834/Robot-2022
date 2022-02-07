@@ -17,7 +17,7 @@ public class ShootBall extends CommandBase {
     Timer timer = new Timer();
     boolean increment = false;
 
-    /** Creates a new ShootBall. */
+    /** Creates a new ShootBall.
     public ShootBall() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.shooter);
@@ -45,9 +45,9 @@ public class ShootBall extends CommandBase {
 
     @Override
     public void execute() {
-        /* Changes ball count when the sensor stops detecting a ball. If the top sensor doesn't detect a ball
-        the lower motor will spin until the ball reaches the top sensor.
-        */
+        //Changes ball count when the sensor stops detecting a ball. If the top sensor doesn't detect a ball
+        //the lower motor will spin until the ball reaches the top sensor.
+
         if (!RobotContainer.shooter.getTopSensor()) {
             RobotContainer.shooter.setBottomMotorSpeed(Parameters.shooter.motor.BOTTOM_SPEED);
 
@@ -71,5 +71,5 @@ public class ShootBall extends CommandBase {
     @Override
     public boolean isFinished() {
         return timer.hasElapsed(Parameters.shooter.SHOT_TIME);
-    }
+    }*/
 }

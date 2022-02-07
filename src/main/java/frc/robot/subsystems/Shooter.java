@@ -30,16 +30,13 @@ public class Shooter extends SubsystemBase {
     BangBangController bigBangTheory;
 
     // Color sensor object
-    ColorSensorV3 colorSensor;
+    //ColorSensorV3 colorSensor;
 
     // Boolean to keep track of the status of the bottom sensor in some of the intake ball methods
     Boolean sensorChanged;
 
     // Color matching object
     ColorMatch colorMatcher;
-
-    // The speed that the motor should be running at (in m/s)
-    double setSpeed = 0;
 
     // A count of how many balls the robot has
     int ballCount = 0;
@@ -59,16 +56,17 @@ public class Shooter extends SubsystemBase {
         shooterMotorEncoder = shooterMotor.getEncoder();
 
         // Set up the encoder's conversion factor
-        shooterMotorEncoder.setVelocityConversionFactor(Parameters.shooter.WHEEL_DIA_M * Math.PI);
+        // Multiply RPM by the circumference and 60 seconds to get m/s
+        shooterMotorEncoder.setVelocityConversionFactor(Parameters.shooter.WHEEL_DIA_M * Math.PI * 60);
 
         // Create a new bang-bang controller
         bigBangTheory = new BangBangController();
 
         // Create color sensor (uses the MXP I2C)
-        colorSensor = new ColorSensorV3(Port.kMXP);
+        //colorSensor = new ColorSensorV3(Port.kMXP);
 
         // Create color matching object
-        colorMatcher = new ColorMatch();
+        //colorMatcher = new ColorMatch();
     }
 
     @Override
@@ -76,7 +74,7 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
-        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), setSpeed));
+        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
     }
 
     /**
@@ -85,17 +83,17 @@ public class Shooter extends SubsystemBase {
      * @param speed The speed in m/s
      */
     public void setDesiredSpeed(double speed) {
-        this.setSpeed = speed;
+        bigBangTheory.setSetpoint(speed);
     }
 
     public void runShooter() {
-        this.setSpeed = Parameters.shooter.SHOT_SPEED;
+        bigBangTheory.setSetpoint(Parameters.shooter.SHOT_SPEED);
     }
 
     public void stop() {
-        this.setSpeed = 0; // This should make the bang-bang controller stop the motor
+        bigBangTheory.setSetpoint(0); // This should make the bang-bang controller stop the motor
     }
-
+    /*
     // ! DOESN'T WORK
     // Returns closest color match
     public Color getClosestColor() {
@@ -126,7 +124,7 @@ public class Shooter extends SubsystemBase {
         } else {
             return false;
         }
-    }
+    }*/
 
     public int getBallCount() {
         return ballCount;

@@ -13,7 +13,7 @@ import frc.robot.RobotContainer;
 // theres 2 it wont intake any
 public class IntakeBalls extends CommandBase {
     boolean increment = false;
-    /** Creates a new IntakeBalls. */
+    /** Creates a new IntakeBalls.
     public IntakeBalls() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.intake, RobotContainer.shooter);
@@ -59,5 +59,5 @@ public class IntakeBalls extends CommandBase {
     @Override
     public boolean isFinished() {
         return false;
-    }
+    }*/
 }

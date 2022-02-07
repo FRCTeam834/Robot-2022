@@ -13,7 +13,7 @@ public class IntakeOneBall extends CommandBase {
 
     boolean done = false;
 
-    /** Creates a new IntakeBall. */
+    /** Creates a new IntakeBall.
     public IntakeOneBall() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.intake, RobotContainer.shooter);
@@ -32,10 +32,8 @@ public class IntakeOneBall extends CommandBase {
         if (!RobotContainer.shooter.getTopSensor()) {
             RobotContainer.shooter.setBottomMotorSpeed(Parameters.shooter.motor.BOTTOM_SPEED);
         }
-        /*
-          If the bottom sensor is tripped, check if
+        // If the bottom sensor is tripped, check if
 
-        */
         if (!(RobotContainer.shooter.getBottomSensor() && RobotContainer.shooter.getTopSensor())) {
 
             if (RobotContainer.shooter.getBottomSensor()) {
@@ -62,4 +60,5 @@ public class IntakeOneBall extends CommandBase {
     public boolean isFinished() {
         return false;
     }
+    */
 }
