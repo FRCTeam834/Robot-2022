@@ -6,36 +6,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
-import frc.robot.RobotContainer;
-
 public class ExtendClimberOneMotor extends CommandBase {
 
-    /** Creates a new ExtendClimberOneMotor.
-    public ExtendClimberOneMotor() {
-        // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.climber);
-    }
-
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-        RobotContainer.climber.setRightMotor(Parameters.climber.DEFAULT_SPEED);
-    }
-
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {}
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-        RobotContainer.climber.stopMotors();
-    }
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return (RobotContainer.climber.getRightPosition() >= Parameters.climber.MOVE_DISTANCE);
-    }*/
+    /**
+     * Creates a new ExtendClimberOneMotor. public ExtendClimberOneMotor() { // Use
+     * addRequirements() here to declare subsystem dependencies.
+     * addRequirements(RobotContainer.climber); }
+     *
+     * <p>// Called when the command is initially scheduled. @Override public void initialize() {
+     * RobotContainer.climber.setRightMotor(Parameters.climber.DEFAULT_SPEED); }
+     *
+     * <p>// Called every time the scheduler runs while the command is scheduled. @Override public
+     * void execute() {}
+     *
+     * <p>// Called once the command ends or is interrupted. @Override public void end(boolean
+     * interrupted) { RobotContainer.climber.stopMotors(); }
+     *
+     * <p>// Returns true when the command should end. @Override public boolean isFinished() {
+     * return (RobotContainer.climber.getRightPosition() >= Parameters.climber.MOVE_DISTANCE); }
+     */
 }

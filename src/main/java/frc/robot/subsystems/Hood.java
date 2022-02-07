@@ -42,8 +42,10 @@ public class Hood extends SubsystemBase {
 
         // Set up the encoder of the hood motor
         hoodMotorEncoder = hoodMotor.getEncoder();
-        hoodMotorEncoder.setPositionConversionFactor(360.0 / (Parameters.hood.GEARBOX_RATIO * Parameters.hood.CHAIN_RATIO));
-        hoodMotorEncoder.setVelocityConversionFactor(360.0 / (Parameters.hood.GEARBOX_RATIO * Parameters.hood.CHAIN_RATIO * 60));
+        hoodMotorEncoder.setPositionConversionFactor(
+                360.0 / (Parameters.hood.GEARBOX_RATIO * Parameters.hood.CHAIN_RATIO));
+        hoodMotorEncoder.setVelocityConversionFactor(
+                360.0 / (Parameters.hood.GEARBOX_RATIO * Parameters.hood.CHAIN_RATIO * 60));
 
         // Set up the PID controller
         pidController = new CachedPIDController(hoodMotor);

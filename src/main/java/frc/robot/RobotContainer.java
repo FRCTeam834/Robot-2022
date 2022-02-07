@@ -20,13 +20,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.Parameters.hood;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
-import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NavX;
@@ -49,7 +49,7 @@ public class RobotContainer {
     public static Hood hood = new Hood();
 
     // public static Superstructure superstructure = new Superstructure(new Vision());
-    //public static Climber climber = new Climber();
+    // public static Climber climber = new Climber();
     public static Intake intake = new Intake();
     public static Shooter shooter = new Shooter();
 
