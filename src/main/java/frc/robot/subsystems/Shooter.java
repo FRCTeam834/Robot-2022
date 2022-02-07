@@ -10,12 +10,9 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
-import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -30,7 +27,7 @@ public class Shooter extends SubsystemBase {
     BangBangController bigBangTheory;
 
     // Color sensor object
-    //ColorSensorV3 colorSensor;
+    // ColorSensorV3 colorSensor;
 
     // Boolean to keep track of the status of the bottom sensor in some of the intake ball methods
     Boolean sensorChanged;
@@ -57,16 +54,17 @@ public class Shooter extends SubsystemBase {
 
         // Set up the encoder's conversion factor
         // Multiply RPM by the circumference and 60 seconds to get m/s
-        shooterMotorEncoder.setVelocityConversionFactor(Parameters.shooter.WHEEL_DIA_M * Math.PI * 60);
+        shooterMotorEncoder.setVelocityConversionFactor(
+                Parameters.shooter.WHEEL_DIA_M * Math.PI * 60);
 
         // Create a new bang-bang controller
         bigBangTheory = new BangBangController();
 
         // Create color sensor (uses the MXP I2C)
-        //colorSensor = new ColorSensorV3(Port.kMXP);
+        // colorSensor = new ColorSensorV3(Port.kMXP);
 
         // Create color matching object
-        //colorMatcher = new ColorMatch();
+        // colorMatcher = new ColorMatch();
     }
 
     @Override
