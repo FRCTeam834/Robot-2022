@@ -18,6 +18,7 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 
@@ -145,8 +146,22 @@ public class SwerveModule extends SubsystemBase {
         driveMotorPID.setOutputRange(-1, 1);
 
         // Burn the flash parameters to the Sparks (prevents loss of parameters after brownouts)
-        steerMotor.burnFlash();
-        driveMotor.burnFlash();
+        if (Parameters.flashControllers) {
+            steerMotor.burnFlash();
+            driveMotor.burnFlash();
+        }
+
+        // Set the CAN frame update rate
+        // ! THIS IS EXTREMELY DANGEROUS, DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING!!!
+        // ! THIS COULD CAUSE MOTORS TO STOP RESPONDING OR OTHERWISE MALFUNCTION!!!
+        // No need to burn the flash, the update rates are not saved
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
+
+        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
+        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
+        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
     }
 
     /**

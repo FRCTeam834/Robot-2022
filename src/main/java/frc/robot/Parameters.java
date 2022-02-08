@@ -335,8 +335,7 @@ public final class Parameters {
         public static final class motor {
             // Speed of shooter (in m/s of linear wheel speed)
             public static final double STD_SPEED = 2;
-            public static final double LOW_SPEED = 0.5;
-            public static final double BOTTOM_SPEED = 0.1;
+            public static final double SPIT_SPEED = 0.5;
             public static final int ID = 17;
         }
 
