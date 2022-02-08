@@ -73,8 +73,9 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
-        //shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
+        // shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
     }
+
     public void setMotorSpeed(double speed) {
         shooterMotor.set(speed);
     }
