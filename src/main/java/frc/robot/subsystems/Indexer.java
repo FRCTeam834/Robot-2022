@@ -75,7 +75,6 @@ public class Indexer extends SubsystemBase {
         return (colorSensor.getProximity() < Parameters.indexer.colorSensor.PROXIMITY_THRESHOLD);
     }
 
-
     /*
     // ! DOESN'T WORK
     // Returns closest color match
