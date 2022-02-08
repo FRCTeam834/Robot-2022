@@ -32,9 +32,6 @@ public class Shooter extends SubsystemBase {
     // Boolean to keep track of the status of the bottom sensor in some of the intake ball methods
     Boolean sensorChanged;
 
-    // Color matching object
-    ColorMatch colorMatcher;
-
     // A count of how many balls the robot has
     int ballCount = 0;
 
@@ -60,12 +57,6 @@ public class Shooter extends SubsystemBase {
 
         // Create a new bang-bang controller
         bigBangTheory = new BangBangController();
-
-        // Create color sensor (uses the MXP I2C)
-        // colorSensor = new ColorSensorV3(Port.kMXP);
-
-        // Create color matching object
-        // colorMatcher = new ColorMatch();
     }
 
     @Override
@@ -95,57 +86,5 @@ public class Shooter extends SubsystemBase {
     public void stop() {
         shooterMotor.set(0);
         bigBangTheory.setSetpoint(0); // This should make the bang-bang controller stop the motor
-    }
-    /*
-    // ! DOESN'T WORK
-    // Returns closest color match
-    public Color getClosestColor() {
-        colorMatcher.setConfidenceThreshold(.5);
-        return colorMatcher.matchClosestColor(colorSensor.getColor()).color;
-    }
-
-    // Determine if either red or blue is detected, if not returns neither
-    public Color getColor() {
-        if ((colorSensor.getColor().red / colorSensor.getColor().blue) > 4) {
-            return Color.kRed;
-        } else if ((colorSensor.getColor().blue / colorSensor.getColor().red) > 4) {
-            return Color.kBlue;
-        } else {
-            return Color.kBlack;
-        }
-    }
-
-    // Return ratio of red to blue
-    public double getRedBlueRatio() {
-        return colorSensor.getColor().red / colorSensor.getColor().blue;
-    }
-
-    // For top sensor: if there is an object close returns true if theres not returns false
-    public boolean getTopSensor() {
-        if (colorSensor.getProximity() > 1800) {
-            return true;
-        } else {
-            return false;
-        }
-    }*/
-
-    public int getBallCount() {
-        return ballCount;
-    }
-
-    public void setBallCount(int newValue) {
-        ballCount = newValue;
-    }
-
-    public void addBallCount(int newValue) {
-        ballCount += newValue;
-    }
-
-    public boolean getSensorChanged() {
-        return sensorChanged;
-    }
-
-    public void setSensorChanged(boolean newValue) {
-        sensorChanged = newValue;
     }
 }

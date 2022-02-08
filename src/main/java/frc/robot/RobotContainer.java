@@ -111,8 +111,8 @@ public class RobotContainer {
         ML.whenPressed(new InstantCommand(hood::runMotorBackward, hood));
         ML.whenReleased(new InstantCommand(hood::stop, hood));
         BM.whileHeld(new InstantCommand(() -> shooter.setMotorSpeed(1 - leftJoystick.getZ())));
-        TM.whenPressed(new InstantCommand(intake::intake, intake));
         BR.whenPressed(new InstantCommand(() -> shooter.setMotorSpeed(0)));
+        TM.whenPressed(new InstantCommand(intake::intake, intake));
         TR.whenPressed(new InstantCommand(intake::stop, intake));
         MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(.25)));
         MR.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0)));

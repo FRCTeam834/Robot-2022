@@ -381,6 +381,9 @@ public final class Parameters {
     }
 
     public static final class indexer {
+        public static final class colorSensor {
+            public static final int PROXIMITY_THRESHOLD = 1800;
+        }
         public static final class motor {
             public static final int ID = 18;
         }

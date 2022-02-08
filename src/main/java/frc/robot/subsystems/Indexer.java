@@ -10,9 +10,11 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ColorMatch;
+import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -27,10 +29,7 @@ public class Indexer extends SubsystemBase {
     BangBangController bigBangTheory;
 
     // Color sensor object
-    // ColorSensorV3 colorSensor;
-
-    // Boolean to keep track of the status of the bottom sensor in some of the intake ball methods
-    Boolean sensorChanged;
+    ColorSensorV3 colorSensor;
 
     // Color matching object
     ColorMatch colorMatcher;
@@ -51,6 +50,12 @@ public class Indexer extends SubsystemBase {
 
         // Get the encoder of the shooter motor
         shooterMotorEncoder = indexMotor.getEncoder();
+
+        // Set up the color sensor
+        colorSensor = new ColorSensorV3(Port.kMXP);
+
+        // Set up the color matcher
+        colorMatcher = new ColorMatch();
     }
 
     @Override
@@ -65,4 +70,43 @@ public class Indexer extends SubsystemBase {
     public void stop() {
         indexMotor.set(0);
     }
+
+    public boolean hasBall() {
+        return (colorSensor.getProximity() < Parameters.indexer.colorSensor.PROXIMITY_THRESHOLD);
+    }
+
+
+    /*
+    // ! DOESN'T WORK
+    // Returns closest color match
+    public Color getClosestColor() {
+        colorMatcher.setConfidenceThreshold(.5);
+        return colorMatcher.matchClosestColor(colorSensor.getColor()).color;
+    }
+
+    // Determine if either red or blue is detected, if not returns neither
+    public Color getColor() {
+        if ((colorSensor.getColor().red / colorSensor.getColor().blue) > 4) {
+            return Color.kRed;
+        } else if ((colorSensor.getColor().blue / colorSensor.getColor().red) > 4) {
+            return Color.kBlue;
+        } else {
+            return Color.kBlack;
+        }
+    }
+
+    // Return ratio of red to blue
+    public double getRedBlueRatio() {
+        return colorSensor.getColor().red / colorSensor.getColor().blue;
+    }
+
+    // For top sensor: if there is an object close returns true if theres not returns false
+    public boolean getTopSensor() {
+        if (colorSensor.getProximity() > 1800) {
+            return true;
+        } else {
+            return false;
+        }
+    }*/
+
 }
