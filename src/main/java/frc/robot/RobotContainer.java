@@ -28,6 +28,7 @@ import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
 import frc.robot.subsystems.Hood;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
@@ -52,6 +53,7 @@ public class RobotContainer {
     // public static Climber climber = new Climber();
     public static Intake intake = new Intake();
     public static Shooter shooter = new Shooter();
+    public static Indexer indexer = new Indexer();
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
@@ -95,6 +97,7 @@ public class RobotContainer {
         // Left Joystick
         new JoystickButton(leftJoystick, 1).whenPressed(letsRoll2Joysticks);
         new JoystickButton(leftJoystick, 2).whenPressed(testModulePositioning);
+        new JoystickButton(leftJoystick, 3).whenPressed(navX::resetYaw);
         new JoystickButton(leftJoystick, 8)
                 .whenPressed(
                         new InstantCommand(driveTrain::zeroEncoders, driveTrain)
@@ -108,10 +111,12 @@ public class RobotContainer {
         TL.whenReleased(new InstantCommand(hood::stop, hood));
         ML.whenPressed(new InstantCommand(hood::runMotorBackward, hood));
         ML.whenReleased(new InstantCommand(hood::stop, hood));
-        TM.whenPressed(new InstantCommand(shooter::runShooter));
-        MM.whenPressed(new InstantCommand(intake::intake));
-        TR.whenPressed(new InstantCommand(shooter::stop));
-        MR.whenPressed(new InstantCommand(intake::stop));
+        BM.whileHeld(new InstantCommand(() -> shooter.setMotorSpeed(1 - leftJoystick.getZ())));
+        TM.whenPressed(new InstantCommand(intake::intake, intake));
+        BR.whenPressed(new InstantCommand(() -> shooter.setMotorSpeed(0)));
+        TR.whenPressed(new InstantCommand(intake::stop, intake));
+        MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(.25)));
+        MR.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0)));
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)

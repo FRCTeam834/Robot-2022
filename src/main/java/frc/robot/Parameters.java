@@ -40,7 +40,7 @@ import frc.robot.utilityClasses.TuneableNumber;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = true;
+    public static final boolean debug = false;
     public static final boolean tuningMode = false;
 
     // Competition configurations
@@ -309,7 +309,7 @@ public final class Parameters {
 
     public static final class intake {
         public static final class motor {
-            public static final double SPEED = 0;
+            public static final double SPEED = .5;
             public static final int ID = 16;
         }
     }
@@ -319,7 +319,7 @@ public final class Parameters {
         // Velocity conversion factor
         // Converts from RPM to m/s of linear speed on the wheels of the shooter
         // TODO: Calculate this
-        public static final double WHEEL_DIA_IN = 1;
+        public static final double WHEEL_DIA_IN = 5;
         public static final double WHEEL_DIA_M = Units.inchesToMeters(WHEEL_DIA_IN);
 
         // The time for a shot to take place (in s)
@@ -338,7 +338,6 @@ public final class Parameters {
             public static final double LOW_SPEED = 0.5;
             public static final double BOTTOM_SPEED = 0.1;
             public static final int ID = 17;
-            public static final int BOTTOM_ID = 18;
         }
 
         // Game-specific parameters (meters and degrees)
@@ -371,7 +370,7 @@ public final class Parameters {
         public static final double ALLOWABLE_RANGE = 30; // The range of motion, in degrees
 
         // Temporary movement info
-        public static final double MOVE_SPEED = 0.25;
+        public static final double MOVE_SPEED = 0.05;
 
         public static class pid {
             public static final NetworkTable HOOD_TABLE =
@@ -379,6 +378,12 @@ public final class Parameters {
             public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.05);
             public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.01);
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
+        }
+    }
+
+    public static final class indexer {
+        public static final class motor {
+            public static final int ID = 18;        
         }
     }
 }

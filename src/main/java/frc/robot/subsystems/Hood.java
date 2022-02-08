@@ -38,7 +38,7 @@ public class Hood extends SubsystemBase {
         hoodMotor.enableVoltageCompensation(12);
         hoodMotor.setIdleMode(IdleMode.kBrake);
         hoodMotor.setSmartCurrentLimit(10);
-        hoodMotor.setInverted(false);
+        hoodMotor.setInverted(true);
 
         // Set up the encoder of the hood motor
         hoodMotorEncoder = hoodMotor.getEncoder();

@@ -48,6 +48,7 @@ public class Shooter extends SubsystemBase {
         // ! MOTOR MUST BE ON COAST FOR BANG-BANG
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setIdleMode(IdleMode.kCoast);
+        shooterMotor.setInverted(true);
 
         // Get the encoder of the shooter motor
         shooterMotorEncoder = shooterMotor.getEncoder();
@@ -72,9 +73,11 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
-        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
+        //shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
     }
-
+    public void setMotorSpeed(double speed) {
+        shooterMotor.set(speed);
+    }
     /**
      * Sets the desired speed of the shooter
      *
@@ -89,6 +92,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stop() {
+        shooterMotor.set(0);
         bigBangTheory.setSetpoint(0); // This should make the bang-bang controller stop the motor
     }
     /*
