@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
@@ -31,6 +33,7 @@ public class Hood extends SubsystemBase {
     // Variable to store if the hood has been homed yet
     boolean homed = false;
 
+    public BooleanSupplier limitSwitchStatus = () -> limitSwitch.get();
     public Hood() {
         // Initialize the hood motor
         hoodMotor = new CANSparkMax(Parameters.hood.MOTOR_ID, MotorType.kBrushless);

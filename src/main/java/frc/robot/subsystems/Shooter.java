@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
 
         // Create the shooter motor
-        shooterMotor = new CANSparkMax(Parameters.shooter.motor.ID, MotorType.kBrushless);
+        shooterMotor = new CANSparkMax(Parameters.indexer.motor.ID, MotorType.kBrushless);
 
         // Configure the motor's settings
         // ! MOTOR MUST BE ON COAST FOR BANG-BANG
@@ -52,7 +52,7 @@ public class Shooter extends SubsystemBase {
         // Set up the encoder's conversion factor
         // Multiply RPM by the circumference and 60 seconds to get m/s
         shooterMotorEncoder.setVelocityConversionFactor(
-                Parameters.shooter.WHEEL_DIA_M * Math.PI * 60);
+                (Parameters.shooter.WHEEL_DIA_M * Math.PI) / 60);
 
         // Create a new bang-bang controller
         bigBangTheory = new BangBangController();
@@ -63,23 +63,14 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
-        // shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
     }
 
-    public void setMotorSpeed(double speed) {
-        shooterMotor.set(speed);
-    }
-    /**
-     * Sets the desired speed of the shooter
-     *
-     * @param speed The speed in m/s
-     */
-    public void setDesiredSpeed(double speed) {
-        bigBangTheory.setSetpoint(speed);
-    }
 
-    public void runShooter() {
-        bigBangTheory.setSetpoint(Parameters.shooter.SHOT_SPEED);
+    public void shoot(double setPoint) {
+        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), setPoint));
+    }
+    public boolean isAtSetPoint() {
+        return bigBangTheory.atSetpoint();
     }
 
     public void stop() {

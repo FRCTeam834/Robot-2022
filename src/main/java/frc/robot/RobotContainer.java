@@ -16,11 +16,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.IndexingThings;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
@@ -60,6 +66,7 @@ public class RobotContainer {
     private final TestModulePositioning testModulePositioning = new TestModulePositioning();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
+    private final IndexingThings indexingThings = new IndexingThings();
     // private final TurnToVision turnToVision = new TurnToVision();
 
     // Define the joysticks (need to be public so commands can access axes)
@@ -110,13 +117,28 @@ public class RobotContainer {
         TL.whenReleased(new InstantCommand(hood::stop, hood));
         ML.whenPressed(new InstantCommand(hood::runMotorBackward, hood));
         ML.whenReleased(new InstantCommand(hood::stop, hood));
-        BM.whileHeld(new InstantCommand(() -> shooter.setMotorSpeed(1 - leftJoystick.getZ())));
-        BR.whenPressed(new InstantCommand(() -> shooter.setMotorSpeed(0)));
+        BM.whenPressed(new InstantCommand(() -> shooter.shoot(.25)));
+        BM.whenReleased(new InstantCommand(() -> shooter.shoot(0)));
         TM.whenPressed(new InstantCommand(intake::intake, intake));
         TR.whenPressed(new InstantCommand(intake::stop, intake));
-        MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(.25)));
+        MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(-.25)));
         MR.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0)));
-    }
+    
+        //run the hood down (inlined)
+        new JoystickButton(xbox, Button.kLeftBumper.value).whenHeld(new StartEndCommand(() -> hood.runMotor(-.2), hood::stop, hood).withInterrupt(hood::getLSValue));
+    
+        //run the hood up (inlined)
+        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new StartEndCommand(() -> hood.runMotor(.2),hood::stop,hood));
+    
+        //pickup and index balls
+        new JoystickButton(xbox, Button.kA.value).whenPressed(new StartEndCommand(() -> indexer.setMotorSpeed(.5), indexer::stop, indexer).withInterrupt(indexer::hasBall));    
+        
+        //shooter command
+        new JoystickButton(xbox, Button.kB.value).whenPressed(
+                new RunCommand(()->shooter.shoot(2), shooter));
+        }
+    
+
 
     // Joystick value array, in form (LX, LY, RX, RY)
     public static double[] getJoystickValues() {

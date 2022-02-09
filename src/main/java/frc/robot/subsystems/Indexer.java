@@ -5,6 +5,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.function.BooleanSupplier;
+
 // Imports
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -37,15 +39,17 @@ public class Indexer extends SubsystemBase {
     // A count of how many balls the robot has
     int ballCount = 0;
 
+    public BooleanSupplier isRed = () -> isRed();
+    public BooleanSupplier hasBall = () -> hasBall();
     /** Creates a new Shooter. */
     public Indexer() {
 
         // Create the shooter motor
-        indexMotor = new CANSparkMax(Parameters.indexer.motor.ID, MotorType.kBrushless);
+        indexMotor = new CANSparkMax(Parameters.shooter.motor.ID, MotorType.kBrushless);
 
         // Configure the motor's settings
         indexMotor.restoreFactoryDefaults();
-        indexMotor.setIdleMode(IdleMode.kCoast);
+        indexMotor.setIdleMode(IdleMode.kBrake);
         indexMotor.setInverted(true);
 
         // Get the encoder of the shooter motor
@@ -60,7 +64,7 @@ public class Indexer extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        
     }
 
     public void setMotorSpeed(double speed) {
@@ -72,9 +76,18 @@ public class Indexer extends SubsystemBase {
     }
 
     public boolean hasBall() {
-        return (colorSensor.getProximity() < Parameters.indexer.colorSensor.PROXIMITY_THRESHOLD);
+        return (colorSensor.getProximity() > Parameters.indexer.colorSensor.PROXIMITY_THRESHOLD);
     }
 
+    public boolean isRed() {
+        if ((colorSensor.getColor().red / colorSensor.getColor().blue) > 2.5) {
+            return true;
+        } else if ((colorSensor.getColor().blue / colorSensor.getColor().red) > 2.5) {
+            return false;
+        } else {
+            return false;
+        }
+    }
     /*
     // ! DOESN'T WORK
     // Returns closest color match

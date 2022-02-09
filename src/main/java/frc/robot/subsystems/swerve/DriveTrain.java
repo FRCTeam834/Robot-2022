@@ -249,7 +249,7 @@ public class DriveTrain extends SubsystemBase {
      *
      * @param chassisSpeeds The desired velocities of the movement of the entire drivetrain
      */
-    private void setModuleStates(ChassisSpeeds chassisSpeeds) {
+    public void setModuleStates(ChassisSpeeds chassisSpeeds) {
 
         // Get the module states
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
