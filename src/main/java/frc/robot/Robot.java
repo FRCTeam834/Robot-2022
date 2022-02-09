@@ -30,9 +30,7 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
 
-    /**
-     * Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once
-     */
+    /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
     Robot() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.

@@ -59,9 +59,7 @@ public class Indexer extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-
-    }
+    public void periodic() {}
 
     public void setMotorSpeed(double speed) {
         indexMotor.set(speed);

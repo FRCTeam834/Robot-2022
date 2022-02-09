@@ -9,6 +9,7 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.SpartechsSwerveController;
 
@@ -16,12 +17,18 @@ import frc.robot.commands.swerve.SpartechsSwerveController;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveForwardAuton extends SequentialCommandGroup {
-  
-  public DriveForwardAuton() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    PathPlannerTrajectory examplePath = PathPlanner.loadPath("New Path", 8, 5);
-    addCommands(
-        new InstantCommand(RobotContainer.driveTrain::haltAllModules),new InstantCommand( () -> RobotContainer.driveTrain.resetOdometry(examplePath.getInitialPose())),new SpartechsSwerveController(examplePath, false), new InstantCommand(RobotContainer.driveTrain::haltAllModules));
-  }
+
+    public DriveForwardAuton() {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        PathPlannerTrajectory examplePath = PathPlanner.loadPath("New Path", 8, 5);
+        addCommands(
+                new InstantCommand(RobotContainer.driveTrain::haltAllModules),
+                new InstantCommand(
+                        () ->
+                                RobotContainer.driveTrain.resetOdometry(
+                                        examplePath.getInitialPose())),
+                new SpartechsSwerveController(examplePath, false),
+                new InstantCommand(RobotContainer.driveTrain::haltAllModules));
+    }
 }

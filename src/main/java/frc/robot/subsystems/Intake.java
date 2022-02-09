@@ -53,6 +53,6 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean getIntakeCurrentSpike() {
-        return intakeCurrentDebouncer.calculate(intakeMotor.getOutputCurrent()>30);
+        return intakeCurrentDebouncer.calculate(intakeMotor.getOutputCurrent() > 30);
     }
 }

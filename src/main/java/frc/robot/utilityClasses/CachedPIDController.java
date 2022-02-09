@@ -1,4 +1,6 @@
-/** @author Christian Piper (@CAP1Sup) */
+/**
+ * @author Christian Piper (@CAP1Sup)
+ */
 package frc.robot.utilityClasses;
 
 // Imports
