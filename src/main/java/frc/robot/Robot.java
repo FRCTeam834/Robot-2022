@@ -46,6 +46,10 @@ public class Robot extends TimedRobot {
 
         // Reset the angle of the NavX
         RobotContainer.navX.resetYaw();
+        RobotContainer.indexer.stop();
+        RobotContainer.intake.stop();
+        RobotContainer.shooter.stop();
+        RobotContainer.hood.stop();
     }
 
     /**

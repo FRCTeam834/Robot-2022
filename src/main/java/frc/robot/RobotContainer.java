@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.IndexingThings;
+import frc.robot.commands.ColorSensorIndexing;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
@@ -66,7 +66,7 @@ public class RobotContainer {
     private final TestModulePositioning testModulePositioning = new TestModulePositioning();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
-    private final IndexingThings indexingThings = new IndexingThings();
+    private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
     // private final TurnToVision turnToVision = new TurnToVision();
 
     // Define the joysticks (need to be public so commands can access axes)
@@ -130,16 +130,25 @@ public class RobotContainer {
         //run the hood up (inlined)
         new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new StartEndCommand(() -> hood.runMotor(.2),hood::stop,hood));
     
-        //pickup and index balls
+        //intake balls (inlined)
+        new JoystickButton(xbox, Button.kY.value).whenHeld(new StartEndCommand(intake::intake, intake::stop, intake));
+
+        //index balls (inlined)
         new JoystickButton(xbox, Button.kA.value).whenPressed(new StartEndCommand(() -> indexer.setMotorSpeed(.5), indexer::stop, indexer).withInterrupt(indexer::hasBall));    
         
         //shooter command
         new JoystickButton(xbox, Button.kB.value).whenPressed(
-                new RunCommand(()->shooter.shoot(2), shooter));
+            new StartEndCommand( 
+                () -> shooter.shoot(2), shooter::stop, shooter).raceWith(
+                    new WaitUntilCommand(
+                        shooter::isAtSetPoint).andThen(
+                        new StartEndCommand(
+                            () -> indexer.setMotorSpeed(.5), indexer::stop, indexer).withTimeout(3))));
         }
     
 
 
+        
     // Joystick value array, in form (LX, LY, RX, RY)
     public static double[] getJoystickValues() {
 
