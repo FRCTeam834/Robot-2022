@@ -31,12 +31,9 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
 
     /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
+     * Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once
      */
-    @Override
-    public void robotInit() {
-
+    Robot() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
@@ -51,6 +48,13 @@ public class Robot extends TimedRobot {
         RobotContainer.shooter.stop();
         RobotContainer.hood.stop();
     }
+
+    /**
+     * This function is run when the robot is first started up and should be used for any
+     * initialization code.
+     */
+    @Override
+    public void robotInit() {}
 
     /**
      * This function is called every robot packet, no matter the mode. Use this for items like
