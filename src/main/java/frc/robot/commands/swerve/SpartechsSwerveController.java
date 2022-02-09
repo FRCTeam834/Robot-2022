@@ -1,8 +1,5 @@
 package frc.robot.commands.swerve;
 
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
@@ -61,7 +58,7 @@ public class SpartechsSwerveController extends CommandBase {
 
     @Override
     public void initialize() {
-        
+
         m_timer.reset();
         m_timer.start();
     }
@@ -98,4 +95,4 @@ public class SpartechsSwerveController extends CommandBase {
     public boolean isFinished() {
         return m_timer.hasElapsed(m_trajectory.getTotalTimeSeconds());
     }
-} 
+}

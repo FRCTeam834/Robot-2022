@@ -20,11 +20,8 @@ public class ColorSensorIndexing extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if(RobotContainer.indexer.hasBall.getAsBoolean() == true) {
-          RobotContainer.indexer.setMotorSpeed(0);
-      }
-      else {
-          RobotContainer.indexer.setMotorSpeed(.5);
+      if(!RobotContainer.indexer.hasBall()) {
+          RobotContainer.indexer.setMotorSpeed(0.5);
       }
   }
 

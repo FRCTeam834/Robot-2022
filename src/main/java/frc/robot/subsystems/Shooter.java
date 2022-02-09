@@ -25,20 +25,11 @@ public class Shooter extends SubsystemBase {
     // Bang-bang controller
     BangBangController bigBangTheory;
 
-    // Color sensor object
-    // ColorSensorV3 colorSensor;
-
-    // Boolean to keep track of the status of the bottom sensor in some of the intake ball methods
-    Boolean sensorChanged;
-
-    // A count of how many balls the robot has
-    int ballCount = 0;
-
     /** Creates a new Shooter. */
     public Shooter() {
 
         // Create the shooter motor
-        shooterMotor = new CANSparkMax(Parameters.indexer.motor.ID, MotorType.kBrushless);
+        shooterMotor = new CANSparkMax(Parameters.shooter.motor.ID, MotorType.kBrushless);
 
         // Configure the motor's settings
         // ! MOTOR MUST BE ON COAST FOR BANG-BANG
@@ -63,18 +54,18 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
+        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
     }
-
 
     public void shoot(double setPoint) {
-        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), setPoint));
+        bigBangTheory.setSetpoint(setPoint);
     }
+
     public boolean isAtSetPoint() {
         return bigBangTheory.atSetpoint();
     }
 
     public void stop() {
-        shooterMotor.set(0);
         bigBangTheory.setSetpoint(0); // This should make the bang-bang controller stop the motor
     }
 }
