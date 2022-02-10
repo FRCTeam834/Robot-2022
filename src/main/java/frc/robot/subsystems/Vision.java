@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.utilityClasses.GlobalPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,25 @@ public class Vision extends SubsystemBase {
         return targetExists;
     }
 
+    public List<GlobalPoint> getGlobalPoints() {
+        PhotonPipelineResult pipelineResult = camera.getLatestResult();
+        if(!pipelineResult.hasTargets()) return null;
+
+        List<GlobalPoint> ret = new ArrayList<>();
+        List<PhotonTrackedTarget> targets = pipelineResult.getTargets();
+
+        for(PhotonTrackedTarget target : targets) {
+            GlobalPoint gp = new GlobalPoint(
+                Units.degreesToRadians(target.getYaw()),
+                Units.degreesToRadians(Parameters.shooter.camera.PITCH + target.getPitch())
+            );
+            ret.add(gp);
+        }
+
+        return ret;
+    }
+
+    /*
     // return list of list for parseTargetCorners
     private List<List<TargetCorner>> getTargetCorners() {
         // I think this is cached
@@ -92,6 +112,7 @@ public class Vision extends SubsystemBase {
         
         return ret;
     }
+    */
 
     @Override
     public void periodic() {
