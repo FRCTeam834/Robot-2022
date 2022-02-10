@@ -15,6 +15,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -23,7 +24,7 @@ public class Indexer extends SubsystemBase {
 
     // Motor and motor encoder object
     CANSparkMax indexMotor;
-    RelativeEncoder shooterMotorEncoder;
+    RelativeEncoder indexMotorEncoder;
 
     // Bang-bang controller
     BangBangController bigBangTheory;
@@ -49,7 +50,7 @@ public class Indexer extends SubsystemBase {
         indexMotor.setInverted(true);
 
         // Get the encoder of the shooter motor
-        shooterMotorEncoder = indexMotor.getEncoder();
+        indexMotorEncoder = indexMotor.getEncoder();
 
         // Set up the color sensor
         colorSensor = new ColorSensorV3(Port.kMXP);
@@ -74,9 +75,14 @@ public class Indexer extends SubsystemBase {
     }
 
     public boolean isRed() {
-        if ((colorSensor.getColor().red / colorSensor.getColor().blue) > 2.5) {
+
+        // Get the color once, saving large amounts of time
+        Color ballColor = colorSensor.getColor();
+
+        // Decide what the color
+        if ((ballColor.red / ballColor.blue) > 2.5) {
             return true;
-        } else if ((colorSensor.getColor().blue / colorSensor.getColor().red) > 2.5) {
+        } else if ((ballColor.blue / ballColor.red) > 2.5) {
             return false;
         } else {
             return false;
