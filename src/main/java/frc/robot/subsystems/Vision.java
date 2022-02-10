@@ -52,7 +52,15 @@ public class Vision extends SubsystemBase {
         return targetExists;
     }
 
-    public List<GlobalPoint> getGlobalPoints() {
+    /*
+    public something getPositionFromVision() {
+        // returnval = circleFitAlgorithm(getGlobalPoints());
+        // xpos = Parameters.shooter.camera.TARGET_X - returnval[0];
+        // ypos = Parameters.shooter.camera.TARGET_Y - returnval[1];
+    }
+    */
+
+    private List<GlobalPoint> getGlobalPoints() {
         PhotonPipelineResult pipelineResult = camera.getLatestResult();
         if (!pipelineResult.hasTargets()) return null;
 
