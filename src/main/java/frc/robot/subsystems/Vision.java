@@ -15,7 +15,6 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-import org.photonvision.targeting.TargetCorner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,16 +54,17 @@ public class Vision extends SubsystemBase {
 
     public List<GlobalPoint> getGlobalPoints() {
         PhotonPipelineResult pipelineResult = camera.getLatestResult();
-        if(!pipelineResult.hasTargets()) return null;
+        if (!pipelineResult.hasTargets()) return null;
 
         List<GlobalPoint> ret = new ArrayList<>();
         List<PhotonTrackedTarget> targets = pipelineResult.getTargets();
 
-        for(PhotonTrackedTarget target : targets) {
-            GlobalPoint gp = new GlobalPoint(
-                Units.degreesToRadians(target.getYaw()),
-                Units.degreesToRadians(Parameters.shooter.camera.PITCH + target.getPitch())
-            );
+        for (PhotonTrackedTarget target : targets) {
+            GlobalPoint gp =
+                    new GlobalPoint(
+                            Units.degreesToRadians(target.getYaw()),
+                            Units.degreesToRadians(
+                                    Parameters.shooter.camera.PITCH + target.getPitch()));
             ret.add(gp);
         }
 
