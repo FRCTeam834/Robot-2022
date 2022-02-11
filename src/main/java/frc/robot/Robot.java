@@ -53,7 +53,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         RobotContainer.led.set(Parameters.led.LIGHTS);
-
     }
 
     /**

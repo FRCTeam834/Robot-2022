@@ -15,6 +15,7 @@ package frc.robot;
 // Imports
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
@@ -23,10 +24,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+
 import frc.robot.utilityClasses.JoystickOutputTypes;
 import frc.robot.utilityClasses.TuneableNumber;
-
-
 
 /**
  * The Parameters class provides a convenient place for teams to hold robot-wide numerical or
@@ -389,7 +389,7 @@ public final class Parameters {
         }
     }
 
-    public static final class led{
+    public static final class led {
         public static final int PORT = 9;
         // This isn't final because this value is changed to change the led colors
         public static double LIGHTS = 0;
