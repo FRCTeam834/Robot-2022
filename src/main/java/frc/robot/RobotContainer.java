@@ -13,17 +13,14 @@
 package frc.robot;
 
 // Imports
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 import frc.robot.commands.ColorSensorIndexing;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
@@ -37,6 +34,7 @@ import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,6 +64,9 @@ public class RobotContainer {
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
     // private final TurnToVision turnToVision = new TurnToVision();
+
+    // Lights! No camera and no action
+    public static Spark led = new Spark(Parameters.led.PORT);
 
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
