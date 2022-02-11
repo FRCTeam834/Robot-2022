@@ -67,21 +67,17 @@ public class Robot extends TimedRobot {
         RobotContainer.led.set(RobotContainer.lights);
         shooterAtSpeed = RobotContainer.shooter.isAtSetPoint();
         linedUp = true;
-        // linedUp = RobotContainer.vision.isLinedUp(); 
-        //TODO make this a thing^
-        if(shooterAtSpeed && linedUp){
+        // linedUp = RobotContainer.vision.isLinedUp();
+        // TODO make this a thing^
+        if (shooterAtSpeed && linedUp) {
             RobotContainer.lights = Parameters.led.GLITTER_RAINBOW;
-        }
-        else if(shooterAtSpeed){
+        } else if (shooterAtSpeed) {
             RobotContainer.lights = Parameters.led.OCEAN;
-        }
-        else if(linedUp){
+        } else if (linedUp) {
             RobotContainer.lights = Parameters.led.PINK;
-        }
-        else{
+        } else {
             RobotContainer.lights = Parameters.led.BLUE_VIOLET;
         }
- 
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,

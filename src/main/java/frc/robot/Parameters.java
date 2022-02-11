@@ -402,7 +402,6 @@ public final class Parameters {
         public static final double BLUE_VIOLET = .89;
         public static final double SKY_BLUE = .83;
 
-
         /*
             Color documentation:
 
@@ -412,7 +411,7 @@ public final class Parameters {
             When a ball is detected after being intook:
             flash white
 
-            when the robot is lined up for a shot: 
+            when the robot is lined up for a shot:
             lava rainbow
 
             when the robot is lined up for a shot and the shooter is sped up:
