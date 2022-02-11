@@ -13,11 +13,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
-// Imports
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+// Imports
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -48,7 +47,9 @@ public class Robot extends TimedRobot {
      * initialization code.
      */
     @Override
-    public void robotInit() {}
+    public void robotInit() {
+        RobotContainer.led.set(Parameters.led.LIGHTS);
+    }
 
     /**
      * This function is called every robot packet, no matter the mode. Use this for items like
@@ -61,6 +62,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        RobotContainer.led.set(Parameters.led.LIGHTS);
+
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
