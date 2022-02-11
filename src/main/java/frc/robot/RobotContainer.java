@@ -6,7 +6,7 @@
 /*----------------------------------------------------------------------------*/
 
 /**
- * @author Christian Piper (@CAP1Sup), Mohammed Durrani (@mdurrani808), Jadon Trackim
+ * @author Christian Piper (@CAP1Sup), Mohammad Durrani (@mdurrani808), Jadon Trackim
  *     (@JadonTrackim), Krishna Dihora (@kjdih2)
  * @since 5/8/20
  */
@@ -67,6 +67,7 @@ public class RobotContainer {
 
     // Lights! No camera and no action
     public static Spark led = new Spark(Parameters.led.PORT);
+    public static double lights = -45;
 
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);

@@ -391,8 +391,6 @@ public final class Parameters {
 
     public static final class led{
         public static final int PORT = 9;
-        // This isn't final because this value is changed to change the led colors
-        public static double LIGHTS = 0;
         public static final double LAVA_RAINBOW = -.87;
         public static final double STROBE_RED = -.11;
         public static final double PARTY = -.43;
@@ -402,5 +400,22 @@ public final class Parameters {
         public static final double WHITE_HB = .25;
         public static final double BLUE_VIOLET = .89;
         public static final double SKY_BLUE = .83;
+
+
+        /*
+            Color documentation:
+
+            When the shooter is up to speed and ready for a ball to be shot:
+            Ocean
+
+            When a ball is detected after being intook:
+            flash white
+
+            when the robot is lined up for a shot: 
+            lava rainbow
+
+            when the robot is lined up for a shot and the shooter is sped up:
+            glitter rainbow
+        */
     }
 }

@@ -28,6 +28,8 @@ public class Robot extends TimedRobot {
 
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
+    private boolean shooterAtSpeed;
+    private boolean linedUp;
 
     /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
     Robot() {
@@ -53,6 +55,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         RobotContainer.led.set(Parameters.led.LIGHTS);
+    
+ 
 
     }
 
@@ -67,7 +71,24 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        RobotContainer.led.set(Parameters.led.LIGHTS);
+        RobotContainer.led.set(RobotContainer.lights);
+        shooterAtSpeed = RobotContainer.shooter.isAtSetPoint();
+        linedUp = true;
+        // linedUp = RobotContainer.vision.isLinedUp(); 
+        //TODO make this a thing^
+        if(shooterAtSpeed && linedUp){
+            RobotContainer.lights = Parameters.led.GLITTER_RAINBOW;
+        }
+        else if(shooterAtSpeed){
+            RobotContainer.lights = Parameters.led.OCEAN;
+        }
+        else if(linedUp){
+            RobotContainer.lights = Parameters.led.PINK;
+        }
+        else{
+            RobotContainer.lights = Parameters.led.BLUE_VIOLET;
+        }
+ 
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
