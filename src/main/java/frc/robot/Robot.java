@@ -12,11 +12,11 @@
  */
 package frc.robot;
 
+// Imports
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-// Imports
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -42,10 +42,6 @@ public class Robot extends TimedRobot {
 
         // Reset the angle of the NavX
         RobotContainer.navX.resetYaw();
-        RobotContainer.indexer.stop();
-        RobotContainer.intake.stop();
-        RobotContainer.shooter.stop();
-        RobotContainer.hood.stop();
     }
 
     /**
@@ -54,10 +50,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        RobotContainer.led.set(Parameters.led.LIGHTS);
-    
- 
-
+        RobotContainer.led.set(RobotContainer.lights);
     }
 
     /**
@@ -105,7 +98,14 @@ public class Robot extends TimedRobot {
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {}
+    public void disabledInit() {
+
+        // Stop all of the motors on the robot
+        RobotContainer.indexer.stop();
+        RobotContainer.intake.stop();
+        RobotContainer.shooter.stop();
+        RobotContainer.hood.stop();
+    }
 
     @Override
     public void disabledPeriodic() {}
@@ -136,6 +136,12 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
+        // Stop all of the motors on the robot
+        RobotContainer.indexer.stop();
+        RobotContainer.intake.stop();
+        RobotContainer.shooter.stop();
+        RobotContainer.hood.stop();
     }
 
     /** This function is called periodically during operator control. */
