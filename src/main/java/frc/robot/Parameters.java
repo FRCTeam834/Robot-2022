@@ -366,7 +366,8 @@ public final class Parameters {
         public static final double CHAIN_RATIO =
                 (64.0 / 22.0); // Ratio of motor turns to hood movement
         public static final double ALLOWABLE_RANGE = 50; // The range of motion, in degrees
-        public static final double MAX_MOTOR_DUTY = 0.5; // The maximum output of the motor when moving
+        public static final double MAX_MOTOR_DUTY =
+                0.5; // The maximum output of the motor when moving
 
         public static class pid {
             public static final NetworkTable HOOD_TABLE =

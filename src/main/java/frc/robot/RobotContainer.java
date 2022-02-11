@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.ColorSensorIndexing;
@@ -113,7 +112,10 @@ public class RobotContainer {
 
         // Right Joystick
         new JoystickButton(rightJoystick, 2).whenPressed(homeHood);
-        new JoystickButton(rightJoystick, 3).whileHeld(new InstantCommand(() -> hood.setDesiredAngle(leftJoystick.getY() * 50 + 40)));
+        new JoystickButton(rightJoystick, 3)
+                .whileHeld(
+                        new InstantCommand(
+                                () -> hood.setDesiredAngle(leftJoystick.getY() * 50 + 40)));
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.shoot(1 - rightJoystick.getZ())));
@@ -140,24 +142,25 @@ public class RobotContainer {
         // index balls (inlined)
         new JoystickButton(xbox, Button.kA.value)
                 .whenPressed(
-                        new StartEndCommand(() -> indexer.setMotorSpeed(.35), indexer::stop, indexer)
+                        new StartEndCommand(
+                                        () -> indexer.setMotorSpeed(.35), indexer::stop, indexer)
                                 .withInterrupt(indexer::hasBall));
-        
+
         // shooter command
         /*new JoystickButton(xbox, Button.kB.value)
-                .whenPressed(
-                        new StartEndCommand(() -> shooter.shoot(.5), shooter::stop, shooter)
-                                .raceWith(
-                                        new WaitUntilCommand(shooter::isAtSetPoint)
-                                                .andThen(
-                                                        new StartEndCommand(
-                                                                        () ->
-                                                                                indexer
-                                                                                        .setMotorSpeed(
-                                                                                                .5),
-                                                                        indexer::stop,
-                                                                        indexer)
-                                                                .withTimeout(3))));*/
+        .whenPressed(
+                new StartEndCommand(() -> shooter.shoot(.5), shooter::stop, shooter)
+                        .raceWith(
+                                new WaitUntilCommand(shooter::isAtSetPoint)
+                                        .andThen(
+                                                new StartEndCommand(
+                                                                () ->
+                                                                        indexer
+                                                                                .setMotorSpeed(
+                                                                                        .5),
+                                                                indexer::stop,
+                                                                indexer)
+                                                        .withTimeout(3))));*/
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)

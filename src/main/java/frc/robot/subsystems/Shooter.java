@@ -54,12 +54,12 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
-        //shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
+        // shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
     }
 
     public void shoot(double setPoint) {
         shooterMotor.set(setPoint);
-        //bigBangTheory.setSetpoint(setPoint);
+        // bigBangTheory.setSetpoint(setPoint);
     }
 
     public boolean isAtSetPoint() {
@@ -68,6 +68,6 @@ public class Shooter extends SubsystemBase {
 
     public void stop() {
         shooterMotor.stopMotor();
-        //bigBangTheory.setSetpoint(0); // This should make the bang-bang controller stop the motor
+        // bigBangTheory.setSetpoint(0); // This should make the bang-bang controller stop the motor
     }
 }

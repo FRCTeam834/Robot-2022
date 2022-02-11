@@ -53,7 +53,8 @@ public class Hood extends SubsystemBase {
 
         // Set up the PID controller
         pidController = new CachedPIDController(hoodMotor);
-        pidController.setOutputRange(-Parameters.hood.MAX_MOTOR_DUTY, Parameters.hood.MAX_MOTOR_DUTY);
+        pidController.setOutputRange(
+                -Parameters.hood.MAX_MOTOR_DUTY, Parameters.hood.MAX_MOTOR_DUTY);
 
         // Set up the limit switch
         limitSwitch = new DigitalInput(Parameters.hood.LS_PORT);
@@ -71,8 +72,7 @@ public class Hood extends SubsystemBase {
     }
 
     /**
-     * Runs the motor at a set percentage
-     * !NOTE: IGNORES LIMITS, WILL RESULT IN OVERDRIVING
+     * Runs the motor at a set percentage !NOTE: IGNORES LIMITS, WILL RESULT IN OVERDRIVING
      *
      * @param percent to run motor at
      */
@@ -96,10 +96,11 @@ public class Hood extends SubsystemBase {
         if (homed) {
             pidController.setReference(deg, Parameters.hood.pid.CONTROL_TYPE);
         }
-        
+
         // Print out the angle information if desired
         if (Parameters.debug) {
-            System.out.println(String.format("S: %.2f | A: %.2f", deg, hoodMotorEncoder.getPosition()));
+            System.out.println(
+                    String.format("S: %.2f | A: %.2f", deg, hoodMotorEncoder.getPosition()));
         }
     }
 

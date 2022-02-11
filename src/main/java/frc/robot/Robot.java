@@ -80,7 +80,7 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-        
+
         // Stop all of the motors on the robot
         RobotContainer.indexer.stop();
         RobotContainer.intake.stop();
