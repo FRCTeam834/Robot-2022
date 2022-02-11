@@ -41,7 +41,7 @@ public final class Parameters {
 
     // Enables all debug statements
     public static final boolean debug = false;
-    public static final boolean tuningMode = false;
+    public static final boolean tuningMode = true;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -309,7 +309,7 @@ public final class Parameters {
 
     public static final class intake {
         public static final class motor {
-            public static final double SPEED = .5;
+            public static final double SPEED = .375;
             public static final int ID = 16;
         }
     }
@@ -336,7 +336,7 @@ public final class Parameters {
             // Speed of shooter (in m/s of linear wheel speed)
             public static final double STD_SPEED = 2;
             public static final double SPIT_SPEED = 0.5;
-            public static final int ID = 17;
+            public static final int ID = 18;
         }
 
         // Game-specific parameters (meters and degrees)
@@ -358,24 +358,22 @@ public final class Parameters {
         public static final int LS_PORT = 0;
 
         // Homing info
-        public static final double HOME_SPEED = 0.05;
-        public static final double HOME_ANGLE = 0; // The angle at home
+        public static final double HOME_SPEED = 0.25;
+        public static final double HOME_ANGLE = 90; // The angle at home
 
         // Basic info
         public static final double GEARBOX_RATIO =
                 100; // Ratio of motor turns to gearbox output turns
         public static final double CHAIN_RATIO =
                 (64.0 / 22.0); // Ratio of motor turns to hood movement
-        public static final double ALLOWABLE_RANGE = 30; // The range of motion, in degrees
-
-        // Temporary movement info
-        public static final double MOVE_SPEED = 0.05;
+        public static final double ALLOWABLE_RANGE = 50; // The range of motion, in degrees
+        public static final double MAX_MOTOR_DUTY = 0.5; // The maximum output of the motor when moving
 
         public static class pid {
             public static final NetworkTable HOOD_TABLE =
                     NetworkTableInstance.getDefault().getTable("Hood");
             public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.05);
-            public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.01);
+            public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.00);
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
         }
     }
@@ -386,7 +384,7 @@ public final class Parameters {
         }
 
         public static final class motor {
-            public static final int ID = 18;
+            public static final int ID = 17;
         }
     }
 }

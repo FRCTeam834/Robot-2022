@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.ColorSensorIndexing;
+import frc.robot.commands.hood.Home;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
@@ -65,6 +66,7 @@ public class RobotContainer {
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
+    private final Home homeHood = new Home();
     // private final TurnToVision turnToVision = new TurnToVision();
 
     // Define the joysticks (need to be public so commands can access axes)
@@ -109,28 +111,26 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
 
         // Right Joystick
+        new JoystickButton(rightJoystick, 2).whenPressed(homeHood);
+        new JoystickButton(rightJoystick, 3).whileHeld(new InstantCommand(() -> hood.setDesiredAngle(leftJoystick.getY() * 50 + 40)));
 
         // Button board
-        TL.whenPressed(new InstantCommand(hood::runMotorForward, hood));
-        TL.whenReleased(new InstantCommand(hood::stop, hood));
-        ML.whenPressed(new InstantCommand(hood::runMotorBackward, hood));
-        ML.whenReleased(new InstantCommand(hood::stop, hood));
-        BM.whenPressed(new InstantCommand(() -> shooter.shoot(.25)));
-        BM.whenReleased(new InstantCommand(() -> shooter.shoot(0)));
+        BM.whileHeld(new InstantCommand(() -> shooter.shoot(1 - rightJoystick.getZ())));
+        BR.whenPressed(new InstantCommand(() -> shooter.shoot(0)));
         TM.whenPressed(new InstantCommand(intake::intake, intake));
         TR.whenPressed(new InstantCommand(intake::stop, intake));
-        MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(-.25)));
+        MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0.35), indexer));
         MR.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0)));
 
         // run the hood down (inlined)
         new JoystickButton(xbox, Button.kLeftBumper.value)
                 .whenHeld(
-                        new StartEndCommand(() -> hood.runMotor(-.2), hood::stop, hood)
+                        new StartEndCommand(() -> hood.runMotor(.05), hood::stop, hood)
                                 .withInterrupt(hood::getLSValue));
 
         // run the hood up (inlined)
         new JoystickButton(xbox, Button.kRightBumper.value)
-                .whenHeld(new StartEndCommand(() -> hood.runMotor(.2), hood::stop, hood));
+                .whenHeld(new StartEndCommand(() -> hood.runMotor(-.05), hood::stop, hood));
 
         // intake balls (inlined)
         new JoystickButton(xbox, Button.kY.value)
@@ -139,13 +139,13 @@ public class RobotContainer {
         // index balls (inlined)
         new JoystickButton(xbox, Button.kA.value)
                 .whenPressed(
-                        new StartEndCommand(() -> indexer.setMotorSpeed(.5), indexer::stop, indexer)
+                        new StartEndCommand(() -> indexer.setMotorSpeed(.35), indexer::stop, indexer)
                                 .withInterrupt(indexer::hasBall));
-
+        
         // shooter command
-        new JoystickButton(xbox, Button.kB.value)
+        /*new JoystickButton(xbox, Button.kB.value)
                 .whenPressed(
-                        new StartEndCommand(() -> shooter.shoot(2), shooter::stop, shooter)
+                        new StartEndCommand(() -> shooter.shoot(.5), shooter::stop, shooter)
                                 .raceWith(
                                         new WaitUntilCommand(shooter::isAtSetPoint)
                                                 .andThen(
@@ -156,7 +156,7 @@ public class RobotContainer {
                                                                                                 .5),
                                                                         indexer::stop,
                                                                         indexer)
-                                                                .withTimeout(3))));
+                                                                .withTimeout(3))));*/
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
