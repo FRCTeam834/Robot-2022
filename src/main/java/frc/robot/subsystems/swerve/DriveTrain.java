@@ -43,19 +43,19 @@ public class DriveTrain extends SubsystemBase {
     // PID value storage, with default values from Parameters
     public PIDController xMovePID =
             new PIDController(
-                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
-                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
-                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
+                    Parameters.driveTrain.pid.LINEAR_MOVE_P.get(),
+                    Parameters.driveTrain.pid.LINEAR_MOVE_I,
+                    Parameters.driveTrain.pid.LINEAR_MOVE_D.get());
     public PIDController yMovePID =
             new PIDController(
-                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P,
-                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_I,
-                    Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_D);
+                    Parameters.driveTrain.pid.LINEAR_MOVE_P.get(),
+                    Parameters.driveTrain.pid.LINEAR_MOVE_I,
+                    Parameters.driveTrain.pid.LINEAR_MOVE_D.get());
     public ProfiledPIDController rotationPID =
             new ProfiledPIDController(
-                    Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_P,
-                    Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_I,
-                    Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_D,
+                    Parameters.driveTrain.pid.ROT_MOVE_P.get(),
+                    Parameters.driveTrain.pid.ROT_MOVE_I,
+                    Parameters.driveTrain.pid.ROT_MOVE_D.get(),
                     new Constraints(
                             Units.degreesToRadians(
                                     Parameters.driveTrain.pid.DEFAULT_ROT_MAX_VELOCITY),
@@ -516,5 +516,15 @@ public class DriveTrain extends SubsystemBase {
 
         // Update the odometry as frequently as possible
         updateOdometry();
+
+        // If the tuning mode is on, check all of the PID settings
+        if (Parameters.tuningMode) {
+            xMovePID.setP(Parameters.driveTrain.pid.LINEAR_MOVE_P.get());
+            yMovePID.setP(Parameters.driveTrain.pid.LINEAR_MOVE_P.get());
+            xMovePID.setD(Parameters.driveTrain.pid.LINEAR_MOVE_D.get());
+            yMovePID.setD(Parameters.driveTrain.pid.LINEAR_MOVE_D.get());
+            rotationPID.setP(Parameters.driveTrain.pid.ROT_MOVE_P.get());
+            rotationPID.setD(Parameters.driveTrain.pid.ROT_MOVE_D.get());
+        }
     }
 }

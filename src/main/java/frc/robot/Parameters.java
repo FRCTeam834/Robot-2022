@@ -192,14 +192,22 @@ public final class Parameters {
                 public static final ControlType CONTROL_TYPE = ControlType.kVelocity;
             }
 
-            // PID controller (rotation constraints are max velocity and max acceleration)
-            public static final double DEFAULT_LINEAR_MOVE_P = 1;
-            public static final double DEFAULT_LINEAR_MOVE_I = 0;
-            public static final double DEFAULT_LINEAR_MOVE_D = 0;
+            // Drivetrain PID tuning table
+            public static final NetworkTable DRIVE_PID_TABLE =
+                    NetworkTableInstance.getDefault().getTable("Driving PID");
 
-            public static final double DEFAULT_ROT_MOVE_P = 1;
-            public static final double DEFAULT_ROT_MOVE_I = 0;
-            public static final double DEFAULT_ROT_MOVE_D = 0;
+            // PID controller (rotation constraints are max velocity and max acceleration)
+            public static final TuneableNumber LINEAR_MOVE_P =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Linear kP", 1);
+            public static final double LINEAR_MOVE_I = 0;
+            public static final TuneableNumber LINEAR_MOVE_D =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Linear kD", 0);
+
+            public static final TuneableNumber ROT_MOVE_P =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kP", 1);
+            public static final double ROT_MOVE_I = 0;
+            public static final TuneableNumber ROT_MOVE_D =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kD", 0);
             public static final double DEFAULT_ROT_MAX_VELOCITY = 360; // deg/s
             public static final double DEFAULT_ROT_MAX_ACCEL = 180; // deg/s
             public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
@@ -392,8 +400,6 @@ public final class Parameters {
 
     public static final class led {
         public static final int PORT = 9;
-        // This isn't final because this value is changed to change the led colors
-        public static double LIGHT_COLOR = 0;
         public static final double LAVA_RAINBOW = -.87;
         public static final double STROBE_RED = -.11;
         public static final double PARTY = -.43;
@@ -403,5 +409,47 @@ public final class Parameters {
         public static final double WHITE_HB = .25;
         public static final double BLUE_VIOLET = .89;
         public static final double SKY_BLUE = .83;
+
+        /*
+            Color documentation:
+
+            When the shooter is up to speed and ready for a ball to be shot:
+            Ocean
+
+            When a ball is detected after being intook:
+            flash white
+
+            when the robot is lined up for a shot:
+            lava rainbow
+
+            when the robot is lined up for a shot and the shooter is sped up:
+            glitter rainbow
+        */
+    }
+
+    // All of the relevant vision information
+    public class vision {
+
+        // The name of the camera (from the network)
+        public static final String CAMERA_NAME = "camera";
+
+        // The distance to the camera from the floor (m)
+        public static final double CAMERA_HEIGHT = 1;
+
+        // The pitch of the camera from the floor (deg)
+        public static final double CAMERA_PITCH = 30;
+
+        // The height of the goal (m)
+        // Converted 8ft 8in to meters
+        public static final double GOAL_HEIGHT = 2.6416;
+
+        // How far can the robot be from a target? (deg)
+        public static final double YAW_TOLERANCE = 3;
+
+        // The maximum turning speed when turning to face a target (in deg/s)
+        public static final double MAX_TURNING_SPEED = 45;
+
+        // Spin speed - used when looking for a target to lock on to (in deg/s)
+        public static final double SPIN_SPEED = 0;
     }
 }

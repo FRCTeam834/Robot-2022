@@ -13,12 +13,11 @@
 package frc.robot;
 
 // Imports
-import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,6 +29,8 @@ public class Robot extends TimedRobot {
 
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
+    private boolean shooterAtSpeed;
+    private boolean linedUp;
 
     /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
     Robot() {
@@ -50,7 +51,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        RobotContainer.led.set(Parameters.led.LIGHT_COLOR);
+        RobotContainer.led.set(RobotContainer.lightColor);
     }
 
     /**
@@ -64,18 +65,29 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        RobotContainer.led.set(Parameters.led.LIGHT_COLOR);
+
+        // Check the state of the functions on the robot
+        shooterAtSpeed = RobotContainer.shooter.isAtSetPoint();
+        linedUp = RobotContainer.vision.isLinedUp();
+
+        // Decide which LED color
+        if (shooterAtSpeed && linedUp) {
+            RobotContainer.lightColor = Parameters.led.GLITTER_RAINBOW;
+        } else if (shooterAtSpeed) {
+            RobotContainer.lightColor = Parameters.led.OCEAN;
+        } else if (linedUp) {
+            RobotContainer.lightColor = Parameters.led.PINK;
+        } else {
+            RobotContainer.lightColor = Parameters.led.BLUE_VIOLET;
+        }
+
+        // Set the new color of the LEDs
+        RobotContainer.led.set(RobotContainer.lightColor);
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
-
-        // TODO: REMOVE, THIS REDUCES PERFORMANCE
-        // Get the closest color
-        // Color closest = RobotContainer.intake.getClosestColor();
-        // System.out.println(
-        //        "R: " + closest.red + " | G: " + closest.green + " | B: " + closest.blue);
         CommandScheduler.getInstance().run();
     }
 
