@@ -11,6 +11,7 @@ package frc.robot.commands.swerve;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
@@ -37,19 +38,26 @@ public class TurnToVision extends CommandBase {
         if (targetList.hasTargets()) {
 
             // Calculate the raw rotational PID output
-            double pidOutput = -RobotContainer.driveTrain.rotationPID.calculate(
-                        (targetList.getBestTarget().getYaw()), 0);
+            double pidOutput =
+                    -RobotContainer.driveTrain.rotationPID.calculate(
+                            (targetList.getBestTarget().getYaw()), 0);
 
             // Calculate the rotational speed to run at
-            double rotationalSpeed = MathUtil.clamp(pidOutput, Parameters.vision.MAX_TURNING_SPEED, -Parameters.vision.MAX_TURNING_SPEED);
+            double rotationalSpeed =
+                    MathUtil.clamp(
+                            pidOutput,
+                            Parameters.vision.MAX_TURNING_SPEED,
+                            -Parameters.vision.MAX_TURNING_SPEED);
 
             // Drive at the specified speed
-            RobotContainer.driveTrain.drive(0.0, 0.0, Units.degreesToRadians(rotationalSpeed), false);
+            RobotContainer.driveTrain.drive(
+                    0.0, 0.0, Units.degreesToRadians(rotationalSpeed), false);
 
         } else {
             // starts spinning to search for a target
             // TODO: Fix inefficiencies, use gyro angle to get optimal rotation
-            RobotContainer.driveTrain.drive(0, 0, Units.degreesToRadians(Parameters.vision.SPIN_SPEED), false);
+            RobotContainer.driveTrain.drive(
+                    0, 0, Units.degreesToRadians(Parameters.vision.SPIN_SPEED), false);
         }
     }
 

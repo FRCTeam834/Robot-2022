@@ -193,16 +193,21 @@ public final class Parameters {
             }
 
             // Drivetrain PID tuning table
-            public static final NetworkTable DRIVE_PID_TABLE = NetworkTableInstance.getDefault().getTable("Driving PID");
+            public static final NetworkTable DRIVE_PID_TABLE =
+                    NetworkTableInstance.getDefault().getTable("Driving PID");
 
             // PID controller (rotation constraints are max velocity and max acceleration)
-            public static final TuneableNumber LINEAR_MOVE_P = new TuneableNumber(DRIVE_PID_TABLE, "Linear kP", 1);
+            public static final TuneableNumber LINEAR_MOVE_P =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Linear kP", 1);
             public static final double LINEAR_MOVE_I = 0;
-            public static final TuneableNumber LINEAR_MOVE_D = new TuneableNumber(DRIVE_PID_TABLE, "Linear kD", 0);
+            public static final TuneableNumber LINEAR_MOVE_D =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Linear kD", 0);
 
-            public static final TuneableNumber ROT_MOVE_P = new TuneableNumber(DRIVE_PID_TABLE, "Rot kP", 1);
+            public static final TuneableNumber ROT_MOVE_P =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kP", 1);
             public static final double ROT_MOVE_I = 0;
-            public static final TuneableNumber ROT_MOVE_D = new TuneableNumber(DRIVE_PID_TABLE, "Rot kD", 0);
+            public static final TuneableNumber ROT_MOVE_D =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kD", 0);
             public static final double DEFAULT_ROT_MAX_VELOCITY = 360; // deg/s
             public static final double DEFAULT_ROT_MAX_ACCEL = 180; // deg/s
             public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?

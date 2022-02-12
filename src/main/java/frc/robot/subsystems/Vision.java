@@ -13,7 +13,6 @@ import frc.robot.Parameters;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.common.hardware.VisionLEDMode;
-import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision extends SubsystemBase {
@@ -50,6 +49,7 @@ public class Vision extends SubsystemBase {
 
     /**
      * Makes sure that the LEDs are on, then gets the best target from the vision system
+     *
      * @return The best found target
      */
     public PhotonTrackedTarget getBestTarget() {
@@ -65,6 +65,7 @@ public class Vision extends SubsystemBase {
 
     /**
      * Checks if the robot is lined up with the best target
+     *
      * @return Is the robot lined up?
      */
     public boolean isLinedUp() {
@@ -75,10 +76,10 @@ public class Vision extends SubsystemBase {
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
         return PhotonUtils.calculateDistanceToTargetMeters(
-                                Parameters.vision.CAMERA_HEIGHT,
-                                Parameters.vision.GOAL_HEIGHT,
-                                Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
-                                Units.degreesToRadians(bestTarget.getPitch()));
+                Parameters.vision.CAMERA_HEIGHT,
+                Parameters.vision.GOAL_HEIGHT,
+                Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
+                Units.degreesToRadians(bestTarget.getPitch()));
     }
 
     @Override

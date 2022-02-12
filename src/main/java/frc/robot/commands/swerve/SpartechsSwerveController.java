@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Vision;
 
 @SuppressWarnings("MemberName")
 public class SpartechsSwerveController extends CommandBase {
@@ -38,10 +37,8 @@ public class SpartechsSwerveController extends CommandBase {
     public SpartechsSwerveController(PathPlannerTrajectory trajectory, boolean targetLock) {
         m_trajectory = trajectory;
         this.targetLock = targetLock;
-        PIDController xPID =
-                new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
-        PIDController yPID =
-                new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
+        PIDController xPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
+        PIDController yPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         ProfiledPIDController rotPID =
                 new ProfiledPIDController(
                         Parameters.driveTrain.pid.ROT_MOVE_P.get(), 0, 0, new Constraints(8, 5));
@@ -71,7 +68,9 @@ public class SpartechsSwerveController extends CommandBase {
                     RobotContainer.driveTrain
                             .getEstPose2D()
                             .getRotation()
-                            .rotateBy(Rotation2d.fromDegrees((RobotContainer.vision.getBestTarget().getYaw())));
+                            .rotateBy(
+                                    Rotation2d.fromDegrees(
+                                            (RobotContainer.vision.getBestTarget().getYaw())));
         }
         var targetChassisSpeeds =
                 m_controller.calculate(
