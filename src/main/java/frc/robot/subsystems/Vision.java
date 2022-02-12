@@ -74,7 +74,7 @@ public class Vision extends SubsystemBase {
         return (Parameters.vision.YAW_TOLERANCE > getBestTarget().getYaw());
     }
 
-  /*
+    /*
     public something getPositionFromVision() {
         // returnval = circleFitAlgorithm(getGlobalPoints());
         // xpos = Parameters.shooter.camera.TARGET_X - returnval[0];
