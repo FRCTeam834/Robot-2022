@@ -39,12 +39,12 @@ public class SpartechsSwerveController extends CommandBase {
         m_trajectory = trajectory;
         this.targetLock = targetLock;
         PIDController xPID =
-                new PIDController(Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P, 0, 0);
+                new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         PIDController yPID =
-                new PIDController(Parameters.driveTrain.pid.DEFAULT_LINEAR_MOVE_P, 0, 0);
+                new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         ProfiledPIDController rotPID =
                 new ProfiledPIDController(
-                        Parameters.driveTrain.pid.DEFAULT_ROT_MOVE_P, 0, 0, new Constraints(8, 5));
+                        Parameters.driveTrain.pid.ROT_MOVE_P.get(), 0, 0, new Constraints(8, 5));
 
         m_controller = new HolonomicDriveController(xPID, yPID, rotPID);
         rotPID.enableContinuousInput(-180, 180);
@@ -71,7 +71,7 @@ public class SpartechsSwerveController extends CommandBase {
                     RobotContainer.driveTrain
                             .getEstPose2D()
                             .getRotation()
-                            .rotateBy(Rotation2d.fromDegrees(Vision.getYaw()));
+                            .rotateBy(Rotation2d.fromDegrees((RobotContainer.vision.getBestTarget().getYaw())));
         }
         var targetChassisSpeeds =
                 m_controller.calculate(

@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        RobotContainer.led.set(RobotContainer.lights);
+        RobotContainer.led.set(RobotContainer.lightColor);
     }
 
     /**
@@ -65,31 +65,30 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        RobotContainer.led.set(RobotContainer.lights);
+
+        // Check the state of the functions on the robot
         shooterAtSpeed = RobotContainer.shooter.isAtSetPoint();
-        linedUp = true;
-        // linedUp = RobotContainer.vision.isLinedUp();
-        // TODO make this a thing^
+        linedUp = RobotContainer.vision.isLinedUp();
+
+        // Decide which LED color
         if (shooterAtSpeed && linedUp) {
-            RobotContainer.lights = Parameters.led.GLITTER_RAINBOW;
+            RobotContainer.lightColor = Parameters.led.GLITTER_RAINBOW;
         } else if (shooterAtSpeed) {
-            RobotContainer.lights = Parameters.led.OCEAN;
+            RobotContainer.lightColor = Parameters.led.OCEAN;
         } else if (linedUp) {
-            RobotContainer.lights = Parameters.led.PINK;
+            RobotContainer.lightColor = Parameters.led.PINK;
         } else {
-            RobotContainer.lights = Parameters.led.BLUE_VIOLET;
+            RobotContainer.lightColor = Parameters.led.BLUE_VIOLET;
         }
+
+        // Set the new color of the LEDs
+        RobotContainer.led.set(RobotContainer.lightColor);
+
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
-
-        // TODO: REMOVE, THIS REDUCES PERFORMANCE
-        // Get the closest color
-        // Color closest = RobotContainer.intake.getClosestColor();
-        // System.out.println(
-        //        "R: " + closest.red + " | G: " + closest.green + " | B: " + closest.blue);
         CommandScheduler.getInstance().run();
     }
 

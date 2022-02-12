@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ColorSensorIndexing;
 import frc.robot.commands.hood.Home;
 import frc.robot.commands.swerve.StraightenWheels;
+import frc.robot.commands.swerve.TurnToVision;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
@@ -35,6 +36,7 @@ import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 
@@ -52,11 +54,11 @@ public class RobotContainer {
     public static DriveTrain driveTrain = new DriveTrain();
     public static Hood hood = new Hood();
 
-    // public static Superstructure superstructure = new Superstructure(new Vision());
     // public static Climber climber = new Climber();
     public static Intake intake = new Intake();
     public static Shooter shooter = new Shooter();
     public static Indexer indexer = new Indexer();
+    public static Vision vision = new Vision();
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
@@ -66,11 +68,11 @@ public class RobotContainer {
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
     private final Home homeHood = new Home();
-    // private final TurnToVision turnToVision = new TurnToVision();
+    private final TurnToVision turnToVision = new TurnToVision();
 
     // Lights! No camera and no action
     public static Spark led = new Spark(Parameters.led.PORT);
-    public static double lights = -45;
+    public static double lightColor = -45;
 
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
@@ -114,11 +116,6 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
 
         // Right Joystick
-        new JoystickButton(rightJoystick, 2).whenPressed(homeHood);
-        new JoystickButton(rightJoystick, 3)
-                .whileHeld(
-                        new InstantCommand(
-                                () -> hood.setDesiredAngle(leftJoystick.getY() * 50 + 40)));
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.shoot(1 - rightJoystick.getZ())));

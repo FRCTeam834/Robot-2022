@@ -9,18 +9,17 @@
 package frc.robot.commands.swerve;
 
 import edu.wpi.first.math.MathUtil;
-// Imports
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Superstructure;
 
 import org.photonvision.targeting.PhotonPipelineResult;
 
 public class TurnToVision extends CommandBase {
 
     public TurnToVision() {
-        addRequirements(RobotContainer.driveTrain, Superstructure.vision);
+        addRequirements(RobotContainer.driveTrain, RobotContainer.vision);
     }
 
     // Called when the command is initially scheduled.
@@ -32,23 +31,25 @@ public class TurnToVision extends CommandBase {
     public void execute() {
 
         // Get a list of possible targets
-        PhotonPipelineResult targetList = Superstructure.vision.camera.getLatestResult();
+        PhotonPipelineResult targetList = RobotContainer.vision.camera.getLatestResult();
 
+        // Make sure that we have targets to track
         if (targetList.hasTargets()) {
-            RobotContainer.driveTrain.drive(
-                    0.0,
-                    0.0,
-                    MathUtil.clamp(
-                            RobotContainer.driveTrain.rotationPID.calculate(
-                                    (targetList.getBestTarget().getYaw()), 0),
-                            .75,
-                            -.75),
-                    false);
+
+            // Calculate the raw rotational PID output
+            double pidOutput = -RobotContainer.driveTrain.rotationPID.calculate(
+                        (targetList.getBestTarget().getYaw()), 0);
+
+            // Calculate the rotational speed to run at
+            double rotationalSpeed = MathUtil.clamp(pidOutput, Parameters.vision.MAX_TURNING_SPEED, -Parameters.vision.MAX_TURNING_SPEED);
+
+            // Drive at the specified speed
+            RobotContainer.driveTrain.drive(0.0, 0.0, Units.degreesToRadians(rotationalSpeed), false);
 
         } else {
             // starts spinning to search for a target
             // TODO: Fix inefficiencies, use gyro angle to get optimal rotation
-            RobotContainer.driveTrain.drive(0, 0, .25, false);
+            RobotContainer.driveTrain.drive(0, 0, Units.degreesToRadians(Parameters.vision.SPIN_SPEED), false);
         }
     }
 
@@ -65,6 +66,6 @@ public class TurnToVision extends CommandBase {
     public boolean isFinished() {
 
         // Return if the robot has finished the movement yet
-        return RobotContainer.driveTrain.rotationPID.atSetpoint();
+        return RobotContainer.vision.isLinedUp();
     }
 }

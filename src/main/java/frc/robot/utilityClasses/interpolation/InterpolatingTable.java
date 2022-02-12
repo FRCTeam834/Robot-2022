@@ -22,7 +22,7 @@ public class InterpolatingTable {
                             entry(3.0, new ShotParams(10, 20)),
                             entry(4.0, new ShotParams(10, 20))));
 
-    public static ShotParams getDistance(double distance) {
+    public static ShotParams getShotParamsForDistance(double distance) {
         Entry<Double, ShotParams> ceiling = table.ceilingEntry(distance);
         Entry<Double, ShotParams> floor = table.floorEntry(distance);
         if (ceiling == null) {

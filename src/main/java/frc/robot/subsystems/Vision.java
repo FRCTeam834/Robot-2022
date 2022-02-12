@@ -12,60 +12,75 @@ import frc.robot.Parameters;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
+import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision extends SubsystemBase {
 
-    public PhotonCamera camera = new PhotonCamera("camera");
+    public PhotonCamera camera;
     private static double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
     private boolean targetExists = false;
     private double vph;
     private double vpw;
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
+    private boolean LEDsOn = false;
 
-    public Vision() {}
+    public Vision() {
 
-    public static double getYaw() {
-        return yaw;
+        // Set up the PhotonVision camera
+        camera = new PhotonCamera(Parameters.vision.CAMERA_NAME);
+
+        // Turn the LEDs off (they are super bright and annoying)
+        camera.setLED(VisionLEDMode.kOff);
     }
 
-    public double getPitch() {
-        return pitch;
+    public void turnLEDsOn() {
+        if (!LEDsOn) {
+            camera.setLED(VisionLEDMode.kOn);
+        }
     }
 
-    public double getSkew() {
-        return skew;
+    public void turnLEDsOff() {
+        if (LEDsOn) {
+            camera.setLED(VisionLEDMode.kOff);
+        }
     }
 
-    public double getDistance() {
-        return distance;
+    /**
+     * Makes sure that the LEDs are on, then gets the best target from the vision system
+     * @return The best found target
+     */
+    public PhotonTrackedTarget getBestTarget() {
+
+        // Make sure that the LEDs are on (can't detect colors correctly without them)
+        if (!LEDsOn) {
+            turnLEDsOn();
+        }
+
+        // Return the best target from the camera
+        return camera.getLatestResult().getBestTarget();
     }
 
-    public boolean hasTarget() {
-        return targetExists;
+    /**
+     * Checks if the robot is lined up with the best target
+     * @return Is the robot lined up?
+     */
+    public boolean isLinedUp() {
+
+        // Check to see if the yaw deviation is below the tolerance
+        return (Parameters.vision.YAW_TOLERANCE > getBestTarget().getYaw());
+    }
+
+    public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
+        return PhotonUtils.calculateDistanceToTargetMeters(
+                                Parameters.vision.CAMERA_HEIGHT,
+                                Parameters.vision.GOAL_HEIGHT,
+                                Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
+                                Units.degreesToRadians(bestTarget.getPitch()));
     }
 
     @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
-        PhotonPipelineResult targetList = camera.getLatestResult();
-
-        if (targetList.hasTargets()) {
-            PhotonTrackedTarget target = targetList.getBestTarget();
-            targetExists = true;
-            yaw = target.getYaw();
-            pitch = target.getPitch();
-            skew = target.getSkew();
-            distance =
-                    PhotonUtils.calculateDistanceToTargetMeters(
-                            Parameters.shooter.camera.HEIGHT,
-                            Parameters.shooter.camera.TARGET_HEIGHT,
-                            Units.degreesToRadians(Parameters.shooter.camera.PITCH),
-                            Units.degreesToRadians(target.getPitch()));
-        } else {
-            targetExists = false;
-        }
-    }
+    public void periodic() {}
 }
