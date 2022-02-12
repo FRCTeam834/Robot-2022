@@ -71,7 +71,7 @@ public class Shooter extends SubsystemBase {
 
     // Is the motor at its setPoint but with tolerance
     public boolean isNearSetPoint() {
-        if(Math.abs(shooterMotorEncoder.getVelocity() - setPoint) <= 0.5){
+        if (Math.abs(shooterMotorEncoder.getVelocity() - setPoint) <= 0.5) {
             return true;
         }
         return false;

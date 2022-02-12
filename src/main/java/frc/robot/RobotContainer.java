@@ -143,11 +143,10 @@ public class RobotContainer {
         new JoystickButton(xbox, Button.kA.value)
                 .whenPressed(
                         new StartEndCommand(
-                                        () -> indexer.setMotorSpeed(Parameters.indexer.MOTOR_SPEED), indexer::stop, indexer)
+                                        () -> indexer.setMotorSpeed(Parameters.indexer.MOTOR_SPEED),
+                                        indexer::stop,
+                                        indexer)
                                 .withInterrupt(indexer::hasBall));
-        
-        
-                
 
         // shooter command
         /*new JoystickButton(xbox, Button.kB.value)
