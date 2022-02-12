@@ -21,7 +21,8 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.numbers.*;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -40,8 +41,8 @@ import frc.robot.utilityClasses.TuneableNumber;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = true;
-    public static final boolean tuningMode = false;
+    public static final boolean debug = false;
+    public static final boolean tuningMode = true;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -191,14 +192,22 @@ public final class Parameters {
                 public static final ControlType CONTROL_TYPE = ControlType.kVelocity;
             }
 
-            // PID controller (rotation constraints are max velocity and max acceleration)
-            public static final double DEFAULT_LINEAR_MOVE_P = 1;
-            public static final double DEFAULT_LINEAR_MOVE_I = 0;
-            public static final double DEFAULT_LINEAR_MOVE_D = 0;
+            // Drivetrain PID tuning table
+            public static final NetworkTable DRIVE_PID_TABLE =
+                    NetworkTableInstance.getDefault().getTable("Driving PID");
 
-            public static final double DEFAULT_ROT_MOVE_P = 1;
-            public static final double DEFAULT_ROT_MOVE_I = 0;
-            public static final double DEFAULT_ROT_MOVE_D = 0;
+            // PID controller (rotation constraints are max velocity and max acceleration)
+            public static final TuneableNumber LINEAR_MOVE_P =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Linear kP", 1);
+            public static final double LINEAR_MOVE_I = 0;
+            public static final TuneableNumber LINEAR_MOVE_D =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Linear kD", 0);
+
+            public static final TuneableNumber ROT_MOVE_P =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kP", 1);
+            public static final double ROT_MOVE_I = 0;
+            public static final TuneableNumber ROT_MOVE_D =
+                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kD", 0);
             public static final double DEFAULT_ROT_MAX_VELOCITY = 360; // deg/s
             public static final double DEFAULT_ROT_MAX_ACCEL = 180; // deg/s
             public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
@@ -309,7 +318,7 @@ public final class Parameters {
 
     public static final class intake {
         public static final class motor {
-            public static final double SPEED = 0;
+            public static final double SPEED = .375;
             public static final int ID = 16;
         }
     }
@@ -319,16 +328,24 @@ public final class Parameters {
         // Velocity conversion factor
         // Converts from RPM to m/s of linear speed on the wheels of the shooter
         // TODO: Calculate this
-        public static final double VEL_CONV_FACTOR = 1;
+        public static final double WHEEL_DIA_IN = 5;
+        public static final double WHEEL_DIA_M = Units.inchesToMeters(WHEEL_DIA_IN);
 
         // The time for a shot to take place (in s)
         public static final double SHOT_TIME = 5;
 
+        // TODO: set this to a real port
+        public static final int BOTTOM_SENSOR_PORT = 18;
+
+        // ! TESTING ONLY
+        public static final double SHOT_SPEED = 1; // In m/s
+        public static final double LOAD_SPEED = 0.25; // In percent
+
         public static final class motor {
             // Speed of shooter (in m/s of linear wheel speed)
             public static final double STD_SPEED = 2;
-            public static final double LOW_SPEED = 0.5;
-            public static final int ID = 17;
+            public static final double SPIT_SPEED = 0.5;
+            public static final int ID = 18;
         }
 
         // Game-specific parameters (meters and degrees)
@@ -350,19 +367,89 @@ public final class Parameters {
         public static final int LS_PORT = 0;
 
         // Homing info
-        public static final double HOME_SPEED = 0.05;
-        public static final double HOME_ANGLE = 0; // The angle at home
+        public static final double HOME_SPEED = 0.25;
+        public static final double HOME_ANGLE = 90; // The angle at home
 
         // Basic info
-        public static final double GEAR_RATIO = 1; // Ratio of motor turns to hood turns
-        public static final double ALLOWABLE_RANGE = 30; // The range of motion, in degrees
+        public static final double GEARBOX_RATIO =
+                100; // Ratio of motor turns to gearbox output turns
+        public static final double CHAIN_RATIO =
+                (64.0 / 22.0); // Ratio of motor turns to hood movement
+        public static final double ALLOWABLE_RANGE = 50; // The range of motion, in degrees
+        public static final double MAX_MOTOR_DUTY =
+                0.5; // The maximum output of the motor when moving
 
         public static class pid {
             public static final NetworkTable HOOD_TABLE =
                     NetworkTableInstance.getDefault().getTable("Hood");
             public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.05);
-            public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.01);
+            public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.00);
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
         }
+    }
+
+    public static final class indexer {
+        public static final class colorSensor {
+            public static final int PROXIMITY_THRESHOLD = 200;
+        }
+
+        public static final class motor {
+            public static final int ID = 17;
+        }
+    }
+
+    public static final class led {
+        public static final int PORT = 9;
+        public static final double LAVA_RAINBOW = -.87;
+        public static final double STROBE_RED = -.11;
+        public static final double PARTY = -.43;
+        public static final double PINK = .57;
+        public static final double GLITTER_RAINBOW = -.89;
+        public static final double OCEAN = -.95;
+        public static final double WHITE_HB = .25;
+        public static final double BLUE_VIOLET = .89;
+        public static final double SKY_BLUE = .83;
+
+        /*
+            Color documentation:
+
+            When the shooter is up to speed and ready for a ball to be shot:
+            Ocean
+
+            When a ball is detected after being intook:
+            flash white
+
+            when the robot is lined up for a shot:
+            lava rainbow
+
+            when the robot is lined up for a shot and the shooter is sped up:
+            glitter rainbow
+        */
+    }
+
+    // All of the relevant vision information
+    public class vision {
+
+        // The name of the camera (from the network)
+        public static final String CAMERA_NAME = "camera";
+
+        // The distance to the camera from the floor (m)
+        public static final double CAMERA_HEIGHT = 1;
+
+        // The pitch of the camera from the floor (deg)
+        public static final double CAMERA_PITCH = 30;
+
+        // The height of the goal (m)
+        // Converted 8ft 8in to meters
+        public static final double GOAL_HEIGHT = 2.6416;
+
+        // How far can the robot be from a target? (deg)
+        public static final double YAW_TOLERANCE = 3;
+
+        // The maximum turning speed when turning to face a target (in deg/s)
+        public static final double MAX_TURNING_SPEED = 45;
+
+        // Spin speed - used when looking for a target to lock on to (in deg/s)
+        public static final double SPIN_SPEED = 0;
     }
 }

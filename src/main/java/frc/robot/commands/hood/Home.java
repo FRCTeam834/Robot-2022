@@ -19,8 +19,7 @@ public class Home extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.hood.runMotor(-Parameters.hood.HOME_SPEED);
-        ;
+        RobotContainer.hood.runMotor(Parameters.hood.HOME_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

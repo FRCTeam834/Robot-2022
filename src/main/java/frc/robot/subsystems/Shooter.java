@@ -9,13 +9,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.ColorMatch;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
-import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -29,15 +25,6 @@ public class Shooter extends SubsystemBase {
     // Bang-bang controller
     BangBangController bigBangTheory;
 
-    // Color sensor object
-    ColorSensorV3 colorSensor;
-
-    // Color matching object
-    ColorMatch colorMatcher;
-
-    // The speed that the motor should be running at (in m/s)
-    double setSpeed = 0;
-
     /** Creates a new Shooter. */
     public Shooter() {
 
@@ -48,24 +35,18 @@ public class Shooter extends SubsystemBase {
         // ! MOTOR MUST BE ON COAST FOR BANG-BANG
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setIdleMode(IdleMode.kCoast);
+        shooterMotor.setInverted(true);
 
         // Get the encoder of the shooter motor
         shooterMotorEncoder = shooterMotor.getEncoder();
 
         // Set up the encoder's conversion factor
-        shooterMotorEncoder.setVelocityConversionFactor(Parameters.shooter.VEL_CONV_FACTOR);
-
-        // Burn the flash of the Spark, prevents issues during brownouts
-        shooterMotor.burnFlash();
+        // Multiply RPM by the circumference and 60 seconds to get m/s
+        shooterMotorEncoder.setVelocityConversionFactor(
+                (Parameters.shooter.WHEEL_DIA_M * Math.PI) / 60);
 
         // Create a new bang-bang controller
         bigBangTheory = new BangBangController();
-
-        // Create color sensor (uses the MXP I2C)
-        colorSensor = new ColorSensorV3(Port.kMXP);
-
-        // Create color matching object
-        colorMatcher = new ColorMatch();
     }
 
     @Override
@@ -73,42 +54,20 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run
 
         // Set the shooter motor's power
-        shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity(), setSpeed));
+        // shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
     }
 
-    /**
-     * Sets the desired speed of the shooter
-     *
-     * @param speed The speed in m/s
-     */
-    public void setDesiredSpeed(double speed) {
-        this.setSpeed = speed;
+    public void shoot(double setPoint) {
+        shooterMotor.set(setPoint);
+        // bigBangTheory.setSetpoint(setPoint);
+    }
+
+    public boolean isAtSetPoint() {
+        return bigBangTheory.atSetpoint();
     }
 
     public void stop() {
-        shooterMotor.set(0);
-    }
-
-    // ! DOESN'T WORK
-    // Returns closest color match
-    public Color getClosestColor() {
-        colorMatcher.setConfidenceThreshold(.5);
-        return colorMatcher.matchClosestColor(colorSensor.getColor()).color;
-    }
-
-    // Determine if either red or blue is detected, if not returns neither
-    public Color getColor() {
-        if ((colorSensor.getColor().red / colorSensor.getColor().blue) > 4) {
-            return Color.kRed;
-        } else if ((colorSensor.getColor().blue / colorSensor.getColor().red) > 4) {
-            return Color.kBlue;
-        } else {
-            return Color.kBlack;
-        }
-    }
-
-    // Return ratio of red to blue
-    public double getRedBlueRatio() {
-        return colorSensor.getColor().red / colorSensor.getColor().blue;
+        shooterMotor.stopMotor();
+        // bigBangTheory.setSetpoint(0); // This should make the bang-bang controller stop the motor
     }
 }
