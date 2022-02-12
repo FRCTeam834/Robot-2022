@@ -393,7 +393,7 @@ public final class Parameters {
     public static final class led {
         public static final int PORT = 9;
         // This isn't final because this value is changed to change the led colors
-        public static double LIGHTS = 0;
+        public static double LIGHT_COLOR = 0;
         public static final double LAVA_RAINBOW = -.87;
         public static final double STROBE_RED = -.11;
         public static final double PARTY = -.43;

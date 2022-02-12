@@ -50,7 +50,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        RobotContainer.led.set(Parameters.led.LIGHTS);
+        RobotContainer.led.set(Parameters.led.LIGHT_COLOR);
     }
 
     /**
@@ -64,7 +64,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        RobotContainer.led.set(Parameters.led.LIGHTS);
+        RobotContainer.led.set(Parameters.led.LIGHT_COLOR);
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,
