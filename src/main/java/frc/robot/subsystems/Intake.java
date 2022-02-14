@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase {
     }
 
     // Turns on the intake
-    public void intake() {
+    public void turnOn() {
         intakeMotor.set(Parameters.intake.motor.SPEED);
     }
 

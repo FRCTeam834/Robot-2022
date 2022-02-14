@@ -121,9 +121,9 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 1).whenPressed(turnToVision);
 
         // Button board
-        BM.whileHeld(new InstantCommand(() -> shooter.shoot(1 - rightJoystick.getZ())));
-        BR.whenPressed(new InstantCommand(() -> shooter.shoot(0)));
-        TM.whenPressed(new InstantCommand(intake::intake, intake));
+        BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));
+        BR.whenPressed(new InstantCommand(() -> shooter.set(0)));
+        TM.whenPressed(new InstantCommand(intake::turnOn, intake));
         TR.whenPressed(new InstantCommand(intake::stop, intake));
         MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0.35), indexer));
         MR.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0)));
@@ -140,13 +140,15 @@ public class RobotContainer {
 
         // intake balls (inlined)
         new JoystickButton(xbox, Button.kY.value)
-                .whenHeld(new StartEndCommand(intake::intake, intake::stop, intake));
+                .whenHeld(new StartEndCommand(intake::turnOn, intake::stop, intake));
 
         // index balls (inlined)
         new JoystickButton(xbox, Button.kA.value)
                 .whenPressed(
                         new StartEndCommand(
-                                        () -> indexer.setMotorSpeed(.35), indexer::stop, indexer)
+                                        () -> indexer.setMotorSpeed(Parameters.indexer.MOTOR_SPEED),
+                                        indexer::stop,
+                                        indexer)
                                 .withInterrupt(indexer::hasBall));
 
         // shooter command

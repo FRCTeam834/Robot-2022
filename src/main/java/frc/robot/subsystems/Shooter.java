@@ -24,6 +24,7 @@ public class Shooter extends SubsystemBase {
 
     // Bang-bang controller
     BangBangController bigBangTheory;
+    private double setPoint;
 
     /** Creates a new Shooter. */
     public Shooter() {
@@ -57,13 +58,23 @@ public class Shooter extends SubsystemBase {
         // shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
     }
 
-    public void shoot(double setPoint) {
+    public void set(double setPoint) {
         shooterMotor.set(setPoint);
+        this.setPoint = setPoint;
         // bigBangTheory.setSetpoint(setPoint);
     }
 
+    // Is the motor at its setPoint
     public boolean isAtSetPoint() {
         return bigBangTheory.atSetpoint();
+    }
+
+    // Is the motor at its setPoint but with tolerance
+    public boolean isNearSetPoint() {
+        if (Math.abs(shooterMotorEncoder.getVelocity() - setPoint) <= 0.5) {
+            return true;
+        }
+        return false;
     }
 
     public void stop() {
