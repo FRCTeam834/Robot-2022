@@ -72,8 +72,7 @@ public class Vision extends SubsystemBase {
         // Return the best target from the camera (if there are targets)
         if (result.hasTargets()) {
             return result.getBestTarget();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -93,12 +92,10 @@ public class Vision extends SubsystemBase {
 
             // Check to see if the yaw deviation is below the tolerance
             return (Parameters.vision.YAW_TOLERANCE > Math.abs(bestTarget.getYaw()));
-        }
-        else {
+        } else {
             // We don't have a target, so we're not lined up
             return false;
         }
-        
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {

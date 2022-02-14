@@ -60,7 +60,7 @@ public class RobotContainer {
     public static Indexer indexer = new Indexer();
     public static Vision vision = new Vision();
 
-    // 
+    //
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();

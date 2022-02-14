@@ -90,7 +90,7 @@ public class Indexer extends SubsystemBase {
     }
 
     // For updating shuffleboard
-    public String getBallColorString(){
+    public String getBallColorString() {
 
         Color ballColor = colorSensor.getColor();
 
@@ -103,11 +103,11 @@ public class Indexer extends SubsystemBase {
         }
     }
     // Returns ballCount
-    public int getBallCount(){
+    public int getBallCount() {
         return ballCount;
     }
 
-    // Gets 
+    // Gets
     /*
     // ! DOESN'T WORK
     // Returns closest color match
