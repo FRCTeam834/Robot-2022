@@ -431,7 +431,7 @@ public final class Parameters {
     public class vision {
 
         // The name of the camera (from the network)
-        public static final String CAMERA_NAME = "camera";
+        public static final String CAMERA_NAME = "PiCam";
 
         // The distance to the camera from the floor (m)
         public static final double CAMERA_HEIGHT = 1;
@@ -444,7 +444,7 @@ public final class Parameters {
         public static final double GOAL_HEIGHT = 2.6416;
 
         // How far can the robot be from a target? (deg)
-        public static final double YAW_TOLERANCE = 3;
+        public static final double YAW_TOLERANCE = 0;
 
         // The maximum turning speed when turning to face a target (in deg/s)
         public static final double MAX_TURNING_SPEED = 45;

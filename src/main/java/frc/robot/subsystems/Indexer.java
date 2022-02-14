@@ -88,6 +88,26 @@ public class Indexer extends SubsystemBase {
             return false;
         }
     }
+
+    // For updating shuffleboard
+    public String getBallColorString(){
+
+        Color ballColor = colorSensor.getColor();
+
+        if ((ballColor.red / ballColor.blue) > 2.5) {
+            return "Red";
+        } else if ((ballColor.blue / ballColor.red) > 2.5) {
+            return "Blue";
+        } else {
+            return "None";
+        }
+    }
+    // Returns ballCount
+    public int getBallCount(){
+        return ballCount;
+    }
+
+    // Gets 
     /*
     // ! DOESN'T WORK
     // Returns closest color match

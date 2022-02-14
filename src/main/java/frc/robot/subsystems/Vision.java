@@ -13,6 +13,7 @@ import frc.robot.Parameters;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.common.hardware.VisionLEDMode;
+import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision extends SubsystemBase {
@@ -24,25 +25,33 @@ public class Vision extends SubsystemBase {
     private double vpw;
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
-    private boolean LEDsOn = false;
+    private boolean LEDsOn;
 
     public Vision() {
 
         // Set up the PhotonVision camera
         camera = new PhotonCamera(Parameters.vision.CAMERA_NAME);
 
+        // Put the camera in driver mode (so that it's not processing without the LEDs)
+        camera.setDriverMode(true);
+
         // Turn the LEDs off (they are super bright and annoying)
         camera.setLED(VisionLEDMode.kOff);
+
+        // Set that the LEDs are off
+        LEDsOn = false;
     }
 
     public void turnLEDsOn() {
         if (!LEDsOn) {
+            camera.setDriverMode(false);
             camera.setLED(VisionLEDMode.kOn);
         }
     }
 
     public void turnLEDsOff() {
         if (LEDsOn) {
+            camera.setDriverMode(true);
             camera.setLED(VisionLEDMode.kOff);
         }
     }
@@ -55,12 +64,18 @@ public class Vision extends SubsystemBase {
     public PhotonTrackedTarget getBestTarget() {
 
         // Make sure that the LEDs are on (can't detect colors correctly without them)
-        if (!LEDsOn) {
-            turnLEDsOn();
-        }
+        turnLEDsOn();
 
-        // Return the best target from the camera
-        return camera.getLatestResult().getBestTarget();
+        // Get the latest result from the camera
+        PhotonPipelineResult result = camera.getLatestResult();
+
+        // Return the best target from the camera (if there are targets)
+        if (result.hasTargets()) {
+            return result.getBestTarget();
+        }
+        else {
+            return null;
+        }
     }
 
     /**
@@ -70,8 +85,20 @@ public class Vision extends SubsystemBase {
      */
     public boolean isLinedUp() {
 
-        // Check to see if the yaw deviation is below the tolerance
-        return (Parameters.vision.YAW_TOLERANCE > getBestTarget().getYaw());
+        // Get the best target
+        PhotonTrackedTarget bestTarget = getBestTarget();
+
+        // Make sure that the target isn't null (that we have a target)
+        if (bestTarget != null) {
+
+            // Check to see if the yaw deviation is below the tolerance
+            return (Parameters.vision.YAW_TOLERANCE > Math.abs(bestTarget.getYaw()));
+        }
+        else {
+            // We don't have a target, so we're not lined up
+            return false;
+        }
+        
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {

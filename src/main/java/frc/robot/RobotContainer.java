@@ -60,6 +60,8 @@ public class RobotContainer {
     public static Indexer indexer = new Indexer();
     public static Vision vision = new Vision();
 
+    // 
+
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
     private final TestModulePID testModulePID = new TestModulePID();
@@ -72,7 +74,7 @@ public class RobotContainer {
 
     // Lights! No camera and no action
     public static Spark led = new Spark(Parameters.led.PORT);
-    public static double lightColor = -45;
+    public static double lightColor = -.45;
 
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
@@ -116,6 +118,7 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
 
         // Right Joystick
+        new JoystickButton(rightJoystick, 1).whenPressed(turnToVision);
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.shoot(1 - rightJoystick.getZ())));
