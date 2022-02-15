@@ -294,16 +294,12 @@ public final class Parameters {
         // The adjustment to the speed of the climbers if they aren't equal
         // This is added to the slower motor and subtracted from the faster one
         public static final double SPEED_REDUCTION = 0.05;
-                public static final int RIGHT_ID = 14;
-                public static final int RIGHT_DIO = 0;
+        public static final int RIGHT_ID = 14;
+        public static final int RIGHT_DIO = 0;
 
+        public static final int LEFT_ID = 15;
 
-                public static final int LEFT_ID = 15;
-        
-
-                public static final int LEFT_DIO = 1;
-            
-        
+        public static final int LEFT_DIO = 1;
     }
 
     public static final class intake {
@@ -312,7 +308,7 @@ public final class Parameters {
 
         public static final class spool {
             // Ports
-            //TODO set these
+            // TODO set these
             public static final int MOTOR_ID = 20;
             public static final int LS_PORT = 9;
 
@@ -324,11 +320,13 @@ public final class Parameters {
             public static final double GEARBOX_RATIO =
                     36; // Ratio of motor turns to gearbox output turns
             public static double CIRCUMFRENCE =
-                    (Math.PI * Units.inchesToMeters(1)); // Diameter is 1 inch, circumfrence is in meters
+                    (Math.PI
+                            * Units.inchesToMeters(
+                                    1)); // Diameter is 1 inch, circumfrence is in meters
             public static final double MIN_DISTANCE = 0.175; // The minimum distance, in m
             public static final double MAX_MOTOR_DUTY =
                     1; // The maximum output of the motor when moving
-                
+
             public static class pid {
                 public static final NetworkTable SPOOL_TABLE =
                         NetworkTableInstance.getDefault().getTable("Spool");
@@ -338,7 +336,6 @@ public final class Parameters {
             }
         }
     }
-    
 
     public static final class shooter {
 
@@ -358,11 +355,10 @@ public final class Parameters {
         public static final double SHOT_SPEED = 1; // In m/s
         public static final double LOAD_SPEED = 0.25; // In percent
 
-            // Speed of shooter (in m/s of linear wheel speed)
-            public static final double STD_SPEED = 2;
-            public static final double SPIT_SPEED = 0.5;
-            public static final int ID = 18;
-        
+        // Speed of shooter (in m/s of linear wheel speed)
+        public static final double STD_SPEED = 2;
+        public static final double SPIT_SPEED = 0.5;
+        public static final int ID = 18;
 
         // Game-specific parameters (meters and degrees)
         public static final class camera {
