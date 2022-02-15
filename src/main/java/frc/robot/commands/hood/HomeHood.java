@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
-public class Home extends CommandBase {
+public class HomeHood extends CommandBase {
     /** Creates a new SetBase. */
-    public Home() {
+    public HomeHood() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.hood);
     }

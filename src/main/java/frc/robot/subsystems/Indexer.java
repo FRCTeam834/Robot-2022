@@ -42,7 +42,7 @@ public class Indexer extends SubsystemBase {
     public Indexer() {
 
         // Create the shooter motor
-        indexMotor = new CANSparkMax(Parameters.indexer.motor.ID, MotorType.kBrushless);
+        indexMotor = new CANSparkMax(Parameters.indexer.ID, MotorType.kBrushless);
 
         // Configure the motor's settings
         indexMotor.restoreFactoryDefaults();
@@ -71,7 +71,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public boolean hasBall() {
-        return (colorSensor.getProximity() > Parameters.indexer.colorSensor.PROXIMITY_THRESHOLD);
+        return (colorSensor.getProximity() > Parameters.indexer.PROXIMITY_THRESHOLD);
     }
 
     public boolean isRed() {

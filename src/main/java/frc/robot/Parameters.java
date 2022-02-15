@@ -294,34 +294,51 @@ public final class Parameters {
         // The adjustment to the speed of the climbers if they aren't equal
         // This is added to the slower motor and subtracted from the faster one
         public static final double SPEED_REDUCTION = 0.05;
+                public static final int RIGHT_ID = 14;
+                public static final int RIGHT_DIO = 0;
 
-        public static final class right {
-            public static final class motor {
-                public static final int ID = 14;
-            }
 
-            public static final class limitSwitch {
-                public static final int DIO_CHAN = 0;
-            }
-        }
+                public static final int LEFT_ID = 15;
+        
 
-        public static final class left {
-            public static final class motor {
-                public static final int ID = 15;
-            }
-
-            public static final class limitSwitch {
-                public static final int DIO_CHAN = 1;
-            }
-        }
+                public static final int LEFT_DIO = 1;
+            
+        
     }
 
     public static final class intake {
-        public static final class motor {
-            public static final double SPEED = .375;
-            public static final int ID = 16;
+        public static final double INTAKE_SPEED = .375;
+        public static final int INTAKE_ID = 16;
+
+        public static final class spool {
+            // Ports
+            //TODO set these
+            public static final int MOTOR_ID = 20;
+            public static final int LS_PORT = 9;
+
+            // Homing info
+            public static final double HOME_SPEED = 0.25;
+            public static final double HOME_DISTANCE = 0.31; // The distance at home
+
+            // Basic info
+            public static final double GEARBOX_RATIO =
+                    36; // Ratio of motor turns to gearbox output turns
+            public static double CIRCUMFRENCE =
+                    (Math.PI * Units.inchesToMeters(1)); // Diameter is 1 inch, circumfrence is in meters
+            public static final double MIN_DISTANCE = 0.175; // The minimum distance, in m
+            public static final double MAX_MOTOR_DUTY =
+                    1; // The maximum output of the motor when moving
+                
+            public static class pid {
+                public static final NetworkTable SPOOL_TABLE =
+                        NetworkTableInstance.getDefault().getTable("Spool");
+                public static final TuneableNumber kP = new TuneableNumber(SPOOL_TABLE, "kP", 20);
+                public static final TuneableNumber kD = new TuneableNumber(SPOOL_TABLE, "kD", 0.00);
+                public static final ControlType CONTROL_TYPE = ControlType.kPosition;
+            }
         }
     }
+    
 
     public static final class shooter {
 
@@ -341,12 +358,11 @@ public final class Parameters {
         public static final double SHOT_SPEED = 1; // In m/s
         public static final double LOAD_SPEED = 0.25; // In percent
 
-        public static final class motor {
             // Speed of shooter (in m/s of linear wheel speed)
             public static final double STD_SPEED = 2;
             public static final double SPIT_SPEED = 0.5;
             public static final int ID = 18;
-        }
+        
 
         // Game-specific parameters (meters and degrees)
         public static final class camera {
@@ -363,7 +379,7 @@ public final class Parameters {
 
         // TODO set these
         // Ports
-        public static final int MOTOR_ID = 15;
+        public static final int MOTOR_ID = 19;
         public static final int LS_PORT = 0;
 
         // Homing info

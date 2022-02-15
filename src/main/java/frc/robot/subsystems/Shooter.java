@@ -30,7 +30,7 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
 
         // Create the shooter motor
-        shooterMotor = new CANSparkMax(Parameters.shooter.motor.ID, MotorType.kBrushless);
+        shooterMotor = new CANSparkMax(Parameters.shooter.ID, MotorType.kBrushless);
 
         // Configure the motor's settings
         // ! MOTOR MUST BE ON COAST FOR BANG-BANG

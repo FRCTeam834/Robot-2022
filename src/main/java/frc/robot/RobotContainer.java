@@ -24,7 +24,8 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.ColorSensorIndexing;
-import frc.robot.commands.hood.Home;
+import frc.robot.commands.hood.HomeHood;
+import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToVision;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
@@ -69,7 +70,8 @@ public class RobotContainer {
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
-    private final Home homeHood = new Home();
+    private final HomeHood homeHood = new HomeHood();
+    private final HomeIntake homeIntake = new HomeIntake();
     private final TurnToVision turnToVision = new TurnToVision();
 
     // Lights! No camera and no action
@@ -110,7 +112,7 @@ public class RobotContainer {
         // Left Joystick
         new JoystickButton(leftJoystick, 1).whenPressed(letsRoll2Joysticks);
         new JoystickButton(leftJoystick, 2).whenPressed(testModulePositioning);
-        new JoystickButton(leftJoystick, 3).whenPressed(navX::resetYaw);
+        new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 8)
                 .whenPressed(
                         new InstantCommand(driveTrain::zeroEncoders, driveTrain)
@@ -118,7 +120,8 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
 
         // Right Joystick
-        new JoystickButton(rightJoystick, 1).whenPressed(turnToVision);
+        new JoystickButton(rightJoystick, 2).whenPressed(homeIntake);
+        new JoystickButton(rightJoystick, 1).whileHeld(() -> intake.setDesiredDistance(Parameters.intake.spool.MIN_DISTANCE + (rightJoystick.getY() * (Parameters.intake.spool.HOME_DISTANCE - Parameters.intake.spool.MIN_DISTANCE))));
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));
