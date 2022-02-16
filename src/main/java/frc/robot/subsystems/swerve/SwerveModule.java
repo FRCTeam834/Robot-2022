@@ -269,7 +269,7 @@ public class SwerveModule extends SubsystemBase {
 
             // Half rotation optimizations (full are prioritized first)
             else if (angularDev >= 90) {
-                angularOffset -= 180;
+                angularOffset += 180;
                 driveMotor.setInverted(!driveMotor.getInverted());
             } else if (angularDev <= -90) {
                 angularOffset -= 180;
