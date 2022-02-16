@@ -130,12 +130,12 @@ public class RobotContainer {
                 .whileHeld(
                         () ->
                                 intake.setDesiredDistance(
-                                        Parameters.intake.spool.MIN_DISTANCE
+                                        Parameters.intake.spool.UP_DISTANCE
                                                 + (rightJoystick.getY()
-                                                        * (Parameters.intake.spool.MAX_DISTANCE
+                                                        * (Parameters.intake.spool.DOWN_DISTANCE
                                                                 - Parameters.intake
                                                                         .spool
-                                                                        .MIN_DISTANCE))));
+                                                                        .UP_DISTANCE))));
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));

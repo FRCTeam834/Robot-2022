@@ -125,6 +125,22 @@ public class Intake extends SubsystemBase {
     }
 
     /**
+     * Returns the desired distance of the spool
+     */
+    public double getDesiredDistance() {
+
+        // Set the motor's distance if homed
+        if (homed) {
+            return pidController.getReference();
+        }
+        else {
+            System.out.println("Distancing not available till homed!");
+            return 0;
+        }
+    }
+
+
+    /**
      * Sets the current angle of the spool. This should be used when homing the spool.
      *
      * @param currentDistance
@@ -138,9 +154,9 @@ public class Intake extends SubsystemBase {
         // Soft limits are basically the controller not allowing certain values to be set for the
         // PID loop
         spoolMotor.setSoftLimit(
-                SoftLimitDirection.kForward, (float) Parameters.intake.spool.MAX_DISTANCE);
+                SoftLimitDirection.kForward, (float) Parameters.intake.spool.DOWN_DISTANCE);
         spoolMotor.setSoftLimit(
-                SoftLimitDirection.kReverse, (float) (Parameters.intake.spool.MIN_DISTANCE));
+                SoftLimitDirection.kReverse, (float) (Parameters.intake.spool.UP_DISTANCE));
 
         // Enable the soft limits
         spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
