@@ -42,7 +42,7 @@ public final class Parameters {
 
     // Enables all debug statements
     public static final boolean debug = false;
-    public static final boolean tuningMode = true;
+    public static final boolean tuningMode = false;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -204,12 +204,12 @@ public final class Parameters {
                     new TuneableNumber(DRIVE_PID_TABLE, "Linear kD", 0);
 
             public static final TuneableNumber ROT_MOVE_P =
-                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kP", 1);
+                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kP", 3);
             public static final double ROT_MOVE_I = 0;
             public static final TuneableNumber ROT_MOVE_D =
                     new TuneableNumber(DRIVE_PID_TABLE, "Rot kD", 0);
-            public static final double DEFAULT_ROT_MAX_VELOCITY = 360; // deg/s
-            public static final double DEFAULT_ROT_MAX_ACCEL = 180; // deg/s
+            public static final double DEFAULT_ROT_MAX_VELOCITY = 36000000; // deg/s
+            public static final double DEFAULT_ROT_MAX_ACCEL = 180000000; // deg/s
             public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
         }
 
@@ -313,7 +313,7 @@ public final class Parameters {
         public static final class spool {
             // Ports
             //TODO set these
-            public static final int MOTOR_ID = 20;
+            public static final int MOTOR_ID = 19;
             public static final int LS_PORT = 9;
 
             // Homing info
@@ -322,7 +322,7 @@ public final class Parameters {
 
             // Basic info
             public static final double GEARBOX_RATIO =
-                    36; // Ratio of motor turns to gearbox output turns
+                    12; // Ratio of motor turns to gearbox output turns
             public static double CIRCUMFRENCE =
                     (Math.PI * Units.inchesToMeters(1)); // Diameter is 1 inch, circumfrence is in meters
             public static final double MIN_DISTANCE = 0.175; // The minimum distance, in m
@@ -379,7 +379,7 @@ public final class Parameters {
 
         // TODO set these
         // Ports
-        public static final int MOTOR_ID = 19;
+        public static final int MOTOR_ID = 15;
         public static final int LS_PORT = 0;
 
         // Homing info

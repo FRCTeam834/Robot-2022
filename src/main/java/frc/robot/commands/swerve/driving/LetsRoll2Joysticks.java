@@ -32,7 +32,7 @@ public class LetsRoll2Joysticks extends CommandBase {
     public void initialize() {
 
         // Clear the trigger pressed flag
-        RobotContainer.leftJoystick.getTriggerPressed();
+        RobotContainer.leftJoystick.getRawButtonPressed(2);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -40,7 +40,7 @@ public class LetsRoll2Joysticks extends CommandBase {
     public void execute() {
 
         // Get if the left trigger has been pressed, inverting the driving mode
-        if (RobotContainer.leftJoystick.getTriggerPressed()) {
+        if (RobotContainer.leftJoystick.getRawButtonPressed(2)) {
             fieldCentric = !fieldCentric;
         }
 
@@ -63,7 +63,7 @@ public class LetsRoll2Joysticks extends CommandBase {
                     (rightY * Parameters.driver.maxModVelocity),
                     (rightX * Parameters.driver.maxModVelocity),
                     Math.toRadians(leftX * Parameters.driver.maxSteerRate),
-                    true);
+                    fieldCentric);
         } else if (Parameters.driver.lockemUp) {
             RobotContainer.driveTrain.lockemUp();
         } else {

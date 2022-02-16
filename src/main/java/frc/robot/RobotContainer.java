@@ -32,6 +32,7 @@ import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
+import frc.robot.commands.swerve.testing.TestRotationalPID;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -67,6 +68,7 @@ public class RobotContainer {
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
     private final TestModulePID testModulePID = new TestModulePID();
     private final TestModulePositioning testModulePositioning = new TestModulePositioning();
+    private final TestRotationalPID testRotationalPID = new TestRotationalPID();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
@@ -110,18 +112,19 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // Left Joystick
+        // ! DON'T USE BUTTON 2, IT'S USED BY LETSROLL2JOYSTICKS
         new JoystickButton(leftJoystick, 1).whenPressed(letsRoll2Joysticks);
-        new JoystickButton(leftJoystick, 2).whenPressed(testModulePositioning);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 8)
                 .whenPressed(
                         new InstantCommand(driveTrain::zeroEncoders, driveTrain)
                                 .andThen(new PrintCommand("Zeroed!")));
-        new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
+        //new JoystickButton(leftJoystick, 9).whenPressed();
 
         // Right Joystick
         new JoystickButton(rightJoystick, 2).whenPressed(homeIntake);
-        new JoystickButton(rightJoystick, 1).whileHeld(() -> intake.setDesiredDistance(Parameters.intake.spool.MIN_DISTANCE + (rightJoystick.getY() * (Parameters.intake.spool.HOME_DISTANCE - Parameters.intake.spool.MIN_DISTANCE))));
+        new JoystickButton(rightJoystick, 1).whileHeld(() -> intake.setDesiredDistance(Parameters.intake.spool.MIN_DISTANCE + (rightJoystick.getY() * (Parameters.intake.spool.HOME_DISTANCE - Parameters.intake.spool.MIN_DISTANCE))), intake);
+        //new JoystickButton(rightJoystick, 1).whenPressed(testRotationalPID);
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));
