@@ -116,7 +116,8 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 8)
                 .whenPressed(
                         new InstantCommand(driveTrain::zeroEncoders, driveTrain)
-                                .andThen(new PrintCommand("Zeroed!")));
+                                .andThen(new PrintCommand("Zeroed!")
+                                .andThen(new InstantCommand(driveTrain::saveEncoderOffsets, driveTrain))));
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
 
         // Right Joystick
@@ -127,7 +128,7 @@ public class RobotContainer {
                                 intake.setDesiredDistance(
                                         Parameters.intake.spool.MIN_DISTANCE
                                                 + (rightJoystick.getY()
-                                                        * (Parameters.intake.spool.HOME_DISTANCE
+                                                        * (Parameters.intake.spool.MAX_DISTANCE
                                                                 - Parameters.intake
                                                                         .spool
                                                                         .MIN_DISTANCE))));

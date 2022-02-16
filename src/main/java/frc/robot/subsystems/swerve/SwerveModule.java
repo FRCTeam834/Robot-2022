@@ -26,6 +26,7 @@ import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -172,6 +173,9 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
+
+        // Load the offset of the encoder
+        loadEncoderOffset();
     }
 
     /**
@@ -405,6 +409,22 @@ public class SwerveModule extends SubsystemBase {
 
         // Set the encoder's position to zero
         // The getAngle reference should be changed now, so we need to re-request it
+        steerMotorEncoder.setPosition(getAngle());
+    }
+
+    // Saves the module's encoder offset
+    public void saveEncoderOffset() {
+
+        // Encoder offset
+        Preferences.setDouble(name + "_ENCODER_OFFSET", cancoderOffset);
+    }
+
+    // Loads the module's encoder offset
+    public void loadEncoderOffset() {
+
+        // Encoder offset
+        steerCANCoder.configMagnetOffset(
+                Preferences.getDouble(name + "_ENCODER_OFFSET", cancoderOffset));
         steerMotorEncoder.setPosition(getAngle());
     }
 

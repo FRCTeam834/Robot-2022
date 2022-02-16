@@ -494,6 +494,24 @@ public class DriveTrain extends SubsystemBase {
         backRight.setEncoderOffset(0);
     }
 
+    public void saveEncoderOffsets() {
+
+        // Go through the modules, saving the encoder offsets of each one
+        frontLeft.saveEncoderOffset();
+        frontRight.saveEncoderOffset();
+        backLeft.saveEncoderOffset();
+        backRight.saveEncoderOffset();
+    }
+
+    public void loadEncoderOffsets() {
+
+        // Go through the modules, loading the encoder offsets of each one
+        frontLeft.loadEncoderOffset();
+        frontRight.loadEncoderOffset();
+        backLeft.loadEncoderOffset();
+        backRight.loadEncoderOffset();
+    }
+
     /**
      * Calculates the next angular speed for the drivetrain
      *
