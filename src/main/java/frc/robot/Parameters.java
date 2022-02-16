@@ -185,7 +185,7 @@ public final class Parameters {
 
             public static class drive {
                 public static final TuneableNumber kP =
-                        new TuneableNumber(SWERVE_TABLE, "Drive kP", .5);
+                        new TuneableNumber(SWERVE_TABLE, "Drive kP", .15);
                 public static final TuneableNumber kD =
                         new TuneableNumber(SWERVE_TABLE, "Drive kD", 0);
                 public static final double kMAX_OUTPUT = 8; // TODO: Fix later

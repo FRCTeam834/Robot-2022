@@ -156,12 +156,7 @@ public class RobotContainer {
 
         // index balls (inlined)
         new JoystickButton(xbox, Button.kA.value)
-                .whenPressed(
-                        new StartEndCommand(
-                                        () -> indexer.setMotorSpeed(Parameters.indexer.MOTOR_SPEED),
-                                        indexer::stop,
-                                        indexer)
-                                .withInterrupt(indexer::hasBall));
+                .whenPressed(() -> driveTrain.setDesiredVelocities(2, 0, 0, 0));
 
         // shooter command
         /*new JoystickButton(xbox, Button.kB.value)

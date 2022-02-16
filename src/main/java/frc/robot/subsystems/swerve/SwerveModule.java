@@ -20,8 +20,12 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -39,7 +43,7 @@ public class SwerveModule extends SubsystemBase {
     private CANSparkMax steerMotor;
     private CANSparkMax driveMotor;
     private CachedPIDController steerMotorPID;
-    private CachedPIDController driveMotorPID;
+    private SparkMaxPIDController driveMotorPID;
     private CANCoder steerCANCoder;
     private RelativeEncoder steerMotorEncoder;
     private RelativeEncoder driveMotorEncoder;
@@ -50,6 +54,8 @@ public class SwerveModule extends SubsystemBase {
     private double desiredAngle = 0; // in deg
     private double desiredVelocity = 0; // in m/s
     private String name;
+
+    private SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(.055, 3.248);
 
     /**
      * Set up the module and address each of the motor controllers
@@ -140,7 +146,7 @@ public class SwerveModule extends SubsystemBase {
         // Note that we use a "cached" controller.
         // This version of the PID controller checks if the desired setpoint is already set.
         // This reduces the load on the CAN bus, as we can only send a set amount across at once.
-        driveMotorPID = new CachedPIDController(driveMotor);
+        driveMotorPID = driveMotor.getPIDController();
         driveMotorPID.setP(pid.drive.kP.get());
         driveMotorPID.setD(pid.drive.kD.get());
         driveMotorPID.setOutputRange(-1, 1);
@@ -301,7 +307,7 @@ public class SwerveModule extends SubsystemBase {
     public void setDesiredVelocity(double targetVelocity) {
 
         // Calculate the output of the drive
-        driveMotorPID.setReference(targetVelocity, Parameters.driveTrain.pid.drive.CONTROL_TYPE);
+        driveMotorPID.setReference(targetVelocity, Parameters.driveTrain.pid.drive.CONTROL_TYPE, 0, driveFF.calculate(targetVelocity), ArbFFUnits.kVoltage);
 
         // Print out debug info if needed
         if (Parameters.debug) {

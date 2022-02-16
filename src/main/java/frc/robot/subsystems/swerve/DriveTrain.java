@@ -15,6 +15,7 @@ package frc.robot.subsystems.swerve;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,6 +26,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -96,6 +98,7 @@ public class DriveTrain extends SubsystemBase {
     // Holomonic drive controller
     private HolonomicDriveController driveController =
             new HolonomicDriveController(xMovePID, yMovePID, rotationPID);
+
 
     /** Creates a new Drivetrain object */
     public DriveTrain() {
@@ -517,6 +520,8 @@ public class DriveTrain extends SubsystemBase {
         // Update the odometry as frequently as possible
         updateOdometry();
 
+        SmartDashboard.putNumber("FL Speed: ", frontLeft.getVelocity());
+        SmartDashboard.putNumber("FL Actual:", 2);
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {
             xMovePID.setP(Parameters.driveTrain.pid.LINEAR_MOVE_P.get());
