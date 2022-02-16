@@ -330,7 +330,8 @@ public final class Parameters {
                     (Math.PI
                             * Units.inchesToMeters(
                                     1)); // Diameter is 1 inch, circumfrence is in meters
-            public static final double UP_DISTANCE = 0.175; // The distance of the string from the spool in the up position
+            public static final double UP_DISTANCE =
+                    0.175; // The distance of the string from the spool in the up position
             public static final double DOWN_DISTANCE =
                     0.35; // The distance of the string from the spool in the down position
             public static final double MAX_MOTOR_DUTY =

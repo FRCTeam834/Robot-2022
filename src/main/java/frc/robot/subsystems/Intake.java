@@ -124,21 +124,17 @@ public class Intake extends SubsystemBase {
         }
     }
 
-    /**
-     * Returns the desired distance of the spool
-     */
+    /** Returns the desired distance of the spool */
     public double getDesiredDistance() {
 
         // Set the motor's distance if homed
         if (homed) {
             return pidController.getReference();
-        }
-        else {
+        } else {
             System.out.println("Distancing not available till homed!");
             return 0;
         }
     }
-
 
     /**
      * Sets the current angle of the spool. This should be used when homing the spool.
