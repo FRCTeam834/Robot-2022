@@ -137,7 +137,7 @@ public class Intake extends SubsystemBase {
         // Set the soft limits
         // Soft limits are basically the controller not allowing certain values to be set for the
         // PID loop
-        spoolMotor.setSoftLimit(SoftLimitDirection.kForward, (float) currentDistance);
+        spoolMotor.setSoftLimit(SoftLimitDirection.kForward, (float) Parameters.intake.spool.MAX_DISTANCE);
         spoolMotor.setSoftLimit(
                 SoftLimitDirection.kReverse, (float) (Parameters.intake.spool.MIN_DISTANCE));
 
