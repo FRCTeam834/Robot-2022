@@ -184,10 +184,17 @@ public final class Parameters {
             }
 
             public static class drive {
+
+                // PID (I isn't needed)
                 public static final TuneableNumber kP =
                         new TuneableNumber(SWERVE_TABLE, "Drive kP", .15);
                 public static final TuneableNumber kD =
                         new TuneableNumber(SWERVE_TABLE, "Drive kD", 0);
+
+                // Feedforward
+                public static final double kFFS = .055; // kS
+                public static final double kFFV = 3.248; // kV
+
                 public static final double kMAX_OUTPUT = 8; // TODO: Fix later
                 public static final ControlType CONTROL_TYPE = ControlType.kVelocity;
             }

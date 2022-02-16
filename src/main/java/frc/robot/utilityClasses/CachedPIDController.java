@@ -14,6 +14,8 @@ public class CachedPIDController {
 
     // Variables for caching
     double previousValue = 0;
+    double prevArbFeedforward = 0;
+    SparkMaxPIDController.ArbFFUnits prevArbFFUnits = SparkMaxPIDController.ArbFFUnits.kVoltage;
     ControlType previousControlType = ControlType.kDutyCycle;
     REVLibError previousREVLibError = REVLibError.kOk;
     SparkMaxPIDController pidController;
@@ -58,6 +60,41 @@ public class CachedPIDController {
 
             // Send the set command, saving the output
             previousREVLibError = pidController.setReference(value, ctrlType);
+        }
+
+        // Return the current CAN error
+        // We can just return the previous error each time as the variable is updated
+        // when unique values are sent
+        return previousREVLibError;
+    }
+
+    /**
+     * Sets the reference with caching (repeated values are not set)
+     *
+     * @param value The value to set depending on the control mode. For basic duty cycle control
+     *     this should be a value between -1 and 1 Otherwise: Voltage Control: Voltage (volts)
+     *     Velocity Control: Velocity (RPM) Position Control: Position (Rotations) Current Control:
+     *     Current (Amps). Native units can be changed using the setPositionConversionFactor() or
+     *     setVelocityConversionFactor() methods of the RelativeEncoder class
+     * @param ctrl is the control type
+     * @return Set to REV_OK if successful
+     */
+    public REVLibError setReference(double value, CANSparkMax.ControlType ctrlType, double arbFeedforward, SparkMaxPIDController.ArbFFUnits arbFFUnits) {
+
+        // Check if the values have been changed
+        // We use separated if loops to reduce the typical amount of checks needed
+        // Values change the most, so we check those first, then control types
+        if ((value != previousValue) || (!ctrlType.equals(previousControlType)) || (arbFeedforward != prevArbFeedforward) || (!arbFFUnits.equals(prevArbFFUnits))) {
+
+            // We need to send the values
+            // First save the current values for the next cycle
+            previousValue = value;
+            previousControlType = ctrlType;
+            prevArbFeedforward = arbFeedforward;
+            prevArbFFUnits = arbFFUnits;
+
+            // Send the set command, saving the output
+            previousREVLibError = pidController.setReference(value, ctrlType, 0, arbFeedforward, arbFFUnits);
         }
 
         // Return the current CAN error

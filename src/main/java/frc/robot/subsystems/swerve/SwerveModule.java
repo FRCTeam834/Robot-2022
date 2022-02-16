@@ -42,7 +42,7 @@ public class SwerveModule extends SubsystemBase {
     private CANSparkMax steerMotor;
     private CANSparkMax driveMotor;
     private CachedPIDController steerMotorPID;
-    private SparkMaxPIDController driveMotorPID;
+    private CachedPIDController driveMotorPID;
     private CANCoder steerCANCoder;
     private RelativeEncoder steerMotorEncoder;
     private RelativeEncoder driveMotorEncoder;
@@ -54,7 +54,8 @@ public class SwerveModule extends SubsystemBase {
     private double desiredVelocity = 0; // in m/s
     private String name;
 
-    private SimpleMotorFeedforward driveFF = new SimpleMotorFeedforward(.055, 3.248);
+    // Feed forward for the motor
+    private SimpleMotorFeedforward driveFF;
 
     /**
      * Set up the module and address each of the motor controllers
@@ -145,7 +146,7 @@ public class SwerveModule extends SubsystemBase {
         // Note that we use a "cached" controller.
         // This version of the PID controller checks if the desired setpoint is already set.
         // This reduces the load on the CAN bus, as we can only send a set amount across at once.
-        driveMotorPID = driveMotor.getPIDController();
+        driveMotorPID = new CachedPIDController(driveMotor);
         driveMotorPID.setP(pid.drive.kP.get());
         driveMotorPID.setD(pid.drive.kD.get());
         driveMotorPID.setOutputRange(-1, 1);
@@ -155,6 +156,9 @@ public class SwerveModule extends SubsystemBase {
             steerMotor.burnFlash();
             driveMotor.burnFlash();
         }
+
+        // Set up the feed forward
+        driveFF = new SimpleMotorFeedforward(Parameters.driveTrain.pid.drive.kFFS, Parameters.driveTrain.pid.drive.kFFV);
 
         // Set the CAN frame update rate
         // ! THIS IS EXTREMELY DANGEROUS, DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING!!!
@@ -181,7 +185,6 @@ public class SwerveModule extends SubsystemBase {
         steerMotorPID.setP(pidParams.kP);
         steerMotorPID.setI(pidParams.kI);
         steerMotorPID.setD(pidParams.kD);
-        steerMotorPID.setFF(pidParams.kFF);
 
         // Idle mode of the motor
         steerMotor.setIdleMode(idleMode);
@@ -202,7 +205,6 @@ public class SwerveModule extends SubsystemBase {
         driveMotorPID.setP(pidParams.kP);
         driveMotorPID.setI(pidParams.kI);
         driveMotorPID.setD(pidParams.kD);
-        driveMotorPID.setFF(pidParams.kFF);
 
         // Idle mode of the motor
         driveMotor.setIdleMode(idleMode);
@@ -309,7 +311,6 @@ public class SwerveModule extends SubsystemBase {
         driveMotorPID.setReference(
                 targetVelocity,
                 Parameters.driveTrain.pid.drive.CONTROL_TYPE,
-                0,
                 driveFF.calculate(targetVelocity),
                 ArbFFUnits.kVoltage);
 
