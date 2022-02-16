@@ -25,6 +25,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -493,6 +494,24 @@ public class DriveTrain extends SubsystemBase {
         backRight.setEncoderOffset(0);
     }
 
+    public void saveEncoderOffsets() {
+
+        // Go through the modules, saving the encoder offsets of each one
+        frontLeft.saveEncoderOffset();
+        frontRight.saveEncoderOffset();
+        backLeft.saveEncoderOffset();
+        backRight.saveEncoderOffset();
+    }
+
+    public void loadEncoderOffsets() {
+
+        // Go through the modules, loading the encoder offsets of each one
+        frontLeft.loadEncoderOffset();
+        frontRight.loadEncoderOffset();
+        backLeft.loadEncoderOffset();
+        backRight.loadEncoderOffset();
+    }
+
     /**
      * Calculates the next angular speed for the drivetrain
      *
@@ -517,6 +536,8 @@ public class DriveTrain extends SubsystemBase {
         // Update the odometry as frequently as possible
         updateOdometry();
 
+        SmartDashboard.putNumber("FL Speed: ", frontLeft.getVelocity());
+        SmartDashboard.putNumber("FL Actual:", 2);
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {
             xMovePID.setP(Parameters.driveTrain.pid.LINEAR_MOVE_P.get());

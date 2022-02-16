@@ -155,7 +155,7 @@ public class Vision extends SubsystemBase {
     }
 
     public Pose2d getPoseFromVision() {
-        if (calculateGlobalPoints() == null) {
+        if(calculateGlobalPoints() == null) {
             // robot facing wrong way or photon dying
             // temp? handle
             return null;
@@ -164,9 +164,10 @@ public class Vision extends SubsystemBase {
 
         double[] circleData = CircleFitter.calculateCircle();
         return new Pose2d(
-                Parameters.shooter.camera.TARGET_X - circleData[0],
-                Parameters.shooter.camera.TARGET_Y - circleData[0],
-                0);
+            Parameters.shooter.camera.TARGET_X - circleData[0],
+            Parameters.shooter.camera.TARGET_Y - circleData[0],
+            0
+        );
     }
 
     public List<GlobalPoint> getGlobalPoints() {

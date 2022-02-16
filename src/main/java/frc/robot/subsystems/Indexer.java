@@ -42,7 +42,7 @@ public class Indexer extends SubsystemBase {
     public Indexer() {
 
         // Create the shooter motor
-        indexMotor = new CANSparkMax(Parameters.indexer.motor.ID, MotorType.kBrushless);
+        indexMotor = new CANSparkMax(Parameters.indexer.ID, MotorType.kBrushless);
 
         // Configure the motor's settings
         indexMotor.restoreFactoryDefaults();
@@ -71,7 +71,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public boolean hasBall() {
-        return (colorSensor.getProximity() > Parameters.indexer.colorSensor.PROXIMITY_THRESHOLD);
+        return (colorSensor.getProximity() > Parameters.indexer.PROXIMITY_THRESHOLD);
     }
 
     public boolean isRed() {
@@ -88,6 +88,26 @@ public class Indexer extends SubsystemBase {
             return false;
         }
     }
+
+    // For updating shuffleboard
+    public String getBallColorString() {
+
+        Color ballColor = colorSensor.getColor();
+
+        if ((ballColor.red / ballColor.blue) > 2.5) {
+            return "Red";
+        } else if ((ballColor.blue / ballColor.red) > 2.5) {
+            return "Blue";
+        } else {
+            return "None";
+        }
+    }
+    // Returns ballCount
+    public int getBallCount() {
+        return ballCount;
+    }
+
+    // Gets
     /*
     // ! DOESN'T WORK
     // Returns closest color match

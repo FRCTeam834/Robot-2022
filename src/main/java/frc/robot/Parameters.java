@@ -184,10 +184,17 @@ public final class Parameters {
             }
 
             public static class drive {
+
+                // PID (I isn't needed)
                 public static final TuneableNumber kP =
-                        new TuneableNumber(SWERVE_TABLE, "Drive kP", .5);
+                        new TuneableNumber(SWERVE_TABLE, "Drive kP", .15);
                 public static final TuneableNumber kD =
                         new TuneableNumber(SWERVE_TABLE, "Drive kD", 0);
+
+                // Feedforward
+                public static final double kFFS = .055; // kS
+                public static final double kFFV = 3.248; // kV
+
                 public static final double kMAX_OUTPUT = 8; // TODO: Fix later
                 public static final ControlType CONTROL_TYPE = ControlType.kVelocity;
             }
@@ -294,32 +301,49 @@ public final class Parameters {
         // The adjustment to the speed of the climbers if they aren't equal
         // This is added to the slower motor and subtracted from the faster one
         public static final double SPEED_REDUCTION = 0.05;
+        public static final int RIGHT_ID = 14;
+        public static final int RIGHT_DIO = 0;
 
-        public static final class right {
-            public static final class motor {
-                public static final int ID = 14;
-            }
+        public static final int LEFT_ID = 15;
 
-            public static final class limitSwitch {
-                public static final int DIO_CHAN = 0;
-            }
-        }
-
-        public static final class left {
-            public static final class motor {
-                public static final int ID = 15;
-            }
-
-            public static final class limitSwitch {
-                public static final int DIO_CHAN = 1;
-            }
-        }
+        public static final int LEFT_DIO = 1;
     }
 
     public static final class intake {
-        public static final class motor {
-            public static final double SPEED = .375;
-            public static final int ID = 16;
+        public static final double INTAKE_SPEED = .375;
+        public static final int INTAKE_ID = 16;
+
+        public static final class spool {
+            // Ports
+            // TODO set these
+            public static final int MOTOR_ID = 20;
+            public static final int LS_PORT = 9;
+
+            // Homing info
+            public static final double HOME_SPEED = 0.25;
+            public static final double HOME_DISTANCE = 0.31; // The distance at home
+
+            // Basic info
+            public static final double GEARBOX_RATIO =
+                    36; // Ratio of motor turns to gearbox output turns
+            public static double CIRCUMFRENCE =
+                    (Math.PI
+                            * Units.inchesToMeters(
+                                    1)); // Diameter is 1 inch, circumfrence is in meters
+            public static final double UP_DISTANCE =
+                    0.175; // The distance of the string from the spool in the up position
+            public static final double DOWN_DISTANCE =
+                    0.35; // The distance of the string from the spool in the down position
+            public static final double MAX_MOTOR_DUTY =
+                    1; // The maximum output of the motor when moving
+
+            public static class pid {
+                public static final NetworkTable SPOOL_TABLE =
+                        NetworkTableInstance.getDefault().getTable("Spool");
+                public static final TuneableNumber kP = new TuneableNumber(SPOOL_TABLE, "kP", 20);
+                public static final TuneableNumber kD = new TuneableNumber(SPOOL_TABLE, "kD", 0.00);
+                public static final ControlType CONTROL_TYPE = ControlType.kPosition;
+            }
         }
     }
 
@@ -341,12 +365,10 @@ public final class Parameters {
         public static final double SHOT_SPEED = 1; // In m/s
         public static final double LOAD_SPEED = 0.25; // In percent
 
-        public static final class motor {
-            // Speed of shooter (in m/s of linear wheel speed)
-            public static final double STD_SPEED = 2;
-            public static final double SPIT_SPEED = 0.5;
-            public static final int ID = 18;
-        }
+        // Speed of shooter (in m/s of linear wheel speed)
+        public static final double STD_SPEED = 2;
+        public static final double SPIT_SPEED = 0.5;
+        public static final int ID = 18;
 
         // Game-specific parameters (meters and degrees)
         public static final class camera {
@@ -363,7 +385,7 @@ public final class Parameters {
 
         // TODO set these
         // Ports
-        public static final int MOTOR_ID = 15;
+        public static final int MOTOR_ID = 19;
         public static final int LS_PORT = 0;
 
         // Homing info
@@ -389,13 +411,9 @@ public final class Parameters {
     }
 
     public static final class indexer {
-        public static final class colorSensor {
-            public static final int PROXIMITY_THRESHOLD = 200;
-        }
-
-        public static final class motor {
-            public static final int ID = 17;
-        }
+        public static final int PROXIMITY_THRESHOLD = 200;
+        public static final int ID = 17;
+        public static final double MOTOR_SPEED = 0.35;
     }
 
     public static final class led {
@@ -431,7 +449,7 @@ public final class Parameters {
     public class vision {
 
         // The name of the camera (from the network)
-        public static final String CAMERA_NAME = "camera";
+        public static final String CAMERA_NAME = "PiCam";
 
         // The distance to the camera from the floor (m)
         public static final double CAMERA_HEIGHT = 1;
@@ -444,7 +462,7 @@ public final class Parameters {
         public static final double GOAL_HEIGHT = 2.6416;
 
         // How far can the robot be from a target? (deg)
-        public static final double YAW_TOLERANCE = 3;
+        public static final double YAW_TOLERANCE = 0;
 
         // The maximum turning speed when turning to face a target (in deg/s)
         public static final double MAX_TURNING_SPEED = 45;

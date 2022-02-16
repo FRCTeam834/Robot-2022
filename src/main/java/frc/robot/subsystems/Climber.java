@@ -31,7 +31,7 @@ public class Climber extends SubsystemBase {
     public Climber() {
 
         // Create the motors
-        rightMotor = new CANSparkMax(Parameters.climber.right.motor.ID, MotorType.kBrushless);
+        rightMotor = new CANSparkMax(Parameters.climber.RIGHT_ID, MotorType.kBrushless);
         // leftMotor = new CANSparkMax(Parameters.climber.left.motor.ID, MotorType.kBrushless);
 
         // Get the encoders from the motors
