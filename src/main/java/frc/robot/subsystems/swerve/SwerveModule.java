@@ -20,7 +20,6 @@ import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
@@ -158,7 +157,9 @@ public class SwerveModule extends SubsystemBase {
         }
 
         // Set up the feed forward
-        driveFF = new SimpleMotorFeedforward(Parameters.driveTrain.pid.drive.kFFS, Parameters.driveTrain.pid.drive.kFFV);
+        driveFF =
+                new SimpleMotorFeedforward(
+                        Parameters.driveTrain.pid.drive.kFFS, Parameters.driveTrain.pid.drive.kFFV);
 
         // Set the CAN frame update rate
         // ! THIS IS EXTREMELY DANGEROUS, DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING!!!

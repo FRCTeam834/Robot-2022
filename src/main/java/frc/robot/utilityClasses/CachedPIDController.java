@@ -79,12 +79,19 @@ public class CachedPIDController {
      * @param ctrl is the control type
      * @return Set to REV_OK if successful
      */
-    public REVLibError setReference(double value, CANSparkMax.ControlType ctrlType, double arbFeedforward, SparkMaxPIDController.ArbFFUnits arbFFUnits) {
+    public REVLibError setReference(
+            double value,
+            CANSparkMax.ControlType ctrlType,
+            double arbFeedforward,
+            SparkMaxPIDController.ArbFFUnits arbFFUnits) {
 
         // Check if the values have been changed
         // We use separated if loops to reduce the typical amount of checks needed
         // Values change the most, so we check those first, then control types
-        if ((value != previousValue) || (!ctrlType.equals(previousControlType)) || (arbFeedforward != prevArbFeedforward) || (!arbFFUnits.equals(prevArbFFUnits))) {
+        if ((value != previousValue)
+                || (!ctrlType.equals(previousControlType))
+                || (arbFeedforward != prevArbFeedforward)
+                || (!arbFFUnits.equals(prevArbFFUnits))) {
 
             // We need to send the values
             // First save the current values for the next cycle
@@ -94,7 +101,8 @@ public class CachedPIDController {
             prevArbFFUnits = arbFFUnits;
 
             // Send the set command, saving the output
-            previousREVLibError = pidController.setReference(value, ctrlType, 0, arbFeedforward, arbFFUnits);
+            previousREVLibError =
+                    pidController.setReference(value, ctrlType, 0, arbFeedforward, arbFFUnits);
         }
 
         // Return the current CAN error
