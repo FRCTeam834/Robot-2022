@@ -1,8 +1,8 @@
 package frc.robot.utilityClasses;
 
-import java.util.List;
-
 import org.ejml.simple.SimpleMatrix;
+
+import java.util.List;
 
 public class CircleFitter {
     static List<GlobalPoint> circlePoints;
@@ -24,14 +24,14 @@ public class CircleFitter {
     static double B;
     static double C;
 
-    public CircleFitter() { }
+    public CircleFitter() {}
 
     public void setPoints(List<GlobalPoint> points) {
         circlePoints = points;
         // calculate matrices
         xsum = ysum = xSquaredsum = ySquaredsum = xysum = index1 = index2 = index3 = 0;
 
-        for(int i = 0; i < points.size(); i++) {
+        for (int i = 0; i < points.size(); i++) {
             GlobalPoint point = points.get(i);
             double x = point.x;
             double y = point.y;
