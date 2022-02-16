@@ -116,8 +116,12 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 8)
                 .whenPressed(
                         new InstantCommand(driveTrain::zeroEncoders, driveTrain)
-                                .andThen(new PrintCommand("Zeroed!")
-                                .andThen(new InstantCommand(driveTrain::saveEncoderOffsets, driveTrain))));
+                                .andThen(
+                                        new PrintCommand("Zeroed!")
+                                                .andThen(
+                                                        new InstantCommand(
+                                                                driveTrain::saveEncoderOffsets,
+                                                                driveTrain))));
         new JoystickButton(leftJoystick, 9).whenPressed(straightenWheels);
 
         // Right Joystick
