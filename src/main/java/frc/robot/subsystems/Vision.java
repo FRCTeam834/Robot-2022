@@ -38,6 +38,7 @@ public class Vision extends SubsystemBase {
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
     private boolean LEDsOn = false;
+    private List<GlobalPoint> globalPoints;
 
     public Vision() {
 
@@ -127,9 +128,9 @@ public class Vision extends SubsystemBase {
         return ret;
     }
 
-    private List<GlobalPoint> getGlobalPoints() {
+    private void calculateGlobalPoints() {
         List<TargetCorner> targetCorners = parsedTargetCorners();
-        if (targetCorners == null) return null;
+        if (targetCorners == null) return;
 
         List<GlobalPoint> ret = new ArrayList<>();
 
@@ -146,7 +147,11 @@ public class Vision extends SubsystemBase {
             ret.add(new GlobalPoint(yaw, pitch));
         }
 
-        return ret;
+        globalPoints = ret;
+    }
+
+    public List<GlobalPoint> getGlobalPoints() {
+        return globalPoints;
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {

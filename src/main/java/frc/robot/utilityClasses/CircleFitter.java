@@ -26,7 +26,7 @@ public class CircleFitter {
 
     public CircleFitter() { }
 
-    public void setPoints(List<GlobalPoint> points) {
+    public static void setPoints(List<GlobalPoint> points) {
         circlePoints = points;
         // calculate matrices
         xsum = ysum = xSquaredsum = ySquaredsum = xysum = index1 = index2 = index3 = 0;
@@ -64,7 +64,7 @@ public class CircleFitter {
         Y.set(2, 0, index3);
     }
 
-    public double[] calculateCircle() {
+    public static double[] calculateCircle() {
         double[] ret = new double[3];
 
         SimpleMatrix M = X.invert().mult(Y);
