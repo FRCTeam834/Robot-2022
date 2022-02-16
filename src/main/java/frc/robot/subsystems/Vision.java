@@ -11,15 +11,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Parameters;
 import frc.robot.utilityClasses.GlobalPoint;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 import org.photonvision.targeting.TargetCorner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Vision extends SubsystemBase {
 
@@ -90,50 +90,50 @@ public class Vision extends SubsystemBase {
     // return list of list for parseTargetCorners
     private List<List<TargetCorner>> getTargetCorners() {
         PhotonPipelineResult pipelineResult = camera.getLatestResult();
-        if(!pipelineResult.hasTargets()) return null;
-    
+        if (!pipelineResult.hasTargets()) return null;
+
         List<List<TargetCorner>> ret = new ArrayList<>();
         List<PhotonTrackedTarget> targets = pipelineResult.getTargets();
-    
-        for(PhotonTrackedTarget target : targets) {
+
+        for (PhotonTrackedTarget target : targets) {
             ret.add(target.getCorners());
         }
-    
+
         return ret;
     }
-    
+
     private List<TargetCorner> parsedTargetCorners() {
         List<List<TargetCorner>> cornerData = getTargetCorners();
-        if(cornerData == null) return null;
-    
+        if (cornerData == null) return null;
+
         List<TargetCorner> ret = new ArrayList<>();
-    
+
         // assumes target contours are rectangles
-        for(List<TargetCorner> corners : cornerData) {
+        for (List<TargetCorner> corners : cornerData) {
             TargetCorner p1 = corners.get(0);
             TargetCorner p2 = corners.get(1);
             TargetCorner p3 = corners.get(2);
             TargetCorner p4 = corners.get(3);
-    
+
             // following canvas axises (down is larger)
             double midY = (p1.y + p2.y + p3.y + p4.y) / 4;
-    
-            if(p1.y < midY) ret.add(p1);
-            if(p2.y < midY) ret.add(p2);
-            if(p3.y < midY) ret.add(p3);
-            if(p4.y < midY) ret.add(p4);
+
+            if (p1.y < midY) ret.add(p1);
+            if (p2.y < midY) ret.add(p2);
+            if (p3.y < midY) ret.add(p3);
+            if (p4.y < midY) ret.add(p4);
         }
-    
+
         return ret;
     }
 
     private List<GlobalPoint> getGlobalPoints() {
         List<TargetCorner> targetCorners = parsedTargetCorners();
-        if(targetCorners == null) return null;
+        if (targetCorners == null) return null;
 
         List<GlobalPoint> ret = new ArrayList<>();
 
-        for(TargetCorner corner : targetCorners) {
+        for (TargetCorner corner : targetCorners) {
             // + 0.5 for 1 unit pixel plane
             double nx = (1 / resolutionX) * (corner.x - resolutionX + 0.5);
             double ny = (1 / resolutionY) * (resolutionY - corner.y + 0.5);
@@ -145,7 +145,7 @@ public class Vision extends SubsystemBase {
             yaw = Math.atan2(1, y);
             ret.add(new GlobalPoint(yaw, pitch));
         }
-        
+
         return ret;
     }
 
