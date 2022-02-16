@@ -24,7 +24,6 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -307,7 +306,12 @@ public class SwerveModule extends SubsystemBase {
     public void setDesiredVelocity(double targetVelocity) {
 
         // Calculate the output of the drive
-        driveMotorPID.setReference(targetVelocity, Parameters.driveTrain.pid.drive.CONTROL_TYPE, 0, driveFF.calculate(targetVelocity), ArbFFUnits.kVoltage);
+        driveMotorPID.setReference(
+                targetVelocity,
+                Parameters.driveTrain.pid.drive.CONTROL_TYPE,
+                0,
+                driveFF.calculate(targetVelocity),
+                ArbFFUnits.kVoltage);
 
         // Print out debug info if needed
         if (Parameters.debug) {

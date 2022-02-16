@@ -15,7 +15,6 @@ package frc.robot.subsystems.swerve;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -98,7 +97,6 @@ public class DriveTrain extends SubsystemBase {
     // Holomonic drive controller
     private HolonomicDriveController driveController =
             new HolonomicDriveController(xMovePID, yMovePID, rotationPID);
-
 
     /** Creates a new Drivetrain object */
     public DriveTrain() {
