@@ -4,11 +4,13 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.utilityClasses.CircleFitter;
 import frc.robot.utilityClasses.GlobalPoint;
 
 import org.photonvision.PhotonCamera;
@@ -24,6 +26,7 @@ import java.util.List;
 public class Vision extends SubsystemBase {
 
     public PhotonCamera camera;
+    private CircleFitter circlefitter;
     private static double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
     private boolean targetExists = false;
     private double horizontalFov;
@@ -128,9 +131,9 @@ public class Vision extends SubsystemBase {
         return ret;
     }
 
-    private void calculateGlobalPoints() {
+    private List<GlobalPoint> calculateGlobalPoints() {
         List<TargetCorner> targetCorners = parsedTargetCorners();
-        if (targetCorners == null) return;
+        if (targetCorners == null) return null;
 
         List<GlobalPoint> ret = new ArrayList<>();
 
@@ -148,6 +151,23 @@ public class Vision extends SubsystemBase {
         }
 
         globalPoints = ret;
+        return ret;
+    }
+
+    public Pose2d getPoseFromVision() {
+        if(calculateGlobalPoints() == null) {
+            // robot facing wrong way or photon dying
+            // temp? handle
+            return null;
+        }
+        CircleFitter.setPoints(getGlobalPoints());
+
+        double[] circleData = CircleFitter.calculateCircle();
+        return new Pose2d(
+            Parameters.shooter.camera.TARGET_X - circleData[0],
+            Parameters.shooter.camera.TARGET_Y - circleData[0],
+            0
+        );
     }
 
     public List<GlobalPoint> getGlobalPoints() {
