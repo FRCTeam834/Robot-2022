@@ -21,9 +21,12 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
+import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -50,6 +53,9 @@ public class SwerveModule extends SubsystemBase {
     private double desiredAngle = 0; // in deg
     private double desiredVelocity = 0; // in m/s
     private String name;
+
+    // Feed forward for the motor
+    private SimpleMotorFeedforward driveFF;
 
     /**
      * Set up the module and address each of the motor controllers
@@ -151,6 +157,11 @@ public class SwerveModule extends SubsystemBase {
             driveMotor.burnFlash();
         }
 
+        // Set up the feed forward
+        driveFF =
+                new SimpleMotorFeedforward(
+                        Parameters.driveTrain.pid.drive.kFFS, Parameters.driveTrain.pid.drive.kFFV);
+
         // Set the CAN frame update rate
         // ! THIS IS EXTREMELY DANGEROUS, DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING!!!
         // ! THIS COULD CAUSE MOTORS TO STOP RESPONDING OR OTHERWISE MALFUNCTION!!!
@@ -162,6 +173,9 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
+
+        // Load the offset of the encoder
+        loadEncoderOffset();
     }
 
     /**
@@ -176,7 +190,6 @@ public class SwerveModule extends SubsystemBase {
         steerMotorPID.setP(pidParams.kP);
         steerMotorPID.setI(pidParams.kI);
         steerMotorPID.setD(pidParams.kD);
-        steerMotorPID.setFF(pidParams.kFF);
 
         // Idle mode of the motor
         steerMotor.setIdleMode(idleMode);
@@ -197,7 +210,6 @@ public class SwerveModule extends SubsystemBase {
         driveMotorPID.setP(pidParams.kP);
         driveMotorPID.setI(pidParams.kI);
         driveMotorPID.setD(pidParams.kD);
-        driveMotorPID.setFF(pidParams.kFF);
 
         // Idle mode of the motor
         driveMotor.setIdleMode(idleMode);
@@ -261,7 +273,7 @@ public class SwerveModule extends SubsystemBase {
 
             // Half rotation optimizations (full are prioritized first)
             else if (angularDev >= 90) {
-                angularOffset -= 180;
+                angularOffset += 180;
                 driveMotor.setInverted(!driveMotor.getInverted());
             } else if (angularDev <= -90) {
                 angularOffset -= 180;
@@ -301,7 +313,11 @@ public class SwerveModule extends SubsystemBase {
     public void setDesiredVelocity(double targetVelocity) {
 
         // Calculate the output of the drive
-        driveMotorPID.setReference(targetVelocity, Parameters.driveTrain.pid.drive.CONTROL_TYPE);
+        driveMotorPID.setReference(
+                targetVelocity,
+                Parameters.driveTrain.pid.drive.CONTROL_TYPE,
+                driveFF.calculate(targetVelocity),
+                ArbFFUnits.kVoltage);
 
         // Print out debug info if needed
         if (Parameters.debug) {
@@ -393,6 +409,22 @@ public class SwerveModule extends SubsystemBase {
 
         // Set the encoder's position to zero
         // The getAngle reference should be changed now, so we need to re-request it
+        steerMotorEncoder.setPosition(getAngle());
+    }
+
+    // Saves the module's encoder offset
+    public void saveEncoderOffset() {
+
+        // Encoder offset
+        Preferences.setDouble(name + "_ENCODER_OFFSET", cancoderOffset);
+    }
+
+    // Loads the module's encoder offset
+    public void loadEncoderOffset() {
+
+        // Encoder offset
+        steerCANCoder.configMagnetOffset(
+                Preferences.getDouble(name + "_ENCODER_OFFSET", cancoderOffset));
         steerMotorEncoder.setPosition(getAngle());
     }
 
