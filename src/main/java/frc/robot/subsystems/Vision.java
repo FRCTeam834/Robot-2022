@@ -23,6 +23,8 @@ import org.photonvision.targeting.TargetCorner;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.namespace.QName;
+
 public class Vision extends SubsystemBase {
 
     public PhotonCamera camera;
@@ -94,7 +96,6 @@ public class Vision extends SubsystemBase {
     // return list of list for parseTargetCorners
     private List<List<TargetCorner>> getTargetCorners() {
         PhotonPipelineResult pipelineResult = camera.getLatestResult();
-        if (!pipelineResult.hasTargets()) return null;
 
         List<List<TargetCorner>> ret = new ArrayList<>();
         List<PhotonTrackedTarget> targets = pipelineResult.getTargets();
@@ -108,7 +109,6 @@ public class Vision extends SubsystemBase {
 
     private List<TargetCorner> parsedTargetCorners() {
         List<List<TargetCorner>> cornerData = getTargetCorners();
-        if (cornerData == null) return null;
 
         List<TargetCorner> ret = new ArrayList<>();
 
@@ -133,9 +133,9 @@ public class Vision extends SubsystemBase {
 
     private List<GlobalPoint> calculateGlobalPoints() {
         List<TargetCorner> targetCorners = parsedTargetCorners();
-        if (targetCorners == null) return null;
-
         List<GlobalPoint> ret = new ArrayList<>();
+        // No points detected
+        if(targetCorners.size() == 0) return ret;
 
         for (TargetCorner corner : targetCorners) {
             // + 0.5 for 1 unit pixel plane
@@ -154,20 +154,13 @@ public class Vision extends SubsystemBase {
         return ret;
     }
 
-    public Pose2d getPoseFromVision() {
-        if(calculateGlobalPoints() == null) {
-            // robot facing wrong way or photon dying
-            // temp? handle
-            return null;
-        }
-        CircleFitter.setPoints(getGlobalPoints());
+    public double[] getTargetCenter() {
+        // doesn't really make sense to do anything if there are no points, so return previous calculated center?
+        if(calculateGlobalPoints().size() == 0) return CircleFitter.getCircleData();
+        CircleFitter.setPoints(calculateGlobalPoints());
 
-        double[] circleData = CircleFitter.calculateCircle();
-        return new Pose2d(
-            Parameters.shooter.camera.TARGET_X - circleData[0],
-            Parameters.shooter.camera.TARGET_Y - circleData[0],
-            0
-        );
+        // In Pose implementation just use target x/y as minuend
+        return CircleFitter.calculateCircle();
     }
 
     public List<GlobalPoint> getGlobalPoints() {

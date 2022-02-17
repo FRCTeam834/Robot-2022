@@ -5,24 +5,16 @@ import org.ejml.simple.SimpleMatrix;
 import java.util.List;
 
 public class CircleFitter {
-    static List<GlobalPoint> circlePoints;
-    static double xsum;
-    static double ysum;
-    static double xSquaredsum;
-    static double ySquaredsum;
-    static double xysum;
-
-    static double index1;
-    static double index2;
-    static double index3;
+    private static List<GlobalPoint> circlePoints;
+    private static double xsum, ysum, xSquaredsum, ySquaredsum, xysum;
+    private static double index1, index2, index3;
 
     // declare the matrix
-    static SimpleMatrix X = new SimpleMatrix(3, 3);
-    static SimpleMatrix Y = new SimpleMatrix(3, 1);
+    private static SimpleMatrix X = new SimpleMatrix(3, 3);
+    private static SimpleMatrix Y = new SimpleMatrix(3, 1);
 
-    static double A;
-    static double B;
-    static double C;
+    private static double A, B, C;
+    private static double[] circleData;
 
     public CircleFitter() {}
 
@@ -80,6 +72,11 @@ public class CircleFitter {
         // radius
         ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2;
 
+        circleData = ret;
         return ret;
+    }
+
+    public static double[] getCircleData() {
+        return circleData;
     }
 }
