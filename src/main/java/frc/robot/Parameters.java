@@ -42,7 +42,7 @@ public final class Parameters {
 
     // Enables all debug statements
     public static final boolean debug = false;
-    public static final boolean tuningMode = true;
+    public static final boolean tuningMode = false;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -152,9 +152,9 @@ public final class Parameters {
         public static final class dimensions {
 
             // Swerve calculation parameters (in meters)
-            public static final double DRIVE_LENGTH = Units.inchesToMeters(22.4);
-            public static final double DRIVE_WIDTH = Units.inchesToMeters(22.4);
-            public static final double MODULE_WHEEL_DIA_IN = 4; // Inches
+            public static final double DRIVE_LENGTH = Units.inchesToMeters(22.5);
+            public static final double DRIVE_WIDTH = Units.inchesToMeters(22.5);
+            public static final double MODULE_WHEEL_DIA_IN = 3.95; // Inches
             public static final double MODULE_WHEEL_DIA_M =
                     Units.inchesToMeters(MODULE_WHEEL_DIA_IN); // Meters (for odometry calculations)
         }

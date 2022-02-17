@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.commands.ColorSensorIndexing;
+import frc.robot.commands.autons.DriveForwardAuton;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.swerve.StraightenWheels;
@@ -145,6 +146,7 @@ public class RobotContainer {
         MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0.35), indexer));
         MR.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0)));
 
+        /* 
         // run the hood down (inlined)
         new JoystickButton(xbox, Button.kLeftBumper.value)
                 .whenHeld(
@@ -158,26 +160,21 @@ public class RobotContainer {
         // intake balls (inlined)
         new JoystickButton(xbox, Button.kY.value)
                 .whenHeld(new StartEndCommand(intake::turnOn, intake::stop, intake));
-
+        */
         // index balls (inlined)
         new JoystickButton(xbox, Button.kA.value)
-                .whenPressed(() -> driveTrain.setDesiredVelocities(2, 0, 0, 0));
+                .whenPressed(new DriveForwardAuton());
 
-        // shooter command
-        /*new JoystickButton(xbox, Button.kB.value)
-        .whenPressed(
-                new StartEndCommand(() -> shooter.shoot(.5), shooter::stop, shooter)
-                        .raceWith(
-                                new WaitUntilCommand(shooter::isAtSetPoint)
-                                        .andThen(
-                                                new StartEndCommand(
-                                                                () ->
-                                                                        indexer
-                                                                                .setMotorSpeed(
-                                                                                        .5),
-                                                                indexer::stop,
-                                                                indexer)
-                                                        .withTimeout(3))));*/
+        new JoystickButton(xbox, Button.kB.value).whenPressed(
+                    new InstantCommand(driveTrain::zeroEncoders, driveTrain)
+                            .andThen(
+                                    new PrintCommand("Zeroed!")
+                                            .andThen(
+                                                    new InstantCommand(
+                                                            driveTrain::saveEncoderOffsets,
+                                                            driveTrain))));
+
+        new JoystickButton(xbox, Button.kY.value).whenPressed(() -> driveTrain.setDesiredAngles(0, 0, 0, 0));
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
