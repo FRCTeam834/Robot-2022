@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.hood.HomeHood;
+import frc.robot.commands.intake.HomeIntake;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -51,7 +53,10 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        // sets lights
         RobotContainer.led.set(RobotContainer.lightColor);
+        // Runs HomeIntake and HomeHood commands
+        CommandScheduler.getInstance().schedule(RobotContainer.getHomeIntake(), RobotContainer.getHomeHood());
     }
 
     /**
