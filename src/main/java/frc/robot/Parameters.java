@@ -347,7 +347,7 @@ public final class Parameters {
 
         public static final class spool {
             // Ports
-            //TODO set these
+            // TODO set these
             public static final int MOTOR_ID = 19;
             public static final int LS_PORT = 9;
             public static final int MOTOR_CURRENT_LIMIT = 40;

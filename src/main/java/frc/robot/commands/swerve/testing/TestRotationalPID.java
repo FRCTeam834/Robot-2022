@@ -6,46 +6,49 @@ package frc.robot.commands.swerve.testing;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.RobotContainer;
 
 public class TestRotationalPID extends CommandBase {
-  /** Creates a new RotationalPIDTesting. */
-  public TestRotationalPID() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.driveTrain);
-  }
+    /** Creates a new RotationalPIDTesting. */
+    public TestRotationalPID() {
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(RobotContainer.driveTrain);
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
 
-    // Set that the new angle of the robot
-    RobotContainer.driveTrain.rotationPID.setGoal(Units.degreesToRadians(RobotContainer.navX.getYaw() + 90));
-  }
+        // Set that the new angle of the robot
+        RobotContainer.driveTrain.rotationPID.setGoal(
+                Units.degreesToRadians(RobotContainer.navX.getYaw() + 90));
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
 
-    // Calculate the desired rotation speed
-    double rotationSpeed = -RobotContainer.driveTrain.rotationPID.calculate(Units.degreesToRadians(RobotContainer.navX.getYaw()));
+        // Calculate the desired rotation speed
+        double rotationSpeed =
+                -RobotContainer.driveTrain.rotationPID.calculate(
+                        Units.degreesToRadians(RobotContainer.navX.getYaw()));
 
-    // Set that the drivetrain should move there
-    RobotContainer.driveTrain.drive(0, 0, rotationSpeed, false);
-      
-  }
+        // Set that the drivetrain should move there
+        RobotContainer.driveTrain.drive(0, 0, rotationSpeed, false);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
 
-    // Make sure that the robot isn't left moving
-    RobotContainer.driveTrain.stopModules();
-  }
+        // Make sure that the robot isn't left moving
+        RobotContainer.driveTrain.stopModules();
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

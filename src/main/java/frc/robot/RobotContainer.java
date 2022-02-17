@@ -121,12 +121,22 @@ public class RobotContainer {
                 .whenPressed(
                         new InstantCommand(driveTrain::zeroEncoders, driveTrain)
                                 .andThen(new PrintCommand("Zeroed!")));
-        //new JoystickButton(leftJoystick, 9).whenPressed();
+        // new JoystickButton(leftJoystick, 9).whenPressed();
 
         // Right Joystick
         new JoystickButton(rightJoystick, 2).whenPressed(homeIntake);
-        new JoystickButton(rightJoystick, 1).whileHeld(() -> intake.setDesiredDistance(Parameters.intake.spool.MIN_DISTANCE + (rightJoystick.getY() * (Parameters.intake.spool.HOME_DISTANCE - Parameters.intake.spool.MIN_DISTANCE))), intake);
-        //new JoystickButton(rightJoystick, 1).whenPressed(testRotationalPID);
+        new JoystickButton(rightJoystick, 1)
+                .whileHeld(
+                        () ->
+                                intake.setDesiredDistance(
+                                        Parameters.intake.spool.MIN_DISTANCE
+                                                + (rightJoystick.getY()
+                                                        * (Parameters.intake.spool.HOME_DISTANCE
+                                                                - Parameters.intake
+                                                                        .spool
+                                                                        .MIN_DISTANCE))),
+                        intake);
+        // new JoystickButton(rightJoystick, 1).whenPressed(testRotationalPID);
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));
