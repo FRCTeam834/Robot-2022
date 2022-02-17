@@ -147,7 +147,7 @@ public class Vision extends SubsystemBase {
 
             pitch = Math.atan2(1, x);
             yaw = Math.atan2(1, y);
-            ret.add(new GlobalPoint(yaw, pitch));
+            ret.add(new GlobalPoint(yaw, pitch + Parameters.shooter.camera.PITCH));
         }
 
         globalPoints = ret;
