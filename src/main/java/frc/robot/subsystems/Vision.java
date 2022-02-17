@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,8 +21,6 @@ import org.photonvision.targeting.TargetCorner;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.namespace.QName;
 
 public class Vision extends SubsystemBase {
 
@@ -135,7 +132,7 @@ public class Vision extends SubsystemBase {
         List<TargetCorner> targetCorners = parsedTargetCorners();
         List<GlobalPoint> ret = new ArrayList<>();
         // No points detected
-        if(targetCorners.size() == 0) return ret;
+        if (targetCorners.size() == 0) return ret;
 
         for (TargetCorner corner : targetCorners) {
             // + 0.5 for 1 unit pixel plane
@@ -155,8 +152,9 @@ public class Vision extends SubsystemBase {
     }
 
     public double[] getTargetCenter() {
-        // doesn't really make sense to do anything if there are no points, so return previous calculated center?
-        if(calculateGlobalPoints().size() == 0) return CircleFitter.getCircleData();
+        // doesn't really make sense to do anything if there are no points, so return previous
+        // calculated center?
+        if (calculateGlobalPoints().size() == 0) return CircleFitter.getCircleData();
         CircleFitter.setPoints(calculateGlobalPoints());
 
         // In Pose implementation just use target x/y as minuend
