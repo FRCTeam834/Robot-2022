@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ColorSensorIndexing;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.HomeIntake;
+import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToVision;
 import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
@@ -70,9 +71,10 @@ public class RobotContainer {
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
-    private final HomeHood homeHood = new HomeHood();
-    private final HomeIntake homeIntake = new HomeIntake();
+    private final static HomeHood homeHood = new HomeHood();
+    private final static HomeIntake homeIntake = new HomeIntake();
     private final TurnToVision turnToVision = new TurnToVision();
+    private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
     // Lights! No camera and no action
     public static Spark led = new Spark(Parameters.led.PORT);
@@ -144,6 +146,7 @@ public class RobotContainer {
         TR.whenPressed(new InstantCommand(intake::stop, intake));
         MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0.35), indexer));
         MR.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0)));
+        TL.whenPressed(switchIntakeState);
 
         // run the hood down (inlined)
         new JoystickButton(xbox, Button.kLeftBumper.value)
@@ -252,5 +255,15 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return null;
+       }
+
+       // Annoying get methods for certain commands that need to be run at startup
+
+    public static HomeHood getHomeHood(){
+        return homeHood;
+    }
+
+    public static HomeIntake getHomeIntake(){
+        return homeIntake;
     }
 }

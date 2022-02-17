@@ -285,6 +285,39 @@ public final class Parameters {
 
     public static final class climber {
 
+        
+
+        public static final class right {
+            public static final int SPOOL_MOTOR_ID = 1; 
+            public static final int PIVOT_MOTOR_ID = 2;
+            public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
+            public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
+            public static final int LIMIT_SWITCH_ID = 3;
+            public static final double SPOOL_GEARBOX_RATIO = 36;
+            public static final double PIVOT_GEARBOX_RATIO = 36;
+            // TODO: There isn't anything to do, I just like the color orange
+        }
+        public static final class left {
+            public static final int SPOOL_MOTOR_ID = 4;
+            public static final int PIVOT_MOTOR_ID = 5;
+            public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
+            public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
+            public static final int LIMIT_SWITCH_ID = 6;
+            public static final double SPOOL_GEARBOX_RATIO = 36;
+            public static final double PIVOT_GEARBOX_RATIO = 36;
+
+        }
+
+        public static final double SPOOL_CIRCUMFERENCE =  (Math.PI
+                        * Units.inchesToMeters(
+                                1)); // Diameter is 1 inch, circumfrence is in meters
+        public static final double UP_DISTANCE =
+                0.175; // The distance of the string from the spool in the up position
+        public static final double DOWN_DISTANCE =
+                0.35; // The distance of the string from the spool in the down position
+        public static final double MAX_MOTOR_DUTY =
+                1; // The maximum output of the motor when moving;
+
         // Position conversion factor (from encoder counts to meters)
         // TODO: Find this factor
         public static final double POS_CONV_FACTOR = 1;
@@ -311,13 +344,15 @@ public final class Parameters {
 
     public static final class intake {
         public static final double INTAKE_SPEED = .375;
-        public static final int INTAKE_ID = 16;
+        public static final int INTAKE_MOTOR_ID = 16;
+        public static final int INTAKE_MOTOR_CURRENT_LIMIT = 40;
 
         public static final class spool {
             // Ports
             // TODO set these
             public static final int MOTOR_ID = 20;
             public static final int LS_PORT = 9;
+            public static final int MOTOR_CURRENT_LIMIT = 40;
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
@@ -370,6 +405,9 @@ public final class Parameters {
         public static final double SPIT_SPEED = 0.5;
         public static final int ID = 18;
 
+        // Current limit
+        public static final int CURRENT_LIMIT = 40;
+
         // Game-specific parameters (meters and degrees)
         public static final class camera {
             public static final double HEIGHT = 0;
@@ -388,6 +426,8 @@ public final class Parameters {
         public static final int MOTOR_ID = 19;
         public static final int LS_PORT = 0;
 
+        // Current limit
+        public static final int CURRENT_LIMIT = 40;
         // Homing info
         public static final double HOME_SPEED = 0.25;
         public static final double HOME_ANGLE = 90; // The angle at home
@@ -414,6 +454,7 @@ public final class Parameters {
         public static final int PROXIMITY_THRESHOLD = 200;
         public static final int ID = 17;
         public static final double MOTOR_SPEED = 0.35;
+        public static final int CURRENT_LIMIT = 40;
     }
 
     public static final class led {
