@@ -71,8 +71,8 @@ public class RobotContainer {
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
-    private final static HomeHood homeHood = new HomeHood();
-    private final static HomeIntake homeIntake = new HomeIntake();
+    private static final HomeHood homeHood = new HomeHood();
+    private static final HomeIntake homeIntake = new HomeIntake();
     private final TurnToVision turnToVision = new TurnToVision();
     private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
@@ -255,15 +255,15 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
         return null;
-       }
+    }
 
-       // Annoying get methods for certain commands that need to be run at startup
+    // Annoying get methods for certain commands that need to be run at startup
 
-    public static HomeHood getHomeHood(){
+    public static HomeHood getHomeHood() {
         return homeHood;
     }
 
-    public static HomeIntake getHomeIntake(){
+    public static HomeIntake getHomeIntake() {
         return homeIntake;
     }
 }

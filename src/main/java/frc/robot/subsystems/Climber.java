@@ -7,13 +7,13 @@ package frc.robot.subsystems;
 // Imports
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.CANSparkMax.IdleMode;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters;
 
 public class Climber extends SubsystemBase {
@@ -32,8 +32,6 @@ public class Climber extends SubsystemBase {
     private RelativeEncoder rightPivotEncoder;
     private RelativeEncoder leftPivotEncoder;
 
-
-
     // Limit Switch
     DigitalInput rightLimitSwitch;
     DigitalInput leftLimitSwitch;
@@ -46,7 +44,8 @@ public class Climber extends SubsystemBase {
         // Create the motors
 
         // Initialize the right spool motor
-        rightSpoolMotor = new CANSparkMax(Parameters.climber.right.SPOOL_MOTOR_ID, MotorType.kBrushless);
+        rightSpoolMotor =
+                new CANSparkMax(Parameters.climber.right.SPOOL_MOTOR_ID, MotorType.kBrushless);
         rightSpoolMotor.restoreFactoryDefaults();
         rightSpoolMotor.enableVoltageCompensation(12);
         rightSpoolMotor.setIdleMode(IdleMode.kBrake);
@@ -54,7 +53,8 @@ public class Climber extends SubsystemBase {
         rightSpoolMotor.setInverted(true);
 
         // Initialize the left spool motor
-        leftSpoolMotor = new CANSparkMax(Parameters.climber.left.SPOOL_MOTOR_ID, MotorType.kBrushless);
+        leftSpoolMotor =
+                new CANSparkMax(Parameters.climber.left.SPOOL_MOTOR_ID, MotorType.kBrushless);
         leftSpoolMotor.restoreFactoryDefaults();
         leftSpoolMotor.enableVoltageCompensation(12);
         leftSpoolMotor.setIdleMode(IdleMode.kBrake);
@@ -62,7 +62,8 @@ public class Climber extends SubsystemBase {
         leftSpoolMotor.setInverted(true);
 
         // Initialize the right pivot motor
-        rightPivotMotor = new CANSparkMax(Parameters.climber.right.PIVOT_MOTOR_ID, MotorType.kBrushless);
+        rightPivotMotor =
+                new CANSparkMax(Parameters.climber.right.PIVOT_MOTOR_ID, MotorType.kBrushless);
         rightPivotMotor.restoreFactoryDefaults();
         rightPivotMotor.enableVoltageCompensation(12);
         rightPivotMotor.setIdleMode(IdleMode.kBrake);
@@ -70,13 +71,14 @@ public class Climber extends SubsystemBase {
         rightPivotMotor.setInverted(true);
 
         // Initialize the left pivot motor
-        leftPivotMotor = new CANSparkMax(Parameters.climber.left.PIVOT_MOTOR_ID, MotorType.kBrushless);
+        leftPivotMotor =
+                new CANSparkMax(Parameters.climber.left.PIVOT_MOTOR_ID, MotorType.kBrushless);
         leftPivotMotor.restoreFactoryDefaults();
         leftPivotMotor.enableVoltageCompensation(12);
         leftPivotMotor.setIdleMode(IdleMode.kBrake);
         leftPivotMotor.setSmartCurrentLimit(10);
         leftPivotMotor.setInverted(true);
-        
+
         rightLimitSwitch = new DigitalInput(Parameters.climber.right.LIMIT_SWITCH_ID);
         leftLimitSwitch = new DigitalInput(Parameters.climber.left.LIMIT_SWITCH_ID);
 
@@ -88,32 +90,32 @@ public class Climber extends SubsystemBase {
         leftSpoolEncoder = leftSpoolMotor.getEncoder();
         rightPivotEncoder = rightPivotMotor.getEncoder();
         leftPivotEncoder = leftPivotMotor.getEncoder();
-        
+
         // Set up the encoder of the right spool motor
-        rightSpoolEncoder.setPositionConversionFactor( 
-                Parameters.climber.SPOOL_CIRCUMFERENCE / Parameters.climber.right.SPOOL_GEARBOX_RATIO);
+        rightSpoolEncoder.setPositionConversionFactor(
+                Parameters.climber.SPOOL_CIRCUMFERENCE
+                        / Parameters.climber.right.SPOOL_GEARBOX_RATIO);
         rightSpoolEncoder.setVelocityConversionFactor(
-                Parameters.climber.SPOOL_CIRCUMFERENCE / (Parameters.climber.right.SPOOL_GEARBOX_RATIO * 60));// divide once
+                Parameters.climber.SPOOL_CIRCUMFERENCE
+                        / (Parameters.climber.right.SPOOL_GEARBOX_RATIO * 60)); // divide once
 
         // Set up the encoder of the left spool motor
         leftSpoolEncoder.setPositionConversionFactor(
-                Parameters.climber.SPOOL_CIRCUMFERENCE / Parameters.climber.left.SPOOL_GEARBOX_RATIO);
+                Parameters.climber.SPOOL_CIRCUMFERENCE
+                        / Parameters.climber.left.SPOOL_GEARBOX_RATIO);
         leftSpoolEncoder.setVelocityConversionFactor(
-                Parameters.climber.SPOOL_CIRCUMFERENCE / (Parameters.climber.left.SPOOL_GEARBOX_RATIO * 60));// divide once
-
+                Parameters.climber.SPOOL_CIRCUMFERENCE
+                        / (Parameters.climber.left.SPOOL_GEARBOX_RATIO * 60)); // divide once
 
         // Set the position conversion factors
         rightPivotEncoder.setPositionConversionFactor(Parameters.climber.POS_CONV_FACTOR);
         leftPivotEncoder.setPositionConversionFactor(Parameters.climber.POS_CONV_FACTOR);
-
-
 
         // Set the current position of the climber to 0
         rightSpoolEncoder.setPosition(0);
         leftSpoolEncoder.setPosition(0);
         rightPivotEncoder.setPosition(0);
         leftPivotEncoder.setPosition(0);
-
     }
 
     @Override
@@ -129,11 +131,11 @@ public class Climber extends SubsystemBase {
         return leftSpoolEncoder.getPosition();
     }
 
-    public double getRightPivotPosition(){
+    public double getRightPivotPosition() {
         return rightPivotEncoder.getPosition();
     }
 
-    public double getLeftPivotPosition(){
+    public double getLeftPivotPosition() {
         return leftPivotEncoder.getPosition();
     }
 
@@ -154,11 +156,10 @@ public class Climber extends SubsystemBase {
         rightMotor.set(-Parameters.climber.DEFAULT_SPEED);
     }
     */
-    
+
     /*public void setLeftMotor(double speed) {
         leftMotor.set(speed);
     }*/
-
 
     public void stopMotors() {
         rightSpoolMotor.set(0);

@@ -285,10 +285,8 @@ public final class Parameters {
 
     public static final class climber {
 
-        
-
         public static final class right {
-            public static final int SPOOL_MOTOR_ID = 1; 
+            public static final int SPOOL_MOTOR_ID = 1;
             public static final int PIVOT_MOTOR_ID = 2;
             public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
             public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
@@ -297,6 +295,7 @@ public final class Parameters {
             public static final double PIVOT_GEARBOX_RATIO = 36;
             // TODO: There isn't anything to do, I just like the color orange
         }
+
         public static final class left {
             public static final int SPOOL_MOTOR_ID = 4;
             public static final int PIVOT_MOTOR_ID = 5;
@@ -305,12 +304,11 @@ public final class Parameters {
             public static final int LIMIT_SWITCH_ID = 6;
             public static final double SPOOL_GEARBOX_RATIO = 36;
             public static final double PIVOT_GEARBOX_RATIO = 36;
-
         }
 
-        public static final double SPOOL_CIRCUMFERENCE =  (Math.PI
-                        * Units.inchesToMeters(
-                                1)); // Diameter is 1 inch, circumfrence is in meters
+        public static final double SPOOL_CIRCUMFERENCE =
+                (Math.PI
+                        * Units.inchesToMeters(1)); // Diameter is 1 inch, circumfrence is in meters
         public static final double UP_DISTANCE =
                 0.175; // The distance of the string from the spool in the up position
         public static final double DOWN_DISTANCE =
