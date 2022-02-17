@@ -152,9 +152,9 @@ public final class Parameters {
         public static final class dimensions {
 
             // Swerve calculation parameters (in meters)
-            public static final double DRIVE_LENGTH = Units.inchesToMeters(22.4);
-            public static final double DRIVE_WIDTH = Units.inchesToMeters(22.4);
-            public static final double MODULE_WHEEL_DIA_IN = 4; // Inches
+            public static final double DRIVE_LENGTH = Units.inchesToMeters(22.5);
+            public static final double DRIVE_WIDTH = Units.inchesToMeters(22.5);
+            public static final double MODULE_WHEEL_DIA_IN = 3.95; // Inches
             public static final double MODULE_WHEEL_DIA_M =
                     Units.inchesToMeters(MODULE_WHEEL_DIA_IN); // Meters (for odometry calculations)
         }
@@ -184,10 +184,17 @@ public final class Parameters {
             }
 
             public static class drive {
+
+                // PID (I isn't needed)
                 public static final TuneableNumber kP =
-                        new TuneableNumber(SWERVE_TABLE, "Drive kP", .5);
+                        new TuneableNumber(SWERVE_TABLE, "Drive kP", .15);
                 public static final TuneableNumber kD =
                         new TuneableNumber(SWERVE_TABLE, "Drive kD", 0);
+
+                // Feedforward
+                public static final double kFFS = .055; // kS
+                public static final double kFFV = 3.248; // kV
+
                 public static final double kMAX_OUTPUT = 8; // TODO: Fix later
                 public static final ControlType CONTROL_TYPE = ControlType.kVelocity;
             }
@@ -278,6 +285,37 @@ public final class Parameters {
 
     public static final class climber {
 
+        public static final class right {
+            public static final int SPOOL_MOTOR_ID = 1;
+            public static final int PIVOT_MOTOR_ID = 2;
+            public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
+            public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
+            public static final int LIMIT_SWITCH_ID = 3;
+            public static final double SPOOL_GEARBOX_RATIO = 36;
+            public static final double PIVOT_GEARBOX_RATIO = 36;
+            // TODO: There isn't anything to do, I just like the color orange
+        }
+
+        public static final class left {
+            public static final int SPOOL_MOTOR_ID = 4;
+            public static final int PIVOT_MOTOR_ID = 5;
+            public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
+            public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
+            public static final int LIMIT_SWITCH_ID = 6;
+            public static final double SPOOL_GEARBOX_RATIO = 36;
+            public static final double PIVOT_GEARBOX_RATIO = 36;
+        }
+
+        public static final double SPOOL_CIRCUMFERENCE =
+                (Math.PI
+                        * Units.inchesToMeters(1)); // Diameter is 1 inch, circumfrence is in meters
+        public static final double UP_DISTANCE =
+                0.175; // The distance of the string from the spool in the up position
+        public static final double DOWN_DISTANCE =
+                0.35; // The distance of the string from the spool in the down position
+        public static final double MAX_MOTOR_DUTY =
+                1; // The maximum output of the motor when moving;
+
         // Position conversion factor (from encoder counts to meters)
         // TODO: Find this factor
         public static final double POS_CONV_FACTOR = 1;
@@ -294,27 +332,25 @@ public final class Parameters {
         // The adjustment to the speed of the climbers if they aren't equal
         // This is added to the slower motor and subtracted from the faster one
         public static final double SPEED_REDUCTION = 0.05;
-                public static final int RIGHT_ID = 14;
-                public static final int RIGHT_DIO = 0;
+        public static final int RIGHT_ID = 14;
+        public static final int RIGHT_DIO = 0;
 
+        public static final int LEFT_ID = 15;
 
-                public static final int LEFT_ID = 15;
-        
-
-                public static final int LEFT_DIO = 1;
-            
-        
+        public static final int LEFT_DIO = 1;
     }
 
     public static final class intake {
         public static final double INTAKE_SPEED = .375;
-        public static final int INTAKE_ID = 16;
+        public static final int INTAKE_MOTOR_ID = 16;
+        public static final int INTAKE_MOTOR_CURRENT_LIMIT = 40;
 
         public static final class spool {
             // Ports
             //TODO set these
             public static final int MOTOR_ID = 19;
             public static final int LS_PORT = 9;
+            public static final int MOTOR_CURRENT_LIMIT = 40;
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
@@ -324,11 +360,16 @@ public final class Parameters {
             public static final double GEARBOX_RATIO =
                     12; // Ratio of motor turns to gearbox output turns
             public static double CIRCUMFRENCE =
-                    (Math.PI * Units.inchesToMeters(1)); // Diameter is 1 inch, circumfrence is in meters
-            public static final double MIN_DISTANCE = 0.175; // The minimum distance, in m
+                    (Math.PI
+                            * Units.inchesToMeters(
+                                    1)); // Diameter is 1 inch, circumfrence is in meters
+            public static final double UP_DISTANCE =
+                    0.175; // The distance of the string from the spool in the up position
+            public static final double DOWN_DISTANCE =
+                    0.35; // The distance of the string from the spool in the down position
             public static final double MAX_MOTOR_DUTY =
                     1; // The maximum output of the motor when moving
-                
+
             public static class pid {
                 public static final NetworkTable SPOOL_TABLE =
                         NetworkTableInstance.getDefault().getTable("Spool");
@@ -338,7 +379,6 @@ public final class Parameters {
             }
         }
     }
-    
 
     public static final class shooter {
 
@@ -358,11 +398,13 @@ public final class Parameters {
         public static final double SHOT_SPEED = 1; // In m/s
         public static final double LOAD_SPEED = 0.25; // In percent
 
-            // Speed of shooter (in m/s of linear wheel speed)
-            public static final double STD_SPEED = 2;
-            public static final double SPIT_SPEED = 0.5;
-            public static final int ID = 18;
-        
+        // Speed of shooter (in m/s of linear wheel speed)
+        public static final double STD_SPEED = 2;
+        public static final double SPIT_SPEED = 0.5;
+        public static final int ID = 18;
+
+        // Current limit
+        public static final int CURRENT_LIMIT = 40;
 
         // Game-specific parameters (meters and degrees)
         public static final class camera {
@@ -382,6 +424,8 @@ public final class Parameters {
         public static final int MOTOR_ID = 15;
         public static final int LS_PORT = 0;
 
+        // Current limit
+        public static final int CURRENT_LIMIT = 40;
         // Homing info
         public static final double HOME_SPEED = 0.25;
         public static final double HOME_ANGLE = 90; // The angle at home
@@ -408,6 +452,7 @@ public final class Parameters {
         public static final int PROXIMITY_THRESHOLD = 200;
         public static final int ID = 17;
         public static final double MOTOR_SPEED = 0.35;
+        public static final int CURRENT_LIMIT = 40;
     }
 
     public static final class led {

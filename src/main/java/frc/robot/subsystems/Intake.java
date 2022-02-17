@@ -6,10 +6,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -22,7 +22,7 @@ public class Intake extends SubsystemBase {
     // Declare motor object
     CANSparkMax intakeMotor;
 
-       // Motor object for spool
+    // Motor object for spool
     CANSparkMax spoolMotor;
 
     // Motor encoder
@@ -41,10 +41,12 @@ public class Intake extends SubsystemBase {
     public Intake() {
 
         // Create intake motor
-        intakeMotor = new CANSparkMax(Parameters.intake.INTAKE_ID, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(Parameters.intake.INTAKE_MOTOR_ID, MotorType.kBrushless);
 
         // Invert the direction
         intakeMotor.setInverted(true);
+
+        intakeMotor.setSmartCurrentLimit(Parameters.intake.INTAKE_MOTOR_CURRENT_LIMIT);
 
         // Spool stuff
         // Initialize the spool motor
@@ -58,9 +60,10 @@ public class Intake extends SubsystemBase {
         // Set up the encoder of the spool motor
         spoolMotorEncoder = spoolMotor.getEncoder();
         spoolMotorEncoder.setPositionConversionFactor(
-            Parameters.intake.spool.CIRCUMFRENCE / Parameters.intake.spool.GEARBOX_RATIO);
+                Parameters.intake.spool.CIRCUMFRENCE / Parameters.intake.spool.GEARBOX_RATIO);
         spoolMotorEncoder.setVelocityConversionFactor(
-            Parameters.intake.spool.CIRCUMFRENCE / (Parameters.intake.spool.GEARBOX_RATIO *  60));
+                Parameters.intake.spool.CIRCUMFRENCE
+                        / (Parameters.intake.spool.GEARBOX_RATIO * 60));
 
         // Set up the PID controller
         pidController = new CachedPIDController(spoolMotor);
@@ -86,7 +89,7 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(Parameters.intake.INTAKE_SPEED);
     }
 
-    public void runSpoolMotor(double percent){
+    public void runSpoolMotor(double percent) {
         spoolMotor.set(percent);
     }
 
@@ -123,6 +126,18 @@ public class Intake extends SubsystemBase {
         }
     }
 
+    /** Returns the desired distance of the spool */
+    public double getDesiredDistance() {
+
+        // Set the motor's distance if homed
+        if (homed) {
+            return pidController.getReference();
+        } else {
+            System.out.println("Distancing not available till homed!");
+            return 0;
+        }
+    }
+
     /**
      * Sets the current angle of the spool. This should be used when homing the spool.
      *
@@ -136,10 +151,10 @@ public class Intake extends SubsystemBase {
         // Set the soft limits
         // Soft limits are basically the controller not allowing certain values to be set for the
         // PID loop
-        spoolMotor.setSoftLimit(SoftLimitDirection.kForward, (float) currentDistance);
         spoolMotor.setSoftLimit(
-                SoftLimitDirection.kReverse,
-                (float) (Parameters.intake.spool.MIN_DISTANCE));
+                SoftLimitDirection.kForward, (float) Parameters.intake.spool.DOWN_DISTANCE);
+        spoolMotor.setSoftLimit(
+                SoftLimitDirection.kReverse, (float) (Parameters.intake.spool.UP_DISTANCE));
 
         // Enable the soft limits
         spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
@@ -151,6 +166,7 @@ public class Intake extends SubsystemBase {
 
     /**
      * Returns the position of the spool motor
+     *
      * @return The position, in m
      */
     public double getSpoolPosition() {

@@ -38,6 +38,7 @@ public class HomeIntake extends CommandBase {
         // say that we're at the home position of the shooter
         if (!interrupted) {
             RobotContainer.intake.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
+            RobotContainer.intake.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE);
         }
     }
 

@@ -37,6 +37,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setIdleMode(IdleMode.kCoast);
         shooterMotor.setInverted(true);
+        shooterMotor.setSmartCurrentLimit(Parameters.shooter.CURRENT_LIMIT);
 
         // Get the encoder of the shooter motor
         shooterMotorEncoder = shooterMotor.getEncoder();

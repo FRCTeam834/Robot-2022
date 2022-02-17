@@ -27,7 +27,8 @@ public class DriveForwardAuton extends SequentialCommandGroup {
                 new InstantCommand(
                         () ->
                                 RobotContainer.driveTrain.resetOdometry(
-                                        examplePath.getInitialPose())),
+                                        examplePath.getInitialPose(),
+                                        examplePath.getInitialState().holonomicRotation)),
                 new SpartechsSwerveController(examplePath, false),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }

@@ -13,6 +13,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.geometry.Pose2d;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -52,7 +53,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        RobotContainer.driveTrain.resetOdometry(new Pose2d());
         RobotContainer.led.set(RobotContainer.lightColor);
+        // Runs HomeIntake and HomeHood commands
+        CommandScheduler.getInstance()
+                .schedule(RobotContainer.getHomeIntake(), RobotContainer.getHomeHood());
     }
 
     /**
