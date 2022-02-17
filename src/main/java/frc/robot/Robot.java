@@ -54,6 +54,9 @@ public class Robot extends TimedRobot {
     public void robotInit() {
         RobotContainer.driveTrain.resetOdometry(new Pose2d());
         RobotContainer.led.set(RobotContainer.lightColor);
+        // Runs HomeIntake and HomeHood commands
+        CommandScheduler.getInstance()
+                .schedule(RobotContainer.getHomeIntake(), RobotContainer.getHomeHood());
     }
 
     /**

@@ -41,10 +41,12 @@ public class Intake extends SubsystemBase {
     public Intake() {
 
         // Create intake motor
-        intakeMotor = new CANSparkMax(Parameters.intake.INTAKE_ID, MotorType.kBrushless);
+        intakeMotor = new CANSparkMax(Parameters.intake.INTAKE_MOTOR_ID, MotorType.kBrushless);
 
         // Invert the direction
         intakeMotor.setInverted(true);
+
+        intakeMotor.setSmartCurrentLimit(Parameters.intake.INTAKE_MOTOR_CURRENT_LIMIT);
 
         // Spool stuff
         // Initialize the spool motor
