@@ -49,7 +49,7 @@ public class ShotParams {
     // Linear interpolation code, taken from:
     // https://medium.com/swlh/youre-using-lerp-wrong-73579052a3c3
     public double linearInterpolation(double y1, double y2, double t) {
-        return y1 + ((y2 - y1)*t);
+        return y1 + ((y2 - y1) * t);
     }
 
     public ShotParams interpolate(ShotParams a, double t) {

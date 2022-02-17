@@ -68,7 +68,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
 
-        
         // Check the state of the functions on the robot
         /*
         shooterAtSpeed = RobotContainer.shooter.isAtSetPoint();
@@ -89,7 +88,7 @@ public class Robot extends TimedRobot {
         RobotContainer.led.set(RobotContainer.lightColor);
 
         */
-        //System.out.println(RobotContainer.intake.getSpoolPosition());
+        // System.out.println(RobotContainer.intake.getSpoolPosition());
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,

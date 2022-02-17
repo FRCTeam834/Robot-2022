@@ -61,7 +61,7 @@ public class SpartechsSwerveController extends CommandBase {
     public void execute() {
         double curTime = m_timer.get();
         var desiredState = (PathPlannerState) m_trajectory.sample(curTime);
-        //System.out.println(desiredState.positionMeters);
+        // System.out.println(desiredState.positionMeters);
         if (!targetLock) {
             desiredRotation2d = desiredState.holonomicRotation;
         } else {
@@ -77,17 +77,17 @@ public class SpartechsSwerveController extends CommandBase {
                 m_controller.calculate(
                         RobotContainer.driveTrain.getEstPose2D(), desiredState, new Rotation2d());
 
-                        SmartDashboard.putNumber("Desired X Speed: ", targetChassisSpeeds.vxMetersPerSecond);
-                        SmartDashboard.putNumber("Desired Y Speed: ", targetChassisSpeeds.vyMetersPerSecond);
-                
-                        SmartDashboard.putNumber("Desired Rot Speed: ", targetChassisSpeeds.omegaRadiansPerSecond);
-                
-                        SmartDashboard.putNumber("Desired Pose X: ", desiredState.poseMeters.getX());
-                        SmartDashboard.putNumber("Desired Pose Y: ", desiredState.poseMeters.getY());
-                
-                        SmartDashboard.putNumber(
-                                "Desired Rot:: ", desiredState.poseMeters.getRotation().getDegrees());
-                
+        SmartDashboard.putNumber("Desired X Speed: ", targetChassisSpeeds.vxMetersPerSecond);
+        SmartDashboard.putNumber("Desired Y Speed: ", targetChassisSpeeds.vyMetersPerSecond);
+
+        SmartDashboard.putNumber("Desired Rot Speed: ", targetChassisSpeeds.omegaRadiansPerSecond);
+
+        SmartDashboard.putNumber("Desired Pose X: ", desiredState.poseMeters.getX());
+        SmartDashboard.putNumber("Desired Pose Y: ", desiredState.poseMeters.getY());
+
+        SmartDashboard.putNumber(
+                "Desired Rot:: ", desiredState.poseMeters.getRotation().getDegrees());
+
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
     }
 

@@ -15,7 +15,6 @@ package frc.robot.subsystems.swerve;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -25,13 +24,11 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
@@ -89,7 +86,8 @@ public class DriveTrain extends SubsystemBase {
     SwerveDriveKinematics kinematics = new SwerveDriveKinematics(FL_POS, FR_POS, BL_POS, BR_POS);
 
     // Pose estimator
-    private SwerveDriveOdometry swerveDriveOdometry = new SwerveDriveOdometry(kinematics, RobotContainer.navX.getRotation2d());
+    private SwerveDriveOdometry swerveDriveOdometry =
+            new SwerveDriveOdometry(kinematics, RobotContainer.navX.getRotation2d());
 
     // Holomonic drive controller
     private HolonomicDriveController driveController =
@@ -431,10 +429,9 @@ public class DriveTrain extends SubsystemBase {
     public void resetOdometry(Pose2d currentPosition) {
         swerveDriveOdometry.resetPosition(currentPosition, RobotContainer.navX.getRotation2d());
     }
-    public void resetOdometry(Pose2d currentPosition, Rotation2d currentAngle)
-    {
-        swerveDriveOdometry.resetPosition(currentPosition, currentAngle);
 
+    public void resetOdometry(Pose2d currentPosition, Rotation2d currentAngle) {
+        swerveDriveOdometry.resetPosition(currentPosition, currentAngle);
     }
 
     /**
@@ -565,7 +562,6 @@ public class DriveTrain extends SubsystemBase {
         SmartDashboard.putNumber(
                 "Current Gyro Angle: ", RobotContainer.navX.getRotation2d().getDegrees());
 
-        
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {
             xMovePID.setP(Parameters.driveTrain.pid.LINEAR_MOVE_P.get());
