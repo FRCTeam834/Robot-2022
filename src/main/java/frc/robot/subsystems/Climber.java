@@ -127,21 +127,29 @@ public class Climber extends SubsystemBase {
         rightLiftPidController.setOutputRange(
                 -Parameters.climber.lift.RIGHT_MAX_MOTOR_DUTY,
                 Parameters.climber.lift.RIGHT_MAX_MOTOR_DUTY);
+        rightLiftPidController.setP(Parameters.intake.spool.pid.kP.get());
+        rightLiftPidController.setD(Parameters.intake.spool.pid.kD.get());
 
         leftLiftPidController = new CachedPIDController(leftSpoolMotor);
         leftLiftPidController.setOutputRange(
                 -Parameters.climber.lift.LEFT_MAX_MOTOR_DUTY,
                 Parameters.climber.lift.LEFT_MAX_MOTOR_DUTY);
+        leftLiftPidController.setP(Parameters.intake.spool.pid.kP.get());
+        leftLiftPidController.setD(Parameters.intake.spool.pid.kD.get());
 
         rightTiltPidController = new CachedPIDController(rightTiltMotor);
         rightTiltPidController.setOutputRange(
                 -Parameters.climber.tilt.RIGHT_MAX_MOTOR_DUTY,
                 Parameters.climber.tilt.RIGHT_MAX_MOTOR_DUTY);
+        rightTiltPidController.setP(Parameters.intake.spool.pid.kP.get());
+        rightTiltPidController.setD(Parameters.intake.spool.pid.kD.get());
 
         leftTiltPidController = new CachedPIDController(leftTiltMotor);
         leftTiltPidController.setOutputRange(
                 -Parameters.climber.tilt.LEFT_MAX_MOTOR_DUTY,
                 Parameters.climber.tilt.LEFT_MAX_MOTOR_DUTY);
+        leftTiltPidController.setP(Parameters.intake.spool.pid.kP.get());
+        leftTiltPidController.setD(Parameters.intake.spool.pid.kD.get());
     }
 
     @Override
