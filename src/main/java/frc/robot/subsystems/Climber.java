@@ -44,7 +44,6 @@ public class Climber extends SubsystemBase {
     CachedPIDController rightTiltPidController;
     CachedPIDController leftTiltPidController;
 
-
     /** Creates a new Climber. */
     public Climber() {
 
@@ -123,27 +122,26 @@ public class Climber extends SubsystemBase {
         rightTiltEncoder.setPosition(0);
         leftTiltEncoder.setPosition(0);
 
-
         // Set up the PID controller
         rightLiftPidController = new CachedPIDController(rightSpoolMotor);
         rightLiftPidController.setOutputRange(
-                -Parameters.climber.lift.RIGHT_MAX_MOTOR_DUTY, Parameters.climber.lift.RIGHT_MAX_MOTOR_DUTY);
-        
-        
+                -Parameters.climber.lift.RIGHT_MAX_MOTOR_DUTY,
+                Parameters.climber.lift.RIGHT_MAX_MOTOR_DUTY);
+
         leftLiftPidController = new CachedPIDController(leftSpoolMotor);
         leftLiftPidController.setOutputRange(
-                -Parameters.climber.lift.LEFT_MAX_MOTOR_DUTY, Parameters.climber.lift.LEFT_MAX_MOTOR_DUTY);
-        
+                -Parameters.climber.lift.LEFT_MAX_MOTOR_DUTY,
+                Parameters.climber.lift.LEFT_MAX_MOTOR_DUTY);
 
         rightTiltPidController = new CachedPIDController(rightTiltMotor);
         rightTiltPidController.setOutputRange(
-                -Parameters.climber.tilt.RIGHT_MAX_MOTOR_DUTY, Parameters.climber.tilt.RIGHT_MAX_MOTOR_DUTY); 
-
+                -Parameters.climber.tilt.RIGHT_MAX_MOTOR_DUTY,
+                Parameters.climber.tilt.RIGHT_MAX_MOTOR_DUTY);
 
         leftTiltPidController = new CachedPIDController(leftTiltMotor);
         leftTiltPidController.setOutputRange(
-                -Parameters.climber.tilt.LEFT_MAX_MOTOR_DUTY, Parameters.climber.tilt.LEFT_MAX_MOTOR_DUTY);
-
+                -Parameters.climber.tilt.LEFT_MAX_MOTOR_DUTY,
+                Parameters.climber.tilt.LEFT_MAX_MOTOR_DUTY);
     }
 
     @Override

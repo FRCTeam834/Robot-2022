@@ -296,10 +296,10 @@ public final class Parameters {
             // Limit switch used for tilt
             public static final int RIGHT_LIMIT_SWITCH_PORT = 1;
             public static final int LEFT_LIMIT_SWITCH_PORT = 2;
-           
+
             public static final double RIGHT_MAX_MOTOR_DUTY = 1;
             public static final double LEFT_MAX_MOTOR_DUTY = 1;
-            
+
             // TODO: There isn't anything to do, I just like the color orange lol :D
         }
 
@@ -311,18 +311,16 @@ public final class Parameters {
 
             public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
             public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
-            
+
             public static final double SPOOL_GEARBOX_RATIO = 36;
 
             // Limit switch port used for lift
             public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
             public static final int LEFT_LIMIT_SWITCH_PORT = 4;
-            
+
             public static final double LEFT_MAX_MOTOR_DUTY = 1;
             public static final double RIGHT_MAX_MOTOR_DUTY = 1;
         }
-
-
 
         public static final double SPOOL_CIRCUMFERENCE =
                 (Math.PI
