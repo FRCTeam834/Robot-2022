@@ -35,5 +35,4 @@ public class InterpolatingTable {
                         floor.getValue(),
                         (distance - floor.getKey()) / (ceiling.getKey() - floor.getKey()));
     }
-
 }
