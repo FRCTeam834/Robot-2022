@@ -1,8 +1,8 @@
-// Copyright (c) FIRST and other WPILib contributors.
+package frc.robot.utilityClasses.interpolation;
+
+
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
-package frc.robot.utilityClasses.interpolation;
 
 /** Add your docs here. */
 public class ShotParams {
@@ -11,35 +11,16 @@ public class ShotParams {
     double angle;
     double speed;
 
-    // Creating the constructor
-    public ShotParams() {
-        angle = 0;
-        speed = 0;
-    }
-
-    // Overloading the constructor
-    public ShotParams(double angle) {
-        angle = this.angle;
-        speed = 0;
-    }
-
     // Overloading the constructor
     public ShotParams(double angle, double speed) {
-        angle = this.angle;
-        speed = this.speed;
+        this.angle = angle;
+        this.speed = speed;
     }
 
-    private double getAngle() {
-        return angle;
-    }
-
-    private double getSpeed() {
-        return speed;
-    }
 
     public boolean equals(ShotParams other, double tolerance) {
-        if (Math.abs(angle - other.getAngle()) <= tolerance
-                && Math.abs(speed - other.getSpeed()) <= tolerance) {
+        if (Math.abs(angle - other.angle) <= tolerance
+                && Math.abs(speed - other.speed) <= tolerance) {
             return true;
         } else {
             return false;
@@ -52,9 +33,10 @@ public class ShotParams {
         return y1 + ((y2 - y1) * t);
     }
 
-    public ShotParams interpolate(ShotParams a, double t) {
+    public ShotParams interpolate(ShotParams end, double t) {
         return new ShotParams(
-                linearInterpolation(this.angle, a.getAngle(), t),
-                (linearInterpolation(this.speed, a.getSpeed(), t)));
+                linearInterpolation(this.angle, end.angle, t),
+                (linearInterpolation(this.speed, end.speed, t)));
     }
+
 }
