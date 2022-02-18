@@ -5,7 +5,6 @@ package frc.robot.utilityClasses;
 
 // Imports
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.REVLibError;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
@@ -16,7 +15,7 @@ public class CachedPIDController {
     double previousValue = 0;
     double prevArbFeedforward = 0;
     SparkMaxPIDController.ArbFFUnits prevArbFFUnits = SparkMaxPIDController.ArbFFUnits.kVoltage;
-    ControlType previousControlType = ControlType.kDutyCycle;
+    CANSparkMax.ControlType previousControlType = CANSparkMax.ControlType.kDutyCycle;
     REVLibError previousREVLibError = REVLibError.kOk;
     SparkMaxPIDController pidController;
 
@@ -46,7 +45,7 @@ public class CachedPIDController {
      * @param ctrlType is the control type
      * @return Set to REV_OK if successful
      */
-    public REVLibError setReference(double value, ControlType ctrlType) {
+    public REVLibError setReference(double value, CANSparkMax.ControlType ctrlType) {
 
         // Check if the values have been changed
         // We use separated if loops to reduce the typical amount of checks needed

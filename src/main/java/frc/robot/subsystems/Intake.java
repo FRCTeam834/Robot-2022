@@ -45,7 +45,6 @@ public class Intake extends SubsystemBase {
 
         // Invert the direction
         intakeMotor.setInverted(true);
-
         intakeMotor.setSmartCurrentLimit(Parameters.intake.INTAKE_MOTOR_CURRENT_LIMIT);
 
         // Spool stuff
@@ -69,6 +68,8 @@ public class Intake extends SubsystemBase {
         pidController = new CachedPIDController(spoolMotor);
         pidController.setOutputRange(
                 -Parameters.intake.spool.MAX_MOTOR_DUTY, Parameters.intake.spool.MAX_MOTOR_DUTY);
+        pidController.setP(Parameters.intake.spool.pid.kP.get());
+        pidController.setD(Parameters.intake.spool.pid.kD.get());
 
         // Set up the limit switch
         limitSwitch = new DigitalInput(Parameters.intake.spool.LS_PORT);
@@ -117,6 +118,9 @@ public class Intake extends SubsystemBase {
         // Set the motor's distance if homed
         if (homed) {
             pidController.setReference(dist, Parameters.intake.spool.pid.CONTROL_TYPE);
+        }
+        else {
+            System.out.println("SPOOL NOT HOMED!!!");
         }
 
         // Print out the angle information if desired

@@ -73,8 +73,8 @@ public class RobotContainer {
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
-    private static final HomeHood homeHood = new HomeHood();
-    private static final HomeIntake homeIntake = new HomeIntake();
+    private final HomeHood homeHood = new HomeHood();
+    private final HomeIntake homeIntake = new HomeIntake();
     private final TurnToVision turnToVision = new TurnToVision();
     private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
@@ -125,18 +125,8 @@ public class RobotContainer {
 
         // Right Joystick
         new JoystickButton(rightJoystick, 2).whenPressed(homeIntake);
-        new JoystickButton(rightJoystick, 1)
-                .whileHeld(
-                        () ->
-                                intake.setDesiredDistance(
-                                        Parameters.intake.spool.MIN_DISTANCE
-                                                + (rightJoystick.getY()
-                                                        * (Parameters.intake.spool.HOME_DISTANCE
-                                                                - Parameters.intake
-                                                                        .spool
-                                                                        .MIN_DISTANCE))),
-                        intake);
-        // new JoystickButton(rightJoystick, 1).whenPressed(testRotationalPID);
+        new JoystickButton(rightJoystick, 1).whileHeld(() -> intake.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE + (rightJoystick.getY() * (Parameters.intake.spool.DOWN_DISTANCE - Parameters.intake.spool.UP_DISTANCE))), intake);
+        //new JoystickButton(rightJoystick, 1).whenPressed(testRotationalPID);
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));
@@ -254,12 +244,12 @@ public class RobotContainer {
     }
 
     // Annoying get methods for certain commands that need to be run at startup
-
+    /*
     public static HomeHood getHomeHood() {
         return homeHood;
     }
 
     public static HomeIntake getHomeIntake() {
         return homeIntake;
-    }
+    }*/
 }

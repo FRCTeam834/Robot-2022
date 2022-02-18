@@ -41,7 +41,7 @@ import frc.robot.utilityClasses.TuneableNumber;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = false;
+    public static final boolean debug = true;
     public static final boolean tuningMode = false;
 
     // Competition configurations
@@ -467,7 +467,7 @@ public final class Parameters {
     public static final class indexer {
         public static final int PROXIMITY_THRESHOLD = 200;
         public static final int ID = 17;
-        public static final double MOTOR_SPEED = 0.35;
+        public static final double MOTOR_SPEED = 0.15;
         public static final int CURRENT_LIMIT = 40;
     }
 
