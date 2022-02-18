@@ -285,26 +285,44 @@ public final class Parameters {
 
     public static final class climber {
 
-        public static final class right {
-            public static final int SPOOL_MOTOR_ID = 1;
-            public static final int PIVOT_MOTOR_ID = 2;
+        public static final class tilt {
+            // CAN ID for tilt motors
+            public static final int RIGHT_PIVOT_MOTOR_ID = 20;
+            public static final int LEFT_PIVOT_MOTOR_ID = 21;
+
             public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
             public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
-            public static final int LIMIT_SWITCH_ID = 3;
-            public static final double SPOOL_GEARBOX_RATIO = 36;
-            public static final double PIVOT_GEARBOX_RATIO = 36;
-            // TODO: There isn't anything to do, I just like the color orange
+
+            // Limit switch used for tilt
+            public static final int RIGHT_LIMIT_SWITCH_PORT = 1;
+            public static final int LEFT_LIMIT_SWITCH_PORT = 2;
+           
+            public static final double RIGHT_MAX_MOTOR_DUTY = 1;
+            public static final double LEFT_MAX_MOTOR_DUTY = 1;
+            
+            // TODO: There isn't anything to do, I just like the color orange lol :D
         }
 
-        public static final class left {
-            public static final int SPOOL_MOTOR_ID = 4;
-            public static final int PIVOT_MOTOR_ID = 5;
+        public static final class lift {
+            // CAN ID for lift motors
+
+            public static final int RIGHT_SPOOL_MOTOR_ID = 22;
+            public static final int LEFT_SPOOL_MOTOR_ID = 23;
+
             public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
             public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
-            public static final int LIMIT_SWITCH_ID = 6;
+            
             public static final double SPOOL_GEARBOX_RATIO = 36;
-            public static final double PIVOT_GEARBOX_RATIO = 36;
+
+            // Limit switch port used for lift
+            public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
+            public static final int LEFT_LIMIT_SWITCH_PORT = 4;
+            
+            public static final double LEFT_MAX_MOTOR_DUTY = 1;
+            public static final double RIGHT_MAX_MOTOR_DUTY = 1;
         }
+
+
 
         public static final double SPOOL_CIRCUMFERENCE =
                 (Math.PI
