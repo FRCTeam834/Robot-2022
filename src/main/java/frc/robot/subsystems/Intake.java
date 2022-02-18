@@ -118,8 +118,7 @@ public class Intake extends SubsystemBase {
         // Set the motor's distance if homed
         if (homed) {
             pidController.setReference(dist, Parameters.intake.spool.pid.CONTROL_TYPE);
-        }
-        else {
+        } else {
             System.out.println("SPOOL NOT HOMED!!!");
         }
 

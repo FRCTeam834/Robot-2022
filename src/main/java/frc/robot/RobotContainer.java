@@ -125,8 +125,18 @@ public class RobotContainer {
 
         // Right Joystick
         new JoystickButton(rightJoystick, 2).whenPressed(homeIntake);
-        new JoystickButton(rightJoystick, 1).whileHeld(() -> intake.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE + (rightJoystick.getY() * (Parameters.intake.spool.DOWN_DISTANCE - Parameters.intake.spool.UP_DISTANCE))), intake);
-        //new JoystickButton(rightJoystick, 1).whenPressed(testRotationalPID);
+        new JoystickButton(rightJoystick, 1)
+                .whileHeld(
+                        () ->
+                                intake.setDesiredDistance(
+                                        Parameters.intake.spool.UP_DISTANCE
+                                                + (rightJoystick.getY()
+                                                        * (Parameters.intake.spool.DOWN_DISTANCE
+                                                                - Parameters.intake
+                                                                        .spool
+                                                                        .UP_DISTANCE))),
+                        intake);
+        // new JoystickButton(rightJoystick, 1).whenPressed(testRotationalPID);
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));
