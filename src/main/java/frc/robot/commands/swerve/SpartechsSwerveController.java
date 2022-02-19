@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -76,7 +77,7 @@ public class SpartechsSwerveController extends CommandBase {
         var targetChassisSpeeds =
                 m_controller.calculate(
                         RobotContainer.driveTrain.getEstPose2D(), desiredState, new Rotation2d());
-
+        /*
         SmartDashboard.putNumber("Desired X Speed: ", targetChassisSpeeds.vxMetersPerSecond);
         SmartDashboard.putNumber("Desired Y Speed: ", targetChassisSpeeds.vyMetersPerSecond);
 
@@ -87,7 +88,7 @@ public class SpartechsSwerveController extends CommandBase {
 
         SmartDashboard.putNumber(
                 "Desired Rot:: ", desiredState.poseMeters.getRotation().getDegrees());
-
+        */
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
     }
 

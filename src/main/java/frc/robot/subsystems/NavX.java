@@ -15,8 +15,10 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Parameters;
 
 public class NavX extends SubsystemBase {
     /** Creates a new NavX. */
@@ -83,5 +85,12 @@ public class NavX extends SubsystemBase {
 
     public void resetDisplacement() {
         resetDisplacement();
+    }
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        if(Parameters.telemetryMode) {
+            builder.setSmartDashboardType("NavX");
+            builder.addDoubleProperty("Angle", navX::getYaw, null);
+        }
     }
 }

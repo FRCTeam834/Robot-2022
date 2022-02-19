@@ -15,6 +15,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -61,7 +62,8 @@ public class Indexer extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+    }
 
     public void setMotorSpeed(double speed) {
         indexMotor.set(speed);
@@ -107,39 +109,5 @@ public class Indexer extends SubsystemBase {
     public int getBallCount() {
         return ballCount;
     }
-
-    // Gets
-    /*
-    // ! DOESN'T WORK
-    // Returns closest color match
-    public Color getClosestColor() {
-        colorMatcher.setConfidenceThreshold(.5);
-        return colorMatcher.matchClosestColor(colorSensor.getColor()).color;
-    }
-
-    // Determine if either red or blue is detected, if not returns neither
-    public Color getColor() {
-        if ((colorSensor.getColor().red / colorSensor.getColor().blue) > 4) {
-            return Color.kRed;
-        } else if ((colorSensor.getColor().blue / colorSensor.getColor().red) > 4) {
-            return Color.kBlue;
-        } else {
-            return Color.kBlack;
-        }
-    }
-
-    // Return ratio of red to blue
-    public double getRedBlueRatio() {
-        return colorSensor.getColor().red / colorSensor.getColor().blue;
-    }
-
-    // For top sensor: if there is an object close returns true if theres not returns false
-    public boolean getTopSensor() {
-        if (colorSensor.getProximity() > 1800) {
-            return true;
-        } else {
-            return false;
-        }
-    }*/
 
 }

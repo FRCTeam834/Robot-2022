@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -37,6 +38,7 @@ import frc.robot.commands.swerve.testing.TestRotationalPID;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeSpool;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
@@ -59,6 +61,7 @@ public class RobotContainer {
 
     // public static Climber climber = new Climber();
     public static Intake intake = new Intake();
+    public static IntakeSpool intakeSpool = new IntakeSpool();
     public static Shooter shooter = new Shooter();
     public static Indexer indexer = new Indexer();
     public static Vision vision = new Vision();
@@ -101,6 +104,11 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        SmartDashboard.putData(shooter);
+        SmartDashboard.putData(hood);
+        SmartDashboard.putData(navX);
+        SmartDashboard.putData(vision);
+        SmartDashboard.putData(driveTrain);
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -128,7 +136,7 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(
                         () ->
-                                intake.setDesiredDistance(
+                                intakeSpool.setDesiredDistance(
                                         Parameters.intake.spool.UP_DISTANCE
                                                 + (rightJoystick.getY()
                                                         * (Parameters.intake.spool.DOWN_DISTANCE

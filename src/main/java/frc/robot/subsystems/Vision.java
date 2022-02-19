@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -18,14 +19,14 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class Vision extends SubsystemBase {
 
-    public PhotonCamera camera;
+    public static PhotonCamera camera;
     private static double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
     private boolean targetExists = false;
     private double vph;
     private double vpw;
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
-    private boolean LEDsOn;
+    private static boolean LEDsOn;
 
     public Vision() {
 
@@ -42,7 +43,7 @@ public class Vision extends SubsystemBase {
         LEDsOn = false;
     }
 
-    public void turnLEDsOn() {
+    public static void turnLEDsOn() {
         if (!LEDsOn) {
             camera.setDriverMode(false);
             camera.setLED(VisionLEDMode.kOn);
@@ -61,7 +62,7 @@ public class Vision extends SubsystemBase {
      *
      * @return The best found target
      */
-    public PhotonTrackedTarget getBestTarget() {
+    public static PhotonTrackedTarget getBestTarget() {
 
         // Make sure that the LEDs are on (can't detect colors correctly without them)
         turnLEDsOn();
@@ -99,13 +100,35 @@ public class Vision extends SubsystemBase {
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
-        return PhotonUtils.calculateDistanceToTargetMeters(
+        if(camera.getLatestResult().hasTargets()) {
+            return PhotonUtils.calculateDistanceToTargetMeters(
                 Parameters.vision.CAMERA_HEIGHT,
                 Parameters.vision.GOAL_HEIGHT,
                 Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
                 Units.degreesToRadians(bestTarget.getPitch()));
+        }
+        else {
+            return 0;
+        }
+
+    }
+    public static double getYaw() {
+        if(camera.getLatestResult().hasTargets())
+            return getBestTarget().getYaw();
+        else 
+            return 0;
     }
 
     @Override
     public void periodic() {}
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        if(Parameters.telemetryMode) {
+            builder.addDoubleProperty("Yaw", () -> getYaw(), null);
+            builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()), null);
+            builder.addBooleanProperty("hasTargets", () -> camera.getLatestResult().hasTargets(), null);
+            builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);
+        }
+    }
 }

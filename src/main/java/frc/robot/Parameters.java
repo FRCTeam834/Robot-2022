@@ -43,6 +43,7 @@ public final class Parameters {
     // Enables all debug statements
     public static final boolean debug = true;
     public static final boolean tuningMode = false;
+    public static final boolean telemetryMode = true;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -421,6 +422,8 @@ public final class Parameters {
 
         // Current limit
         public static final int CURRENT_LIMIT = 40;
+
+        public static final double VELOCITY_TOLERANCE = .5;
 
         // Game-specific parameters (meters and degrees)
         public static final class camera {

@@ -24,6 +24,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -544,23 +545,24 @@ public class DriveTrain extends SubsystemBase {
     }
 
     @Override
+    public void initSendable(SendableBuilder builder) {
+        if(Parameters.telemetryMode) {
+            builder.setSmartDashboardType("Drivetrain");
+            builder.addDoubleProperty("Current X Pose: ", () -> swerveDriveOdometry.getPoseMeters().getX(), null);
+            builder.addDoubleProperty("Current Y Pose: ", () -> swerveDriveOdometry.getPoseMeters().getY(), null);
+
+            builder.addDoubleProperty("Current X Speed ", this::getXSpeed, null);
+
+            builder.addDoubleProperty("Current X Speed: ", this::getYSpeed, null);
+        }
+    }
+    @Override
     public void periodic() {
 
         // Update the odometry as frequently as possible
         updateOdometry();
 
         field.setRobotPose(swerveDriveOdometry.getPoseMeters());
-
-        SmartDashboard.putNumber("Current X Pose: ", swerveDriveOdometry.getPoseMeters().getX());
-        SmartDashboard.putNumber("Current Y Pose: ", swerveDriveOdometry.getPoseMeters().getY());
-        SmartDashboard.putNumber(
-                "Current Rotation: ",
-                swerveDriveOdometry.getPoseMeters().getRotation().getDegrees());
-
-        SmartDashboard.putNumber("Current X Speed: ", getXSpeed());
-        SmartDashboard.putNumber("Current Y Speed: ", getYSpeed());
-        SmartDashboard.putNumber(
-                "Current Gyro Angle: ", RobotContainer.navX.getRotation2d().getDegrees());
 
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {
