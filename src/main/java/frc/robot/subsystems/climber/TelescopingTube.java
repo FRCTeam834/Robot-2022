@@ -1,31 +1,34 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
+package frc.robot.subsystems.climber;
 
-package frc.robot.subsystems;
-
+// Imports
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Parameters;
 import frc.robot.utilityClasses.CachedPIDController;
+import frc.robot.utilityClasses.TuneableNumber;
 
-public class IntakeSpool extends SubsystemBase {
-    /** Creates a new IntakeSpool. */
-    // Motor object for spool
+public class TelescopingTube extends SubsystemBase {
+
+    // Motor object
     CANSparkMax spoolMotor;
 
     // Motor encoder
     RelativeEncoder spoolMotorEncoder;
 
-    // spool PID controller
+    // PID controller
     CachedPIDController pidController;
+
+    // The motor's control type
+    ControlType controlType;
 
     // Homing limit switch
     DigitalInput limitSwitch;
@@ -33,47 +36,70 @@ public class IntakeSpool extends SubsystemBase {
     // Variable to store if the spool has been homed yet
     boolean homed = false;
 
-    public IntakeSpool() {
+    // Tunable numbers
+    TuneableNumber kP;
+    TuneableNumber kD;
+
+    // The min and max distances
+    double minDistance;
+    double maxDistance;
+
+    public TelescopingTube(String name, int ID, int LSPort, double circumference, double gearboxRatio, double kP, double kD, double maxDuty, ControlType controlType, double minDist, double maxDist) {
+
+        // Get the table for tubes
+        NetworkTable tubeTable = NetworkTableInstance.getDefault().getTable("TeleTubies");
+
+        // Set up the tunable numbers
+        this.kP = new TuneableNumber(tubeTable, name, kP);
+        this.kD = new TuneableNumber(tubeTable, name, kD);
+
         // Initialize the spool motor
-        spoolMotor = new CANSparkMax(Parameters.intake.spool.MOTOR_ID, MotorType.kBrushless);
+        spoolMotor = new CANSparkMax(ID, MotorType.kBrushless);
         spoolMotor.restoreFactoryDefaults();
         spoolMotor.enableVoltageCompensation(12);
         spoolMotor.setIdleMode(IdleMode.kBrake);
-        spoolMotor.setSmartCurrentLimit(10);
-        spoolMotor.setInverted(true);
+        spoolMotor.setSmartCurrentLimit(Parameters.climber.TUBE_CURRENT_LIMIT);
+        spoolMotor.setInverted(false);
 
         // Set up the encoder of the spool motor
         spoolMotorEncoder = spoolMotor.getEncoder();
         spoolMotorEncoder.setPositionConversionFactor(
-                Parameters.intake.spool.CIRCUMFRENCE / Parameters.intake.spool.GEARBOX_RATIO);
+                circumference / gearboxRatio);
         spoolMotorEncoder.setVelocityConversionFactor(
-                Parameters.intake.spool.CIRCUMFRENCE
-                        / (Parameters.intake.spool.GEARBOX_RATIO * 60));
+                circumference
+                        / (gearboxRatio * 60));
 
         // Set up the PID controller
         pidController = new CachedPIDController(spoolMotor);
         pidController.setOutputRange(
-                -Parameters.intake.spool.MAX_MOTOR_DUTY, Parameters.intake.spool.MAX_MOTOR_DUTY);
-        pidController.setP(Parameters.intake.spool.pid.kP.get());
-        pidController.setD(Parameters.intake.spool.pid.kD.get());
+                -maxDuty, maxDuty);
+        pidController.setP(this.kP.get());
+        pidController.setD(this.kD.get());
+
+        // Set the control type
+        this.controlType = controlType;
 
         // Set up the limit switch
-        limitSwitch = new DigitalInput(Parameters.intake.spool.LS_PORT);
+        limitSwitch = new DigitalInput(LSPort);
+
+        // Set the min and max distances
+        minDistance = minDist;
+        maxDistance = maxDist;
     }
 
     @Override
     public void periodic() {
         if (Parameters.tuningMode) {
-            pidController.setP(Parameters.intake.spool.pid.kP.get());
-            pidController.setD(Parameters.intake.spool.pid.kD.get());
+            pidController.setP(kP.get());
+            pidController.setD(kD.get());
         }
     }
 
-    public void runSpoolMotor(double percent) {
+    public void run(double percent) {
         spoolMotor.set(percent);
     }
 
-    public void stopSpoolMotor() {
+    public void stop() {
         spoolMotor.stopMotor();
     }
     /**
@@ -85,9 +111,9 @@ public class IntakeSpool extends SubsystemBase {
 
         // Set the motor's distance if homed
         if (homed) {
-            pidController.setReference(dist, Parameters.intake.spool.pid.CONTROL_TYPE);
+            pidController.setReference(dist, controlType);
         } else {
-            System.out.println("SPOOL NOT HOMED!!!");
+            System.out.println("TUBE NOT HOMED!!!");
         }
 
         // Print out the angle information if desired
@@ -97,10 +123,10 @@ public class IntakeSpool extends SubsystemBase {
         }
     }
 
-    /** Returns the desired distance of the spool */
+    /** Returns the desired distance of the tube */
     public double getDesiredDistance() {
 
-        // Set the motor's distance if homed
+        // Set the tube's distance if homed
         if (homed) {
             return pidController.getReference();
         } else {
@@ -110,7 +136,7 @@ public class IntakeSpool extends SubsystemBase {
     }
 
     /**
-     * Sets the current angle of the spool. This should be used when homing the spool.
+     * Sets the current distance of the tube. This should be used when homing the tube.
      *
      * @param currentDistance
      */
@@ -123,9 +149,9 @@ public class IntakeSpool extends SubsystemBase {
         // Soft limits are basically the controller not allowing certain values to be set for the
         // PID loop
         spoolMotor.setSoftLimit(
-                SoftLimitDirection.kForward, (float) Parameters.intake.spool.DOWN_DISTANCE);
+                SoftLimitDirection.kForward, (float) maxDistance);
         spoolMotor.setSoftLimit(
-                SoftLimitDirection.kReverse, (float) (Parameters.intake.spool.UP_DISTANCE));
+                SoftLimitDirection.kReverse, (float) minDistance);
 
         // Enable the soft limits
         spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
@@ -136,18 +162,18 @@ public class IntakeSpool extends SubsystemBase {
     }
 
     /**
-     * Returns the position of the spool motor
+     * Returns the actual position of the tube
      *
      * @return The position, in m
      */
-    public double getSpoolPosition() {
+    public double getCurrentDistance() {
         return spoolMotorEncoder.getPosition();
     }
 
     /**
      * Gets if the limit switch is triggered
      *
-     * @return Is the spool currently at home?
+     * @return Is the tube currently at home?
      */
     public boolean getLSValue() {
         return limitSwitch.get();

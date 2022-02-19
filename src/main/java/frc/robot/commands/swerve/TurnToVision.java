@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Vision;
 
 import org.photonvision.targeting.PhotonPipelineResult;
 
@@ -32,7 +33,7 @@ public class TurnToVision extends CommandBase {
     public void execute() {
 
         // Get a list of possible targets
-        PhotonPipelineResult targetList = RobotContainer.vision.camera.getLatestResult();
+        PhotonPipelineResult targetList = Vision.camera.getLatestResult();
 
         // Make sure that we have targets to track
         if (targetList.hasTargets()) {

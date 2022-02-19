@@ -43,6 +43,8 @@ public class Intake extends SubsystemBase {
 
         // Invert the direction
         intakeMotor.setInverted(true);
+
+        // Set the current limit
         intakeMotor.setSmartCurrentLimit(Parameters.intake.INTAKE_MOTOR_CURRENT_LIMIT);
     }
 

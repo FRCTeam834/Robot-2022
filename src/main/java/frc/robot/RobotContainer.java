@@ -38,10 +38,11 @@ import frc.robot.commands.swerve.testing.TestRotationalPID;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.IntakeSpool;
+import frc.robot.subsystems.IntakeWinch;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 
@@ -59,14 +60,12 @@ public class RobotContainer {
     public static DriveTrain driveTrain = new DriveTrain();
     public static Hood hood = new Hood();
 
-    // public static Climber climber = new Climber();
+    //public static Climber climber = new Climber();
     public static Intake intake = new Intake();
-    public static IntakeSpool intakeSpool = new IntakeSpool();
+    public static IntakeWinch intakeWinch = new IntakeWinch();
     public static Shooter shooter = new Shooter();
     public static Indexer indexer = new Indexer();
     public static Vision vision = new Vision();
-
-    //
 
     // Commands
     private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
@@ -136,7 +135,7 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(
                         () ->
-                                intakeSpool.setDesiredDistance(
+                                intakeWinch.setDesiredDistance(
                                         Parameters.intake.spool.UP_DISTANCE
                                                 + (rightJoystick.getY()
                                                         * (Parameters.intake.spool.DOWN_DISTANCE
