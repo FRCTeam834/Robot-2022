@@ -1,8 +1,8 @@
 package frc.robot.utilityClasses;
 
-import org.ejml.simple.SimpleMatrix;
-
 import frc.robot.Parameters;
+
+import org.ejml.simple.SimpleMatrix;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,7 +75,7 @@ public class CircleFitter {
         // radius
         ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2;
         // Units are in feet, radius tolerance
-        if(Math.abs(ret[2] - 2) > Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) {
+        if (Math.abs(ret[2] - 2) > Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) {
             // set everything to 0 to represent bad data
             Arrays.fill(ret, 0);
         }
