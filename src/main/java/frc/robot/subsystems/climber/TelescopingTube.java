@@ -2,16 +2,17 @@ package frc.robot.subsystems.climber;
 
 // Imports
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters;
 import frc.robot.utilityClasses.CachedPIDController;
 import frc.robot.utilityClasses.TuneableNumber;
@@ -44,7 +45,18 @@ public class TelescopingTube extends SubsystemBase {
     double minDistance;
     double maxDistance;
 
-    public TelescopingTube(String name, int ID, int LSPort, double circumference, double gearboxRatio, double kP, double kD, double maxDuty, ControlType controlType, double minDist, double maxDist) {
+    public TelescopingTube(
+            String name,
+            int ID,
+            int LSPort,
+            double circumference,
+            double gearboxRatio,
+            double kP,
+            double kD,
+            double maxDuty,
+            ControlType controlType,
+            double minDist,
+            double maxDist) {
 
         // Get the table for tubes
         NetworkTable tubeTable = NetworkTableInstance.getDefault().getTable("TeleTubies");
@@ -63,16 +75,12 @@ public class TelescopingTube extends SubsystemBase {
 
         // Set up the encoder of the spool motor
         spoolMotorEncoder = spoolMotor.getEncoder();
-        spoolMotorEncoder.setPositionConversionFactor(
-                circumference / gearboxRatio);
-        spoolMotorEncoder.setVelocityConversionFactor(
-                circumference
-                        / (gearboxRatio * 60));
+        spoolMotorEncoder.setPositionConversionFactor(circumference / gearboxRatio);
+        spoolMotorEncoder.setVelocityConversionFactor(circumference / (gearboxRatio * 60));
 
         // Set up the PID controller
         pidController = new CachedPIDController(spoolMotor);
-        pidController.setOutputRange(
-                -maxDuty, maxDuty);
+        pidController.setOutputRange(-maxDuty, maxDuty);
         pidController.setP(this.kP.get());
         pidController.setD(this.kD.get());
 
@@ -148,10 +156,8 @@ public class TelescopingTube extends SubsystemBase {
         // Set the soft limits
         // Soft limits are basically the controller not allowing certain values to be set for the
         // PID loop
-        spoolMotor.setSoftLimit(
-                SoftLimitDirection.kForward, (float) maxDistance);
-        spoolMotor.setSoftLimit(
-                SoftLimitDirection.kReverse, (float) minDistance);
+        spoolMotor.setSoftLimit(SoftLimitDirection.kForward, (float) maxDistance);
+        spoolMotor.setSoftLimit(SoftLimitDirection.kReverse, (float) minDistance);
 
         // Enable the soft limits
         spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);

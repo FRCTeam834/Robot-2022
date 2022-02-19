@@ -311,8 +311,9 @@ public final class Parameters {
 
             // Circumference of the winch spool
             public static final double SPOOL_CIRCUMFERENCE =
-            (Math.PI
-                    * Units.inchesToMeters(1)); // Diameter is 1 inch, circumference is in meters
+                    (Math.PI
+                            * Units.inchesToMeters(
+                                    1)); // Diameter is 1 inch, circumference is in meters
 
             // The distances for being up and down
             public static final double UP_DISTANCE =
@@ -348,8 +349,9 @@ public final class Parameters {
 
             // Circumference of the winch spool
             public static final double SPOOL_CIRCUMFERENCE =
-            (Math.PI
-                    * Units.inchesToMeters(1)); // Diameter is 1 inch, circumference is in meters
+                    (Math.PI
+                            * Units.inchesToMeters(
+                                    1)); // Diameter is 1 inch, circumference is in meters
 
             // The distances for being up and down
             public static final double UP_DISTANCE =

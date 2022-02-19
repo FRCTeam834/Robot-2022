@@ -5,6 +5,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.climber.TelescopingTube;
 
 public class HomeTube extends CommandBase {
@@ -55,7 +56,6 @@ public class HomeTube extends CommandBase {
             tube.setCurrentDistance(homeDistance);
             tube.setDesiredDistance(homeDistance);
         }
-
     }
 
     // Returns true when the command should end.

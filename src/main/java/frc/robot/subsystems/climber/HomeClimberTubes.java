@@ -5,23 +5,20 @@
 package frc.robot.subsystems.climber;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.Parameters;
-import frc.robot.RobotContainer;
-import frc.robot.commands.climber.HomeTube;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class HomeClimberTubes extends ParallelCommandGroup {
-  /** Creates a new HomeClimberTubes. */
-  public HomeClimberTubes() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-        /*new HomeTube(RobotContainer.climber.rightLift, Parameters.climber.lift.HOME_SPEED, Parameters.climber.lift.HOME_DISTANCE),
-        new HomeTube(RobotContainer.climber.leftLift, Parameters.climber.lift.HOME_SPEED, Parameters.climber.lift.HOME_DISTANCE),
-        new HomeTube(RobotContainer.climber.rightTilt, Parameters.climber.tilt.HOME_SPEED, Parameters.climber.tilt.HOME_DISTANCE),
-        new HomeTube(RobotContainer.climber.leftTilt, Parameters.climber.tilt.HOME_SPEED, Parameters.climber.tilt.HOME_DISTANCE)*/
-    );
-  }
+    /** Creates a new HomeClimberTubes. */
+    public HomeClimberTubes() {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        addCommands(
+                /*new HomeTube(RobotContainer.climber.rightLift, Parameters.climber.lift.HOME_SPEED, Parameters.climber.lift.HOME_DISTANCE),
+                new HomeTube(RobotContainer.climber.leftLift, Parameters.climber.lift.HOME_SPEED, Parameters.climber.lift.HOME_DISTANCE),
+                new HomeTube(RobotContainer.climber.rightTilt, Parameters.climber.tilt.HOME_SPEED, Parameters.climber.tilt.HOME_DISTANCE),
+                new HomeTube(RobotContainer.climber.leftTilt, Parameters.climber.tilt.HOME_SPEED, Parameters.climber.tilt.HOME_DISTANCE)*/
+                );
+    }
 }
