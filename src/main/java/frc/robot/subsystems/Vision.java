@@ -25,7 +25,7 @@ import java.util.List;
 
 public class Vision extends SubsystemBase {
 
-    public PhotonCamera camera;
+    public static PhotonCamera camera;
     private CircleFitter circlefitter;
     private static double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
     private boolean targetExists = false;
@@ -40,7 +40,7 @@ public class Vision extends SubsystemBase {
     private double resolutionY = resolution * 120 * 0.5;
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
-    private boolean LEDsOn = false;
+    private static boolean LEDsOn = false;
     private List<GlobalPoint> globalPoints;
 
     public Vision() {
