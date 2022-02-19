@@ -12,6 +12,7 @@
  */
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -51,7 +52,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        RobotContainer.driveTrain.resetOdometry(new Pose2d());
         RobotContainer.led.set(RobotContainer.lightColor);
+        // Runs HomeIntake and HomeHood commands
+        // CommandScheduler.getInstance()
+        //        .schedule(RobotContainer.getHomeIntake(), RobotContainer.getHomeHood());
     }
 
     /**
@@ -67,7 +72,6 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
 
         // Check the state of the functions on the robot
-        /*
         shooterAtSpeed = RobotContainer.shooter.isAtSetPoint();
         linedUp = RobotContainer.vision.isLinedUp();
 
@@ -85,8 +89,10 @@ public class Robot extends TimedRobot {
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);
 
-        */
-        System.out.println(RobotContainer.intake.getSpoolPosition());
+        // System.out.println(RobotContainer.intakeSpool.getSpoolPosition());
+        // System.out.println(String.format("S: %.2f | A: %.2f",
+        // Units.radiansToDegrees(RobotContainer.driveTrain.rotationPID.getSetpoint().position),
+        // RobotContainer.navX.getYaw()));
 
         // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
         // commands, running already-scheduled commands, removing finished or interrupted commands,

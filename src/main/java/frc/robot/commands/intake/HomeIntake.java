@@ -19,7 +19,7 @@ public class HomeIntake extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.intake.runSpoolMotor(Parameters.intake.spool.HOME_SPEED);
+        RobotContainer.intakeSpool.runSpoolMotor(Parameters.intake.spool.HOME_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -32,19 +32,19 @@ public class HomeIntake extends CommandBase {
 
         // Stop the motor
         // ! THIS NEEDS TO BE DONE TO PREVENT OVERDRIVING THE MOTOR
-        RobotContainer.intake.stopSpoolMotor();
+        RobotContainer.intakeSpool.stopSpoolMotor();
 
         // If the command wasn't interrupted (like another command needing the hood), then we can
         // say that we're at the home position of the shooter
         if (!interrupted) {
-            RobotContainer.intake.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
-            RobotContainer.intake.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE);
+            RobotContainer.intakeSpool.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
+            RobotContainer.intakeSpool.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE);
         }
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return RobotContainer.intake.getLSValue();
+        return RobotContainer.intakeSpool.getLSValue();
     }
 }

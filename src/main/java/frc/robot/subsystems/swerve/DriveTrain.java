@@ -15,16 +15,17 @@ package frc.robot.subsystems.swerve;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -41,6 +42,7 @@ public class DriveTrain extends SubsystemBase {
     public SwerveModule backLeft;
     public SwerveModule backRight;
 
+    public Field2d field = new Field2d();
     // PID value storage, with default values from Parameters
     public PIDController xMovePID =
             new PIDController(
@@ -85,14 +87,8 @@ public class DriveTrain extends SubsystemBase {
     SwerveDriveKinematics kinematics = new SwerveDriveKinematics(FL_POS, FR_POS, BL_POS, BR_POS);
 
     // Pose estimator
-    private SwerveDrivePoseEstimator poseEstimator =
-            new SwerveDrivePoseEstimator(
-                    RobotContainer.navX.getRotation2d(),
-                    new Pose2d(0.0, 0.0, new Rotation2d()),
-                    kinematics,
-                    Parameters.driveTrain.movement.POSE_STD_DEV,
-                    Parameters.driveTrain.movement.ENCODER_GYRO_DEV,
-                    Parameters.driveTrain.movement.VISION_DEVIATION);
+    private SwerveDriveOdometry swerveDriveOdometry =
+            new SwerveDriveOdometry(kinematics, RobotContainer.navX.getRotation2d());
 
     // Holomonic drive controller
     private HolonomicDriveController driveController =
@@ -101,6 +97,7 @@ public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain object */
     public DriveTrain() {
 
+        SmartDashboard.putData("Field", field);
         // Create each swerve module instance
         frontLeft =
                 new SwerveModule(
@@ -209,7 +206,7 @@ public class DriveTrain extends SubsystemBase {
             Translation2d absoluteCenter) {
 
         // Get the current position of the robot on the field
-        Pose2d currentPose = poseEstimator.getEstimatedPosition();
+        Pose2d currentPose = swerveDriveOdometry.getPoseMeters();
 
         // Create a pose of the field coordinate
         Pose2d fieldCenterPose = new Pose2d(absoluteCenter, new Rotation2d(0));
@@ -417,7 +414,7 @@ public class DriveTrain extends SubsystemBase {
 
     /** Updates the odometry. Should be called as frequently as possible to reduce error. */
     public void updateOdometry() {
-        poseEstimator.update(
+        swerveDriveOdometry.update(
                 RobotContainer.navX.getRotation2d(),
                 frontLeft.getState(),
                 frontRight.getState(),
@@ -431,12 +428,11 @@ public class DriveTrain extends SubsystemBase {
      * @param currentPosition The robot's current position
      */
     public void resetOdometry(Pose2d currentPosition) {
-        poseEstimator.resetPosition(currentPosition, RobotContainer.navX.getRotation2d());
+        swerveDriveOdometry.resetPosition(currentPosition, RobotContainer.navX.getRotation2d());
     }
 
-    /** Adds a vision position measurement */
-    public void visionPositionMeasurement(Pose2d visionRobotPose) {
-        poseEstimator.addVisionMeasurement(visionRobotPose, Timer.getFPGATimestamp());
+    public void resetOdometry(Pose2d currentPosition, Rotation2d currentAngle) {
+        swerveDriveOdometry.resetPosition(currentPosition, currentAngle);
     }
 
     /**
@@ -445,7 +441,7 @@ public class DriveTrain extends SubsystemBase {
      * @return Estimated X position (m)
      */
     public double getEstXPos() {
-        return poseEstimator.getEstimatedPosition().getX();
+        return swerveDriveOdometry.getPoseMeters().getX();
     }
 
     /**
@@ -454,7 +450,7 @@ public class DriveTrain extends SubsystemBase {
      * @return Estimated Y position (m)
      */
     public double getEstYPos() {
-        return poseEstimator.getEstimatedPosition().getY();
+        return swerveDriveOdometry.getPoseMeters().getY();
     }
 
     /**
@@ -463,7 +459,7 @@ public class DriveTrain extends SubsystemBase {
      * @return Estimated angle (Rotation2d)
      */
     public Rotation2d getEstAngle() {
-        return poseEstimator.getEstimatedPosition().getRotation();
+        return swerveDriveOdometry.getPoseMeters().getRotation();
     }
 
     /**
@@ -472,7 +468,7 @@ public class DriveTrain extends SubsystemBase {
      * @return The orientation of the robot (Pose2d) (units in m)
      */
     public Pose2d getEstPose2D() {
-        return poseEstimator.getEstimatedPosition();
+        return swerveDriveOdometry.getPoseMeters();
     }
 
     /**
@@ -530,14 +526,47 @@ public class DriveTrain extends SubsystemBase {
         return Units.radiansToDegrees(radiansPerSec);
     }
 
+    public double getXSpeed() {
+        return kinematics.toChassisSpeeds(
+                        frontRight.getState(),
+                        frontLeft.getState(),
+                        backRight.getState(),
+                        backLeft.getState())
+                .vxMetersPerSecond;
+    }
+
+    public double getYSpeed() {
+        return kinematics.toChassisSpeeds(
+                        frontRight.getState(),
+                        frontLeft.getState(),
+                        backRight.getState(),
+                        backLeft.getState())
+                .vyMetersPerSecond;
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        if (Parameters.telemetryMode) {
+            builder.setSmartDashboardType("Drivetrain");
+            builder.addDoubleProperty(
+                    "Current X Pose: ", () -> swerveDriveOdometry.getPoseMeters().getX(), null);
+            builder.addDoubleProperty(
+                    "Current Y Pose: ", () -> swerveDriveOdometry.getPoseMeters().getY(), null);
+
+            builder.addDoubleProperty("Current X Speed ", this::getXSpeed, null);
+
+            builder.addDoubleProperty("Current X Speed: ", this::getYSpeed, null);
+        }
+    }
+
     @Override
     public void periodic() {
 
         // Update the odometry as frequently as possible
         updateOdometry();
 
-        SmartDashboard.putNumber("FL Speed: ", frontLeft.getVelocity());
-        SmartDashboard.putNumber("FL Actual:", 2);
+        field.setRobotPose(swerveDriveOdometry.getPoseMeters());
+
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {
             xMovePID.setP(Parameters.driveTrain.pid.LINEAR_MOVE_P.get());

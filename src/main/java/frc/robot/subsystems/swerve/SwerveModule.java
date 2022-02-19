@@ -343,7 +343,7 @@ public class SwerveModule extends SubsystemBase {
 
             // Print the percent error if debugging is enabled
             if (Parameters.debug) {
-                System.out.println(String.format("% E: %.2f", percentError));
+                System.out.println(String.format("E: %.2f", percentError));
             }
 
             // Set the adjusted velocity

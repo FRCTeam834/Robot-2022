@@ -41,8 +41,9 @@ import frc.robot.utilityClasses.TuneableNumber;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = false;
-    public static final boolean tuningMode = true;
+    public static final boolean debug = true;
+    public static final boolean tuningMode = false;
+    public static final boolean telemetryMode = true;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -152,9 +153,9 @@ public final class Parameters {
         public static final class dimensions {
 
             // Swerve calculation parameters (in meters)
-            public static final double DRIVE_LENGTH = Units.inchesToMeters(22.4);
-            public static final double DRIVE_WIDTH = Units.inchesToMeters(22.4);
-            public static final double MODULE_WHEEL_DIA_IN = 4; // Inches
+            public static final double DRIVE_LENGTH = Units.inchesToMeters(22.5);
+            public static final double DRIVE_WIDTH = Units.inchesToMeters(22.5);
+            public static final double MODULE_WHEEL_DIA_IN = 3.95; // Inches
             public static final double MODULE_WHEEL_DIA_M =
                     Units.inchesToMeters(MODULE_WHEEL_DIA_IN); // Meters (for odometry calculations)
         }
@@ -211,12 +212,12 @@ public final class Parameters {
                     new TuneableNumber(DRIVE_PID_TABLE, "Linear kD", 0);
 
             public static final TuneableNumber ROT_MOVE_P =
-                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kP", 1);
+                    new TuneableNumber(DRIVE_PID_TABLE, "Rot kP", 3);
             public static final double ROT_MOVE_I = 0;
             public static final TuneableNumber ROT_MOVE_D =
                     new TuneableNumber(DRIVE_PID_TABLE, "Rot kD", 0);
-            public static final double DEFAULT_ROT_MAX_VELOCITY = 360; // deg/s
-            public static final double DEFAULT_ROT_MAX_ACCEL = 180; // deg/s
+            public static final double DEFAULT_ROT_MAX_VELOCITY = 36000000; // deg/s
+            public static final double DEFAULT_ROT_MAX_ACCEL = 180000000; // deg/s
             public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
         }
 
@@ -285,6 +286,53 @@ public final class Parameters {
 
     public static final class climber {
 
+        public static final class tilt {
+            // CAN ID for tilt motors
+            public static final int RIGHT_PIVOT_MOTOR_ID = 20;
+            public static final int LEFT_PIVOT_MOTOR_ID = 21;
+
+            public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
+            public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
+
+            // Limit switch used for tilt
+            public static final int RIGHT_LIMIT_SWITCH_PORT = 1;
+            public static final int LEFT_LIMIT_SWITCH_PORT = 2;
+
+            public static final double RIGHT_MAX_MOTOR_DUTY = 1;
+            public static final double LEFT_MAX_MOTOR_DUTY = 1;
+
+            // TODO: There isn't anything to do, I just like the color orange lol :D
+        }
+
+        public static final class lift {
+            // CAN ID for lift motors
+
+            public static final int RIGHT_SPOOL_MOTOR_ID = 22;
+            public static final int LEFT_SPOOL_MOTOR_ID = 23;
+
+            public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
+            public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
+
+            public static final double SPOOL_GEARBOX_RATIO = 36;
+
+            // Limit switch port used for lift
+            public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
+            public static final int LEFT_LIMIT_SWITCH_PORT = 4;
+
+            public static final double LEFT_MAX_MOTOR_DUTY = 1;
+            public static final double RIGHT_MAX_MOTOR_DUTY = 1;
+        }
+
+        public static final double SPOOL_CIRCUMFERENCE =
+                (Math.PI
+                        * Units.inchesToMeters(1)); // Diameter is 1 inch, circumfrence is in meters
+        public static final double UP_DISTANCE =
+                0.175; // The distance of the string from the spool in the up position
+        public static final double DOWN_DISTANCE =
+                0.35; // The distance of the string from the spool in the down position
+        public static final double MAX_MOTOR_DUTY =
+                1; // The maximum output of the motor when moving;
+
         // Position conversion factor (from encoder counts to meters)
         // TODO: Find this factor
         public static final double POS_CONV_FACTOR = 1;
@@ -311,13 +359,15 @@ public final class Parameters {
 
     public static final class intake {
         public static final double INTAKE_SPEED = .375;
-        public static final int INTAKE_ID = 16;
+        public static final int INTAKE_MOTOR_ID = 16;
+        public static final int INTAKE_MOTOR_CURRENT_LIMIT = 40;
 
         public static final class spool {
             // Ports
             // TODO set these
-            public static final int MOTOR_ID = 20;
+            public static final int MOTOR_ID = 19;
             public static final int LS_PORT = 9;
+            public static final int MOTOR_CURRENT_LIMIT = 40;
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
@@ -325,7 +375,7 @@ public final class Parameters {
 
             // Basic info
             public static final double GEARBOX_RATIO =
-                    36; // Ratio of motor turns to gearbox output turns
+                    12; // Ratio of motor turns to gearbox output turns
             public static double CIRCUMFRENCE =
                     (Math.PI
                             * Units.inchesToMeters(
@@ -370,6 +420,11 @@ public final class Parameters {
         public static final double SPIT_SPEED = 0.5;
         public static final int ID = 18;
 
+        // Current limit
+        public static final int CURRENT_LIMIT = 40;
+
+        public static final double VELOCITY_TOLERANCE = .5;
+
         // Game-specific parameters (meters and degrees)
         public static final class camera {
             public static final double HEIGHT = 0;
@@ -386,9 +441,11 @@ public final class Parameters {
 
         // TODO set these
         // Ports
-        public static final int MOTOR_ID = 19;
+        public static final int MOTOR_ID = 15;
         public static final int LS_PORT = 0;
 
+        // Current limit
+        public static final int CURRENT_LIMIT = 40;
         // Homing info
         public static final double HOME_SPEED = 0.25;
         public static final double HOME_ANGLE = 90; // The angle at home
@@ -414,7 +471,8 @@ public final class Parameters {
     public static final class indexer {
         public static final int PROXIMITY_THRESHOLD = 200;
         public static final int ID = 17;
-        public static final double MOTOR_SPEED = 0.35;
+        public static final double MOTOR_SPEED = 0.15;
+        public static final int CURRENT_LIMIT = 40;
     }
 
     public static final class led {

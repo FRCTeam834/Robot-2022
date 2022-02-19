@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -23,7 +24,7 @@ public class Shooter extends SubsystemBase {
     RelativeEncoder shooterMotorEncoder;
 
     // Bang-bang controller
-    BangBangController bigBangTheory;
+    BangBangController bangBangController;
     private double setPoint;
 
     /** Creates a new Shooter. */
@@ -37,6 +38,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setIdleMode(IdleMode.kCoast);
         shooterMotor.setInverted(true);
+        shooterMotor.setSmartCurrentLimit(Parameters.shooter.CURRENT_LIMIT);
 
         // Get the encoder of the shooter motor
         shooterMotorEncoder = shooterMotor.getEncoder();
@@ -47,38 +49,35 @@ public class Shooter extends SubsystemBase {
                 (Parameters.shooter.WHEEL_DIA_M * Math.PI) / 60);
 
         // Create a new bang-bang controller
-        bigBangTheory = new BangBangController();
+        bangBangController = new BangBangController();
+        bangBangController.setTolerance(Parameters.shooter.VELOCITY_TOLERANCE);
     }
 
-    @Override
-    public void periodic() {
-        // This method will be called once per scheduler run
-
-        // Set the shooter motor's power
-        // shooterMotor.set(bigBangTheory.calculate(shooterMotorEncoder.getVelocity()));
+    public void set(double percentage) {
+        shooterMotor.set(percentage);
     }
 
-    public void set(double setPoint) {
-        shooterMotor.set(setPoint);
-        this.setPoint = setPoint;
-        // bigBangTheory.setSetpoint(setPoint);
+    public void setBangBang(double setpoint) {
+        shooterMotor.set(bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint));
     }
 
     // Is the motor at its setPoint
     public boolean isAtSetPoint() {
-        return bigBangTheory.atSetpoint();
-    }
-
-    // Is the motor at its setPoint but with tolerance
-    public boolean isNearSetPoint() {
-        if (Math.abs(shooterMotorEncoder.getVelocity() - setPoint) <= 0.5) {
-            return true;
-        }
-        return false;
+        return bangBangController.atSetpoint();
     }
 
     public void stop() {
         shooterMotor.stopMotor();
-        // bigBangTheory.setSetpoint(0); // This should make the bang-bang controller stop the motor
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        if (Parameters.telemetryMode) {
+            builder.setSmartDashboardType("Shooter");
+            builder.addDoubleProperty(
+                    "Setpoint", bangBangController::getSetpoint, bangBangController::setSetpoint);
+            builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, null);
+            builder.addBooleanProperty("atSetpoint", this::isAtSetPoint, null);
+        }
     }
 }

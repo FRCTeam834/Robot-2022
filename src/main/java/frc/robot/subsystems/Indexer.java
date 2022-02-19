@@ -48,6 +48,7 @@ public class Indexer extends SubsystemBase {
         indexMotor.restoreFactoryDefaults();
         indexMotor.setIdleMode(IdleMode.kBrake);
         indexMotor.setInverted(true);
+        indexMotor.setSmartCurrentLimit(Parameters.indexer.CURRENT_LIMIT);
 
         // Get the encoder of the shooter motor
         indexMotorEncoder = indexMotor.getEncoder();
@@ -106,39 +107,4 @@ public class Indexer extends SubsystemBase {
     public int getBallCount() {
         return ballCount;
     }
-
-    // Gets
-    /*
-    // ! DOESN'T WORK
-    // Returns closest color match
-    public Color getClosestColor() {
-        colorMatcher.setConfidenceThreshold(.5);
-        return colorMatcher.matchClosestColor(colorSensor.getColor()).color;
-    }
-
-    // Determine if either red or blue is detected, if not returns neither
-    public Color getColor() {
-        if ((colorSensor.getColor().red / colorSensor.getColor().blue) > 4) {
-            return Color.kRed;
-        } else if ((colorSensor.getColor().blue / colorSensor.getColor().red) > 4) {
-            return Color.kBlue;
-        } else {
-            return Color.kBlack;
-        }
-    }
-
-    // Return ratio of red to blue
-    public double getRedBlueRatio() {
-        return colorSensor.getColor().red / colorSensor.getColor().blue;
-    }
-
-    // For top sensor: if there is an object close returns true if theres not returns false
-    public boolean getTopSensor() {
-        if (colorSensor.getProximity() > 1800) {
-            return true;
-        } else {
-            return false;
-        }
-    }*/
-
 }
