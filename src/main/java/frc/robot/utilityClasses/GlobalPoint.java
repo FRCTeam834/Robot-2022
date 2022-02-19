@@ -6,8 +6,8 @@ public class GlobalPoint {
     // Everything relative to camera right now
     double z = Parameters.shooter.camera.TARGET_HEIGHT - Parameters.shooter.camera.HEIGHT;
 
-    double x = Double.NaN;
-    double y = Double.NaN;
+    double x;
+    double y;
 
     public GlobalPoint(double yaw, double pitch) {
         double d = z / Math.tan(pitch);

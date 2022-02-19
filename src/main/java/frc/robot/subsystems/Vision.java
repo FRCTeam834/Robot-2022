@@ -152,12 +152,11 @@ public class Vision extends SubsystemBase {
     }
 
     public double[] getTargetCenter() {
-        // doesn't really make sense to do anything if there are no points, so return previous
-        // calculated center?
+        // Doesn't make sense to do anything if there are no points
         if (calculateGlobalPoints().size() == 0) return CircleFitter.getCircleData();
         CircleFitter.setPoints(calculateGlobalPoints());
 
-        // In Pose implementation just use target x/y as minuend
+        // For Pose implementation use target x/y as minuend
         return CircleFitter.calculateCircle();
     }
 

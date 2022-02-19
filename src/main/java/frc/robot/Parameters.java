@@ -375,6 +375,7 @@ public final class Parameters {
             public static final double HEIGHT = 0;
             public static final double TARGET_HEIGHT = 0;
             public static final double PITCH = 0;
+            public static final double CIRCLE_FIT_TOLERANCE = 0;
 
             // Camera-specific parameters (pixels)
             public static final double CAMERA_FOCAL_LENGTH = 333.82;
