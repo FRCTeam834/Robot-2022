@@ -89,7 +89,7 @@ public class Robot extends TimedRobot {
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);
 
-        //System.out.println(RobotContainer.intakeSpool.getSpoolPosition());
+        // System.out.println(RobotContainer.intakeSpool.getSpoolPosition());
         // System.out.println(String.format("S: %.2f | A: %.2f",
         // Units.radiansToDegrees(RobotContainer.driveTrain.rotationPID.getSetpoint().position),
         // RobotContainer.navX.getYaw()));

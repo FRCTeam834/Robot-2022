@@ -546,16 +546,19 @@ public class DriveTrain extends SubsystemBase {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        if(Parameters.telemetryMode) {
+        if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Drivetrain");
-            builder.addDoubleProperty("Current X Pose: ", () -> swerveDriveOdometry.getPoseMeters().getX(), null);
-            builder.addDoubleProperty("Current Y Pose: ", () -> swerveDriveOdometry.getPoseMeters().getY(), null);
+            builder.addDoubleProperty(
+                    "Current X Pose: ", () -> swerveDriveOdometry.getPoseMeters().getX(), null);
+            builder.addDoubleProperty(
+                    "Current Y Pose: ", () -> swerveDriveOdometry.getPoseMeters().getY(), null);
 
             builder.addDoubleProperty("Current X Speed ", this::getXSpeed, null);
 
             builder.addDoubleProperty("Current X Speed: ", this::getYSpeed, null);
         }
     }
+
     @Override
     public void periodic() {
 

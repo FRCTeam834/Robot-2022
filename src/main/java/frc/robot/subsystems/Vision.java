@@ -100,23 +100,20 @@ public class Vision extends SubsystemBase {
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
-        if(camera.getLatestResult().hasTargets()) {
+        if (camera.getLatestResult().hasTargets()) {
             return PhotonUtils.calculateDistanceToTargetMeters(
-                Parameters.vision.CAMERA_HEIGHT,
-                Parameters.vision.GOAL_HEIGHT,
-                Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
-                Units.degreesToRadians(bestTarget.getPitch()));
-        }
-        else {
+                    Parameters.vision.CAMERA_HEIGHT,
+                    Parameters.vision.GOAL_HEIGHT,
+                    Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
+                    Units.degreesToRadians(bestTarget.getPitch()));
+        } else {
             return 0;
         }
-
     }
+
     public static double getYaw() {
-        if(camera.getLatestResult().hasTargets())
-            return getBestTarget().getYaw();
-        else 
-            return 0;
+        if (camera.getLatestResult().hasTargets()) return getBestTarget().getYaw();
+        else return 0;
     }
 
     @Override
@@ -124,10 +121,11 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void initSendable(SendableBuilder builder) {
-        if(Parameters.telemetryMode) {
+        if (Parameters.telemetryMode) {
             builder.addDoubleProperty("Yaw", () -> getYaw(), null);
             builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()), null);
-            builder.addBooleanProperty("hasTargets", () -> camera.getLatestResult().hasTargets(), null);
+            builder.addBooleanProperty(
+                    "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);
         }
     }

@@ -23,7 +23,8 @@ public class SwitchIntakeState extends InstantCommand {
     public void initialize() {
 
         // Check the currently set position of the intake
-        if (RobotContainer.intakeSpool.getDesiredDistance() == Parameters.intake.spool.DOWN_DISTANCE) {
+        if (RobotContainer.intakeSpool.getDesiredDistance()
+                == Parameters.intake.spool.DOWN_DISTANCE) {
 
             // Intake is down, we need to put it up
             RobotContainer.intakeSpool.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE);

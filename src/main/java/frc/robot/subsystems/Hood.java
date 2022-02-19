@@ -140,11 +140,13 @@ public class Hood extends SubsystemBase {
     public boolean getLSValue() {
         return limitSwitch.get();
     }
+
     @Override
     public void initSendable(SendableBuilder builder) {
-        if(Parameters.telemetryMode) {
+        if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Shooter");
-            builder.addDoubleProperty("Angle", hoodMotorEncoder::getPosition, this::setDesiredAngle);
+            builder.addDoubleProperty(
+                    "Angle", hoodMotorEncoder::getPosition, this::setDesiredAngle);
             builder.addBooleanProperty("Limit Switch", this::getLSValue, null);
         }
     }

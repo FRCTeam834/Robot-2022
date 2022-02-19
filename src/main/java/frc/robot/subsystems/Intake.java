@@ -6,8 +6,6 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -49,14 +47,12 @@ public class Intake extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-    }
+    public void periodic() {}
 
     // Turns on the intake
     public void turnOn() {
         intakeMotor.set(Parameters.intake.INTAKE_SPEED);
     }
-
 
     // Makes the intake go in reverse
     public void spitItOut() {
@@ -67,6 +63,4 @@ public class Intake extends SubsystemBase {
     public void stop() {
         intakeMotor.set(0);
     }
-
-    
 }

@@ -15,7 +15,6 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -62,8 +61,7 @@ public class Indexer extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-    }
+    public void periodic() {}
 
     public void setMotorSpeed(double speed) {
         indexMotor.set(speed);
@@ -109,5 +107,4 @@ public class Indexer extends SubsystemBase {
     public int getBallCount() {
         return ballCount;
     }
-
 }

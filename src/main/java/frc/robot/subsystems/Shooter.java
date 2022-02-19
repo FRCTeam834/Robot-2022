@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -67,15 +66,16 @@ public class Shooter extends SubsystemBase {
         return bangBangController.atSetpoint();
     }
 
-
     public void stop() {
         shooterMotor.stopMotor();
     }
+
     @Override
     public void initSendable(SendableBuilder builder) {
-        if(Parameters.telemetryMode) {
+        if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Shooter");
-            builder.addDoubleProperty("Setpoint", bangBangController::getSetpoint, bangBangController::setSetpoint);
+            builder.addDoubleProperty(
+                    "Setpoint", bangBangController::getSetpoint, bangBangController::setSetpoint);
             builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, null);
             builder.addBooleanProperty("atSetpoint", this::isAtSetPoint, null);
         }

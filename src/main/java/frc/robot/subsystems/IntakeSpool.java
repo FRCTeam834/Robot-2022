@@ -5,18 +5,19 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters;
 import frc.robot.utilityClasses.CachedPIDController;
 
 public class IntakeSpool extends SubsystemBase {
-  /** Creates a new IntakeSpool. */
+    /** Creates a new IntakeSpool. */
     // Motor object for spool
     CANSparkMax spoolMotor;
 
@@ -31,50 +32,51 @@ public class IntakeSpool extends SubsystemBase {
 
     // Variable to store if the spool has been homed yet
     boolean homed = false;
-  public IntakeSpool() {
-      // Initialize the spool motor
-      spoolMotor = new CANSparkMax(Parameters.intake.spool.MOTOR_ID, MotorType.kBrushless);
-      spoolMotor.restoreFactoryDefaults();
-      spoolMotor.enableVoltageCompensation(12);
-      spoolMotor.setIdleMode(IdleMode.kBrake);
-      spoolMotor.setSmartCurrentLimit(10);
-      spoolMotor.setInverted(true);
 
-      // Set up the encoder of the spool motor
-      spoolMotorEncoder = spoolMotor.getEncoder();
-      spoolMotorEncoder.setPositionConversionFactor(
-              Parameters.intake.spool.CIRCUMFRENCE / Parameters.intake.spool.GEARBOX_RATIO);
-      spoolMotorEncoder.setVelocityConversionFactor(
-              Parameters.intake.spool.CIRCUMFRENCE
-                      / (Parameters.intake.spool.GEARBOX_RATIO * 60));
+    public IntakeSpool() {
+        // Initialize the spool motor
+        spoolMotor = new CANSparkMax(Parameters.intake.spool.MOTOR_ID, MotorType.kBrushless);
+        spoolMotor.restoreFactoryDefaults();
+        spoolMotor.enableVoltageCompensation(12);
+        spoolMotor.setIdleMode(IdleMode.kBrake);
+        spoolMotor.setSmartCurrentLimit(10);
+        spoolMotor.setInverted(true);
 
-      // Set up the PID controller
-      pidController = new CachedPIDController(spoolMotor);
-      pidController.setOutputRange(
-              -Parameters.intake.spool.MAX_MOTOR_DUTY, Parameters.intake.spool.MAX_MOTOR_DUTY);
-      pidController.setP(Parameters.intake.spool.pid.kP.get());
-      pidController.setD(Parameters.intake.spool.pid.kD.get());
+        // Set up the encoder of the spool motor
+        spoolMotorEncoder = spoolMotor.getEncoder();
+        spoolMotorEncoder.setPositionConversionFactor(
+                Parameters.intake.spool.CIRCUMFRENCE / Parameters.intake.spool.GEARBOX_RATIO);
+        spoolMotorEncoder.setVelocityConversionFactor(
+                Parameters.intake.spool.CIRCUMFRENCE
+                        / (Parameters.intake.spool.GEARBOX_RATIO * 60));
 
-      // Set up the limit switch
-      limitSwitch = new DigitalInput(Parameters.intake.spool.LS_PORT);
-  }
-
-  @Override
-  public void periodic() {
-    if (Parameters.tuningMode) {
+        // Set up the PID controller
+        pidController = new CachedPIDController(spoolMotor);
+        pidController.setOutputRange(
+                -Parameters.intake.spool.MAX_MOTOR_DUTY, Parameters.intake.spool.MAX_MOTOR_DUTY);
         pidController.setP(Parameters.intake.spool.pid.kP.get());
         pidController.setD(Parameters.intake.spool.pid.kD.get());
+
+        // Set up the limit switch
+        limitSwitch = new DigitalInput(Parameters.intake.spool.LS_PORT);
     }
 
-  }
-  public void runSpoolMotor(double percent) {
-    spoolMotor.set(percent);
+    @Override
+    public void periodic() {
+        if (Parameters.tuningMode) {
+            pidController.setP(Parameters.intake.spool.pid.kP.get());
+            pidController.setD(Parameters.intake.spool.pid.kD.get());
+        }
+    }
+
+    public void runSpoolMotor(double percent) {
+        spoolMotor.set(percent);
     }
 
     public void stopSpoolMotor() {
         spoolMotor.stopMotor();
     }
-     /**
+    /**
      * Tells the spool to move to a specific angle
      *
      * @param dist The angle, in degrees, to move the spool to
