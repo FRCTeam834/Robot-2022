@@ -41,7 +41,6 @@ public class Vision extends SubsystemBase {
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
     private static boolean LEDsOn = false;
-    private List<GlobalPoint> globalPoints;
 
     public Vision() {
 
@@ -91,7 +90,10 @@ public class Vision extends SubsystemBase {
         return (Parameters.vision.YAW_TOLERANCE > getBestTarget().getYaw());
     }
 
-    // return list of list for parseTargetCorners
+    /**
+     * 
+     * @return List of corners from vision pipeline
+     */
     private List<List<TargetCorner>> getTargetCorners() {
         PhotonPipelineResult pipelineResult = camera.getLatestResult();
 
@@ -104,6 +106,12 @@ public class Vision extends SubsystemBase {
 
         return ret;
     }
+
+    /**
+     * Parse target corners from vision pipeline so only top corners are kept
+     * 
+     * @return List of parsed target corners
+     */
 
     private List<TargetCorner> parsedTargetCorners() {
         List<List<TargetCorner>> cornerData = getTargetCorners();
@@ -129,11 +137,17 @@ public class Vision extends SubsystemBase {
         return ret;
     }
 
+    /**
+     * Get list of global points from target corners
+     * 
+     * @return List of global points, returns null if no vision points exist
+     */
+
     private List<GlobalPoint> calculateGlobalPoints() {
         List<TargetCorner> targetCorners = parsedTargetCorners();
         List<GlobalPoint> ret = new ArrayList<>();
         // No points detected
-        if (targetCorners.size() == 0) return ret;
+        if (targetCorners.size() == 0) return null;
 
         for (TargetCorner corner : targetCorners) {
             // + 0.5 for 1 unit pixel plane
@@ -148,21 +162,19 @@ public class Vision extends SubsystemBase {
             ret.add(new GlobalPoint(yaw, pitch + Parameters.shooter.camera.PITCH));
         }
 
-        globalPoints = ret;
         return ret;
     }
 
+    /**
+     * Get positional data for target center point
+     * ! Coords are robot relative and not field relative
+     * 
+     * @return double array with cent data [x, y, radius]
+     */
+
     public double[] getTargetCenter() {
-        // Doesn't make sense to do anything if there are no points
-        if (calculateGlobalPoints().size() == 0) return CircleFitter.getCircleData();
-        CircleFitter.setPoints(calculateGlobalPoints());
-
         // For Pose implementation use target x/y as minuend
-        return CircleFitter.calculateCircle();
-    }
-
-    public List<GlobalPoint> getGlobalPoints() {
-        return globalPoints;
+        return CircleFitter.calculateCircle(calculateGlobalPoints());
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {

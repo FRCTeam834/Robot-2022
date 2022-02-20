@@ -17,13 +17,22 @@ public class CircleFitter {
     private static SimpleMatrix Y = new SimpleMatrix(3, 1);
 
     private static double A, B, C;
-    private static double[] circleData;
 
     public CircleFitter() {}
 
-    public static void setPoints(List<GlobalPoint> points) {
+    /**
+     * Fits a circle to input points
+     * 
+     * @param points List of global points to fit to a circle
+     * @return Fitted circle data [x, y, radius]
+     */
+
+    public static double[] calculateCircle(List<GlobalPoint> points) {
+        if(points.size() == 0) return null;
+
         circlePoints = points;
-        // calculate matrices
+
+        // Calculate matrix terms
         xsum = ysum = xSquaredsum = ySquaredsum = xysum = index1 = index2 = index3 = 0;
 
         for (int i = 0; i < points.size(); i++) {
@@ -41,6 +50,7 @@ public class CircleFitter {
             index2 += y * (x * x + y * y);
             index3 += x * x + y * y;
         }
+
         // set matrices
         X.set(0, 0, xSquaredsum);
         X.set(0, 1, xysum);
@@ -57,9 +67,8 @@ public class CircleFitter {
         Y.set(0, 0, index1);
         Y.set(1, 0, index2);
         Y.set(2, 0, index3);
-    }
 
-    public static double[] calculateCircle() {
+        // Circle Fit calculations
         double[] ret = new double[3];
 
         SimpleMatrix M = X.invert().mult(Y);
@@ -75,16 +84,9 @@ public class CircleFitter {
         // radius
         ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2;
         // Units are in feet, radius tolerance
-        if (Math.abs(ret[2] - 2) > Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) {
-            // set everything to 0 to represent bad data
-            Arrays.fill(ret, 0);
-        }
+        if (Math.abs(ret[2] - 2) > Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE)
+            return null;
 
-        circleData = ret;
         return ret;
-    }
-
-    public static double[] getCircleData() {
-        return circleData;
     }
 }
