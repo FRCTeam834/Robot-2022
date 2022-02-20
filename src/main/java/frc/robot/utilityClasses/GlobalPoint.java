@@ -10,7 +10,7 @@ public class GlobalPoint {
     double y;
 
     public GlobalPoint(double yaw, double pitch) {
-        double d = z / Math.tan(pitch);
+        double d = z / (Math.tan(pitch) * Math.cos(yaw));
         /*// If yaw is from atan2, then this is redundant and use x = cos and y = sin
         // Quadrant I and III
         if (yaw >= 0 && yaw < Math.PI / 2 || yaw >= Math.PI && yaw < 3 * Math.PI / 2) {
