@@ -325,7 +325,7 @@ public final class Parameters {
                     0.35; // The distance of the string in the down position
             public static final double GRAB_DISTANCE =
                     0.33; // The distance at which the hook grabs the bar, but doesn't lift the
-                          // robot yet
+            // robot yet
             public static final double LIFT_DISTANCE =
                     0.35; // The distance of the climber when the robot is fully off the ground
 
