@@ -8,16 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CircleFitter {
-    private static List<GlobalPoint> circlePoints;
-    private static double xsum, ysum, xSquaredsum, ySquaredsum, xysum;
-    private static double index1, index2, index3;
-
-    // declare the matrix
-    private static SimpleMatrix X = new SimpleMatrix(3, 3);
-    private static SimpleMatrix Y = new SimpleMatrix(3, 1);
-
-    private static double A, B, C;
-
     public CircleFitter() {}
 
     /**
@@ -28,9 +18,16 @@ public class CircleFitter {
      */
 
     public static double[] calculateCircle(List<GlobalPoint> points) {
-        if(points.size() == 0) return null;
+        if(points == null) return null;
 
-        circlePoints = points;
+        double xsum, ysum, xSquaredsum, ySquaredsum, xysum;
+        double index1, index2, index3;
+
+        // declare the matrix
+        SimpleMatrix X = new SimpleMatrix(3, 3);
+        SimpleMatrix Y = new SimpleMatrix(3, 1);
+
+        double A, B, C;
 
         // Calculate matrix terms
         xsum = ysum = xSquaredsum = ySquaredsum = xysum = index1 = index2 = index3 = 0;
@@ -62,7 +59,7 @@ public class CircleFitter {
 
         X.set(2, 0, xsum);
         X.set(2, 1, ysum);
-        X.set(2, 2, circlePoints.size());
+        X.set(2, 2, points.size());
 
         Y.set(0, 0, index1);
         Y.set(1, 0, index2);

@@ -110,11 +110,12 @@ public class Vision extends SubsystemBase {
     /**
      * Parse target corners from vision pipeline so only top corners are kept
      * 
-     * @return List of parsed target corners
+     * @return List of parsed target corners, returns null if no targets detected
      */
 
     private List<TargetCorner> parsedTargetCorners() {
         List<List<TargetCorner>> cornerData = getTargetCorners();
+        if(cornerData.size() == 0) return null;
 
         List<TargetCorner> ret = new ArrayList<>();
 
