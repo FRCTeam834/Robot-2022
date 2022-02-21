@@ -18,12 +18,12 @@ public class Climb extends SequentialCommandGroup {
 
         // Each of the following lines will run one after the other:
 
-        // First, move the tilt tubes up, and the lift tubes down
+        // First, move both the tilt and lift tubes up
         new ParallelCommandGroup(
                 new MoveTubeToPosition(RobotContainer.climber.leftTilt, Parameters.climber.tilt.UP_DISTANCE),
                 new MoveTubeToPosition(RobotContainer.climber.rightTilt, Parameters.climber.tilt.UP_DISTANCE),
-                new MoveTubeToPosition(RobotContainer.climber.leftLift, Parameters.climber.lift.DOWN_DISTANCE),
-                new MoveTubeToPosition(RobotContainer.climber.rightLift, Parameters.climber.lift.DOWN_DISTANCE)),
+                new MoveTubeToPosition(RobotContainer.climber.leftLift, Parameters.climber.lift.UP_DISTANCE),
+                new MoveTubeToPosition(RobotContainer.climber.rightLift, Parameters.climber.lift.UP_DISTANCE)),
 
         // Then... move the robot until we tip to the desired angle
         new DriveUntilAngle(Parameters.climber.DRIVE_TILT_SPEED, Parameters.climber.ROBOT_TILT_ANGLE),
