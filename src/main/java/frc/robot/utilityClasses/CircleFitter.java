@@ -4,7 +4,6 @@ import frc.robot.Parameters;
 
 import org.ejml.simple.SimpleMatrix;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class CircleFitter {
@@ -12,11 +11,10 @@ public class CircleFitter {
 
     /**
      * Fits a circle to input points
-     * 
+     *
      * @param points List of global points to fit to a circle
      * @return Fitted circle data [x, y, radius]
      */
-
     public static double[] calculateCircle(List<GlobalPoint> points) {
         if(points == null) return null;
 
@@ -81,8 +79,7 @@ public class CircleFitter {
         // radius
         ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2;
         // Units are in feet, radius tolerance
-        if (Math.abs(ret[2] - 2) > Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE)
-            return null;
+        if (Math.abs(ret[2] - 2) > Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) return null;
 
         return ret;
     }

@@ -91,7 +91,6 @@ public class Vision extends SubsystemBase {
     }
 
     /**
-     * 
      * @return List of corners from vision pipeline
      */
     private List<List<TargetCorner>> getTargetCorners() {
@@ -112,7 +111,6 @@ public class Vision extends SubsystemBase {
      * 
      * @return List of parsed target corners, returns null if no targets detected
      */
-
     private List<TargetCorner> parsedTargetCorners() {
         List<List<TargetCorner>> cornerData = getTargetCorners();
         if(cornerData.size() == 0) return null;
@@ -140,10 +138,9 @@ public class Vision extends SubsystemBase {
 
     /**
      * Get list of global points from target corners
-     * 
+     *
      * @return List of global points, returns null if no vision points exist
      */
-
     private List<GlobalPoint> calculateGlobalPoints() {
         List<TargetCorner> targetCorners = parsedTargetCorners();
         List<GlobalPoint> ret = new ArrayList<>();
@@ -167,12 +164,11 @@ public class Vision extends SubsystemBase {
     }
 
     /**
-     * Get positional data for target center point
-     * ! Coords are robot relative and not field relative
-     * 
+     * Get positional data for target center point ! Coords are robot relative and not field
+     * relative
+     *
      * @return double array with cent data [x, y, radius]
      */
-
     public double[] getTargetCenter() {
         // For Pose implementation use target x/y as minuend
         return CircleFitter.calculateCircle(calculateGlobalPoints());
