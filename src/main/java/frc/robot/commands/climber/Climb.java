@@ -4,21 +4,17 @@
 
 package frc.robot.commands.climber;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Parameters;
-import frc.robot.RobotContainer;
-import frc.robot.commands.swerve.driving.DriveUntilAngle;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Climb extends SequentialCommandGroup {
-  /** Creates a new Climb. */
-  public Climb() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(/*
+    /** Creates a new Climb. */
+    public Climb() {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        addCommands(/*
 
         // Each of the following lines will run one after the other:
 
@@ -47,6 +43,6 @@ public class Climb extends SequentialCommandGroup {
         new ParallelCommandGroup(
             new MoveTubeToPosition(RobotContainer.climber.leftLift, Parameters.climber.lift.LIFT_DISTANCE),
             new MoveTubeToPosition(RobotContainer.climber.rightLift, Parameters.climber.lift.LIFT_DISTANCE))
-    */);
-  }
+    */ );
+    }
 }

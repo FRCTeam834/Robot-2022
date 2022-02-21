@@ -5,6 +5,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.subsystems.climber.TelescopingTube;
 
 public class MoveTubeToPosition extends CommandBase {
@@ -15,8 +16,9 @@ public class MoveTubeToPosition extends CommandBase {
     // The desired final length
     double desiredFinalLength;
 
-    /** Creates a new MoveTubeToPosition.
-     * ! WARNING: IF THE DESIRED DISTANCE IS OUT OF SCOPE, THE COMMAND WILL NEVER FINISH
+    /**
+     * Creates a new MoveTubeToPosition. ! WARNING: IF THE DESIRED DISTANCE IS OUT OF SCOPE, THE
+     * COMMAND WILL NEVER FINISH
      */
     public MoveTubeToPosition(TelescopingTube tube, double desiredDistance) {
         // Use addRequirements() here to declare subsystem dependencies.
