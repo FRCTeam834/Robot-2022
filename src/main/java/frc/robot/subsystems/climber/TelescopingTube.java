@@ -45,6 +45,9 @@ public class TelescopingTube extends SubsystemBase {
     double minDistance;
     double maxDistance;
 
+    // The tolerance for positioning
+    double positionTolerance;
+
     public TelescopingTube(
             String name,
             int ID,
@@ -56,7 +59,8 @@ public class TelescopingTube extends SubsystemBase {
             double maxDuty,
             ControlType controlType,
             double minDist,
-            double maxDist) {
+            double maxDist,
+            double posTolerance) {
 
         // Get the table for tubes
         NetworkTable tubeTable = NetworkTableInstance.getDefault().getTable("TeleTubies");
@@ -93,6 +97,9 @@ public class TelescopingTube extends SubsystemBase {
         // Set the min and max distances
         minDistance = minDist;
         maxDistance = maxDist;
+
+        // Set the positioning tolerance
+        positionTolerance = posTolerance;
     }
 
     @Override
@@ -174,6 +181,10 @@ public class TelescopingTube extends SubsystemBase {
      */
     public double getCurrentDistance() {
         return spoolMotorEncoder.getPosition();
+    }
+
+    public boolean isAtDesiredDistance() {
+        return (Math.abs(getCurrentDistance() - getDesiredDistance()) < positionTolerance);
     }
 
     /**

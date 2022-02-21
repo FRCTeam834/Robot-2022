@@ -42,6 +42,7 @@ import frc.robot.subsystems.IntakeWinch;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 
@@ -59,7 +60,7 @@ public class RobotContainer {
     public static DriveTrain driveTrain = new DriveTrain();
     public static Hood hood = new Hood();
 
-    // public static Climber climber = new Climber();
+    //public static Climber climber = new Climber();
     public static Intake intake = new Intake();
     public static IntakeWinch intakeWinch = new IntakeWinch();
     public static Shooter shooter = new Shooter();

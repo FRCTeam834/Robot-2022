@@ -306,6 +306,9 @@ public final class Parameters {
             public static final double kD = 0;
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
 
+            // The tolerance for positioning the tubes (in m)
+            public static final double POS_TOLERANCE = 0.005; // 5 mm of tolerance
+
             // Maximum motor duty
             public static final double MAX_DUTY = 1;
 
@@ -315,11 +318,15 @@ public final class Parameters {
                             * Units.inchesToMeters(
                                     1)); // Diameter is 1 inch, circumference is in meters
 
-            // The distances for being up and down
+            // Distances to move to
             public static final double UP_DISTANCE =
                     0.175; // The distance of the string in the up position
             public static final double DOWN_DISTANCE =
                     0.35; // The distance of the string in the down position
+            public static final double GRAB_DISTANCE =
+                    0.33; // The distance at which the hook grabs the bar, but doesn't lift the robot yet
+            public static final double LIFT_DISTANCE =
+                    0.35; // The distance of the climber when the robot is fully off the ground
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
@@ -344,6 +351,9 @@ public final class Parameters {
             public static final double kD = 0;
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
 
+            // The tolerance for positioning the tubes (in m)
+            public static final double POS_TOLERANCE = 0.005; // 5 mm of tolerance
+
             // Maximum motor duty
             public static final double MAX_DUTY = 1;
 
@@ -364,28 +374,11 @@ public final class Parameters {
             public static final double HOME_DISTANCE = 0.31; // The distance at home
         }
 
-        // Position conversion factor (from encoder counts to meters)
-        // TODO: Find this factor
-        public static final double POS_CONV_FACTOR = 1;
+        // The speed of the drivetrain (in m/s) to move when tilting the robot
+        public static final double DRIVE_TILT_SPEED = .25;
 
-        // TODO: Find distance of a full climber move
-        public static final double MOVE_DISTANCE = 0;
-
-        // The allowable tolerance between the two climbing hooks while climbing (in m)
-        public static final double ALLOWABLE_DEVIATION = 0.05;
-
-        // The default speed for running the climber
-        public static final double DEFAULT_SPEED = 0.75;
-
-        // The adjustment to the speed of the climbers if they aren't equal
-        // This is added to the slower motor and subtracted from the faster one
-        public static final double SPEED_REDUCTION = 0.05;
-        public static final int RIGHT_ID = 14;
-        public static final int RIGHT_DIO = 0;
-
-        public static final int LEFT_ID = 15;
-
-        public static final int LEFT_DIO = 1;
+        // The angle to tilt the robot to before lifting the climbers
+        public static final double ROBOT_TILT_ANGLE = 30;
     }
 
     public static final class intake {

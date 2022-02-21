@@ -33,7 +33,8 @@ public class Climber extends SubsystemBase {
                         Parameters.climber.tilt.MAX_DUTY,
                         Parameters.climber.tilt.CONTROL_TYPE,
                         Parameters.climber.tilt.HOME_DISTANCE,
-                        Parameters.climber.tilt.UP_DISTANCE);
+                        Parameters.climber.tilt.UP_DISTANCE,
+                        Parameters.climber.tilt.POS_TOLERANCE);
         leftTilt =
                 new TelescopingTube(
                         "LT",
@@ -46,7 +47,8 @@ public class Climber extends SubsystemBase {
                         Parameters.climber.tilt.MAX_DUTY,
                         Parameters.climber.tilt.CONTROL_TYPE,
                         Parameters.climber.tilt.HOME_DISTANCE,
-                        Parameters.climber.tilt.UP_DISTANCE);
+                        Parameters.climber.tilt.UP_DISTANCE,
+                        Parameters.climber.tilt.POS_TOLERANCE);
 
         rightLift =
                 new TelescopingTube(
@@ -60,7 +62,8 @@ public class Climber extends SubsystemBase {
                         Parameters.climber.lift.MAX_DUTY,
                         Parameters.climber.lift.CONTROL_TYPE,
                         Parameters.climber.lift.HOME_DISTANCE,
-                        Parameters.climber.lift.UP_DISTANCE);
+                        Parameters.climber.lift.UP_DISTANCE,
+                        Parameters.climber.lift.POS_TOLERANCE);
         leftLift =
                 new TelescopingTube(
                         "LL",
@@ -73,7 +76,8 @@ public class Climber extends SubsystemBase {
                         Parameters.climber.lift.MAX_DUTY,
                         Parameters.climber.lift.CONTROL_TYPE,
                         Parameters.climber.lift.HOME_DISTANCE,
-                        Parameters.climber.lift.UP_DISTANCE);
+                        Parameters.climber.lift.UP_DISTANCE,
+                        Parameters.climber.lift.POS_TOLERANCE);
     }
 
     @Override
