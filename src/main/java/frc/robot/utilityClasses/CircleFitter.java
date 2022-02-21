@@ -16,7 +16,7 @@ public class CircleFitter {
      * @return Fitted circle data [x, y, radius]
      */
     public static double[] calculateCircle(List<GlobalPoint> points) {
-        if(points == null) return null;
+        if (points == null) return null;
 
         double xsum, ysum, xSquaredsum, ySquaredsum, xysum;
         double index1, index2, index3;
