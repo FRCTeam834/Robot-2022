@@ -69,7 +69,7 @@ public class SpartechsSwerveController extends CommandBase {
                     RobotContainer.driveTrain
                             .getEstPose2D()
                             .getRotation()
-                            .rotateBy(Rotation2d.fromDegrees((Vision.getBestTarget().getYaw())));
+                            .rotateBy(Rotation2d.fromDegrees((RobotContainer.vision.getYaw())));
         }
         var targetChassisSpeeds =
                 m_controller.calculate(

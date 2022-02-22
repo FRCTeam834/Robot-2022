@@ -138,10 +138,10 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 1).whenPressed(letsRollFastTurn);
 
         // Button board
-        BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));
-        BR.whenPressed(new InstantCommand(() -> shooter.set(0)));
-        BL.whileHeld(new InstantCommand(() -> hood.setDesiredAngle(leftJoystick.getZ() * (Parameters.hood.ALLOWABLE_RANGE) + Parameters.hood.HOME_ANGLE);
-        TL.whenPressed(new InstantCommand(() -> interpolatingTable.addEntry(vision.getDistanceToGoal(), hood.getDesiredAngle(), shooter.getDesiredSpeed()))));
+        BM.whileHeld(new InstantCommand(() -> shooter.setDesiredSpeed(rightJoystick.getZ() * Parameters.shooter.MAX_SPEED)));
+        BR.whenPressed(new InstantCommand(() -> shooter.stop()));
+        BL.whileHeld(new InstantCommand(() -> hood.setDesiredAngle(leftJoystick.getZ() * (Parameters.hood.ALLOWABLE_RANGE) + Parameters.hood.HOME_ANGLE)));
+        TL.whenPressed(new InstantCommand(() -> interpolatingTable.addEntry(vision.getDistanceToGoal(), hood.getDesiredAngle(), shooter.getDesiredSpeed())));
         TM.whenPressed(new InstantCommand(intake::turnOn, intake));
         TR.whenPressed(new InstantCommand(intake::stop, intake));
         MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0.35), indexer));

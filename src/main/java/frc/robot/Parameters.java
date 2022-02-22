@@ -442,6 +442,7 @@ public final class Parameters {
         public static final double LOAD_SPEED = 0.25; // In percent
 
         // Speed of shooter (in m/s of linear wheel speed)
+        public static final double MAX_SPEED = 5;
         public static final double DEFAULT_SPEED = 2;
         public static final double SPIT_SPEED = 0.5;
         public static final int ID = 18;
