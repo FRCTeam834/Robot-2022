@@ -108,6 +108,7 @@ public class Hood extends SubsystemBase {
 
     /**
      * Returns the desired angle of the hood
+     *
      * @return The desired angle (deg)
      */
     public double getDesiredAngle() {

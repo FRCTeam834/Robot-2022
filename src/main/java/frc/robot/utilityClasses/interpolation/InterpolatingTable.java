@@ -4,13 +4,11 @@
 
 package frc.robot.utilityClasses.interpolation;
 
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.function.BiConsumer;
-
 import frc.robot.Parameters;
 
+import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.function.BiConsumer;
 
 /** Add your docs here. */
 public class InterpolatingTable {
@@ -19,7 +17,12 @@ public class InterpolatingTable {
     private TreeMap<Double, ShotParams> table;
 
     // Printing out a single entry
-    private BiConsumer<Double, ShotParams> printEntry = (x, y) -> System.out.println(String.format("Map.entry(%.4f, new ShotParams(%.4f, %.4f),", x, y.angle, y.speed));
+    private BiConsumer<Double, ShotParams> printEntry =
+            (x, y) ->
+                    System.out.println(
+                            String.format(
+                                    "Map.entry(%.4f, new ShotParams(%.4f, %.4f),",
+                                    x, y.angle, y.speed));
 
     // Main constructor
     public InterpolatingTable() {
@@ -30,6 +33,7 @@ public class InterpolatingTable {
 
     /**
      * Adds an entry to the table
+     *
      * @param distance The distance to the goal (m)
      * @param parameters The angle and speed of the successful shot
      */
@@ -39,6 +43,7 @@ public class InterpolatingTable {
 
     /**
      * Adds an entry to the table
+     *
      * @param distance The distance to the goal (m)
      * @param angle The angle of the successful shot (deg)
      * @param speed The speed of the successful shot (m/s)
@@ -49,6 +54,7 @@ public class InterpolatingTable {
 
     /**
      * Returns the optimal shot parameters for a given distance
+     *
      * @param distance The distance to the goal (m)
      * @return The optimal shot parameters
      */
@@ -63,35 +69,28 @@ public class InterpolatingTable {
 
             // There are no values in the table, return the default shot parameters
             return new ShotParams(Parameters.hood.DEFAULT_ANGLE, Parameters.shooter.DEFAULT_SPEED);
-        }
-        else if (ceiling == null) {
+        } else if (ceiling == null) {
 
             // There's no ceiling (the entry is past the end of the table)
             return floor.getValue();
-        }
-        else if (floor == null) {
+        } else if (floor == null) {
 
             // There's no floor (the entry is past the start of the table)
             return ceiling.getValue();
-        }
-        else if (ceiling.getValue().equals(floor.getValue())) {
+        } else if (ceiling.getValue().equals(floor.getValue())) {
 
             // If they're the same, we shouldn't interpolate them
             return ceiling.getValue();
-        }
-        else {
+        } else {
             // Both the entries are valid, so interpolate the table
             return ceiling.getValue()
-                .interpolate(
-                        floor.getValue(),
-                        (distance - floor.getKey()) / (ceiling.getKey() - floor.getKey()));
+                    .interpolate(
+                            floor.getValue(),
+                            (distance - floor.getKey()) / (ceiling.getKey() - floor.getKey()));
         }
-
     }
 
-    /**
-     * Prints out the entire table of shot parameters
-     */
+    /** Prints out the entire table of shot parameters */
     public void printTable() {
         table.forEach(printEntry);
     }

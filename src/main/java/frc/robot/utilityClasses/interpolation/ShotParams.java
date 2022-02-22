@@ -17,8 +17,7 @@ public class ShotParams {
     }
 
     public boolean equals(ShotParams other, double angTol, double spdTol) {
-        if (Math.abs(angle - other.angle) <= angTol
-                && Math.abs(speed - other.speed) <= spdTol) {
+        if (Math.abs(angle - other.angle) <= angTol && Math.abs(speed - other.speed) <= spdTol) {
             return true;
         } else {
             return false;

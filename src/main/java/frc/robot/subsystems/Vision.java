@@ -111,7 +111,6 @@ public class Vision extends SubsystemBase {
         }
     }
 
-
     public double getDistanceToGoal() {
         return getDistanceToGoal(getBestTarget());
     }
