@@ -10,7 +10,7 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class Shoot extends CommandBase {
-    /** Creates a new ShootOneBall. */
+    /** Creates a new Shoot */
     public Shoot() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.shooter, RobotContainer.indexer);
@@ -19,7 +19,7 @@ public class Shoot extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.shooter.set(Parameters.shooter.SHOT_SPEED);
+        RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.SHOT_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

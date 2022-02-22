@@ -12,6 +12,7 @@
  */
 package frc.robot;
 
+import edu.wpi.first.math.interpolation.Interpolatable;
 // Imports
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -30,7 +31,8 @@ import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToVision;
-import frc.robot.commands.swerve.driving.LetsRoll2Joysticks;
+import frc.robot.commands.swerve.driving.LetsRollFastTurn;
+import frc.robot.commands.swerve.driving.LetsRollSlowTurn;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
@@ -44,6 +46,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
+import frc.robot.utilityClasses.interpolation.InterpolatingTable;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -65,9 +68,11 @@ public class RobotContainer {
     public static Shooter shooter = new Shooter();
     public static Indexer indexer = new Indexer();
     public static Vision vision = new Vision();
+    public static InterpolatingTable interpolatingTable = new InterpolatingTable();
 
     // Commands
-    private final LetsRoll2Joysticks letsRoll2Joysticks = new LetsRoll2Joysticks();
+    private final LetsRollSlowTurn letsRollSlowTurn = new LetsRollSlowTurn();
+    private final LetsRollFastTurn letsRollFastTurn = new LetsRollFastTurn();
     private final TestModulePID testModulePID = new TestModulePID();
     private final TestModulePositioning testModulePositioning = new TestModulePositioning();
     private final TestRotationalPID testRotationalPID = new TestRotationalPID();
@@ -120,8 +125,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // Left Joystick
-        // ! DON'T USE BUTTON 2, IT'S USED BY LETSROLL2JOYSTICKS
-        new JoystickButton(leftJoystick, 1).whenPressed(letsRoll2Joysticks);
+        // ! DON'T USE BUTTON 2, IT'S USED BY LETSROLL
+        new JoystickButton(leftJoystick, 1).whenPressed(letsRollSlowTurn);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 8)
                 .whenPressed(
@@ -130,23 +135,13 @@ public class RobotContainer {
         // new JoystickButton(leftJoystick, 9).whenPressed();
 
         // Right Joystick
-        new JoystickButton(rightJoystick, 2).whenPressed(homeIntake);
-        new JoystickButton(rightJoystick, 1)
-                .whileHeld(
-                        () ->
-                                intakeWinch.setDesiredDistance(
-                                        Parameters.intake.spool.UP_DISTANCE
-                                                + (rightJoystick.getY()
-                                                        * (Parameters.intake.spool.DOWN_DISTANCE
-                                                                - Parameters.intake
-                                                                        .spool
-                                                                        .UP_DISTANCE))),
-                        intake);
-        // new JoystickButton(rightJoystick, 1).whenPressed(testRotationalPID);
+        new JoystickButton(rightJoystick, 1).whenPressed(letsRollFastTurn);
 
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.set(1 - rightJoystick.getZ())));
         BR.whenPressed(new InstantCommand(() -> shooter.set(0)));
+        BL.whileHeld(new InstantCommand(() -> hood.setDesiredAngle(leftJoystick.getZ() * (Parameters.hood.ALLOWABLE_RANGE) + Parameters.hood.HOME_ANGLE);
+        TL.whenPressed(new InstantCommand(() -> interpolatingTable.addEntry(vision.getDistanceToGoal(), hood.getDesiredAngle(), shooter.getDesiredSpeed()))));
         TM.whenPressed(new InstantCommand(intake::turnOn, intake));
         TR.whenPressed(new InstantCommand(intake::stop, intake));
         MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0.35), indexer));

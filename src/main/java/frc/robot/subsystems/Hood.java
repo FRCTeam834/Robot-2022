@@ -107,6 +107,14 @@ public class Hood extends SubsystemBase {
     }
 
     /**
+     * Returns the desired angle of the hood
+     * @return The desired angle (deg)
+     */
+    public double getDesiredAngle() {
+        return pidController.getReference();
+    }
+
+    /**
      * Sets the current angle of the hood. This should be used when homing the hood.
      *
      * @param currentAngle

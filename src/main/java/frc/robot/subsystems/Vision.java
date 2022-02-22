@@ -43,7 +43,7 @@ public class Vision extends SubsystemBase {
         LEDsOn = false;
     }
 
-    public static void turnLEDsOn() {
+    public void turnLEDsOn() {
         if (!LEDsOn) {
             camera.setDriverMode(false);
             camera.setLED(VisionLEDMode.kOn);
@@ -62,7 +62,7 @@ public class Vision extends SubsystemBase {
      *
      * @return The best found target
      */
-    public static PhotonTrackedTarget getBestTarget() {
+    public PhotonTrackedTarget getBestTarget() {
 
         // Make sure that the LEDs are on (can't detect colors correctly without them)
         turnLEDsOn();
@@ -99,7 +99,7 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
+    public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
         if (camera.getLatestResult().hasTargets()) {
             return PhotonUtils.calculateDistanceToTargetMeters(
                     Parameters.vision.CAMERA_HEIGHT,
@@ -111,7 +111,12 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    public static double getYaw() {
+
+    public double getDistanceToGoal() {
+        return getDistanceToGoal(getBestTarget());
+    }
+
+    public double getYaw() {
         if (camera.getLatestResult().hasTargets()) return getBestTarget().getYaw();
         else return 0;
     }

@@ -83,7 +83,7 @@ public final class Parameters {
          *
          * @param name The name of the driver
          * @param joystickParams The joystick parameters to use
-         * @param maxSteerRate Maximum deg/s of rotational velocity
+         * @param fastSteerRate Maximum deg/s of rotational velocity
          * @param lockemUp If the swerve should lock the modules at 45 degrees, effectively hitting
          *     the brakes. Hard on the modules, but worth it in competition
          * @param fieldCentric If the robot should treat itself as forward or if the field's forward
@@ -98,7 +98,8 @@ public final class Parameters {
          */
         public static final String name = "CAP1Sup";
 
-        public static final double maxSteerRate = 180;
+        public static final double slowSteerRate = 180;
+        public static final double fastSteerRate = 540;
         public static final boolean lockemUp = true;
         public static final boolean fieldCentric = true;
         public static final double maxModVelocity = 8;
@@ -441,14 +442,14 @@ public final class Parameters {
         public static final double LOAD_SPEED = 0.25; // In percent
 
         // Speed of shooter (in m/s of linear wheel speed)
-        public static final double STD_SPEED = 2;
+        public static final double DEFAULT_SPEED = 2;
         public static final double SPIT_SPEED = 0.5;
         public static final int ID = 18;
 
         // Current limit
         public static final int CURRENT_LIMIT = 40;
 
-        public static final double VELOCITY_TOLERANCE = .5;
+        public static final double VELOCITY_TOLERANCE = .15;
 
         // Game-specific parameters (meters and degrees)
         public static final class camera {
@@ -470,9 +471,13 @@ public final class Parameters {
 
         // Current limit
         public static final int CURRENT_LIMIT = 40;
+
         // Homing info
         public static final double HOME_SPEED = 0.25;
         public static final double HOME_ANGLE = 90; // The angle at home
+
+        // The default angle (if there isn't a shot interpolation available)
+        public static final double DEFAULT_ANGLE = 75;
 
         // Basic info
         public static final double GEARBOX_RATIO =

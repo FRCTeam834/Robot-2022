@@ -17,12 +17,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
-public class LetsRoll2Joysticks extends CommandBase {
+public class LetsRollSlowTurn extends CommandBase {
 
     // Stores robot driving type (between FOD and ROD)
     boolean fieldCentric = Parameters.driver.fieldCentric;
 
-    public LetsRoll2Joysticks() {
+    public LetsRollSlowTurn() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.driveTrain);
     }
@@ -62,7 +62,7 @@ public class LetsRoll2Joysticks extends CommandBase {
             RobotContainer.driveTrain.drive(
                     (rightY * Parameters.driver.maxModVelocity),
                     (rightX * Parameters.driver.maxModVelocity),
-                    Math.toRadians(leftX * Parameters.driver.maxSteerRate),
+                    Math.toRadians(leftX * Parameters.driver.slowSteerRate),
                     fieldCentric);
         } else if (Parameters.driver.lockemUp) {
             RobotContainer.driveTrain.lockemUp();

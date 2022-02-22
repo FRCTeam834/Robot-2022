@@ -25,7 +25,6 @@ public class Shooter extends SubsystemBase {
 
     // Bang-bang controller
     BangBangController bangBangController;
-    private double setPoint;
 
     /** Creates a new Shooter. */
     public Shooter() {
@@ -53,12 +52,16 @@ public class Shooter extends SubsystemBase {
         bangBangController.setTolerance(Parameters.shooter.VELOCITY_TOLERANCE);
     }
 
-    public void set(double percentage) {
+    public void run(double percentage) {
         shooterMotor.set(percentage);
     }
 
-    public void setBangBang(double setpoint) {
+    public void setDesiredSpeed(double setpoint) {
         shooterMotor.set(bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint));
+    }
+
+    public double getDesiredSpeed() {
+        return bangBangController.getSetpoint();
     }
 
     // Is the motor at its setPoint
