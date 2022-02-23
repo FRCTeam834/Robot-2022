@@ -14,9 +14,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Vision;
 
-import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class TurnToGoal extends CommandBase {
 
@@ -40,16 +39,20 @@ public class TurnToGoal extends CommandBase {
     @Override
     public void execute() {
 
+        // Calculate the speeds of the translational joystick
+        double rightXSpeed = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX()) * Parameters.driver.maxModVelocity;
+        double rightYSpeed = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY()) * Parameters.driver.maxModVelocity;
+
         // Get a list of possible targets
-        PhotonPipelineResult targetList = Vision.camera.getLatestResult();
+        PhotonTrackedTarget bestTarget = RobotContainer.vision.getBestTarget();
 
         // Make sure that we have targets to track
-        if (targetList.hasTargets()) {
+        if (bestTarget != null) {
 
             // Calculate the raw rotational PID output
             double pidOutput =
                     -RobotContainer.driveTrain.rotationPID.calculate(
-                            (targetList.getBestTarget().getYaw()), 0);
+                            (bestTarget.getYaw()), 0);
 
             // Calculate the rotational speed to run at
             double rotationalSpeed =
@@ -60,13 +63,13 @@ public class TurnToGoal extends CommandBase {
 
             // Drive at the specified speed
             RobotContainer.driveTrain.drive(
-                    0.0, 0.0, Units.degreesToRadians(rotationalSpeed), false);
+                    rightYSpeed, rightXSpeed, Units.degreesToRadians(rotationalSpeed), RobotContainer.fieldCentric);
 
         } else {
             // starts spinning to search for a target
             // TODO: Fix inefficiencies, use gyro angle to get optimal rotation
             RobotContainer.driveTrain.drive(
-                    0, 0, Units.degreesToRadians(Parameters.vision.SPIN_SPEED), false);
+                    rightYSpeed, rightXSpeed, Units.degreesToRadians(Parameters.vision.SPIN_SPEED), RobotContainer.fieldCentric);
         }
     }
 

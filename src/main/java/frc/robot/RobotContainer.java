@@ -31,8 +31,7 @@ import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToGoal;
-import frc.robot.commands.swerve.driving.LetsRollFastTurn;
-import frc.robot.commands.swerve.driving.LetsRollSlowTurn;
+import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
@@ -71,8 +70,7 @@ public class RobotContainer {
     public static InterpolatingTable interpolatingTable = new InterpolatingTable();
 
     // Commands
-    private final LetsRollSlowTurn letsRollSlowTurn = new LetsRollSlowTurn();
-    private final LetsRollFastTurn letsRollFastTurn = new LetsRollFastTurn();
+    private final LetsRoll letsRoll = new LetsRoll();
     private final TestModulePID testModulePID = new TestModulePID();
     private final TestModulePositioning testModulePositioning = new TestModulePositioning();
     private final TestRotationalPID testRotationalPID = new TestRotationalPID();
@@ -106,6 +104,12 @@ public class RobotContainer {
     public static JoystickButton BM = new JoystickButton(buttonBoard, ButtonBoard.BM);
     public static JoystickButton BR = new JoystickButton(buttonBoard, ButtonBoard.BR);
 
+    // If the robot should be field centric
+    public static boolean fieldCentric = Parameters.driver.fieldCentric;
+
+    // The robot's turn rate
+    public static double turnRate = Parameters.driver.slowSteerRate;
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         SmartDashboard.putData(shooter);
@@ -126,8 +130,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // Left Joystick
-        // ! DON'T USE BUTTON 2, IT'S USED BY LETSROLL
-        new JoystickButton(leftJoystick, 1).whenPressed(letsRollSlowTurn);
+        new JoystickButton(leftJoystick, 1).whenPressed(new InstantCommand(() -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
+        new JoystickButton(leftJoystick, 2).whenPressed(letsRoll);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 8)
                 .whenPressed(
@@ -136,7 +140,8 @@ public class RobotContainer {
         // new JoystickButton(leftJoystick, 9).whenPressed();
 
         // Right Joystick
-        new JoystickButton(rightJoystick, 1).whenPressed(letsRollFastTurn);
+        new JoystickButton(rightJoystick, 1).whenPressed(new InstantCommand(() ->
+            RobotContainer.turnRate = (RobotContainer.turnRate == Parameters.driver.fastSteerRate) ? Parameters.driver.slowSteerRate : Parameters.driver.fastSteerRate));
         new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
 
         // Button board
@@ -270,14 +275,4 @@ public class RobotContainer {
         // An ExampleCommand will run in autonomous
         return null;
     }
-
-    // Annoying get methods for certain commands that need to be run at startup
-    /*
-    public static HomeHood getHomeHood() {
-        return homeHood;
-    }
-
-    public static HomeIntake getHomeIntake() {
-        return homeIntake;
-    }*/
 }
