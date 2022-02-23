@@ -28,8 +28,9 @@ import frc.robot.commands.autons.DriveForwardAuton;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.intake.SwitchIntakeState;
+import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.swerve.StraightenWheels;
-import frc.robot.commands.swerve.TurnToVision;
+import frc.robot.commands.swerve.TurnToGoal;
 import frc.robot.commands.swerve.driving.LetsRollFastTurn;
 import frc.robot.commands.swerve.driving.LetsRollSlowTurn;
 import frc.robot.commands.swerve.testing.TestModulePID;
@@ -80,7 +81,8 @@ public class RobotContainer {
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
     private final HomeHood homeHood = new HomeHood();
     private final HomeIntake homeIntake = new HomeIntake();
-    private final TurnToVision turnToVision = new TurnToVision();
+    private final TurnToGoal turnToGoal = new TurnToGoal(true);
+    private final AutoShoot autoShoot = new AutoShoot();
     private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
     // Lights! No camera and no action
@@ -135,6 +137,7 @@ public class RobotContainer {
 
         // Right Joystick
         new JoystickButton(rightJoystick, 1).whenPressed(letsRollFastTurn);
+        new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
 
         // Button board
         BM.whileHeld(

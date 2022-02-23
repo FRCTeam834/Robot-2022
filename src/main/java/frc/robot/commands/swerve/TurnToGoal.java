@@ -18,10 +18,18 @@ import frc.robot.subsystems.Vision;
 
 import org.photonvision.targeting.PhotonPipelineResult;
 
-public class TurnToVision extends CommandBase {
+public class TurnToGoal extends CommandBase {
 
-    public TurnToVision() {
+    // If the command should ever finish
+    boolean shouldFinish;
+
+    public TurnToGoal(boolean shouldFinish) {
+
+        // Request the subsystem
         addRequirements(RobotContainer.driveTrain, RobotContainer.vision);
+
+        // Save if we need to finish
+        this.shouldFinish = shouldFinish;
     }
 
     // Called when the command is initially scheduled.
@@ -74,7 +82,14 @@ public class TurnToVision extends CommandBase {
     @Override
     public boolean isFinished() {
 
-        // Return if the robot has finished the movement yet
-        return RobotContainer.vision.isLinedUp();
+        // Check if the command should ever finish
+        if (shouldFinish) {
+
+            // Return if the robot has finished the movement yet
+            return RobotContainer.vision.isLinedUp();
+        }
+        else {
+            return false;
+        }
     }
 }

@@ -141,6 +141,19 @@ public class Hood extends SubsystemBase {
         homed = true;
     }
 
+    // Gets the current angle of the hood
+    public double getCurrentAngle() {
+        return hoodMotorEncoder.getPosition();
+    }
+
+    /**
+     * Checks if the hood is at the setpoint
+     * @return Is the hood at the desired angle?
+     */
+    public boolean isAtSetPoint() {
+        return (Math.abs(getDesiredAngle() - getCurrentAngle()) < Parameters.hood.ANGLE_TOLERANCE);
+    }
+
     /**
      * Gets if the limit switch is triggered
      *

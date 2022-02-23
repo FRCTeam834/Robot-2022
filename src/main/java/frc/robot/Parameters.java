@@ -480,6 +480,9 @@ public final class Parameters {
         // The default angle (if there isn't a shot interpolation available)
         public static final double DEFAULT_ANGLE = 75;
 
+        // The angle tolerance (before shooting)
+        public static final double ANGLE_TOLERANCE = 2; // deg
+
         // Basic info
         public static final double GEARBOX_RATIO =
                 100; // Ratio of motor turns to gearbox output turns
@@ -501,8 +504,9 @@ public final class Parameters {
     public static final class indexer {
         public static final int PROXIMITY_THRESHOLD = 200;
         public static final int ID = 17;
-        public static final double MOTOR_SPEED = 0.15;
-        public static final int CURRENT_LIMIT = 40;
+        public static final double MOTOR_SPEED = 0.15; // Duty
+        public static final int CURRENT_LIMIT = 40; // A
+        public static final double SHOT_TIME = 3; // s
     }
 
     public static final class led {

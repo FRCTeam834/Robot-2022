@@ -35,4 +35,14 @@ public class ShotParams {
                 linearInterpolation(this.angle, end.angle, t),
                 (linearInterpolation(this.speed, end.speed, t)));
     }
+
+    // Returns the shot angle (deg)
+    public double getAngle() {
+        return angle;
+    }
+
+    // Returns the speed (m/s)
+    public double getSpeed() {
+        return speed;
+    }
 }
