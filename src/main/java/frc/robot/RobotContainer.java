@@ -130,7 +130,10 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // Left Joystick
-        new JoystickButton(leftJoystick, 1).whenPressed(new InstantCommand(() -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
+        new JoystickButton(leftJoystick, 1)
+                .whenPressed(
+                        new InstantCommand(
+                                () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
         new JoystickButton(leftJoystick, 2).whenPressed(letsRoll);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 8)
@@ -140,8 +143,15 @@ public class RobotContainer {
         // new JoystickButton(leftJoystick, 9).whenPressed();
 
         // Right Joystick
-        new JoystickButton(rightJoystick, 1).whenPressed(new InstantCommand(() ->
-            RobotContainer.turnRate = (RobotContainer.turnRate == Parameters.driver.fastSteerRate) ? Parameters.driver.slowSteerRate : Parameters.driver.fastSteerRate));
+        new JoystickButton(rightJoystick, 1)
+                .whenPressed(
+                        new InstantCommand(
+                                () ->
+                                        RobotContainer.turnRate =
+                                                (RobotContainer.turnRate
+                                                                == Parameters.driver.fastSteerRate)
+                                                        ? Parameters.driver.slowSteerRate
+                                                        : Parameters.driver.fastSteerRate));
         new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
 
         // Button board

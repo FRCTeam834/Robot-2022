@@ -40,8 +40,12 @@ public class TurnToGoal extends CommandBase {
     public void execute() {
 
         // Calculate the speeds of the translational joystick
-        double rightXSpeed = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX()) * Parameters.driver.maxModVelocity;
-        double rightYSpeed = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY()) * Parameters.driver.maxModVelocity;
+        double rightXSpeed =
+                RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX())
+                        * Parameters.driver.maxModVelocity;
+        double rightYSpeed =
+                RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY())
+                        * Parameters.driver.maxModVelocity;
 
         // Get a list of possible targets
         PhotonTrackedTarget bestTarget = RobotContainer.vision.getBestTarget();
@@ -51,8 +55,7 @@ public class TurnToGoal extends CommandBase {
 
             // Calculate the raw rotational PID output
             double pidOutput =
-                    -RobotContainer.driveTrain.rotationPID.calculate(
-                            (bestTarget.getYaw()), 0);
+                    -RobotContainer.driveTrain.rotationPID.calculate((bestTarget.getYaw()), 0);
 
             // Calculate the rotational speed to run at
             double rotationalSpeed =
@@ -63,13 +66,19 @@ public class TurnToGoal extends CommandBase {
 
             // Drive at the specified speed
             RobotContainer.driveTrain.drive(
-                    rightYSpeed, rightXSpeed, Units.degreesToRadians(rotationalSpeed), RobotContainer.fieldCentric);
+                    rightYSpeed,
+                    rightXSpeed,
+                    Units.degreesToRadians(rotationalSpeed),
+                    RobotContainer.fieldCentric);
 
         } else {
             // starts spinning to search for a target
             // TODO: Fix inefficiencies, use gyro angle to get optimal rotation
             RobotContainer.driveTrain.drive(
-                    rightYSpeed, rightXSpeed, Units.degreesToRadians(Parameters.vision.SPIN_SPEED), RobotContainer.fieldCentric);
+                    rightYSpeed,
+                    rightXSpeed,
+                    Units.degreesToRadians(Parameters.vision.SPIN_SPEED),
+                    RobotContainer.fieldCentric);
         }
     }
 
