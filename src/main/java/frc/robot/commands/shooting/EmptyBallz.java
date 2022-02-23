@@ -23,8 +23,7 @@ public class EmptyBallz extends CommandBase {
         // Use addRequirements() here to declare subsystem dependencies.
         if (controlShooter) {
             addRequirements(RobotContainer.shooter, RobotContainer.indexer);
-        }
-        else {
+        } else {
             // No need for taking over the shooter unless needed
             addRequirements(RobotContainer.indexer);
         }

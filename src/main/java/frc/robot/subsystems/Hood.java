@@ -148,6 +148,7 @@ public class Hood extends SubsystemBase {
 
     /**
      * Checks if the hood is at the setpoint
+     *
      * @return Is the hood at the desired angle?
      */
     public boolean isAtSetPoint() {

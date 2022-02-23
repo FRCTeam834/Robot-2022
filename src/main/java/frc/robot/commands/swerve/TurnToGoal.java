@@ -87,8 +87,7 @@ public class TurnToGoal extends CommandBase {
 
             // Return if the robot has finished the movement yet
             return RobotContainer.vision.isLinedUp();
-        }
-        else {
+        } else {
             return false;
         }
     }

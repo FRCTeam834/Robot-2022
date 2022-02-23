@@ -5,6 +5,7 @@
 package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
@@ -55,10 +56,8 @@ public class PrepareShot extends CommandBase {
     public boolean isFinished() {
         if (shouldFinish) {
             return RobotContainer.hood.isAtSetPoint() && RobotContainer.shooter.isAtSetPoint();
-        }
-        else {
+        } else {
             return false;
         }
-
     }
 }

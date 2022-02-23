@@ -6,32 +6,26 @@ package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.commands.swerve.TurnToGoal;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoShoot extends SequentialCommandGroup {
-  /** Creates a new AutoShoot. */
-  public AutoShoot() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-        // First, line up the robot
-        new TurnToGoal(true),
+    /** Creates a new AutoShoot. */
+    public AutoShoot() {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        addCommands(
+                // First, line up the robot
+                new TurnToGoal(true),
 
-        // Now prep the shooter while keeping the robot lined up
-        new ParallelCommandGroup(
-            new TurnToGoal(false),
-            new PrepareShot(true)
-        ),
+                // Now prep the shooter while keeping the robot lined up
+                new ParallelCommandGroup(new TurnToGoal(false), new PrepareShot(true)),
 
-        // Finally, we can unload the balls out of the indexer
-        new ParallelCommandGroup(
-            new TurnToGoal(false),
-            new PrepareShot(false),
-            new EmptyBallz(false)
-        )
-    );
-  }
+                // Finally, we can unload the balls out of the indexer
+                new ParallelCommandGroup(
+                        new TurnToGoal(false), new PrepareShot(false), new EmptyBallz(false)));
+    }
 }
