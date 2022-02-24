@@ -23,14 +23,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.ColorSensorIndexing;
+import frc.robot.commands.indexing.ColorSensorIndexing;
 import frc.robot.commands.autons.DriveForwardAuton;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.swerve.StraightenWheels;
-import frc.robot.commands.swerve.TurnToGoal;
+import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
@@ -79,7 +79,7 @@ public class RobotContainer {
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
     private final HomeHood homeHood = new HomeHood();
     private final HomeIntake homeIntake = new HomeIntake();
-    private final TurnToGoal turnToGoal = new TurnToGoal(true);
+    private final TurnToAngleVision turnToGoal = new TurnToAngleVision();
     private final AutoShoot autoShoot = new AutoShoot();
     private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
@@ -176,8 +176,8 @@ public class RobotContainer {
                                         shooter.getDesiredSpeed())));
         TM.whenPressed(new InstantCommand(intake::turnOn, intake));
         TR.whenPressed(new InstantCommand(intake::stop, intake));
-        MM.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0.35), indexer));
-        MR.whenPressed(new InstantCommand(() -> indexer.setMotorSpeed(0)));
+        MM.whenPressed(new InstantCommand(() -> indexer.set(0.35), indexer));
+        MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
         TL.whenPressed(switchIntakeState);
 
         /*

@@ -163,8 +163,9 @@ public final class Parameters {
 
         // All of the maximums
         public static final class maximums {
-            public static final double MAX_MODULE_VELOCITY = 8; // (m/s)
+            public static final double MAX_TRANS_VELOCITY = 4; // (m/s)
             public static final double MAX_VELOCITY = 10000; // (RPM)
+            public static final double MAX_ROT_VELOCITY = 3.75;
             public static final double MAX_ACCEL = 500000000; // (RPMM)
             public static final int MAX_STEER_CURRENT = 20; // Amps
             public static final int MAX_DRIVE_CURRENT = 50; // Amps

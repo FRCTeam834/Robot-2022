@@ -44,7 +44,7 @@ public class SpartechsSwerveController extends CommandBase {
                         Parameters.driveTrain.pid.ROT_MOVE_P.get(), 0, 0, new Constraints(8, 5));
 
         m_controller = new HolonomicDriveController(xPID, yPID, rotPID);
-        rotPID.enableContinuousInput(-180, 180);
+        rotPID.enableContinuousInput(-Math.PI, Math.PI);
         addRequirements(RobotContainer.driveTrain);
     }
 

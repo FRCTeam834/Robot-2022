@@ -7,7 +7,8 @@ package frc.robot.subsystems.climber;
 // Imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.Parameters;
+import frc.robot.Parameters.climber.tilt;
+import frc.robot.Parameters.climber.lift;
 
 public class Climber extends SubsystemBase {
 
@@ -24,60 +25,60 @@ public class Climber extends SubsystemBase {
         rightTilt =
                 new TelescopingTube(
                         "RT",
-                        Parameters.climber.tilt.RIGHT_MOTOR_ID,
-                        Parameters.climber.tilt.RIGHT_LIMIT_SWITCH_PORT,
-                        Parameters.climber.tilt.SPOOL_CIRCUMFERENCE,
-                        Parameters.climber.tilt.GEARBOX_RATIO,
-                        Parameters.climber.tilt.kP,
-                        Parameters.climber.tilt.kD,
-                        Parameters.climber.tilt.MAX_DUTY,
-                        Parameters.climber.tilt.CONTROL_TYPE,
-                        Parameters.climber.tilt.HOME_DISTANCE,
-                        Parameters.climber.tilt.UP_DISTANCE,
-                        Parameters.climber.tilt.POS_TOLERANCE);
+                        tilt.RIGHT_MOTOR_ID,
+                        tilt.RIGHT_LIMIT_SWITCH_PORT,
+                        tilt.SPOOL_CIRCUMFERENCE,
+                        tilt.GEARBOX_RATIO,
+                        tilt.kP,
+                        tilt.kD,
+                        tilt.MAX_DUTY,
+                        tilt.CONTROL_TYPE,
+                        tilt.HOME_DISTANCE,
+                        tilt.UP_DISTANCE,
+                        tilt.POS_TOLERANCE);
         leftTilt =
                 new TelescopingTube(
                         "LT",
-                        Parameters.climber.tilt.LEFT_MOTOR_ID,
-                        Parameters.climber.tilt.LEFT_LIMIT_SWITCH_PORT,
-                        Parameters.climber.tilt.SPOOL_CIRCUMFERENCE,
-                        Parameters.climber.tilt.GEARBOX_RATIO,
-                        Parameters.climber.tilt.kP,
-                        Parameters.climber.tilt.kD,
-                        Parameters.climber.tilt.MAX_DUTY,
-                        Parameters.climber.tilt.CONTROL_TYPE,
-                        Parameters.climber.tilt.HOME_DISTANCE,
-                        Parameters.climber.tilt.UP_DISTANCE,
-                        Parameters.climber.tilt.POS_TOLERANCE);
+                        tilt.LEFT_MOTOR_ID,
+                        tilt.LEFT_LIMIT_SWITCH_PORT,
+                        tilt.SPOOL_CIRCUMFERENCE,
+                        tilt.GEARBOX_RATIO,
+                        tilt.kP,
+                        tilt.kD,
+                        tilt.MAX_DUTY,
+                        tilt.CONTROL_TYPE,
+                        tilt.HOME_DISTANCE,
+                        tilt.UP_DISTANCE,
+                        tilt.POS_TOLERANCE);
 
         rightLift =
                 new TelescopingTube(
                         "RL",
-                        Parameters.climber.lift.RIGHT_MOTOR_ID,
-                        Parameters.climber.lift.RIGHT_LIMIT_SWITCH_PORT,
-                        Parameters.climber.lift.SPOOL_CIRCUMFERENCE,
-                        Parameters.climber.lift.GEARBOX_RATIO,
-                        Parameters.climber.lift.kP,
-                        Parameters.climber.lift.kD,
-                        Parameters.climber.lift.MAX_DUTY,
-                        Parameters.climber.lift.CONTROL_TYPE,
-                        Parameters.climber.lift.HOME_DISTANCE,
-                        Parameters.climber.lift.UP_DISTANCE,
-                        Parameters.climber.lift.POS_TOLERANCE);
+                        lift.RIGHT_MOTOR_ID,
+                        lift.RIGHT_LIMIT_SWITCH_PORT,
+                        lift.SPOOL_CIRCUMFERENCE,
+                        lift.GEARBOX_RATIO,
+                        lift.kP,
+                        lift.kD,
+                        lift.MAX_DUTY,
+                        lift.CONTROL_TYPE,
+                        lift.HOME_DISTANCE,
+                        lift.UP_DISTANCE,
+                        lift.POS_TOLERANCE);
         leftLift =
                 new TelescopingTube(
                         "LL",
-                        Parameters.climber.lift.LEFT_MOTOR_ID,
-                        Parameters.climber.lift.LEFT_LIMIT_SWITCH_PORT,
-                        Parameters.climber.lift.SPOOL_CIRCUMFERENCE,
-                        Parameters.climber.lift.GEARBOX_RATIO,
-                        Parameters.climber.lift.kP,
-                        Parameters.climber.lift.kD,
-                        Parameters.climber.lift.MAX_DUTY,
-                        Parameters.climber.lift.CONTROL_TYPE,
-                        Parameters.climber.lift.HOME_DISTANCE,
-                        Parameters.climber.lift.UP_DISTANCE,
-                        Parameters.climber.lift.POS_TOLERANCE);
+                        lift.LEFT_MOTOR_ID,
+                        lift.LEFT_LIMIT_SWITCH_PORT,
+                        lift.SPOOL_CIRCUMFERENCE,
+                        lift.GEARBOX_RATIO,
+                        lift.kP,
+                        lift.kD,
+                        lift.MAX_DUTY,
+                        lift.CONTROL_TYPE,
+                        lift.HOME_DISTANCE,
+                        lift.UP_DISTANCE,
+                        lift.POS_TOLERANCE);
     }
 
     @Override

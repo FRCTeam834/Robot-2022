@@ -16,6 +16,8 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
 
@@ -52,7 +54,7 @@ public class Shooter extends SubsystemBase {
         bangBangController.setTolerance(Parameters.shooter.VELOCITY_TOLERANCE);
     }
 
-    public void run(double percentage) {
+    public void set(double percentage) {
         shooterMotor.set(percentage);
     }
 
@@ -67,6 +69,10 @@ public class Shooter extends SubsystemBase {
     // Is the motor at its setPoint
     public boolean isAtSetPoint() {
         return bangBangController.atSetpoint();
+    }
+
+    public boolean readyToShoot() {
+        return bangBangController.atSetpoint() && RobotContainer.hood.isAtSetPoint();
     }
 
     public void stop() {

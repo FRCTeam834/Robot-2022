@@ -25,6 +25,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -93,6 +94,10 @@ public class DriveTrain extends SubsystemBase {
     // Holomonic drive controller
     private HolonomicDriveController driveController =
             new HolonomicDriveController(xMovePID, yMovePID, rotationPID);
+    Timer timer;
+    double lastTime;
+
+    private double[] lastDistances;
 
     /** Creates a new Drivetrain object */
     public DriveTrain() {
@@ -131,8 +136,20 @@ public class DriveTrain extends SubsystemBase {
         // Set up the PID controllers
         rotationPID.setTolerance(Parameters.driveTrain.pid.DEFAULT_ROT_TOLERANCE);
 
+
+        lastDistances = new double[]{
+            frontLeft.getDriveMotor().getEncoder().getPosition(),
+          frontRight.getDriveMotor().getEncoder().getPosition(),
+          backLeft.getDriveMotor().getEncoder().getPosition(),
+          backRight.getDriveMotor().getEncoder().getPosition(),
+        };
+
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
+        timer = new Timer();
+        timer.reset();
+        timer.start();
+        lastTime = 0;
     }
 
     /**
@@ -233,7 +250,7 @@ public class DriveTrain extends SubsystemBase {
 
         // Scale the velocities of the swerve modules so that none exceed the maximum
         SwerveDriveKinematics.desaturateWheelSpeeds(
-                swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
+                swerveModuleStates, Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY);
 
         // Set each of the modules to their optimized state
         frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -252,9 +269,10 @@ public class DriveTrain extends SubsystemBase {
         // Get the module states
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
 
+        normalizeDrive(swerveModuleStates, chassisSpeeds);
         // Scale the velocities of the swerve modules so that none exceed the maximum
-        SwerveDriveKinematics.desaturateWheelSpeeds(
-                swerveModuleStates, Parameters.driveTrain.maximums.MAX_MODULE_VELOCITY);
+        //SwerveDriveKinematics.desaturateWheelSpeeds(
+        //        swerveModuleStates, Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY);
 
         // Set each of the modules to their optimized state
         frontLeft.setDesiredState(swerveModuleStates[0]);
@@ -262,6 +280,23 @@ public class DriveTrain extends SubsystemBase {
         backLeft.setDesiredState(swerveModuleStates[2]);
         backRight.setDesiredState(swerveModuleStates[3]);
     }
+
+    public void normalizeDrive(SwerveModuleState[] desiredStates, ChassisSpeeds speeds) {
+        double translationalK = Math.hypot(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond) / Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY;
+        double rotationalK = Math.abs(speeds.omegaRadiansPerSecond) / Parameters.driveTrain.maximums.MAX_ROT_VELOCITY;
+        double k = Math.max(translationalK, rotationalK);
+    
+        // Find the how fast the fastest spinning drive motor is spinning                                       
+        double realMaxSpeed = 0.0;
+        for (SwerveModuleState moduleState : desiredStates) {
+          realMaxSpeed = Math.max(realMaxSpeed, Math.abs(moduleState.speedMetersPerSecond));
+        }
+    
+        double scale = Math.min(k * Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY / realMaxSpeed, 1);
+        for (SwerveModuleState moduleState : desiredStates) {
+          moduleState.speedMetersPerSecond *= scale;
+        }
+      }
 
     /** Halts all of the modules */
     public void haltAllModules() {
@@ -413,6 +448,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     /** Updates the odometry. Should be called as frequently as possible to reduce error. */
+   /*
     public void updateOdometry() {
         swerveDriveOdometry.update(
                 RobotContainer.navX.getRotation2d(),
@@ -421,6 +457,26 @@ public class DriveTrain extends SubsystemBase {
                 backLeft.getState(),
                 backRight.getState());
     }
+    */
+    public void updateOdometry() {
+        double[] distances = new double[]{
+          frontLeft.getDriveMotor().getEncoder().getPosition(),
+          frontRight.getDriveMotor().getEncoder().getPosition(),
+          backLeft.getDriveMotor().getEncoder().getPosition(),
+          backRight.getDriveMotor().getEncoder().getPosition(),
+        };
+        double time = timer.get();
+        double dt = time - lastTime;
+        lastTime = time;
+        if (dt == 0) return;
+        swerveDriveOdometry.updateWithTime(time, 
+                                RobotContainer.navX.getRotation2d(), 
+                                new SwerveModuleState((distances[0] - lastDistances[0]) / dt, frontLeft.getState().angle),
+                                new SwerveModuleState((distances[1] - lastDistances[1]) / dt, frontRight.getState().angle),
+                                new SwerveModuleState((distances[2] - lastDistances[2]) / dt, backLeft.getState().angle),
+                                new SwerveModuleState((distances[3] - lastDistances[3]) / dt, backRight.getState().angle));
+        lastDistances = distances;
+      }
 
     /**
      * Reset the odometry measurements. This is kind of like "homing" the robot
