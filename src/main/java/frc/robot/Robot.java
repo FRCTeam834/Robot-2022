@@ -53,10 +53,6 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         RobotContainer.driveTrain.resetOdometry(new Pose2d());
-        RobotContainer.led.set(RobotContainer.lightColor);
-        // Runs HomeIntake and HomeHood commands
-        // CommandScheduler.getInstance()
-        //        .schedule(RobotContainer.getHomeIntake(), RobotContainer.getHomeHood());
     }
 
     /**
@@ -66,7 +62,6 @@ public class Robot extends TimedRobot {
      * <p>This runs after the mode specific periodic functions, but before LiveWindow and
      * SmartDashboard integrated updating.
      *
-     * <p>You thought this was a comment that would explain about this function, but it was me, DIO!
      */
     @Override
     public void robotPeriodic() {
@@ -89,6 +84,7 @@ public class Robot extends TimedRobot {
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);
 
+        // TODO: Remove this eventually
         // System.out.println(RobotContainer.intakeWinch.getSpoolPosition());
         // System.out.println(String.format("S: %.2f | A: %.2f",
         // Units.radiansToDegrees(RobotContainer.driveTrain.rotationPID.getSetpoint().position),

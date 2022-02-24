@@ -151,8 +151,16 @@ public class Hood extends SubsystemBase {
      *
      * @return Is the hood at the desired angle?
      */
-    public boolean isAtSetPoint() {
+    public boolean isAtDesiredAngle() {
         return (Math.abs(getCurrentAngle() - getDesiredAngle()) < Parameters.hood.ANGLE_TOLERANCE);
+    }
+
+    /**
+     * Checks if the hood is homed yet
+     * @return Is the hood homed yet?
+     */
+    public boolean isHomed() {
+        return homed;
     }
 
     /**

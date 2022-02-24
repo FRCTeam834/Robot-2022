@@ -17,7 +17,9 @@ public class MoveTubeToPosition extends CommandBase {
     double desiredFinalLength;
 
     /**
-     * Creates a new MoveTubeToPosition. ! WARNING: IF THE DESIRED DISTANCE IS OUT OF SCOPE, THE
+     * Creates a new MoveTubeToPosition.
+     *
+     * <p> WARNING: IF THE DESIRED DISTANCE IS OUT OF SCOPE, THE
      * COMMAND WILL NEVER FINISH
      */
     public MoveTubeToPosition(TelescopingTube tube, double desiredDistance) {

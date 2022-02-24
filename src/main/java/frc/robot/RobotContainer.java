@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -43,6 +44,8 @@ import frc.robot.subsystems.IntakeWinch;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 import frc.robot.utilityClasses.interpolation.InterpolatingTable;
@@ -61,7 +64,7 @@ public class RobotContainer {
     public static DriveTrain driveTrain = new DriveTrain();
     public static Hood hood = new Hood();
 
-    // public static Climber climber = new Climber();
+    public static Climber climber = new Climber();
     public static Intake intake = new Intake();
     public static IntakeWinch intakeWinch = new IntakeWinch();
     public static Shooter shooter = new Shooter();
@@ -70,18 +73,29 @@ public class RobotContainer {
     public static InterpolatingTable interpolatingTable = new InterpolatingTable();
 
     // Commands
+
+    // Movement
     private final LetsRoll letsRoll = new LetsRoll();
+
+    // Debugging
     private final TestModulePID testModulePID = new TestModulePID();
     private final TestModulePositioning testModulePositioning = new TestModulePositioning();
     private final TestRotationalPID testRotationalPID = new TestRotationalPID();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
+
+    // Intaking/holding balls
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
+    private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
+
+    // Homing commands
     private final HomeHood homeHood = new HomeHood();
     private final HomeIntake homeIntake = new HomeIntake();
+    private final HomeClimberTubes homeClimberTubes = new HomeClimberTubes();
+
+    // Autoshooting
     private final TurnToAngleVision turnToGoal = new TurnToAngleVision();
     private final AutoShoot autoShoot = new AutoShoot();
-    private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
     // Lights! No camera and no action
     public static Spark led = new Spark(Parameters.led.PORT);
@@ -273,6 +287,23 @@ public class RobotContainer {
                     // This will never be reached, but a default case is needed (0 for no output)
                     return 0;
             }
+        }
+    }
+
+    /**
+     * Homes all of the robot's PID controllers if they haven't already been homed
+     */
+    public void homeAllPIDControllers() {
+
+        // Check each if each is homed, running homing if not
+        if (!hood.isHomed()) {
+            CommandScheduler.getInstance().schedule(false, homeHood);
+        }
+        if (!intakeWinch.isHomed()) {
+            CommandScheduler.getInstance().schedule(false, homeIntake);
+        }
+        if (!climber.areTubesHomed()) {
+            CommandScheduler.getInstance().schedule(false, homeClimberTubes);
         }
     }
 

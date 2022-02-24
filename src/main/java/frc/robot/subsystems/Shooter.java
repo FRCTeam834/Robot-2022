@@ -71,7 +71,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean readyToShoot() {
-        return bangBangController.atSetpoint() && RobotContainer.hood.isAtSetPoint();
+        return bangBangController.atSetpoint() && RobotContainer.hood.isAtDesiredAngle();
     }
 
     public void stop() {

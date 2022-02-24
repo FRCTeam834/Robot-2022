@@ -145,6 +145,14 @@ public class IntakeWinch extends SubsystemBase {
     }
 
     /**
+     * Checks if the intake is homed yet
+     * @return Is the intake homed yet?
+     */
+    public boolean isHomed() {
+        return homed;
+    }
+
+    /**
      * Gets if the limit switch is triggered
      *
      * @return Is the spool currently at home?
