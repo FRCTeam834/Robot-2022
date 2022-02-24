@@ -157,6 +157,7 @@ public class Hood extends SubsystemBase {
 
     /**
      * Checks if the hood is homed yet
+     *
      * @return Is the hood homed yet?
      */
     public boolean isHomed() {

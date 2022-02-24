@@ -88,15 +88,17 @@ public class Climber extends SubsystemBase {
 
     /**
      * Checks if all of the tubes are homed
+     *
      * @return Are the tubes homed?
      */
     public boolean areTubesHomed() {
-        return (rightLift.isHomed() && leftLift.isHomed() && rightTilt.isHomed() && leftTilt.isHomed());
+        return (rightLift.isHomed()
+                && leftLift.isHomed()
+                && rightTilt.isHomed()
+                && leftTilt.isHomed());
     }
 
-    /**
-     * Stops all of the tubes at once
-     */
+    /** Stops all of the tubes at once */
     public void stop() {
         rightLift.stop();
         leftLift.stop();

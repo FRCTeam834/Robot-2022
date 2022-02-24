@@ -185,6 +185,7 @@ public class TelescopingTube extends SubsystemBase {
 
     /**
      * Checks if the tube is at the desired distance (within tolerance)
+     *
      * @return Is at desired distance?
      */
     public boolean isAtDesiredDistance() {
@@ -193,6 +194,7 @@ public class TelescopingTube extends SubsystemBase {
 
     /**
      * Checks if the tube is homed yet
+     *
      * @return Is the tube homed yet?
      */
     public boolean isHomed() {

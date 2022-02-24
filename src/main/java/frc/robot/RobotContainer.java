@@ -290,9 +290,7 @@ public class RobotContainer {
         }
     }
 
-    /**
-     * Homes all of the robot's PID controllers if they haven't already been homed
-     */
+    /** Homes all of the robot's PID controllers if they haven't already been homed */
     public void homeAllPIDControllers() {
 
         // Check each if each is homed, running homing if not
