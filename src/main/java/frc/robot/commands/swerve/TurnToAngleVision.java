@@ -8,23 +8,19 @@
  */
 package frc.robot.commands.swerve;
 
-import edu.wpi.first.math.MathUsageId;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters.driveTrain.pid;
 import frc.robot.Parameters;
-import frc.robot.Robot;
+import frc.robot.Parameters.driveTrain.pid;
 import frc.robot.RobotContainer;
 
-import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class TurnToAngleVision extends CommandBase {
 
-    PIDController rotationalPID = new PIDController(pid.ROT_MOVE_P.get(),0,0);
+    PIDController rotationalPID = new PIDController(pid.ROT_MOVE_P.get(), 0, 0);
     double omega = 0;
 
     public TurnToAngleVision() {
@@ -32,7 +28,6 @@ public class TurnToAngleVision extends CommandBase {
         rotationalPID.setTolerance(5);
         // Request the subsystem
         addRequirements(RobotContainer.driveTrain);
-
     }
 
     // Called when the command is initially scheduled.
@@ -43,18 +38,23 @@ public class TurnToAngleVision extends CommandBase {
     @Override
     public void execute() {
         PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
-        omega = 
-        MathUtil.clamp(
-        Math.toRadians(
-            -rotationalPID.calculate(
-                RobotContainer.driveTrain.getEstPose2D().getRotation().getDegrees(), 
-                latestResult.getYaw())),-1,1);
+        omega =
+                MathUtil.clamp(
+                        Math.toRadians(
+                                -rotationalPID.calculate(
+                                        RobotContainer.driveTrain
+                                                .getEstPose2D()
+                                                .getRotation()
+                                                .getDegrees(),
+                                        latestResult.getYaw())),
+                        -1,
+                        1);
 
         RobotContainer.driveTrain.drive(
-            RobotContainer.getJoystickValues()[3] * Parameters.driveTrain.maximums.MAX_VELOCITY, 
-            RobotContainer.getJoystickValues()[2] * Parameters.driveTrain.maximums.MAX_VELOCITY, 
-            omega, 
-            false);
+                RobotContainer.getJoystickValues()[3] * Parameters.driveTrain.maximums.MAX_VELOCITY,
+                RobotContainer.getJoystickValues()[2] * Parameters.driveTrain.maximums.MAX_VELOCITY,
+                omega,
+                false);
     }
 
     // Called once the command ends or is interrupted.
@@ -69,6 +69,5 @@ public class TurnToAngleVision extends CommandBase {
     @Override
     public boolean isFinished() {
         return rotationalPID.atSetpoint();
-
     }
 }

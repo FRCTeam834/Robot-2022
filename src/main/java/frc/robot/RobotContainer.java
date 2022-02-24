@@ -23,9 +23,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.indexing.ColorSensorIndexing;
 import frc.robot.commands.autons.DriveForwardAuton;
 import frc.robot.commands.hood.HomeHood;
+import frc.robot.commands.indexing.ColorSensorIndexing;
 import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
