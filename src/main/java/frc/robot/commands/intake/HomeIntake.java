@@ -1,7 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
+/*
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -10,10 +10,10 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class HomeIntake extends CommandBase {
-    /** Creates a new HomeIntake. */
+    // Creates a new HomeIntake.
     public HomeIntake() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.intake);
+        addRequirements(RobotContainer.intakeWinch);
     }
 
     // Called when the command is initially scheduled.
@@ -47,4 +47,4 @@ public class HomeIntake extends CommandBase {
     public boolean isFinished() {
         return RobotContainer.intakeWinch.getLSValue();
     }
-}
+}*/

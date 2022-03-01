@@ -27,8 +27,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.autons.DriveForwardAuton;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.ColorSensorIndexing;
-import frc.robot.commands.intake.HomeIntake;
-import frc.robot.commands.intake.SwitchIntakeState;
+//import frc.robot.commands.intake.HomeIntake;
+//import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToAngleVision;
@@ -40,7 +40,7 @@ import frc.robot.commands.swerve.testing.TestRotationalPID;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.IntakeWinch;
+//import frc.robot.subsystems.IntakeWinch;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
@@ -64,9 +64,9 @@ public class RobotContainer {
     public static DriveTrain driveTrain = new DriveTrain();
     public static Hood hood = new Hood();
 
-    //     public static Climber climber = new Climber();
+    //public static Climber climber = new Climber();
     public static Intake intake = new Intake();
-    public static IntakeWinch intakeWinch = new IntakeWinch();
+    //public static IntakeWinch intakeWinch = new IntakeWinch();
     public static Shooter shooter = new Shooter();
     public static Indexer indexer = new Indexer();
     public static Vision vision = new Vision();
@@ -86,11 +86,11 @@ public class RobotContainer {
 
     // Intaking/holding balls
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
-    private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
+    //private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
     // Homing commands
     private final HomeHood homeHood = new HomeHood();
-    private final HomeIntake homeIntake = new HomeIntake();
+    //private final HomeIntake homeIntake = new HomeIntake();
     //     private final HomeClimberTubes homeClimberTubes = new HomeClimberTubes();
 
     // Autoshooting
@@ -98,7 +98,7 @@ public class RobotContainer {
     private final AutoShoot autoShoot = new AutoShoot();
 
     // Lights! No camera and no action
-    public static Spark led = new Spark(Parameters.led.PORT);
+    public static Spark led = new Spark(Parameters.led.PWM_PORT);
     public static double lightColor = -.45;
 
     // Define the joysticks (need to be public so commands can access axes)
@@ -147,7 +147,12 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 1)
                 .whenPressed(
                         new InstantCommand(
-                                () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
+                                () ->
+                                        RobotContainer.turnRate =
+                                                (RobotContainer.turnRate
+                                                                == Parameters.driver.fastSteerRate)
+                                                        ? Parameters.driver.slowSteerRate
+                                                        : Parameters.driver.fastSteerRate));
         new JoystickButton(leftJoystick, 2).whenPressed(letsRoll);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 8)
@@ -158,14 +163,9 @@ public class RobotContainer {
 
         // Right Joystick
         new JoystickButton(rightJoystick, 1)
-                .whenPressed(
-                        new InstantCommand(
-                                () ->
-                                        RobotContainer.turnRate =
-                                                (RobotContainer.turnRate
-                                                                == Parameters.driver.fastSteerRate)
-                                                        ? Parameters.driver.slowSteerRate
-                                                        : Parameters.driver.fastSteerRate));
+        .whenPressed(
+                new InstantCommand(
+                        () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
         new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
 
         // Button board
@@ -192,7 +192,7 @@ public class RobotContainer {
         TR.whenPressed(new InstantCommand(intake::stop, intake));
         MM.whenPressed(new InstantCommand(() -> indexer.set(0.35), indexer));
         MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
-        TL.whenPressed(switchIntakeState);
+        //TL.whenPressed(switchIntakeState);
 
         /*
         // run the hood down (inlined)
@@ -297,9 +297,9 @@ public class RobotContainer {
         if (!hood.isHomed()) {
             CommandScheduler.getInstance().schedule(false, homeHood);
         }
-        if (!intakeWinch.isHomed()) {
+        /*if (!intakeWinch.isHomed()) {
             CommandScheduler.getInstance().schedule(false, homeIntake);
-        }
+        }*/
         // if (!climber.areTubesHomed()) {
         //     CommandScheduler.getInstance().schedule(false, homeClimberTubes);
         // }
