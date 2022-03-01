@@ -487,7 +487,7 @@ public final class Parameters {
 
         // Basic info
         public static final double GEARBOX_RATIO =
-                100; // Ratio of motor turns to gearbox output turns
+                25; // Ratio of motor turns to gearbox output turns
         public static final double CHAIN_RATIO =
                 (64.0 / 22.0); // Ratio of motor turns to hood movement
         public static final double ALLOWABLE_RANGE = 50; // The range of motion, in degrees
