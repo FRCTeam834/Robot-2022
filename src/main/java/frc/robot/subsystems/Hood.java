@@ -175,6 +175,7 @@ public class Hood extends SubsystemBase {
 
     /**
      * Sets the current limit of the motor
+     *
      * @param current The current limit (A)
      */
     public void setMotorCurrent(int current) {
