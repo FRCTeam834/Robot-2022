@@ -173,6 +173,14 @@ public class Hood extends SubsystemBase {
         return limitSwitch.get();
     }
 
+    /**
+     * Sets the current limit of the motor
+     * @param current The current limit (A)
+     */
+    public void setMotorCurrent(int current) {
+        hoodMotor.setSmartCurrentLimit(current);
+    }
+
     @Override
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {

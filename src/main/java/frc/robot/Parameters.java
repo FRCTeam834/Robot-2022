@@ -394,7 +394,7 @@ public final class Parameters {
             // TODO set these
             public static final int MOTOR_ID = 19;
             public static final int LS_PORT = 9;
-            public static final int MOTOR_CURRENT_LIMIT = 40;
+            public static final int MOTOR_CURRENT_LIMIT = 15;
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
@@ -471,8 +471,9 @@ public final class Parameters {
         public static final int MOTOR_ID = 15;
         public static final int LS_PORT = 0;
 
-        // Current limit
-        public static final int CURRENT_LIMIT = 40;
+        // Current limits
+        public static final int CURRENT_LIMIT = 5;
+        public static final int HOME_CURRENT = 1;
 
         // Homing info
         public static final double HOME_SPEED = 0.25;
