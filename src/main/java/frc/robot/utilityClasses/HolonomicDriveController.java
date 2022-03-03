@@ -11,7 +11,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.Trajectory;
+
 import frc.robot.RobotContainer;
 
 /**
@@ -27,99 +27,114 @@ import frc.robot.RobotContainer;
  */
 @SuppressWarnings("MemberName")
 public class HolonomicDriveController {
-  private Pose2d m_poseError = new Pose2d();
-  private Rotation2d m_rotationError = new Rotation2d();
-  private Pose2d m_poseTolerance = new Pose2d();
-  private boolean m_enabled = true;
+    private Pose2d m_poseError = new Pose2d();
+    private Rotation2d m_rotationError = new Rotation2d();
+    private Pose2d m_poseTolerance = new Pose2d();
+    private boolean m_enabled = true;
 
-  private final PIDController m_xController;
-  private final PIDController m_yController;
-  private final ProfiledPIDController m_thetaController;
+    private final PIDController m_xController;
+    private final PIDController m_yController;
+    private final ProfiledPIDController m_thetaController;
 
-  private boolean m_firstRun = true;
+    private boolean m_firstRun = true;
 
-  /**
-   * Constructs a holonomic drive controller.
-   *
-   * @param xController A PID Controller to respond to error in the field-relative x direction.
-   * @param yController A PID Controller to respond to error in the field-relative y direction.
-   * @param thetaController A profiled PID controller to respond to error in angle.
-   */
-  @SuppressWarnings("ParameterName")
-  public HolonomicDriveController(
-      PIDController xController, PIDController yController, ProfiledPIDController thetaController) {
-    m_xController = xController;
-    m_yController = yController;
-    m_thetaController = thetaController;
-  }
-
-  /**
-   * Returns true if the pose error is within tolerance of the reference.
-   *
-   * @return True if the pose error is within tolerance of the reference.
-   */
-  public boolean atReference() {
-    final var eTranslate = m_poseError.getTranslation();
-    final var eRotate = m_rotationError;
-    final var tolTranslate = m_poseTolerance.getTranslation();
-    final var tolRotate = m_poseTolerance.getRotation();
-    return Math.abs(eTranslate.getX()) < tolTranslate.getX()
-        && Math.abs(eTranslate.getY()) < tolTranslate.getY()
-        && Math.abs(eRotate.getRadians()) < tolRotate.getRadians();
-  }
-
-  /**
-   * Sets the pose error which is considered tolerance for use with atReference().
-   *
-   * @param tolerance The pose error which is tolerable.
-   */
-  public void setTolerance(Pose2d tolerance) {
-    m_poseTolerance = tolerance;
-  }
-
-  /**
-   * Returns the next output of the holonomic drive controller.
-   *
-   * @param currentPose The current pose.
-   * @param poseRef The desired pose.
-   * @param linearVelocityRefMeters The linear velocity reference.
-   * @param angleRef The angular reference.
-   * @return The next output of the holonomic drive controller.
-   */
-  @SuppressWarnings("LocalVariableName")
-  public ChassisSpeeds calculate(
-    Pose2d currentPose, PathPlannerState desiredState, Rotation2d angleRef) {
-    // If this is the first run, then we need to reset the theta controller to the current pose's
-    // heading.
-    if (m_firstRun) {
-      m_thetaController.reset(currentPose.getRotation().getRadians());
-      m_firstRun = false;
+    /**
+     * Constructs a holonomic drive controller.
+     *
+     * @param xController A PID Controller to respond to error in the field-relative x direction.
+     * @param yController A PID Controller to respond to error in the field-relative y direction.
+     * @param thetaController A profiled PID controller to respond to error in angle.
+     */
+    @SuppressWarnings("ParameterName")
+    public HolonomicDriveController(
+            PIDController xController,
+            PIDController yController,
+            ProfiledPIDController thetaController) {
+        m_xController = xController;
+        m_yController = yController;
+        m_thetaController = thetaController;
     }
 
-    // Calculate feedforward velocities (field-relative).
+    /**
+     * Returns true if the pose error is within tolerance of the reference.
+     *
+     * @return True if the pose error is within tolerance of the reference.
+     */
+    public boolean atReference() {
+        final var eTranslate = m_poseError.getTranslation();
+        final var eRotate = m_rotationError;
+        final var tolTranslate = m_poseTolerance.getTranslation();
+        final var tolRotate = m_poseTolerance.getRotation();
+        return Math.abs(eTranslate.getX()) < tolTranslate.getX()
+                && Math.abs(eTranslate.getY()) < tolTranslate.getY()
+                && Math.abs(eRotate.getRadians()) < tolRotate.getRadians();
+    }
 
-    double vx = (desiredState.velocityMetersPerSecond * desiredState.poseMeters.getRotation().getCos()) + m_xController.calculate(currentPose.getX(), desiredState.poseMeters.getX());
-    double vy = (desiredState.velocityMetersPerSecond * desiredState.poseMeters.getRotation().getSin()) + m_yController.calculate(currentPose.getY(), desiredState.poseMeters.getY());
-    double omega = -m_thetaController.calculate(currentPose.getRotation().getRadians(), angleRef.getRadians()) - desiredState.angularVelocity.getRadians();
-    
-    m_poseError = desiredState.poseMeters.relativeTo(currentPose);
-    m_rotationError = angleRef.minus(currentPose.getRotation());
+    /**
+     * Sets the pose error which is considered tolerance for use with atReference().
+     *
+     * @param tolerance The pose error which is tolerable.
+     */
+    public void setTolerance(Pose2d tolerance) {
+        m_poseTolerance = tolerance;
+    }
 
-    // Return next output.
-    return ChassisSpeeds.fromFieldRelativeSpeeds(
-        vx, vy, omega, currentPose.getRotation());
-  }
+    /**
+     * Returns the next output of the holonomic drive controller.
+     *
+     * @param currentPose The current pose.
+     * @param poseRef The desired pose.
+     * @param linearVelocityRefMeters The linear velocity reference.
+     * @param angleRef The angular reference.
+     * @return The next output of the holonomic drive controller.
+     */
+    @SuppressWarnings("LocalVariableName")
+    public ChassisSpeeds calculate(
+            Pose2d currentPose, PathPlannerState desiredState, Rotation2d angleRef) {
+        // If this is the first run, then we need to reset the theta controller to the current
+        // pose's
+        // heading.
+        if (m_firstRun) {
+            m_thetaController.reset(currentPose.getRotation().getRadians());
+            m_firstRun = false;
+        }
 
-  /**
-   * Enables and disables the controller for troubleshooting problems. When calculate() is called on
-   * a disabled controller, only feedforward values are returned.
-   *
-   * @param enabled If the controller is enabled or not.
-   */
-  public void setEnabled(boolean enabled) {
-    m_enabled = enabled;
-  }
-  public void resetThetaControllerToOdometry() {
-      m_thetaController.reset(RobotContainer.driveTrain.getEstPose2D().getRotation().getRadians());
-  }
+        // Calculate feedforward velocities (field-relative).
+
+        double vx =
+                (desiredState.velocityMetersPerSecond
+                                * desiredState.poseMeters.getRotation().getCos())
+                        + m_xController.calculate(
+                                currentPose.getX(), desiredState.poseMeters.getX());
+        double vy =
+                (desiredState.velocityMetersPerSecond
+                                * desiredState.poseMeters.getRotation().getSin())
+                        + m_yController.calculate(
+                                currentPose.getY(), desiredState.poseMeters.getY());
+        double omega =
+                -m_thetaController.calculate(
+                                currentPose.getRotation().getRadians(), angleRef.getRadians())
+                        - desiredState.angularVelocity.getRadians();
+
+        m_poseError = desiredState.poseMeters.relativeTo(currentPose);
+        m_rotationError = angleRef.minus(currentPose.getRotation());
+
+        // Return next output.
+        return ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, currentPose.getRotation());
+    }
+
+    /**
+     * Enables and disables the controller for troubleshooting problems. When calculate() is called
+     * on a disabled controller, only feedforward values are returned.
+     *
+     * @param enabled If the controller is enabled or not.
+     */
+    public void setEnabled(boolean enabled) {
+        m_enabled = enabled;
+    }
+
+    public void resetThetaControllerToOdometry() {
+        m_thetaController.reset(
+                RobotContainer.driveTrain.getEstPose2D().getRotation().getRadians());
+    }
 }

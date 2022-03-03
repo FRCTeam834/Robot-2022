@@ -60,7 +60,7 @@ public class SpartechsSwerveController extends CommandBase {
     public void execute() {
         double curTime = m_timer.get();
         var desiredState = (PathPlannerState) m_trajectory.sample(curTime);
-        
+
         if (!targetLock) {
             desiredRotation2d = desiredState.holonomicRotation;
         } else {
