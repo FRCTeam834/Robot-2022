@@ -46,7 +46,7 @@ public class NavX extends SubsystemBase {
 
     // The Rotation2D is the big brother of fused heading
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(-navX.getYaw());
+        return navX.getRotation2d();
     }
 
     // Grabs the roll
