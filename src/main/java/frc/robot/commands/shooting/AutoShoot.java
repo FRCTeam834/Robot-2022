@@ -28,7 +28,7 @@ public class AutoShoot extends SequentialCommandGroup {
                 // we never stop preparing the shooter until we force everything to end at the end,
                 // this is exactly what we want
 
-                new ParallelCommandGroup(new TurnToAngleVision(), new PrepareShooter()),
+                new ParallelCommandGroup(new TurnToAngleVision(), new TrackGoal()),
 
                 // now run the indexer at full blast, but before you do that
                 // wait until the shooter is ready to shoot (hood and shooter at their set point)

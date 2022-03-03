@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
         RobotContainer.led.set(RobotContainer.lightColor);
 
         // TODO: Remove this eventually
+        // System.out.println(RobotContainer.hood.getLSValue());
         // System.out.println(RobotContainer.intakeWinch.getSpoolPosition());
         // System.out.println(String.format("S: %.2f | A: %.2f",
         // Units.radiansToDegrees(RobotContainer.driveTrain.rotationPID.getSetpoint().position),

@@ -41,7 +41,7 @@ import frc.robot.utilityClasses.TuneableNumber;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = true;
+    public static final boolean debug = false;
     public static final boolean tuningMode = false;
     public static final boolean telemetryMode = true;
 
@@ -339,8 +339,8 @@ public final class Parameters {
         public static final class tilt {
 
             // CAN IDs for lift motors
-            public static final int RIGHT_MOTOR_ID = 22;
-            public static final int LEFT_MOTOR_ID = 23;
+            public static final int RIGHT_MOTOR_ID = 18;
+            public static final int LEFT_MOTOR_ID = 19;
 
             // The gearbox ratio
             public static final double GEARBOX_RATIO = 36;
@@ -385,16 +385,16 @@ public final class Parameters {
     }
 
     public static final class intake {
-        public static final double INTAKE_SPEED = .375;
+        public static final double INTAKE_SPEED = .8;
         public static final int INTAKE_MOTOR_ID = 16;
         public static final int INTAKE_MOTOR_CURRENT_LIMIT = 40;
 
         public static final class spool {
             // Ports
             // TODO set these
-            public static final int MOTOR_ID = 19;
+            public static final int MOTOR_ID = 17;
             public static final int LS_PORT = 9;
-            public static final int MOTOR_CURRENT_LIMIT = 15;
+            public static final int MOTOR_CURRENT_LIMIT = 40;
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
@@ -443,10 +443,10 @@ public final class Parameters {
         public static final double LOAD_SPEED = 0.25; // In percent
 
         // Speed of shooter (in m/s of linear wheel speed)
-        public static final double MAX_SPEED = 5;
+        public static final double MAX_SPEED = 3;
         public static final double DEFAULT_SPEED = 2;
         public static final double SPIT_SPEED = 0.5;
-        public static final int ID = 18;
+        public static final int ID = 13;
 
         // Current limit
         public static final int CURRENT_LIMIT = 40;
@@ -471,13 +471,13 @@ public final class Parameters {
         public static final int MOTOR_ID = 15;
         public static final int LS_PORT = 0;
 
-        // Current limits
+        // Current limit
         public static final int CURRENT_LIMIT = 5;
         public static final int HOME_CURRENT = 1;
 
         // Homing info
-        public static final double HOME_SPEED = 0.25;
-        public static final double HOME_ANGLE = 90; // The angle at home
+        public static final double HOME_SPEED = 0.15;
+        public static final double HOME_ANGLE = 110; // The angle at home
 
         // The default angle (if there isn't a shot interpolation available)
         public static final double DEFAULT_ANGLE = 75;
@@ -487,17 +487,17 @@ public final class Parameters {
 
         // Basic info
         public static final double GEARBOX_RATIO =
-                25; // Ratio of motor turns to gearbox output turns
+                25.0; // Ratio of motor turns to gearbox output turns
         public static final double CHAIN_RATIO =
                 (64.0 / 22.0); // Ratio of motor turns to hood movement
-        public static final double ALLOWABLE_RANGE = 50; // The range of motion, in degrees
+        public static final double ALLOWABLE_RANGE = 70; // The range of motion, in degrees
         public static final double MAX_MOTOR_DUTY =
-                0.5; // The maximum output of the motor when moving
+                1; // The maximum output of the motor when moving
 
         public static class pid {
             public static final NetworkTable HOOD_TABLE =
                     NetworkTableInstance.getDefault().getTable("Hood");
-            public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.05);
+            public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.5);
             public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.00);
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
         }
@@ -505,7 +505,7 @@ public final class Parameters {
 
     public static final class indexer {
         public static final int PROXIMITY_THRESHOLD = 200;
-        public static final int ID = 17;
+        public static final int ID = 14;
         public static final double MOTOR_SPEED = 0.15; // Duty
         public static final int CURRENT_LIMIT = 40; // A
         public static final double SHOT_TIME = 3; // s

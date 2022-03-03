@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
-public class PrepareShooter extends CommandBase {
+public class TrackGoal extends CommandBase {
     /** Creates a new PrepareShooter. */
-    public PrepareShooter() {
+    public TrackGoal() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.hood, RobotContainer.shooter);
     }

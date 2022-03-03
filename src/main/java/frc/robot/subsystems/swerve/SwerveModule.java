@@ -410,6 +410,13 @@ public class SwerveModule extends SubsystemBase {
         // Set the encoder's position to zero
         // The getAngle reference should be changed now, so we need to re-request it
         steerMotorEncoder.setPosition(getAngle());
+
+        System.out.println(name + "_OFFSET: " + getCANCoder().getAbsolutePosition());
+    }
+
+    public void setRawEncoderOffset(double offset) {
+        steerCANCoder.configMagnetOffset(offset);
+        steerMotorEncoder.setPosition(getAngle());
     }
 
     // Saves the module's encoder offset

@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -22,6 +23,7 @@ public class Shooter extends SubsystemBase {
 
     // Motor and motor encoder object
     CANSparkMax shooterMotor;
+    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.12608, 0.31356, 0.032386);
     RelativeEncoder shooterMotorEncoder;
 
     // Bang-bang controller
@@ -37,7 +39,7 @@ public class Shooter extends SubsystemBase {
         // ! MOTOR MUST BE ON COAST FOR BANG-BANG
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setIdleMode(IdleMode.kCoast);
-        shooterMotor.setInverted(true);
+        shooterMotor.setInverted(false);
         shooterMotor.setSmartCurrentLimit(Parameters.shooter.CURRENT_LIMIT);
 
         // Get the encoder of the shooter motor
@@ -47,6 +49,7 @@ public class Shooter extends SubsystemBase {
         // Multiply RPM by the circumference and 60 seconds to get m/s
         shooterMotorEncoder.setVelocityConversionFactor(
                 (Parameters.shooter.WHEEL_DIA_M * Math.PI) / 60);
+        shooterMotor.burnFlash();
 
         // Create a new bang-bang controller
         bangBangController = new BangBangController();
@@ -58,7 +61,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setDesiredSpeed(double setpoint) {
-        shooterMotor.set(bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint));
+        shooterMotor.set(bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint) + .9 * shooterFF.calculate(setpoint));
     }
 
     public double getDesiredSpeed() {

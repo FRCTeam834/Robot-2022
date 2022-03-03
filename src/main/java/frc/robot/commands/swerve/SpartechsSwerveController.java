@@ -3,7 +3,6 @@ package frc.robot.commands.swerve;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
-import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
+import frc.robot.utilityClasses.HolonomicDriveController;
 
 @SuppressWarnings("MemberName")
 public class SpartechsSwerveController extends CommandBase {
@@ -60,7 +60,7 @@ public class SpartechsSwerveController extends CommandBase {
     public void execute() {
         double curTime = m_timer.get();
         var desiredState = (PathPlannerState) m_trajectory.sample(curTime);
-        // System.out.println(desiredState.positionMeters);
+        
         if (!targetLock) {
             desiredRotation2d = desiredState.holonomicRotation;
         } else {
@@ -72,19 +72,8 @@ public class SpartechsSwerveController extends CommandBase {
         }
         var targetChassisSpeeds =
                 m_controller.calculate(
-                        RobotContainer.driveTrain.getEstPose2D(), desiredState, new Rotation2d());
-        /*
-        SmartDashboard.putNumber("Desired X Speed: ", targetChassisSpeeds.vxMetersPerSecond);
-        SmartDashboard.putNumber("Desired Y Speed: ", targetChassisSpeeds.vyMetersPerSecond);
+                        RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredRotation2d);
 
-        SmartDashboard.putNumber("Desired Rot Speed: ", targetChassisSpeeds.omegaRadiansPerSecond);
-
-        SmartDashboard.putNumber("Desired Pose X: ", desiredState.poseMeters.getX());
-        SmartDashboard.putNumber("Desired Pose Y: ", desiredState.poseMeters.getY());
-
-        SmartDashboard.putNumber(
-                "Desired Rot:: ", desiredState.poseMeters.getRotation().getDegrees());
-        */
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
     }
 
