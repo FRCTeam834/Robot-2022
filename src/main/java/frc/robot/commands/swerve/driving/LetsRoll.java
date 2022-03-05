@@ -36,9 +36,16 @@ public class LetsRoll extends CommandBase {
         double leftX, rightX, rightY;
 
         // Get all of the current joystick inputs
-        leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
-        rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
-        rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
+        if (true) {
+            leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
+            rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
+            rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
+        }
+        else {
+            leftX = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(0));
+            rightX = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(2));
+            rightY = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(3));
+        }
 
         // If any of the sticks are out of range, then we need to move. Otherwise, lock up the
         // drivetrain (if specified) or just halt the modules

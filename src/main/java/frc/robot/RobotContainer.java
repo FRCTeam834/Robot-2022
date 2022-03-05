@@ -13,6 +13,7 @@
 package frc.robot;
 
 // Imports
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -105,6 +106,7 @@ public class RobotContainer {
     public static Joystick rightJoystick = new Joystick(1);
     public static XboxController xbox = new XboxController(2);
     public static Joystick buttonBoard = new Joystick(3);
+    public static GenericHID quadController = new GenericHID(4);
 
     // Define button board buttons
     public static JoystickButton TL = new JoystickButton(buttonBoard, ButtonBoard.TL);
