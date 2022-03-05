@@ -40,8 +40,7 @@ public class LetsRoll extends CommandBase {
             leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
             rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
             rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
-        }
-        else {
+        } else {
             leftX = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(0));
             rightX = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(2));
             rightY = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(3));
