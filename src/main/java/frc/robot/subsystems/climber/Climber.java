@@ -7,9 +7,7 @@ package frc.robot.subsystems.climber;
 // Imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.Parameters.climber.lift;
 import frc.robot.Parameters.climber.tilt;
-
 
 public class Climber extends SubsystemBase {
 
