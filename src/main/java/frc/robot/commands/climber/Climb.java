@@ -28,20 +28,19 @@ public class Climb extends SequentialCommandGroup {
                         new MoveTubeToPosition(
                                 RobotContainer.climber.leftTilt,
                                 Parameters.climber.tilt.UP_DISTANCE)),
-                        // new MoveTubeToPosition(
-                        //         RobotContainer.climber.rightTilt,
-                        //         Parameters.climber.tilt.UP_DISTANCE),
-                        // new MoveTubeToPosition(
-                        //         RobotContainer.climber.leftLift,
-                        //         Parameters.climber.lift.UP_DISTANCE),
-                        // new MoveTubeToPosition(
-                        //         RobotContainer.climber.rightLift,
-                        //         Parameters.climber.lift.UP_DISTANCE)),
+                // new MoveTubeToPosition(
+                //         RobotContainer.climber.rightTilt,
+                //         Parameters.climber.tilt.UP_DISTANCE),
+                // new MoveTubeToPosition(
+                //         RobotContainer.climber.leftLift,
+                //         Parameters.climber.lift.UP_DISTANCE),
+                // new MoveTubeToPosition(
+                //         RobotContainer.climber.rightLift,
+                //         Parameters.climber.lift.UP_DISTANCE)),
 
                 // Then... move the robot until we tip to the desired angle
                 new DriveUntilAngle(
-                        Parameters.climber.DRIVE_TILT_SPEED,
-Parameters.climber.ROBOT_TILT_ANGLE),
+                        Parameters.climber.DRIVE_TILT_SPEED, Parameters.climber.ROBOT_TILT_ANGLE),
 
                 // Engage the lifting hooks (will prevent the robot from falling when tilt tubes are
                 // retracted)
@@ -58,18 +57,18 @@ Parameters.climber.ROBOT_TILT_ANGLE),
                         new MoveTubeToPosition(
                                 RobotContainer.climber.leftTilt,
                                 Parameters.climber.tilt.DOWN_DISTANCE)));
-                //         new MoveTubeToPosition(
-                //                 RobotContainer.climber.rightTilt,
-                //                 Parameters.climber.tilt.DOWN_DISTANCE)),
+        //         new MoveTubeToPosition(
+        //                 RobotContainer.climber.rightTilt,
+        //                 Parameters.climber.tilt.DOWN_DISTANCE)),
 
-                // // Lift the robot off the ground
-                // // TO THE MOON BABY!!!!
-                // new ParallelCommandGroup(
-                //         new MoveTubeToPosition(
-                //                 RobotContainer.climber.leftLift,
-                //                 Parameters.climber.lift.LIFT_DISTANCE),
-                //         new MoveTubeToPosition(
-                //                 RobotContainer.climber.rightLift,
-                //                 Parameters.climber.lift.LIFT_DISTANCE)));
+        // // Lift the robot off the ground
+        // // TO THE MOON BABY!!!!
+        // new ParallelCommandGroup(
+        //         new MoveTubeToPosition(
+        //                 RobotContainer.climber.leftLift,
+        //                 Parameters.climber.lift.LIFT_DISTANCE),
+        //         new MoveTubeToPosition(
+        //                 RobotContainer.climber.rightLift,
+        //                 Parameters.climber.lift.LIFT_DISTANCE)));
     }
 }
