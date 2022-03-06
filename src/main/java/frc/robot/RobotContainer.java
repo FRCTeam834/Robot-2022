@@ -44,8 +44,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
-// import frc.robot.subsystems.climber.Climber;
-// import frc.robot.subsystems.climber.HomeClimberTubes;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 import frc.robot.utilityClasses.interpolation.InterpolatingTable;
@@ -64,8 +64,9 @@ public class RobotContainer {
     public static DriveTrain driveTrain = new DriveTrain();
     public static Hood hood = new Hood();
 
-    // public static Climber climber = new Climber();
+    public static Climber climber = new Climber();
     public static Intake intake = new Intake();
+    
     // public static IntakeWinch intakeWinch = new IntakeWinch();
     public static Shooter shooter = new Shooter();
     public static Indexer indexer = new Indexer();
