@@ -210,9 +210,7 @@ public class TelescopingTube extends SubsystemBase {
         return !limitSwitch.get();
     }
 
-    public void setCurrentLimit(int limit){
+    public void setCurrentLimit(int limit) {
         spoolMotor.setSmartCurrentLimit(limit);
-
-
     }
 }

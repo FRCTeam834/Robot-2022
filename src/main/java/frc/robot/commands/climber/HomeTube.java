@@ -5,6 +5,7 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Parameters;
 import frc.robot.subsystems.climber.TelescopingTube;
 
@@ -54,7 +55,6 @@ public class HomeTube extends CommandBase {
         tube.stop();
         // Set motor current limit back to normal
         this.tube.setCurrentLimit(Parameters.climber.TUBE_CURRENT_LIMIT);
-
 
         // Set that the tube is homed (if it wasn't interrupted)
         if (!interrupted) {

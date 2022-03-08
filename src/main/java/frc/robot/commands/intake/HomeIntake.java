@@ -21,7 +21,6 @@ public class HomeIntake extends CommandBase {
     public void initialize() {
         RobotContainer.intakeWinch.set(Parameters.intake.spool.HOME_SPEED);
         RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.spool.HOME_CURRENT);
-
     }
 
     // Called every time the scheduler runs while the command is scheduled.

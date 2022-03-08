@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.commands.climber.MoveTubeToPosition;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.ColorSensorIndexing;
@@ -201,7 +202,8 @@ public class RobotContainer {
         MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
 
         TR.whenPressed(new HomeClimberTubes());
-        TM.whenPressed(new MoveTubeToPosition(climber.leftTilt, Parameters.climber.tilt.UP_DISTANCE));
+        TM.whenPressed(
+                new MoveTubeToPosition(climber.leftTilt, Parameters.climber.tilt.UP_DISTANCE));
 
         // xbox controller
         new JoystickButton(xbox, Button.kX.value)
