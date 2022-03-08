@@ -355,7 +355,6 @@ public class DriveTrain extends SubsystemBase {
     }
 
     /** Updates the odometry. Should be called as frequently as possible to reduce error. */
-    
     public void updateOdometry() {
         swerveDriveOdometry.update(
                 RobotContainer.navX.getRotation2d(),
@@ -364,8 +363,6 @@ public class DriveTrain extends SubsystemBase {
                 backLeft.getState(),
                 backRight.getState());
     }
-    
-
 
     /**
      * Reset the odometry measurements. This is kind of like "homing" the robot

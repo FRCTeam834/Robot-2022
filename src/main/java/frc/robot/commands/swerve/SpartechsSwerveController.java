@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
-
 @SuppressWarnings("MemberName")
 public class SpartechsSwerveController extends CommandBase {
     private final Timer m_timer = new Timer();
