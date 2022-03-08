@@ -16,6 +16,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -55,6 +56,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         RobotContainer.driveTrain.resetOdometry(new Pose2d());
+        if (!Parameters.telemetryMode) {
+            LiveWindow.disableAllTelemetry();
+        }
     }
 
     /**

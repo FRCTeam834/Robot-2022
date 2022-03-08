@@ -92,28 +92,28 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FL_STEER_ID,
                         Parameters.driveTrain.can.FL_DRIVE_ID,
                         Parameters.driveTrain.can.FL_CODER_ID,
-                        false);
+                        true);
         frontRight =
                 new SwerveModule(
                         "FR",
                         Parameters.driveTrain.can.FR_STEER_ID,
                         Parameters.driveTrain.can.FR_DRIVE_ID,
                         Parameters.driveTrain.can.FR_CODER_ID,
-                        true);
+                        false);
         backLeft =
                 new SwerveModule(
                         "BL",
                         Parameters.driveTrain.can.BL_STEER_ID,
                         Parameters.driveTrain.can.BL_DRIVE_ID,
                         Parameters.driveTrain.can.BL_CODER_ID,
-                        false);
+                        true);
         backRight =
                 new SwerveModule(
                         "BR",
                         Parameters.driveTrain.can.BR_STEER_ID,
                         Parameters.driveTrain.can.BR_DRIVE_ID,
                         Parameters.driveTrain.can.BR_CODER_ID,
-                        true);
+                        false);
 
 
         // Center the odometry of the robot

@@ -43,7 +43,7 @@ public final class Parameters {
     // Enables all debug statements
     public static final boolean debug = false;
     public static final boolean tuningMode = false;
-    public static final boolean telemetryMode = true;
+    public static final boolean telemetryMode = false;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
