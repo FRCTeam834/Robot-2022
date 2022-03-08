@@ -34,7 +34,7 @@ import frc.robot.utilityClasses.TuneableNumber;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = false;
+    public static final boolean debug = true;
     public static final boolean tuningMode = false;
     public static final boolean telemetryMode = false;
 
@@ -274,18 +274,16 @@ public final class Parameters {
 
             // Distances to move to
             public static final double UP_DISTANCE =
-                    0.175; // The distance of the string in the up position
-            public static final double DOWN_DISTANCE =
-                    0.35; // The distance of the string in the down position
+                    Units.inchesToMeters(34.5); // The distance of the string in the up position
             public static final double GRAB_DISTANCE =
-                    0.33; // The distance at which the hook grabs the bar, but doesn't lift the
+                    Units.inchesToMeters(15); // The distance at which the hook grabs the bar, but doesn't lift the
             // robot yet
             public static final double LIFT_DISTANCE =
-                    0.35; // The distance of the climber when the robot is fully off the ground
+                    Units.inchesToMeters(10); // The distance of the climber when the robot is fully off the ground
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
-            public static final double HOME_DISTANCE = 0.31; // The distance at home
+            public static final double HOME_DISTANCE = Units.inchesToMeters(2.75); // The distance at home
         }
 
         public static final class tilt {
@@ -318,15 +316,18 @@ public final class Parameters {
                             * Units.inchesToMeters(
                                     1)); // Diameter is 1 inch, circumference is in meters
 
-            // The distances for being up and down
+            // Distances to move to
             public static final double UP_DISTANCE =
-                    0.175; // The distance of the string in the up position
+                    Units.inchesToMeters(34.5); // The distance of the string in the up position
+            public static final double GRAB_DISTANCE =
+                    Units.inchesToMeters(15); // The distance at which the hook grabs the bar, but doesn't lift the
+            // robot yet
             public static final double DOWN_DISTANCE =
-                    0.35; // The distance of the string in the down position
+                    Units.inchesToMeters(10); // The distance of the climber when the robot is fully off the ground
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
-            public static final double HOME_DISTANCE = 0.31; // The distance at home
+            public static final double HOME_DISTANCE = Units.inchesToMeters(2.75); // The distance at home
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot

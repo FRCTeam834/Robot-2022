@@ -25,6 +25,8 @@ public class NavX extends SubsystemBase {
     /** Creates a new NavX. */
     AHRS navX = new AHRS(SPI.Port.kMXP);
 
+    private float pitchOffset = 0;
+
     public NavX() {
         navX.calibrate();
     }
@@ -56,7 +58,7 @@ public class NavX extends SubsystemBase {
 
     // Grabs the pitch
     public float getPitch() {
-        return navX.getPitch();
+        return navX.getPitch() + pitchOffset;
     }
 
     // Gets the x displacement
@@ -82,6 +84,11 @@ public class NavX extends SubsystemBase {
     // Resets the NavX's yaw axis to zero
     public void resetYaw() {
         navX.zeroYaw();
+    }
+
+    // Resets the NavX's yaw axis to zero
+    public void resetPitch() {
+        pitchOffset = -getPitch();
     }
 
     public void resetDisplacement() {

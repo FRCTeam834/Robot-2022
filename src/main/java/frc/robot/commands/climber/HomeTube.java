@@ -34,7 +34,6 @@ public class HomeTube extends CommandBase {
         this.homeDistance = homeDistance;
 
         this.tube.setCurrentLimit(Parameters.climber.TUBE_HOME_CURRENT);
-
     }
 
     // Called when the command is initially scheduled.

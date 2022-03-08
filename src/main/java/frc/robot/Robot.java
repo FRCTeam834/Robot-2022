@@ -55,6 +55,7 @@ public class Robot extends TimedRobot {
 
         // Reset the angle of the NavX
         RobotContainer.navX.resetYaw();
+        RobotContainer.navX.resetPitch();
     }
 
     /**
@@ -98,6 +99,7 @@ public class Robot extends TimedRobot {
         System.out.println("Left Tilt: " + RobotContainer.climber.leftTilt.getLSValue());
         System.out.println("Right Lift: " + rightLift.get());
         System.out.println("Left Lift: " + leftLift.get());
+        System.out.println();
 
 
 
