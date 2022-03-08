@@ -110,28 +110,28 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FL_STEER_ID,
                         Parameters.driveTrain.can.FL_DRIVE_ID,
                         Parameters.driveTrain.can.FL_CODER_ID,
-                        true);
+                        false);
         frontRight =
                 new SwerveModule(
                         "FR",
                         Parameters.driveTrain.can.FR_STEER_ID,
                         Parameters.driveTrain.can.FR_DRIVE_ID,
                         Parameters.driveTrain.can.FR_CODER_ID,
-                        false);
+                        true);
         backLeft =
                 new SwerveModule(
                         "BL",
                         Parameters.driveTrain.can.BL_STEER_ID,
                         Parameters.driveTrain.can.BL_DRIVE_ID,
                         Parameters.driveTrain.can.BL_CODER_ID,
-                        true);
+                        false);
         backRight =
                 new SwerveModule(
                         "BR",
                         Parameters.driveTrain.can.BR_STEER_ID,
                         Parameters.driveTrain.can.BR_DRIVE_ID,
                         Parameters.driveTrain.can.BR_CODER_ID,
-                        false);
+                        true);
 
         // Set up the PID controllers
         rotationPID.setTolerance(Parameters.driveTrain.pid.DEFAULT_ROT_TOLERANCE);
@@ -460,7 +460,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     /** Updates the odometry. Should be called as frequently as possible to reduce error. */
-    /*
+    
     public void updateOdometry() {
         swerveDriveOdometry.update(
                 RobotContainer.navX.getRotation2d(),
@@ -469,32 +469,8 @@ public class DriveTrain extends SubsystemBase {
                 backLeft.getState(),
                 backRight.getState());
     }
-    */
-    public void updateOdometry() {
-        double[] distances =
-                new double[] {
-                    frontLeft.getDriveMotor().getEncoder().getPosition(),
-                    frontRight.getDriveMotor().getEncoder().getPosition(),
-                    backLeft.getDriveMotor().getEncoder().getPosition(),
-                    backRight.getDriveMotor().getEncoder().getPosition(),
-                };
-        double time = timer.get();
-        double dt = time - lastTime;
-        lastTime = time;
-        if (dt == 0) return;
-        swerveDriveOdometry.updateWithTime(
-                time,
-                RobotContainer.navX.getRotation2d(),
-                new SwerveModuleState(
-                        (distances[0] - lastDistances[0]) / dt, frontLeft.getState().angle),
-                new SwerveModuleState(
-                        (distances[1] - lastDistances[1]) / dt, frontRight.getState().angle),
-                new SwerveModuleState(
-                        (distances[2] - lastDistances[2]) / dt, backLeft.getState().angle),
-                new SwerveModuleState(
-                        (distances[3] - lastDistances[3]) / dt, backRight.getState().angle));
-        lastDistances = distances;
-    }
+    
+
 
     /**
      * Reset the odometry measurements. This is kind of like "homing" the robot

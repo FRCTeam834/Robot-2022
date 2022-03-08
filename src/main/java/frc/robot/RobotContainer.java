@@ -20,16 +20,21 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.autons.ThreeBallAuton;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.ColorSensorIndexing;
+import frc.robot.commands.indexing.IndexStupid;
 // import frc.robot.commands.intake.HomeIntake;
 // import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
+import frc.robot.commands.shooting.DumbShoot;
+import frc.robot.commands.shooting.ShootStupid;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.LetsRoll;
@@ -157,25 +162,26 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 2).whenPressed(letsRoll);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 8)
-                .whenPressed(
-                        new InstantCommand(driveTrain::zeroEncoders, driveTrain)
-                                .andThen(
-                                        new PrintCommand("Zeroed!")
-                                                .andThen(
-                                                        new InstantCommand(
-                                                                driveTrain::saveEncoderOffsets,
-                                                                driveTrain))));
-        // new JoystickButton(leftJoystick, 9).whenPressed();
+        .whenPressed(
+            new InstantCommand(driveTrain::zeroEncoders, driveTrain)
+                    .andThen(
+                            new PrintCommand("Zeroed!")
+                                    .andThen(
+                                            new InstantCommand(
+                                                    driveTrain::saveEncoderOffsets,
+                                                    driveTrain))));
 
         // Right Joystick
         new JoystickButton(rightJoystick, 1)
                 .whenPressed(
                         new InstantCommand(
                                 () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
-        new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
 
         // Button board
-        BM.whileHeld(new InstantCommand(() -> shooter.set(.5)));
+        BM.whileHeld(
+                new InstantCommand(
+                        () ->
+                                shooter.set(.5)));
         BR.whenPressed(new InstantCommand(() -> shooter.stop()));
         BL.whileHeld(
                 new InstantCommand(
@@ -196,15 +202,12 @@ public class RobotContainer {
         MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
         new JoystickButton(rightJoystick, 11).whenPressed(homeHood);
 
-        new JoystickButton(xbox, Button.kB.value)
-                .whenHeld(new StartEndCommand(intake::turnOn, intake::stop, intake));
-        // new JoystickButton(xbox, Button.kA.value).whenPressed(new StartEndCommand(() -> index,
-        // onEnd, requirements));
-        // new JoystickButton(xbox, Button.kX.value).whenHeld(new DumbShoot());
-        new JoystickButton(xbox, Button.kRightBumper.value)
-                .whenHeld(new StartEndCommand(() -> shooter.set(1), shooter::stop, shooter));
-        new JoystickButton(xbox, Button.kLeftBumper.value)
-                .whenHeld(new StartEndCommand(() -> hood.runMotor(.15), hood::stop, hood));
+        new JoystickButton(xbox, Button.kB.value).whenHeld(new StartEndCommand(intake::turnOn, intake::stop, intake));
+        //new JoystickButton(xbox, Button.kA.value).whenPressed(new StartEndCommand(() -> index, onEnd, requirements));
+        new JoystickButton(xbox, Button.kX.value).whenPressed(new ThreeBallAuton());
+        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new StartEndCommand(() -> shooter.set(1), shooter::stop, shooter));
+        new JoystickButton(xbox, Button.kLeftBumper.value).whenHeld(new StartEndCommand(()->hood.runMotor(.15), hood::stop, hood));
+        
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
@@ -275,9 +278,9 @@ public class RobotContainer {
     public void homeAllPIDControllers() {
 
         // Check each if each is homed, running homing if not
-        // if (!hood.isHomed()) {
+        //if (!hood.isHomed()) {
         //    CommandScheduler.getInstance().schedule(false, homeHood);
-        // }
+        //}
         /*if (!intakeWinch.isHomed()) {
             CommandScheduler.getInstance().schedule(false, homeIntake);
         }*/

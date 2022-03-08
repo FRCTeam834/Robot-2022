@@ -4,8 +4,10 @@
 
 package frc.robot.commands.shooting;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class DumbShoot extends CommandBase {
@@ -22,13 +24,13 @@ public class DumbShoot extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.intake.turnOn();
+        RobotContainer.shooter.setDesiredSpeed(RobotContainer.xbox.getRawAxis(3) * Parameters.shooter.MAX_SPEED);;
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.intake.stop();
+        RobotContainer.shooter.stop();
     }
 
     // Returns true when the command should end.
