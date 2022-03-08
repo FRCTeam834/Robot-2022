@@ -1,7 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-/*
+
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -20,6 +20,8 @@ public class HomeIntake extends CommandBase {
     @Override
     public void initialize() {
         RobotContainer.intakeWinch.runSpoolMotor(Parameters.intake.spool.HOME_SPEED);
+        RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.spool.HOME_CURRENT);
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -33,6 +35,8 @@ public class HomeIntake extends CommandBase {
         // Stop the motor
         // ! THIS NEEDS TO BE DONE TO PREVENT OVERDRIVING THE MOTOR
         RobotContainer.intakeWinch.stopSpoolMotor();
+        // Sets it back to standard current limit
+        RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.INTAKE_MOTOR_CURRENT_LIMIT);
 
         // If the command wasn't interrupted (like another command needing the hood), then we can
         // say that we're at the home position of the shooter
@@ -47,4 +51,4 @@ public class HomeIntake extends CommandBase {
     public boolean isFinished() {
         return RobotContainer.intakeWinch.getLSValue();
     }
-}*/
+}

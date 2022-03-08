@@ -16,13 +16,6 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.math.MatBuilder;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -226,7 +219,6 @@ public final class Parameters {
 
             // Timeout for all movements (break if position not reached in time)
             public static final double TIMEOUT = 10; // seconds
-
         }
 
         // The gear ratios of the module
@@ -248,6 +240,7 @@ public final class Parameters {
     public static final class climber {
 
         public static final int TUBE_CURRENT_LIMIT = 10;
+        public static final int TUBE_HOME_CURRENT = 3;
 
         public static final class lift {
 
@@ -304,7 +297,7 @@ public final class Parameters {
             // The gearbox ratio
             public static final double GEARBOX_RATIO = 36;
 
-            // Limit switch ports used for lift
+            // Limit switch ports used for tilt
             public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
             public static final int LEFT_LIMIT_SWITCH_PORT = 4;
 
@@ -358,6 +351,8 @@ public final class Parameters {
             // Homing info
             public static final double HOME_SPEED = 0.25;
             public static final double HOME_DISTANCE = 0.31; // The distance at home
+            public static final int HOME_CURRENT = 3;
+
 
             // Basic info
             public static final double GEARBOX_RATIO =

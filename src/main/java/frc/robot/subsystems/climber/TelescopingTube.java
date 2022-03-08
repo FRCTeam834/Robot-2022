@@ -209,4 +209,10 @@ public class TelescopingTube extends SubsystemBase {
     public boolean getLSValue() {
         return limitSwitch.get();
     }
+
+    public void setCurrentLimit(int limit){
+        spoolMotor.setSmartCurrentLimit(limit);
+
+
+    }
 }

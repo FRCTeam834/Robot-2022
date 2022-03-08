@@ -7,11 +7,12 @@ package frc.robot.commands.swerve.testing;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class TestRotationalPID extends CommandBase {
-    PIDController rotationPID = new PIDController(Parameters.driveTrain.pid.ROT_MOVE_P.get(),0,0);
+    PIDController rotationPID = new PIDController(Parameters.driveTrain.pid.ROT_MOVE_P.get(), 0, 0);
     /** Creates a new RotationalPIDTesting. */
     public TestRotationalPID() {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -23,8 +24,7 @@ public class TestRotationalPID extends CommandBase {
     public void initialize() {
 
         // Set that the new angle of the robot
-       rotationPID.setSetpoint(
-                Units.degreesToRadians(RobotContainer.navX.getYaw() + 90));
+        rotationPID.setSetpoint(Units.degreesToRadians(RobotContainer.navX.getYaw() + 90));
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -33,8 +33,7 @@ public class TestRotationalPID extends CommandBase {
 
         // Calculate the desired rotation speed
         double rotationSpeed =
-                -rotationPID.calculate(
-                        Units.degreesToRadians(RobotContainer.navX.getYaw()));
+                -rotationPID.calculate(Units.degreesToRadians(RobotContainer.navX.getYaw()));
 
         // Set that the drivetrain should move there
         RobotContainer.driveTrain.drive(0, 0, rotationSpeed, false);

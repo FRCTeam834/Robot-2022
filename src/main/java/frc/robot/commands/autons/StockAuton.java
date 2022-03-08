@@ -22,8 +22,7 @@ public class StockAuton extends SequentialCommandGroup {
     public StockAuton() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        PathPlannerTrajectory threeBall =
-                PathPlanner.loadPath("New New Path", 1, .5);
+        PathPlannerTrajectory threeBall = PathPlanner.loadPath("New New Path", 1, .5);
         addCommands(
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules),
                 new InstantCommand(
