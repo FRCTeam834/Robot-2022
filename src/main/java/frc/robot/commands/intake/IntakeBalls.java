@@ -5,7 +5,7 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class IntakeBalls extends CommandBase {
@@ -21,7 +21,7 @@ public class IntakeBalls extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.intake.turnOn();
+        RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
     }
 
     // Called once the command ends or is interrupted.

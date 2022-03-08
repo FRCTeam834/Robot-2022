@@ -69,7 +69,7 @@ public class IntakeWinch extends SubsystemBase {
         }
     }
 
-    public void runSpoolMotor(double percent) {
+    public void set(double percent) {
         spoolMotor.set(percent);
     }
 

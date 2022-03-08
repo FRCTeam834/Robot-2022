@@ -29,11 +29,7 @@ public class DriveForTime extends CommandBase {
         RobotContainer.driveTrain.straightenModules();
         timer.reset();
         timer.start();
-        if (time == Parameters.driveTrain.auton.TIME_OFF_LINE) {
-            speed = Parameters.driveTrain.auton.DRIVE_SPEED;
-        } else {
-            speed = Parameters.driveTrain.auton.LINE_UP_SPEED;
-        }
+        speed = 1;
     }
 
     // Called every time the scheduler runs while the command is scheduled.

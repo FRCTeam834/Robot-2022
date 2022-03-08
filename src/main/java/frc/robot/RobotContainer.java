@@ -12,8 +12,8 @@
  */
 package frc.robot;
 
-// Imports
 import edu.wpi.first.wpilibj.GenericHID;
+// Imports
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -50,6 +50,8 @@ import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.climber.Climber;
+// import frc.robot.subsystems.climber.Climber;
+// import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 import frc.robot.utilityClasses.interpolation.InterpolatingTable;
@@ -70,7 +72,6 @@ public class RobotContainer {
 
     public static Climber climber = new Climber();
     public static Intake intake = new Intake();
-
     // public static IntakeWinch intakeWinch = new IntakeWinch();
     public static Shooter shooter = new Shooter();
     public static Indexer indexer = new Indexer();
@@ -177,6 +178,9 @@ public class RobotContainer {
                         new InstantCommand(
                                 () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
 
+        new JoystickButton(rightJoystick, 11).whenPressed(homeHood);
+
+
         // Button board
         BM.whileHeld(
                 new InstantCommand(
@@ -194,19 +198,18 @@ public class RobotContainer {
                         () ->
                                 interpolatingTable.addEntry(
                                         vision.getDistanceToGoal(),
-                                        hood.getDesiredAngle(),
+                                        hood.getCurrentAngle(),
                                         shooter.getDesiredSpeed())));
-        TM.whenPressed(new InstantCommand(intake::turnOn, intake));
-        TR.whenPressed(new InstantCommand(intake::stop, intake));
         MM.whenPressed(new InstantCommand(() -> indexer.set(0.35), indexer));
         MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
-        new JoystickButton(rightJoystick, 11).whenPressed(homeHood);
 
-        new JoystickButton(xbox, Button.kB.value).whenHeld(new StartEndCommand(intake::turnOn, intake::stop, intake));
-        //new JoystickButton(xbox, Button.kA.value).whenPressed(new StartEndCommand(() -> index, onEnd, requirements));
-        new JoystickButton(xbox, Button.kX.value).whenPressed(new ThreeBallAuton());
-        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new StartEndCommand(() -> shooter.set(1), shooter::stop, shooter));
-        new JoystickButton(xbox, Button.kLeftBumper.value).whenHeld(new StartEndCommand(()->hood.runMotor(.15), hood::stop, hood));
+        //xbox controller
+        new JoystickButton(xbox, Button.kX.value).whenHeld(new StartEndCommand(() -> intake.set(.5), intake::stop, intake));
+        new JoystickButton(xbox, Button.kB.value).whenPressed(new IndexStupid());
+        new JoystickButton(xbox, Button.kA.value).whenPressed(new ShootStupid());
+        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new StartEndCommand(() -> hood.set(.15), hood::stop, hood));
+        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new StartEndCommand(() -> hood.set(-.15), hood::stop, hood));
+
         
     }
 

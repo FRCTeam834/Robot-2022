@@ -78,7 +78,7 @@ public class Hood extends SubsystemBase {
      *
      * @param percent to run motor at
      */
-    public void runMotor(double percent) {
+    public void set(double percent) {
         hoodMotor.set(percent);
     }
 

@@ -80,6 +80,9 @@ public class Shooter extends SubsystemBase {
     public void stop() {
         shooterMotor.stopMotor();
     }
+    public double getSpeed() {
+        return shooterMotorEncoder.getVelocity();
+    }
 
     @Override
     public void initSendable(SendableBuilder builder) {

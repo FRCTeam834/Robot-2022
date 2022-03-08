@@ -4,29 +4,35 @@
 
 package frc.robot.commands.autons;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 
-public class StockAuton extends CommandBase {
-    /** Creates a new StockAuton. */
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+import frc.robot.RobotContainer;
+import frc.robot.commands.StopEverything;
+import frc.robot.commands.swerve.SpartechsSwerveController;
+
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
+public class StockAuton extends SequentialCommandGroup {
+
     public StockAuton() {
-        // Use addRequirements() here to declare subsystem dependencies.
-    }
-
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {}
-
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {}
-
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {}
-
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return false;
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        PathPlannerTrajectory threeBall =
+                PathPlanner.loadPath("New New Path", 1, .5);
+        addCommands(
+                new InstantCommand(RobotContainer.driveTrain::haltAllModules),
+                new InstantCommand(
+                        () ->
+                                RobotContainer.driveTrain.resetOdometry(
+                                        threeBall.getInitialPose(),
+                                        threeBall.getInitialState().holonomicRotation)),
+                new SpartechsSwerveController(threeBall, false),
+                new InstantCommand(RobotContainer.driveTrain::haltAllModules),
+                new StopEverything());
     }
 }

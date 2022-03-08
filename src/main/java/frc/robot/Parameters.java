@@ -154,8 +154,8 @@ public final class Parameters {
         public static final class dimensions {
 
             // Swerve calculation parameters (in meters)
-            public static final double DRIVE_LENGTH = Units.inchesToMeters(22.5);
-            public static final double DRIVE_WIDTH = Units.inchesToMeters(22.5);
+            public static final double DRIVE_LENGTH = Units.inchesToMeters(26.5);
+            public static final double DRIVE_WIDTH = Units.inchesToMeters(20);
             public static final double MODULE_WHEEL_DIA_IN = 3.95; // Inches
             public static final double MODULE_WHEEL_DIA_M =
                     Units.inchesToMeters(MODULE_WHEEL_DIA_IN); // Meters (for odometry calculations)
@@ -168,7 +168,7 @@ public final class Parameters {
             public static final double MAX_ROT_VELOCITY = 3.75;
             public static final double MAX_ACCEL = 500000000; // (RPMM)
             public static final int MAX_STEER_CURRENT = 20; // Amps
-            public static final int MAX_DRIVE_CURRENT = 50; // Amps
+            public static final int MAX_DRIVE_CURRENT = 40; // Amps
         }
 
         // All of the PID parameters
@@ -218,8 +218,6 @@ public final class Parameters {
             public static final double ROT_MOVE_I = 0;
             public static final TuneableNumber ROT_MOVE_D =
                     new TuneableNumber(DRIVE_PID_TABLE, "Rot kD", 0);
-            public static final double DEFAULT_ROT_MAX_VELOCITY = 36000000; // deg/s
-            public static final double DEFAULT_ROT_MAX_ACCEL = 180000000; // deg/s
             public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
         }
 
@@ -229,13 +227,6 @@ public final class Parameters {
             // Timeout for all movements (break if position not reached in time)
             public static final double TIMEOUT = 10; // seconds
 
-            // Pose estimator parameters (units are m, m, radians)
-            public static final Matrix<N3, N1> POSE_STD_DEV =
-                    new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, Math.toRadians(0.125));
-            public static final Matrix<N1, N1> ENCODER_GYRO_DEV =
-                    new MatBuilder<>(Nat.N1(), Nat.N1()).fill(Math.toRadians(0.125));
-            public static final Matrix<N3, N1> VISION_DEVIATION =
-                    new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, Math.toRadians(0.125));
         }
 
         // The gear ratios of the module
@@ -249,41 +240,9 @@ public final class Parameters {
         // Auton Constants
         public static final class auton {
 
-            // Must be updated for new games!
-            public static final double DRIVE_SPEED = -2; // m/s
-            public static final double TIME_OFF_LINE = 2.25; // s
-
-            public static final double LINE_UP_SPEED = 1.5; // m/s
-            public static final double LINEUP_TIME = .5; // s
-
             public static final double TURN_180_STEER_RATE_PERCENT =
                     0.5; // The percentage of maxSteerRate (based on driver profile)
         }
-    }
-
-    // All of the starting position data
-    public static final class positions {
-
-        // All of the possible starting positions (and their angles)
-        // In format (default (no station assigned), 1st station, 2nd station, 3rd station)
-        public static final Pose2d[] POSSIBLE_STARTING_POSITIONS = {
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0))
-        };
-
-        // Actual starting position (declared in the global scope)
-        public static Pose2d STARTING_POS = new Pose2d(0, 0, new Rotation2d());
-        // Parameters.positions.POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
-    }
-
-    // All of the joystick variables
-    public static final class joysticks {
-
-        // Dynamically allocated Joysticks
-        // Joysticks have 11 buttons
-        public static final int JOYSTICK_BUTTON_COUNT = 11;
     }
 
     public static final class climber {
