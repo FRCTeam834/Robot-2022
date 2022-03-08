@@ -289,6 +289,7 @@ public final class Parameters {
     public static final class climber {
 
         public static final int TUBE_CURRENT_LIMIT = 10;
+        public static final int TUBE_HOME_CURRENT = 3;
 
         public static final class lift {
 
@@ -345,7 +346,7 @@ public final class Parameters {
             // The gearbox ratio
             public static final double GEARBOX_RATIO = 36;
 
-            // Limit switch ports used for lift
+            // Limit switch ports used for tilt
             public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
             public static final int LEFT_LIMIT_SWITCH_PORT = 4;
 
@@ -399,6 +400,8 @@ public final class Parameters {
             // Homing info
             public static final double HOME_SPEED = 0.25;
             public static final double HOME_DISTANCE = 0.31; // The distance at home
+            public static final int HOME_CURRENT = 3;
+
 
             // Basic info
             public static final double GEARBOX_RATIO =

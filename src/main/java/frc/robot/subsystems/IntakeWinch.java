@@ -161,4 +161,9 @@ public class IntakeWinch extends SubsystemBase {
     public boolean getLSValue() {
         return limitSwitch.get();
     }
+
+    // sets current limit of the spool motor
+    public void setCurrentLimit(int limit){
+        spoolMotor.setSmartCurrentLimit(limit);
+    }
 }
