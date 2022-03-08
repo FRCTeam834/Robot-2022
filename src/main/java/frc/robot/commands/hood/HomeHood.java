@@ -22,7 +22,7 @@ public class HomeHood extends CommandBase {
 
         // Set the current way way way down in case the limit switch doesn't work
         RobotContainer.hood.setMotorCurrent(Parameters.hood.HOME_CURRENT);
-        RobotContainer.hood.runMotor(Parameters.hood.HOME_SPEED);
+        RobotContainer.hood.set(Parameters.hood.HOME_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

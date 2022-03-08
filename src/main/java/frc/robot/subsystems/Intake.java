@@ -38,13 +38,8 @@ public class Intake extends SubsystemBase {
     public void periodic() {}
 
     // Turns on the intake
-    public void turnOn() {
-        intakeMotor.set(Parameters.intake.INTAKE_SPEED);
-    }
-
-    // Makes the intake go in reverse
-    public void spitItOut() {
-        intakeMotor.set(-Parameters.intake.INTAKE_SPEED);
+    public void set(double percentage) {
+        intakeMotor.set(percentage);
     }
 
     // Stops the intake motors

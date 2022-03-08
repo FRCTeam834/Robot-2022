@@ -61,8 +61,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setDesiredSpeed(double setpoint) {
-        shooterMotor.set(
-                bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint)
+        shooterMotor.setVoltage(
+                (bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12)
                         + .9 * shooterFF.calculate(setpoint));
     }
 
@@ -81,6 +81,10 @@ public class Shooter extends SubsystemBase {
 
     public void stop() {
         shooterMotor.stopMotor();
+    }
+
+    public double getSpeed() {
+        return shooterMotorEncoder.getVelocity();
     }
 
     @Override

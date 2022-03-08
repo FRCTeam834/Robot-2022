@@ -7,6 +7,7 @@ package frc.robot.commands.shooting;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
+import frc.robot.utilityClasses.interpolation.InterpolatingTable;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
 public class TrackGoal extends CommandBase {
@@ -28,7 +29,7 @@ public class TrackGoal extends CommandBase {
         double distance = RobotContainer.vision.getDistanceToGoal();
 
         // Look up the shot parameters for that distance
-        ShotParams shotParams = RobotContainer.interpolatingTable.getShotParam(distance);
+        ShotParams shotParams = InterpolatingTable.getShotParam(distance);
 
         // Set the hood and shooter's desired angles
         RobotContainer.hood.setDesiredAngle(shotParams.getAngle());

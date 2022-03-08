@@ -3,6 +3,7 @@ package frc.robot.commands.swerve;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.utilityClasses.HolonomicDriveController;
 
 @SuppressWarnings("MemberName")
 public class SpartechsSwerveController extends CommandBase {
@@ -41,7 +41,10 @@ public class SpartechsSwerveController extends CommandBase {
         PIDController yPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         ProfiledPIDController rotPID =
                 new ProfiledPIDController(
-                        Parameters.driveTrain.pid.ROT_MOVE_P.get(), 0, 0, new Constraints(8, 5));
+                        Parameters.driveTrain.pid.ROT_MOVE_P.get(),
+                        0,
+                        0,
+                        new Constraints(Math.PI, Math.PI * Math.PI));
 
         m_controller = new HolonomicDriveController(xPID, yPID, rotPID);
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
@@ -61,15 +64,6 @@ public class SpartechsSwerveController extends CommandBase {
         double curTime = m_timer.get();
         var desiredState = (PathPlannerState) m_trajectory.sample(curTime);
 
-        if (!targetLock) {
-            desiredRotation2d = desiredState.holonomicRotation;
-        } else {
-            desiredRotation2d =
-                    RobotContainer.driveTrain
-                            .getEstPose2D()
-                            .getRotation()
-                            .rotateBy(Rotation2d.fromDegrees((RobotContainer.vision.getYaw())));
-        }
         var targetChassisSpeeds =
                 m_controller.calculate(
                         RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredRotation2d);
