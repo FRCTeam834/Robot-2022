@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.autons.ThreeBallAuton;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.ColorSensorIndexing;
 import frc.robot.commands.indexing.IndexStupid;
@@ -178,7 +177,6 @@ public class RobotContainer {
 
         new JoystickButton(rightJoystick, 11).whenPressed(homeHood);
 
-
         // Button board
         BM.whileHeld(new InstantCommand(() -> shooter.set(.5)));
         BR.whenPressed(new InstantCommand(() -> shooter.stop()));
@@ -198,14 +196,15 @@ public class RobotContainer {
         MM.whenPressed(new InstantCommand(() -> indexer.set(0.35), indexer));
         MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
 
-        //xbox controller
-        new JoystickButton(xbox, Button.kX.value).whenHeld(new StartEndCommand(() -> intake.set(.5), intake::stop, intake));
+        // xbox controller
+        new JoystickButton(xbox, Button.kX.value)
+                .whenHeld(new StartEndCommand(() -> intake.set(.5), intake::stop, intake));
         new JoystickButton(xbox, Button.kB.value).whenPressed(new IndexStupid());
         new JoystickButton(xbox, Button.kA.value).whenPressed(new ShootStupid());
-        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new StartEndCommand(() -> hood.set(.15), hood::stop, hood));
-        new JoystickButton(xbox, Button.kRightBumper.value).whenHeld(new StartEndCommand(() -> hood.set(-.15), hood::stop, hood));
-
-        
+        new JoystickButton(xbox, Button.kRightBumper.value)
+                .whenHeld(new StartEndCommand(() -> hood.set(.15), hood::stop, hood));
+        new JoystickButton(xbox, Button.kRightBumper.value)
+                .whenHeld(new StartEndCommand(() -> hood.set(-.15), hood::stop, hood));
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)

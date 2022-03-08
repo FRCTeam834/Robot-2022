@@ -8,26 +8,32 @@ import static java.util.Map.entry;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.function.BiConsumer;
 import java.util.TreeMap;
+import java.util.function.BiConsumer;
 
 /** Add your docs here. */
 public class InterpolatingTable {
     private static TreeMap<Double, ShotParams> table;
-    private BiConsumer<Double, ShotParams> printEntry = (x, y) -> System.out.println(String.format("Map.entry(%.4f, new ShotParams(%.4f, %.4f),", x, y.angle, y.speed));
-    
+    private BiConsumer<Double, ShotParams> printEntry =
+            (x, y) ->
+                    System.out.println(
+                            String.format(
+                                    "Map.entry(%.4f, new ShotParams(%.4f, %.4f),",
+                                    x, y.angle, y.speed));
+
     public InterpolatingTable() {
         table =
-            new TreeMap<>(
-                    Map.ofEntries(
-                            entry(1.0, new ShotParams(10, 20)),
-                            entry(2.0, new ShotParams(30, 40)),
-                            entry(3.0, new ShotParams(50, 60)),
-                            entry(4.0, new ShotParams(70, 80))));
+                new TreeMap<>(
+                        Map.ofEntries(
+                                entry(1.0, new ShotParams(10, 20)),
+                                entry(2.0, new ShotParams(30, 40)),
+                                entry(3.0, new ShotParams(50, 60)),
+                                entry(4.0, new ShotParams(70, 80))));
     }
 
-        /**
+    /**
      * Adds an entry to the table
+     *
      * @param distance The distance to the goal (m)
      * @param parameters The angle and speed of the successful shot
      */
@@ -37,6 +43,7 @@ public class InterpolatingTable {
 
     /**
      * Adds an entry to the table
+     *
      * @param distance The distance to the goal (m)
      * @param angle The angle of the successful shot (deg)
      * @param speed The speed of the successful shot (m/s)
@@ -59,9 +66,7 @@ public class InterpolatingTable {
                         (distance - floor.getKey()) / (ceiling.getKey() - floor.getKey()));
     }
 
-        /**
-     * Prints out the entire table of shot parameters
-     */
+    /** Prints out the entire table of shot parameters */
     public void printTable() {
         table.forEach(printEntry);
     }

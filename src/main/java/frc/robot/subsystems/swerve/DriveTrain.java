@@ -12,9 +12,7 @@
 package frc.robot.subsystems.swerve;
 
 // Imports
-import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -22,12 +20,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -81,7 +75,6 @@ public class DriveTrain extends SubsystemBase {
     private SwerveDriveOdometry swerveDriveOdometry =
             new SwerveDriveOdometry(kinematics, RobotContainer.navX.getRotation2d());
 
-
     /** Creates a new Drivetrain object */
     public DriveTrain() {
 
@@ -115,13 +108,11 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.BR_CODER_ID,
                         true);
 
-
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
 
         // Load the offsets for the CANCoders
         loadEncoderOffsets();
-
     }
 
     /**
@@ -145,10 +136,6 @@ public class DriveTrain extends SubsystemBase {
         }
     }
 
-
-
-
-
     /**
      * Sets all of the states of the modules and updates the odometry of the robot
      *
@@ -156,7 +143,6 @@ public class DriveTrain extends SubsystemBase {
      * @param centerOfRotation The center of rotation that should be used. This is relative to the
      *     robot
      */
-
     public SwerveDriveKinematics getSwerveDriveKienmatics() {
         return kinematics;
     }
@@ -171,9 +157,9 @@ public class DriveTrain extends SubsystemBase {
         // Get the module states
         SwerveModuleState[] swerveModuleStates = kinematics.toSwerveModuleStates(chassisSpeeds);
 
-        //normalizeDrive(swerveModuleStates, chassisSpeeds);
+        // normalizeDrive(swerveModuleStates, chassisSpeeds);
         // Scale the velocities of the swerve modules so that none exceed the maximum
-         SwerveDriveKinematics.desaturateWheelSpeeds(
+        SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY);
 
         // Set each of the modules to their optimized state
@@ -479,7 +465,6 @@ public class DriveTrain extends SubsystemBase {
 
         // Update the odometry as frequently as possible
         updateOdometry();
-
 
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {
