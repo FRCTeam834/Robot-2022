@@ -293,7 +293,7 @@ public final class Parameters {
             public static final int LEFT_MOTOR_ID = 19;
 
             // The gearbox ratio
-            public static final double GEARBOX_RATIO = 36;
+            public static final double GEARBOX_RATIO = 12;
 
             // Limit switch ports used for tilt
             public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
