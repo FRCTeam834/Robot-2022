@@ -110,6 +110,7 @@ public class RobotContainer {
     public static Joystick rightJoystick = new Joystick(1);
     public static XboxController xbox = new XboxController(2);
     public static Joystick buttonBoard = new Joystick(3);
+    public static GenericHID quadController = new GenericHID(4);
 
     // Define button board buttons
     public static JoystickButton TL = new JoystickButton(buttonBoard, ButtonBoard.TL);
@@ -237,10 +238,10 @@ public class RobotContainer {
 
         // If the value is out of tolerance, then zero it. Otherwise return the value of the
         // joystick
-        if (Math.abs(rawValue) < Parameters.driver.joysticks.deadzone) {
+        if (Math.abs(rawValue) < Parameters.driver.controllers.deadzone) {
             return 0;
         } else {
-            switch (Parameters.driver.joysticks.clampingType) {
+            switch (Parameters.driver.controllers.clampingType) {
                 case LINEAR:
                     {
                         return rawValue;
@@ -257,8 +258,8 @@ public class RobotContainer {
                          * the joysticks is always 1
                          */
                         return Math.signum(rawValue)
-                                * ((Math.abs(rawValue) - Parameters.driver.joysticks.deadzone)
-                                        / (1 - Parameters.driver.joysticks.deadzone));
+                                * ((Math.abs(rawValue) - Parameters.driver.controllers.deadzone)
+                                        / (1 - Parameters.driver.controllers.deadzone));
                     }
                 case ZEROED_QUAD:
                     {
@@ -269,9 +270,9 @@ public class RobotContainer {
                         return Math.signum(rawValue)
                                 * (Math.pow(
                                                 Math.abs(rawValue)
-                                                        - Parameters.driver.joysticks.deadzone,
+                                                        - Parameters.driver.controllers.deadzone,
                                                 2)
-                                        / Math.pow(Parameters.driver.joysticks.deadzone - 1, 2));
+                                        / Math.pow(Parameters.driver.controllers.deadzone - 1, 2));
                     }
                 default:
                     // This will never be reached, but a default case is needed (0 for no output)

@@ -99,7 +99,8 @@ public final class Parameters {
         public static final IdleMode driveIdleMode = IdleMode.kBrake;
 
         // Joystick settings
-        public static final class joysticks {
+        public static final class controllers {
+            public static final boolean usingQuadController = false;
             public static final double deadzone = 0.075;
             public static final JoystickOutputTypes clampingType = JoystickOutputTypes.ZEROED_QUAD;
         }
