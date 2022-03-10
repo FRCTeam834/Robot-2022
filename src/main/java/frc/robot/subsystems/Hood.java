@@ -57,6 +57,8 @@ public class Hood extends SubsystemBase {
         pidController = new CachedPIDController(hoodMotor);
         pidController.setOutputRange(
                 -Parameters.hood.MAX_MOTOR_DUTY, Parameters.hood.MAX_MOTOR_DUTY);
+        pidController.setP(Parameters.hood.pid.kP.get());
+        pidController.setD(Parameters.hood.pid.kD.get());
 
         // Set up the limit switch
         limitSwitch = new DigitalInput(Parameters.hood.LS_PORT);

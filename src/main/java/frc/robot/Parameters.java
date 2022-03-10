@@ -36,7 +36,7 @@ public final class Parameters {
     // Enables all debug statements
     public static final boolean debug = true;
     public static final boolean tuningMode = false;
-    public static final boolean telemetryMode = false;
+    public static final boolean telemetryMode = true;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -239,7 +239,7 @@ public final class Parameters {
 
     public static final class climber {
 
-        public static final int TUBE_CURRENT_LIMIT = 10;
+        public static final int TUBE_CURRENT_LIMIT = 80;
         public static final int TUBE_HOME_CURRENT = 3;
 
         public static final class lift {
@@ -249,7 +249,7 @@ public final class Parameters {
             public static final int LEFT_MOTOR_ID = 21;
 
             // The gearbox ratio
-            public static final double GEARBOX_RATIO = 36;
+            public static final double GEARBOX_RATIO = 48;
 
             // Limit switch ports used for lift
             public static final int RIGHT_LIMIT_SWITCH_PORT = 1;
@@ -274,7 +274,7 @@ public final class Parameters {
 
             // Distances to move to
             public static final double UP_DISTANCE =
-                    Units.inchesToMeters(34.5); // The distance of the string in the up position
+                    Units.inchesToMeters(20); // The distance of the string in the up position
             public static final double GRAB_DISTANCE =
                     Units.inchesToMeters(
                             15); // The distance at which the hook grabs the bar, but doesn't lift
@@ -298,7 +298,7 @@ public final class Parameters {
             public static final int LEFT_MOTOR_ID = 19;
 
             // The gearbox ratio
-            public static final double GEARBOX_RATIO = 12;
+            public static final double GEARBOX_RATIO = 60;
 
             // Limit switch ports used for tilt
             public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
@@ -335,7 +335,7 @@ public final class Parameters {
                                  // ground
 
             // Homing info
-            public static final double HOME_SPEED = 0.25;
+            public static final double HOME_SPEED = -0.25;
             public static final double HOME_DISTANCE =
                     Units.inchesToMeters(2.75); // The distance at home
         }
@@ -344,7 +344,7 @@ public final class Parameters {
         public static final double DRIVE_TILT_SPEED = .25;
 
         // The angle to tilt the robot to before lifting the climbers
-        public static final double ROBOT_TILT_ANGLE = 30;
+        public static final double ROBOT_TILT_ANGLE = 20;
     }
 
     public static final class intake {
@@ -461,7 +461,7 @@ public final class Parameters {
         public static class pid {
             public static final NetworkTable HOOD_TABLE =
                     NetworkTableInstance.getDefault().getTable("Hood");
-            public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.5);
+            public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.25);
             public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.00);
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
         }
@@ -505,23 +505,22 @@ public final class Parameters {
     }
 
     // All of the relevant vision information
-    public class vision {
+    public static class vision {
 
         // The name of the camera (from the network)
         public static final String CAMERA_NAME = "PiCam";
 
         // The distance to the camera from the floor (m)
-        public static final double CAMERA_HEIGHT = 1;
-
+        public static final double CAMERA_HEIGHT = Units.inchesToMeters(30.25);
         // The pitch of the camera from the floor (deg)
-        public static final double CAMERA_PITCH = 30;
+        public static final double CAMERA_PITCH = 52;
 
         // The height of the goal (m)
         // Converted 8ft 8in to meters
         public static final double GOAL_HEIGHT = 2.6416;
 
         // How far can the robot be from a target? (deg)
-        public static final double YAW_TOLERANCE = 0;
+        public static final double YAW_TOLERANCE = 2;
 
         // The maximum turning speed when turning to face a target (in deg/s)
         public static final double MAX_TURNING_SPEED = 45;

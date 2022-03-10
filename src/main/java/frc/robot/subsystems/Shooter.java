@@ -12,12 +12,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
+import frc.robot.Parameters.shooter;
 
 public class Shooter extends SubsystemBase {
 
@@ -25,6 +27,7 @@ public class Shooter extends SubsystemBase {
     CANSparkMax shooterMotor;
     SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.12608, 0.31356, 0.032386);
     RelativeEncoder shooterMotorEncoder;
+    PIDController shooterPIDController;
 
     // Bang-bang controller
     BangBangController bangBangController;
@@ -51,6 +54,8 @@ public class Shooter extends SubsystemBase {
                 (Parameters.shooter.WHEEL_DIA_M * Math.PI) / 60);
         shooterMotor.burnFlash();
 
+        shooterPIDController = new PIDController(0.024089,0,0);
+        shooterPIDController.setTolerance(Parameters.shooter.VELOCITY_TOLERANCE);
         // Create a new bang-bang controller
         bangBangController = new BangBangController();
         bangBangController.setTolerance(Parameters.shooter.VELOCITY_TOLERANCE);
@@ -64,6 +69,9 @@ public class Shooter extends SubsystemBase {
         shooterMotor.setVoltage(
                 (bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12)
                         + .9 * shooterFF.calculate(setpoint));
+    }
+    public void setDesiredPID(double setpoint) {
+        shooterMotor.set(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setpoint));
     }
 
     public double getDesiredSpeed() {
@@ -92,7 +100,7 @@ public class Shooter extends SubsystemBase {
         if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Shooter");
             builder.addDoubleProperty(
-                    "Setpoint", bangBangController::getSetpoint, bangBangController::setSetpoint);
+                    "Setpoint", shooterPIDController::getSetpoint, shooterPIDController::setSetpoint);
             builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, null);
             builder.addBooleanProperty("atSetpoint", this::isAtSetPoint, null);
         }

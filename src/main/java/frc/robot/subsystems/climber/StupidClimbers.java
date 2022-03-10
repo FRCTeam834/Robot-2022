@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Parameters.climber.lift;
 import frc.robot.Parameters.climber.tilt;
 
-public class Climber extends SubsystemBase {
+public class StupidClimbers extends SubsystemBase {
 
     // Tube objects
     public TelescopingTube rightTilt;
@@ -18,7 +18,7 @@ public class Climber extends SubsystemBase {
     public TelescopingTube leftLift;
 
     /** Creates a new Climber. */
-    public Climber() {
+    public StupidClimbers() {
 
 
          rightTilt =

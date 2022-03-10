@@ -60,7 +60,8 @@ public class TelescopingTube extends SubsystemBase {
             ControlType controlType,
             double minDist,
             double maxDist,
-            double posTolerance) {
+            double posTolerance,
+            boolean inverted) {
 
         // Get the table for tubes
         NetworkTable tubeTable = NetworkTableInstance.getDefault().getTable("TeleTubies");
@@ -72,10 +73,9 @@ public class TelescopingTube extends SubsystemBase {
         // Initialize the spool motor
         spoolMotor = new CANSparkMax(ID, MotorType.kBrushless);
         spoolMotor.restoreFactoryDefaults();
-        spoolMotor.enableVoltageCompensation(12);
         spoolMotor.setIdleMode(IdleMode.kBrake);
-        spoolMotor.setSmartCurrentLimit(Parameters.climber.TUBE_CURRENT_LIMIT);
-        spoolMotor.setInverted(false);
+        spoolMotor.setSmartCurrentLimit(20);
+        spoolMotor.setInverted(inverted);
 
         // Set up the encoder of the spool motor
         spoolMotorEncoder = spoolMotor.getEncoder();
@@ -110,8 +110,19 @@ public class TelescopingTube extends SubsystemBase {
         }
     }
 
-    public void run(double percent) {
+    public void set(double percent) {
         spoolMotor.set(percent);
+    }
+    public void setWithLimitSwitch(double percent) {
+        if(!getLSValue()) {
+            spoolMotor.set(percent);
+        }
+        else if(percent>0) {
+            spoolMotor.set(percent);
+        }
+        else {
+            spoolMotor.set(0);
+        }
     }
 
     public void stop() {
@@ -210,7 +221,7 @@ public class TelescopingTube extends SubsystemBase {
         return !limitSwitch.get();
     }
 
-    public void setCurrentLimit(int limit) {
+    public void setCurrentLimit(int limit){
         spoolMotor.setSmartCurrentLimit(limit);
     }
 }

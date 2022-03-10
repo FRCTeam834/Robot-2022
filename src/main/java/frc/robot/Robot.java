@@ -36,12 +36,7 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
     private boolean shooterAtSpeed;
     private boolean linedUp;
-    private DigitalInput rightTilt =
-            new DigitalInput(Parameters.climber.tilt.RIGHT_LIMIT_SWITCH_PORT);
-    private DigitalInput rightLift =
-            new DigitalInput(Parameters.climber.lift.RIGHT_LIMIT_SWITCH_PORT);
-    private DigitalInput leftLift =
-            new DigitalInput(Parameters.climber.lift.LEFT_LIMIT_SWITCH_PORT);
+
 
     private Field2d field = new Field2d();
 
@@ -96,15 +91,9 @@ public class Robot extends TimedRobot {
             RobotContainer.lightColor = Parameters.led.BLUE_VIOLET;
         }
 
-        System.out.println("Right Tilt: " + rightTilt.get());
-        System.out.println("Left Tilt: " + RobotContainer.climber.leftTilt.getLSValue());
-        System.out.println("Right Lift: " + rightLift.get());
-        System.out.println("Left Lift: " + leftLift.get());
-        System.out.println();
-
+        
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);
-
         // TODO: Remove this eventually
         // System.out.println(RobotContainer.hood.getLSValue());
         // System.out.println(RobotContainer.intakeWinch.getSpoolPosition());
@@ -170,8 +159,9 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        System.out.println(RobotContainer.navX.getPitch());
         field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
+        System.out.println(RobotContainer.hood.getCurrentAngle());
+
     }
 
     @Override

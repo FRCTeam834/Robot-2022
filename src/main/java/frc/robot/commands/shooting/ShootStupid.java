@@ -6,6 +6,7 @@ package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -23,13 +24,17 @@ public class ShootStupid extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new InstantCommand(() -> RobotContainer.indexer.set(-.15)).withTimeout(.5),
-                new RunCommand(
-                        () -> RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.SHOT_SPEED),
+                new PrintCommand("Stage 1"),
+                new InstantCommand(() -> RobotContainer.indexer.set(-.15)).withTimeout(.5).andThen(() -> RobotContainer.indexer.set(0)),
+                new PrintCommand("Stage 2"),
+                new InstantCommand(
+                        () -> RobotContainer.shooter.set(.25),
                         RobotContainer.shooter),
-                new WaitUntilCommand(RobotContainer.shooter::isAtSetPoint)
-                        .andThen(() -> RobotContainer.indexer.set(1))
-                        .andThen(new WaitCommand(Parameters.shooter.SHOT_TIME)),
+                new PrintCommand("Stage 3"),
+                new WaitCommand
+                (2)
+                        .andThen(() -> RobotContainer.indexer.set(.15))
+                        .andThen(new WaitCommand(1)),
                 new ParallelCommandGroup(
                         new InstantCommand(RobotContainer.shooter::stop),
                         new InstantCommand(RobotContainer.indexer::stop)));

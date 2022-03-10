@@ -23,7 +23,7 @@ public class DumbShoot extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.shooter.setDesiredSpeed(
+        RobotContainer.shooter.setDesiredPID(
                 RobotContainer.xbox.getRawAxis(3) * Parameters.shooter.MAX_SPEED);
         ;
     }
