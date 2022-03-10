@@ -14,6 +14,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 // Imports
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -32,6 +33,12 @@ import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.indexing.IndexStupid;
 // import frc.robot.commands.intake.HomeIntake;
 // import frc.robot.commands.intake.SwitchIntakeState;
+import frc.robot.commands.climber.MoveTubeToPosition;
+import frc.robot.commands.hood.HomeHood;
+import frc.robot.commands.indexing.ColorSensorIndexing;
+import frc.robot.commands.indexing.IndexStupid;
+import frc.robot.commands.intake.HomeIntake;
+import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.ShootStupid;
 import frc.robot.commands.swerve.StraightenWheels;
@@ -112,6 +119,7 @@ public class RobotContainer {
     public static Joystick rightJoystick = new Joystick(1);
     public static XboxController xbox = new XboxController(2);
     public static Joystick buttonBoard = new Joystick(3);
+    public static GenericHID quadController = new GenericHID(4);
 
     // Define button board buttons
     public static JoystickButton TL = new JoystickButton(buttonBoard, ButtonBoard.TL);
@@ -178,6 +186,7 @@ public class RobotContainer {
                                                         : Parameters.driver.fastSteerRate));
         //new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
                                // () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
+        new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
 
         new JoystickButton(rightJoystick, 11).whenPressed(homeHood);
 
@@ -203,6 +212,10 @@ public class RobotContainer {
                                         shooter.getDesiredSpeed())));
         MM.whenPressed(new InstantCommand(() -> indexer.set(0.35), indexer));
         MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
+
+        TR.whenPressed(new HomeClimberTubes());
+        TM.whenPressed(
+                new MoveTubeToPosition(climber.leftTilt, Parameters.climber.tilt.UP_DISTANCE));
 
         // xbox controller
         new JoystickButton(xbox, Button.kX.value)
@@ -236,10 +249,10 @@ public class RobotContainer {
 
         // If the value is out of tolerance, then zero it. Otherwise return the value of the
         // joystick
-        if (Math.abs(rawValue) < Parameters.driver.joysticks.deadzone) {
+        if (Math.abs(rawValue) < Parameters.driver.controllers.deadzone) {
             return 0;
         } else {
-            switch (Parameters.driver.joysticks.clampingType) {
+            switch (Parameters.driver.controllers.clampingType) {
                 case LINEAR:
                     {
                         return rawValue;
@@ -256,8 +269,8 @@ public class RobotContainer {
                          * the joysticks is always 1
                          */
                         return Math.signum(rawValue)
-                                * ((Math.abs(rawValue) - Parameters.driver.joysticks.deadzone)
-                                        / (1 - Parameters.driver.joysticks.deadzone));
+                                * ((Math.abs(rawValue) - Parameters.driver.controllers.deadzone)
+                                        / (1 - Parameters.driver.controllers.deadzone));
                     }
                 case ZEROED_QUAD:
                     {
@@ -268,9 +281,9 @@ public class RobotContainer {
                         return Math.signum(rawValue)
                                 * (Math.pow(
                                                 Math.abs(rawValue)
-                                                        - Parameters.driver.joysticks.deadzone,
+                                                        - Parameters.driver.controllers.deadzone,
                                                 2)
-                                        / Math.pow(Parameters.driver.joysticks.deadzone - 1, 2));
+                                        / Math.pow(Parameters.driver.controllers.deadzone - 1, 2));
                     }
                 default:
                     // This will never be reached, but a default case is needed (0 for no output)

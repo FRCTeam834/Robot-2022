@@ -12,18 +12,16 @@
  */
 package frc.robot;
 
-import java.io.DataInput;
-
 import edu.wpi.first.math.geometry.Pose2d;
 // Imports
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Parameters;
-import edu.wpi.first.wpilibj.DigitalInput;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -37,9 +35,12 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
     private boolean shooterAtSpeed;
     private boolean linedUp;
-    private DigitalInput rightTilt = new DigitalInput(Parameters.climber.tilt.RIGHT_LIMIT_SWITCH_PORT);
-    private DigitalInput rightLift = new DigitalInput(Parameters.climber.lift.RIGHT_LIMIT_SWITCH_PORT);
-    private DigitalInput leftLift = new DigitalInput(Parameters.climber.lift.LEFT_LIMIT_SWITCH_PORT);
+    private DigitalInput rightTilt =
+            new DigitalInput(Parameters.climber.tilt.RIGHT_LIMIT_SWITCH_PORT);
+    private DigitalInput rightLift =
+            new DigitalInput(Parameters.climber.lift.RIGHT_LIMIT_SWITCH_PORT);
+    private DigitalInput leftLift =
+            new DigitalInput(Parameters.climber.lift.LEFT_LIMIT_SWITCH_PORT);
 
     private Field2d field = new Field2d();
 
@@ -54,6 +55,7 @@ public class Robot extends TimedRobot {
 
         // Reset the angle of the NavX
         RobotContainer.navX.resetYaw();
+        RobotContainer.navX.resetPitch();
     }
 
     /**
@@ -63,6 +65,9 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         RobotContainer.driveTrain.resetOdometry(new Pose2d());
+        if (!Parameters.telemetryMode) {
+            LiveWindow.disableAllTelemetry();
+        }
     }
 
     /**
@@ -94,9 +99,7 @@ public class Robot extends TimedRobot {
         System.out.println("Left Tilt: " + RobotContainer.climber.leftTilt.getLSValue());
         System.out.println("Right Lift: " + rightLift.get());
         System.out.println("Left Lift: " + leftLift.get());
-
-
-
+        System.out.println();
 
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);

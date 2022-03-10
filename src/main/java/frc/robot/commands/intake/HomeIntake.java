@@ -19,9 +19,8 @@ public class HomeIntake extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.intakeWinch.runSpoolMotor(Parameters.intake.spool.HOME_SPEED);
+        RobotContainer.intakeWinch.set(Parameters.intake.spool.HOME_SPEED);
         RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.spool.HOME_CURRENT);
-
     }
 
     // Called every time the scheduler runs while the command is scheduled.
