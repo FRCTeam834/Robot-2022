@@ -12,7 +12,6 @@
  */
 package frc.robot;
 
-
 import edu.wpi.first.math.geometry.Pose2d;
 // Imports
 import edu.wpi.first.wpilibj.DigitalInput;

@@ -99,7 +99,8 @@ public final class Parameters {
         public static final IdleMode driveIdleMode = IdleMode.kBrake;
 
         // Joystick settings
-        public static final class joysticks {
+        public static final class controllers {
+            public static final boolean usingQuadController = false;
             public static final double deadzone = 0.075;
             public static final JoystickOutputTypes clampingType = JoystickOutputTypes.ZEROED_QUAD;
         }
@@ -278,12 +279,12 @@ public final class Parameters {
             public static final double GRAB_DISTANCE =
                     Units.inchesToMeters(
                             15); // The distance at which the hook grabs the bar, but doesn't lift
-                                 // the
+            // the
             // robot yet
             public static final double LIFT_DISTANCE =
                     Units.inchesToMeters(
                             10); // The distance of the climber when the robot is fully off the
-                                 // ground
+            // ground
 
             // Homing info
             public static final double HOME_SPEED = 0.25;
@@ -327,12 +328,12 @@ public final class Parameters {
             public static final double GRAB_DISTANCE =
                     Units.inchesToMeters(
                             15); // The distance at which the hook grabs the bar, but doesn't lift
-                                 // the
+            // the
             // robot yet
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
                             10); // The distance of the climber when the robot is fully off the
-                                 // ground
+            // ground
 
             // Homing info
             public static final double HOME_SPEED = -0.25;
