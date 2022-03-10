@@ -12,13 +12,9 @@
  */
 package frc.robot;
 
-<<<<<<< HEAD
+// Imports
 import edu.wpi.first.cscore.UsbCamera;
-// Imports
-=======
->>>>>>> ea1350e9df0ed008765ecb6fdcbc84dc039a919f
 import edu.wpi.first.wpilibj.GenericHID;
-// Imports
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -60,12 +56,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.HomeClimberTubes;
-<<<<<<< HEAD
 import frc.robot.subsystems.climber.StupidClimbers;
-=======
-// import frc.robot.subsystems.climber.Climber;
-// import frc.robot.subsystems.climber.HomeClimberTubes;
->>>>>>> ea1350e9df0ed008765ecb6fdcbc84dc039a919f
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 import frc.robot.utilityClasses.interpolation.InterpolatingTable;
@@ -210,7 +201,7 @@ public class RobotContainer {
         //right and left lift up
         MR.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.set(.75), RobotContainer.climbers2.rightLift::stop));
         MM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftLift.set(.75), RobotContainer.climbers2.leftLift::stop));
-        
+
         //right and lift down
         BR.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.set(-1), RobotContainer.climbers2.rightLift::stop));
         BM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftLift.set(-1), RobotContainer.climbers2.leftLift::stop));
@@ -223,7 +214,7 @@ public class RobotContainer {
         //right and tilt down
         TL.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightTilt.set(-1), RobotContainer.climbers2.rightTilt::stop));
         ML.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftTilt.set(-1), RobotContainer.climbers2.leftTilt::stop));
-        
+
 
         // Button board
         /*
@@ -240,7 +231,7 @@ public class RobotContainer {
               //                  hood.setDesiredAngle(
                 //                        xbox.getRawAxis(3) * (Parameters.hood.ALLOWABLE_RANGE)
                   //                              + Parameters.hood.HOME_ANGLE)));
-        
+
         //TL.whenPressed(
                // new InstantCommand(
                 //        () ->
