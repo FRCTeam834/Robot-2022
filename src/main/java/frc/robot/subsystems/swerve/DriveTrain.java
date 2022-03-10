@@ -11,8 +11,13 @@
  */
 package frc.robot.subsystems.swerve;
 
+
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+
 // Imports
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -20,50 +25,56 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
+import frc.robot.Parameters.driveTrain;
 
 public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
 
     // Create the modules
+    public Field2d field = new Field2d();
     public SwerveModule frontLeft;
 
     public SwerveModule frontRight;
     public SwerveModule backLeft;
     public SwerveModule backRight;
 
-    public Field2d field = new Field2d();
+
     // PID value storage, with default values from Parameters
     public PIDController xMovePID =
             new PIDController(
-                    Parameters.driveTrain.pid.LINEAR_MOVE_P.get(),
-                    Parameters.driveTrain.pid.LINEAR_MOVE_I,
-                    Parameters.driveTrain.pid.LINEAR_MOVE_D.get());
+                    0,
+                    0,
+                    0);
     public PIDController yMovePID =
             new PIDController(
-                    Parameters.driveTrain.pid.LINEAR_MOVE_P.get(),
-                    Parameters.driveTrain.pid.LINEAR_MOVE_I,
-                    Parameters.driveTrain.pid.LINEAR_MOVE_D.get());
+                    0,
+                    0,
+                    0);
+    public ProfiledPIDController rotPID = 
+    new ProfiledPIDController(2.8,0,0, new Constraints(Math.PI, Math.PI*2));
 
     // Define module positions (relative to center of robot)
-    Translation2d FL_POS =
+    public Translation2d FL_POS =
             new Translation2d(
                     Parameters.driveTrain.dimensions.DRIVE_LENGTH / 2,
                     Parameters.driveTrain.dimensions.DRIVE_WIDTH / 2);
-    Translation2d FR_POS =
+    public Translation2d FR_POS =
             new Translation2d(
                     Parameters.driveTrain.dimensions.DRIVE_LENGTH / 2,
                     -Parameters.driveTrain.dimensions.DRIVE_WIDTH / 2);
-    Translation2d BL_POS =
+    public Translation2d BL_POS =
             new Translation2d(
                     -Parameters.driveTrain.dimensions.DRIVE_LENGTH / 2,
                     Parameters.driveTrain.dimensions.DRIVE_WIDTH / 2);
-    Translation2d BR_POS =
+    public Translation2d BR_POS =
             new Translation2d(
                     -Parameters.driveTrain.dimensions.DRIVE_LENGTH / 2,
                     -Parameters.driveTrain.dimensions.DRIVE_WIDTH / 2);
@@ -77,7 +88,7 @@ public class DriveTrain extends SubsystemBase {
 
     /** Creates a new Drivetrain object */
     public DriveTrain() {
-
+        rotPID.enableContinuousInput(-Math.PI, Math.PI);
         // Create each swerve module instance
         frontLeft =
                 new SwerveModule(
@@ -85,36 +96,40 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FL_STEER_ID,
                         Parameters.driveTrain.can.FL_DRIVE_ID,
                         Parameters.driveTrain.can.FL_CODER_ID,
-                        true);
+                        false);
         frontRight =
                 new SwerveModule(
                         "FR",
                         Parameters.driveTrain.can.FR_STEER_ID,
                         Parameters.driveTrain.can.FR_DRIVE_ID,
                         Parameters.driveTrain.can.FR_CODER_ID,
-                        false);
+                        true);
         backLeft =
                 new SwerveModule(
                         "BL",
                         Parameters.driveTrain.can.BL_STEER_ID,
                         Parameters.driveTrain.can.BL_DRIVE_ID,
                         Parameters.driveTrain.can.BL_CODER_ID,
-                        true);
+                        false);
         backRight =
                 new SwerveModule(
                         "BR",
                         Parameters.driveTrain.can.BR_STEER_ID,
                         Parameters.driveTrain.can.BR_DRIVE_ID,
                         Parameters.driveTrain.can.BR_CODER_ID,
-                        false);
+                        true);
 
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
 
+        SmartDashboard.putData("Field", field);
         // Load the offsets for the CANCoders
         loadEncoderOffsets();
     }
 
+    public SwerveDriveKinematics getSwerveDriveKinemtatics() {
+        return kinematics;
+    }
     /**
      * Moves the entire drivetrain with the specified X and Y velocity with rotation
      *
@@ -218,6 +233,9 @@ public class DriveTrain extends SubsystemBase {
         backRight.setDesiredAngle(BR);
     }
 
+    public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {
+        return new Pose2d(trajectory.sample(0).poseMeters.getTranslation(), trajectory.sample(0).poseMeters.getRotation());
+    }
     /**
      * Moves the modules to the desired angles, just with an array of angles instead of individual
      * parameters
@@ -314,6 +332,19 @@ public class DriveTrain extends SubsystemBase {
         setDesiredVelocities(0, 0, 0, 0);
     }
 
+    public void setModuleStates(SwerveModuleState[] desiredStates) { 
+                // normalizeDrive(swerveModuleStates, chassisSpeeds);
+        // Scale the velocities of the swerve modules so that none exceed the maximum
+        SwerveDriveKinematics.desaturateWheelSpeeds(
+                desiredStates, Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY);
+
+        // Set each of the modules to their optimized state
+        frontLeft.setDesiredState(desiredStates[0]);
+        frontRight.setDesiredState(desiredStates[1]);
+        backLeft.setDesiredState(desiredStates[2]);
+        backRight.setDesiredState(desiredStates[3]);
+    }
+
     /** Sets the modules so that they all point forward */
     public void straightenModules() {
         setDesiredAngles(0, 0, 0, 0);
@@ -379,6 +410,14 @@ public class DriveTrain extends SubsystemBase {
      */
     public double getEstYPos() {
         return swerveDriveOdometry.getPoseMeters().getY();
+    }
+    public void resetAllPIDControllers() {
+        xMovePID.reset();
+        yMovePID.reset();
+        rotPID.reset(0);
+    }
+    public PPSwerveControllerCommand getPPSwerveContollerCommand(PathPlannerTrajectory path) {
+        return new PPSwerveControllerCommand(path, this::getEstPose2D, kinematics, xMovePID, yMovePID, rotPID, this::setModuleStates, RobotContainer.driveTrain);
     }
 
     /**
@@ -465,7 +504,8 @@ public class DriveTrain extends SubsystemBase {
 
         // Update the odometry as frequently as possible
         updateOdometry();
-
+        
+        field.setRobotPose(swerveDriveOdometry.getPoseMeters());
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {
             xMovePID.setP(Parameters.driveTrain.pid.LINEAR_MOVE_P.get());

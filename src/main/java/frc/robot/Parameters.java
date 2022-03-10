@@ -16,6 +16,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -34,9 +35,9 @@ import frc.robot.utilityClasses.TuneableNumber;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = true;
+    public static final boolean debug = false;
     public static final boolean tuningMode = false;
-    public static final boolean telemetryMode = true;
+    public static final boolean telemetryMode = false;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -233,6 +234,7 @@ public final class Parameters {
         // Auton Constants
         public static final class auton {
 
+            public static SwerveDriveKinematics kinematics = new SwerveDriveKinematics(RobotContainer.driveTrain.FL_POS, RobotContainer.driveTrain.FR_POS, RobotContainer.driveTrain.BL_POS, RobotContainer.driveTrain.BR_POS);
             public static final double TURN_180_STEER_RATE_PERCENT =
                     0.5; // The percentage of maxSteerRate (based on driver profile)
         }
@@ -274,22 +276,18 @@ public final class Parameters {
                                     1)); // Diameter is 1 inch, circumference is in meters
 
             // Distances to move to
-            public static final double UP_DISTANCE =
-                    Units.inchesToMeters(20); // The distance of the string in the up position
-            public static final double GRAB_DISTANCE =
+            public static final double UP_LEGAL_DISTANCE =
+                    Units.inchesToMeters(12); // The distance of the string in the up position
+            public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
-                            15); // The distance at which the hook grabs the bar, but doesn't lift
-            // the
-            // robot yet
-            public static final double LIFT_DISTANCE =
-                    Units.inchesToMeters(
-                            10); // The distance of the climber when the robot is fully off the
+                            5); // The distance at which the hook grabs the bar, but doesn't lift
             // ground
+            public static final double GRAB_DISTANCE = Units.inchesToMeters(10);
 
             // Homing info
-            public static final double HOME_SPEED = 0.25;
+            public static final double HOME_SPEED = -0.25;
             public static final double HOME_DISTANCE =
-                    Units.inchesToMeters(2.75); // The distance at home
+                    Units.inchesToMeters(3.25); // The distance at home
         }
 
         public static final class tilt {
@@ -299,7 +297,7 @@ public final class Parameters {
             public static final int LEFT_MOTOR_ID = 19;
 
             // The gearbox ratio
-            public static final double GEARBOX_RATIO = 60;
+            public static final double GEARBOX_RATIO = 25;
 
             // Limit switch ports used for tilt
             public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
@@ -323,22 +321,16 @@ public final class Parameters {
                                     1)); // Diameter is 1 inch, circumference is in meters
 
             // Distances to move to
-            public static final double UP_DISTANCE =
-                    Units.inchesToMeters(34.5); // The distance of the string in the up position
-            public static final double GRAB_DISTANCE =
-                    Units.inchesToMeters(
-                            15); // The distance at which the hook grabs the bar, but doesn't lift
-            // the
-            // robot yet
-            public static final double DOWN_DISTANCE =
-                    Units.inchesToMeters(
-                            10); // The distance of the climber when the robot is fully off the
+            public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(16.375);
+            public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(15.45);
+            
+            public static final double DOWN_DISTANCE = Units.inchesToMeters(5); // The distance of the climber when the robot is fully off the
             // ground
 
             // Homing info
             public static final double HOME_SPEED = -0.25;
             public static final double HOME_DISTANCE =
-                    Units.inchesToMeters(2.75); // The distance at home
+                    Units.inchesToMeters(4.75); // The distance at home
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot

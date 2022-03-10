@@ -74,7 +74,7 @@ public class TelescopingTube extends SubsystemBase {
         spoolMotor = new CANSparkMax(ID, MotorType.kBrushless);
         spoolMotor.restoreFactoryDefaults();
         spoolMotor.setIdleMode(IdleMode.kBrake);
-        spoolMotor.setSmartCurrentLimit(20);
+        spoolMotor.setSmartCurrentLimit(10);
         spoolMotor.setInverted(inverted);
 
         // Set up the encoder of the spool motor
@@ -85,8 +85,8 @@ public class TelescopingTube extends SubsystemBase {
         // Set up the PID controller
         pidController = new CachedPIDController(spoolMotor);
         pidController.setOutputRange(-maxDuty, maxDuty);
-        pidController.setP(this.kP.get());
-        pidController.setD(this.kD.get());
+        pidController.setP(30);
+        pidController.setD(0);
 
         // Set the control type
         this.controlType = controlType;
@@ -104,10 +104,7 @@ public class TelescopingTube extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (Parameters.tuningMode) {
-            pidController.setP(kP.get());
-            pidController.setD(kD.get());
-        }
+
     }
 
     public void set(double percent) {
@@ -123,6 +120,10 @@ public class TelescopingTube extends SubsystemBase {
         else {
             spoolMotor.set(0);
         }
+    }
+
+    public double getTubePosition() {
+        return spoolMotorEncoder.getPosition();
     }
 
     public void stop() {

@@ -33,7 +33,7 @@ public class Climber extends SubsystemBase {
                          tilt.MAX_DUTY,
                          tilt.CONTROL_TYPE,
                          tilt.HOME_DISTANCE,
-                         tilt.UP_DISTANCE,
+                         tilt.RIGHT_LEGAL_DISTANCE,
                          tilt.POS_TOLERANCE,
                          true);
         leftTilt =
@@ -48,7 +48,7 @@ public class Climber extends SubsystemBase {
                         tilt.MAX_DUTY,
                         tilt.CONTROL_TYPE,
                         tilt.HOME_DISTANCE,
-                        tilt.UP_DISTANCE,
+                        tilt.LEFT_LEGAL_DISTANCE,
                         tilt.POS_TOLERANCE,
                         true);
 
@@ -64,7 +64,7 @@ public class Climber extends SubsystemBase {
                          lift.MAX_DUTY,
                          lift.CONTROL_TYPE,
                          lift.HOME_DISTANCE,
-                         lift.UP_DISTANCE,
+                         lift.UP_LEGAL_DISTANCE,
                          lift.POS_TOLERANCE,
                          true);
          leftLift =
@@ -79,7 +79,7 @@ public class Climber extends SubsystemBase {
                          lift.MAX_DUTY,
                          lift.CONTROL_TYPE,
                          lift.HOME_DISTANCE,
-                         lift.UP_DISTANCE,
+                         lift.UP_LEGAL_DISTANCE,
                          lift.POS_TOLERANCE,
                          true);
     }

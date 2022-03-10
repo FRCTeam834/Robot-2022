@@ -72,8 +72,16 @@ public class StupidTube extends SubsystemBase {
     public void periodic() {
     }
 
-    public void set(double percent) {
-        spoolMotor.set(percent);
+    public void setWithLimitSwitch(double percent) {
+        if(!getLSValue()) {
+            spoolMotor.set(percent);
+        }
+        else if(percent>0) {
+            spoolMotor.set(percent);
+        }
+        else {
+            spoolMotor.set(0);
+        }
     }
 
     public void stop() {

@@ -18,24 +18,26 @@ public class HomeClimberTubes extends ParallelCommandGroup {
     public HomeClimberTubes() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        addCommands();
-            /*
+        addCommands(
+            
                  new HomeTube(
-                         RobotContainer.climber.rightLift,
+                         RobotContainer.climbers2.rightLift,
                          Parameters.climber.lift.HOME_SPEED,
                          Parameters.climber.lift.HOME_DISTANCE),
                  new HomeTube(
-                         RobotContainer.climber.leftLift,
+                         RobotContainer.climbers2.leftLift,
                          Parameters.climber.lift.HOME_SPEED,
                          Parameters.climber.lift.HOME_DISTANCE),
+                         
                  new HomeTube(
-                         RobotContainer.climber.rightTilt,
+                         RobotContainer.climbers2.rightTilt,
                          Parameters.climber.tilt.HOME_SPEED,
                          Parameters.climber.tilt.HOME_DISTANCE),
+                         
                 new HomeTube(
-                        RobotContainer.climber.leftTilt,
+                        RobotContainer.climbers2.leftTilt,
                         Parameters.climber.tilt.HOME_SPEED,
                         Parameters.climber.tilt.HOME_DISTANCE));
-                        */
+                        
     }
 }

@@ -71,7 +71,7 @@ public class Shooter extends SubsystemBase {
                         + .9 * shooterFF.calculate(setpoint));
     }
     public void setDesiredPID(double setpoint) {
-        shooterMotor.set(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setpoint));
+        shooterMotor.setVoltage(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12 + shooterFF.calculate(setpoint));
     }
 
     public double getDesiredSpeed() {

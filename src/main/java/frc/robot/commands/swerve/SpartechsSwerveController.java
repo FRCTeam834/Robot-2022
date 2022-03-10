@@ -6,6 +6,7 @@ import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -64,15 +65,15 @@ public class SpartechsSwerveController extends CommandBase {
         double curTime = m_timer.get();
         var desiredState = (PathPlannerState) m_trajectory.sample(curTime);
 
+        var desiredRotation2d = desiredState.holonomicRotation;
         var targetChassisSpeeds =
                 m_controller.calculate(
                         RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredRotation2d);
-
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
     }
 
-    public State getStartingState(PathPlannerTrajectory trajectory) {
-        return trajectory.sample(0);
+    public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {
+        return new Pose2d(trajectory.sample(0).poseMeters.getTranslation(), trajectory.sample(0).poseMeters.getRotation());
     }
 
     @Override

@@ -12,11 +12,9 @@
  */
 package frc.robot;
 
-<<<<<<< HEAD
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.util.Units;
 // Imports
-=======
->>>>>>> ea1350e9df0ed008765ecb6fdcbc84dc039a919f
 import edu.wpi.first.wpilibj.GenericHID;
 // Imports
 import edu.wpi.first.wpilibj.Joystick;
@@ -31,8 +29,11 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Parameters.climber;
+import frc.robot.commands.autons.StockAuton;
+import frc.robot.commands.climber.Climb;
 import frc.robot.commands.climber.MoveTubeToPosition;
 
 import frc.robot.commands.hood.HomeHood;
@@ -46,7 +47,9 @@ import frc.robot.commands.shooting.DumbShoot;
 import frc.robot.commands.shooting.ShootStupid;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToAngleVision;
+import frc.robot.commands.swerve.driving.DriveForTime;
 import frc.robot.commands.swerve.driving.LetsRoll;
+import frc.robot.commands.swerve.driving.SpinForTime;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
@@ -60,12 +63,9 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.HomeClimberTubes;
-<<<<<<< HEAD
 import frc.robot.subsystems.climber.StupidClimbers;
-=======
 // import frc.robot.subsystems.climber.Climber;
 // import frc.robot.subsystems.climber.HomeClimberTubes;
->>>>>>> ea1350e9df0ed008765ecb6fdcbc84dc039a919f
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 import frc.robot.utilityClasses.interpolation.InterpolatingTable;
@@ -118,8 +118,6 @@ public class RobotContainer {
     private final TurnToAngleVision turnToGoal = new TurnToAngleVision();
     private final AutoShoot autoShoot = new AutoShoot();
 
-    // Camera
-    public static UsbCamera ballCam = new UsbCamera("BallCam", 0);
 
     // Lights! No camera and no action
     public static Spark led = new Spark(Parameters.led.PWM_PORT);
@@ -255,10 +253,13 @@ public class RobotContainer {
         //TM.whenPressed(new MoveTubeToPosition(climber.leftTilt, Parameters.climber.tilt.UP_DISTANCE));
 
         // xbox controller
-        new JoystickButton(xbox, Button.kX.value)
-                .whenHeld(new StartEndCommand(() -> intake.set(.5), intake::stop, intake));
-        //new JoystickButton(xbox, Button.kB.value).whenPressed(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 10));
-        new JoystickButton(xbox, Button.kA.value).whenHeld(new DumbShoot());
+       // new JoystickButton(xbox, Button.kX.value)
+        //whenPressed(new MoveTubeToPosition(climbers2.rightTilt, Units.inchesToMeters(16)));
+        //left tilt legal:16.375
+        //right tilt legal:15.45
+        new JoystickButton(xbox, Button.kB.value).whenPressed(new Climb());
+
+        new JoystickButton(xbox, Button.kA.value).whenPressed(new HomeClimberTubes().andThen(new PrintCommand("Pos" +climbers2.leftTilt.getTubePosition())));
         new JoystickButton(xbox, Button.kRightBumper.value)
          .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 1));
         new JoystickButton(xbox, Button.kLeftBumper.value)

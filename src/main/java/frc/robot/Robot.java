@@ -12,16 +12,22 @@
  */
 package frc.robot;
 
+import java.lang.reflect.Field;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.util.sendable.Sendable;
 // Imports
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Parameters.driveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -35,9 +41,9 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
     private boolean shooterAtSpeed;
     private boolean linedUp;
+    
 
 
-    private Field2d field = new Field2d();
 
     /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
     Robot() {
@@ -59,6 +65,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        CameraServer.startAutomaticCapture();
         RobotContainer.driveTrain.resetOdometry(new Pose2d());
         if (!Parameters.telemetryMode) {
             LiveWindow.disableAllTelemetry();
@@ -74,6 +81,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+       
 
         // Check the state of the functions on the robot
         shooterAtSpeed = RobotContainer.shooter.isAtSetPoint();
@@ -158,9 +166,6 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
-        System.out.println(RobotContainer.hood.getCurrentAngle());
-
     }
 
     @Override

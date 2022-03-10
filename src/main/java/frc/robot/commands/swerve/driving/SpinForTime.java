@@ -9,14 +9,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
 
-public class DriveForTime extends CommandBase {
+public class SpinForTime extends CommandBase {
     /** Creates a new Drive. */
     Timer timer = new Timer();
 
     double time = 0;
     double speed = 0;
 
-    public DriveForTime(double speed, double time) {
+    public SpinForTime(double speed, double time) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.driveTrain);
         this.time = time;
@@ -34,7 +34,7 @@ public class DriveForTime extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.driveTrain.drive(speed, 0, 0, false);
+        RobotContainer.driveTrain.drive(0, 0, speed, false);
     }
 
     // Called once the command ends or is interrupted.
