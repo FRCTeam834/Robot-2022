@@ -14,7 +14,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 // Imports
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -27,18 +26,13 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.indexing.ColorSensorIndexing;
-import frc.robot.commands.intake.HomeIntake;
-import frc.robot.commands.indexing.IndexStupid;
-// import frc.robot.commands.intake.HomeIntake;
-// import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.climber.MoveTubeToPosition;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.ColorSensorIndexing;
 import frc.robot.commands.indexing.IndexStupid;
+// import frc.robot.commands.intake.HomeIntake;
+// import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.intake.HomeIntake;
-import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.ShootStupid;
 import frc.robot.commands.swerve.StraightenWheels;
@@ -99,7 +93,7 @@ public class RobotContainer {
 
     // Intaking/holding balls
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
-    //private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
+    // private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
     // Homing commands
     private final HomeHood homeHood = new HomeHood();
@@ -184,8 +178,8 @@ public class RobotContainer {
                                                                 == Parameters.driver.fastSteerRate)
                                                         ? Parameters.driver.slowSteerRate
                                                         : Parameters.driver.fastSteerRate));
-        //new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
-                               // () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
+        // new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
+        // () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
         new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
 
         new JoystickButton(rightJoystick, 11).whenPressed(homeHood);
