@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.Parameters.shooter;
 
 public class Shooter extends SubsystemBase {
 
@@ -54,7 +53,7 @@ public class Shooter extends SubsystemBase {
                 (Parameters.shooter.WHEEL_DIA_M * Math.PI) / 60);
         shooterMotor.burnFlash();
 
-        shooterPIDController = new PIDController(0.024089,0,0);
+        shooterPIDController = new PIDController(0.024089, 0, 0);
         shooterPIDController.setTolerance(Parameters.shooter.VELOCITY_TOLERANCE);
         // Create a new bang-bang controller
         bangBangController = new BangBangController();
@@ -70,6 +69,7 @@ public class Shooter extends SubsystemBase {
                 (bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12)
                         + .9 * shooterFF.calculate(setpoint));
     }
+
     public void setDesiredPID(double setpoint) {
         shooterMotor.setVoltage(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12 + shooterFF.calculate(setpoint));
     }
@@ -100,7 +100,9 @@ public class Shooter extends SubsystemBase {
         if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Shooter");
             builder.addDoubleProperty(
-                    "Setpoint", shooterPIDController::getSetpoint, shooterPIDController::setSetpoint);
+                    "Setpoint",
+                    shooterPIDController::getSetpoint,
+                    shooterPIDController::setSetpoint);
             builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, null);
             builder.addBooleanProperty("atSetpoint", this::isAtSetPoint, null);
         }

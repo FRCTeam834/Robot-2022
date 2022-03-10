@@ -4,24 +4,17 @@ package frc.robot.subsystems.climber;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.Parameters;
-import frc.robot.utilityClasses.CachedPIDController;
 import frc.robot.utilityClasses.TuneableNumber;
 
 public class StupidTube extends SubsystemBase {
 
     // Motor object
     CANSparkMax spoolMotor;
-
 
     // Homing limit switch
     DigitalInput limitSwitch;
@@ -62,15 +55,12 @@ public class StupidTube extends SubsystemBase {
         spoolMotor.setSmartCurrentLimit(20);
         spoolMotor.setInverted(inverted);
 
-
         // Set up the limit switch
         limitSwitch = new DigitalInput(LSPort);
-
     }
 
     @Override
-    public void periodic() {
-    }
+    public void periodic() {}
 
     public void setWithLimitSwitch(double percent) {
         if(!getLSValue()) {
@@ -87,7 +77,6 @@ public class StupidTube extends SubsystemBase {
     public void stop() {
         spoolMotor.stopMotor();
     }
-    
 
     /**
      * Checks if the tube is homed yet
@@ -107,7 +96,7 @@ public class StupidTube extends SubsystemBase {
         return !limitSwitch.get();
     }
 
-    public void setCurrentLimit(int limit){
+    public void setCurrentLimit(int limit) {
         spoolMotor.setSmartCurrentLimit(limit);
     }
 }

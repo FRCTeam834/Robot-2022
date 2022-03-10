@@ -18,7 +18,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.util.sendable.Sendable;
 // Imports
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -42,7 +41,6 @@ public class Robot extends TimedRobot {
     private boolean shooterAtSpeed;
     private boolean linedUp;
     
-
 
 
     /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
@@ -98,7 +96,6 @@ public class Robot extends TimedRobot {
             RobotContainer.lightColor = Parameters.led.BLUE_VIOLET;
         }
 
-        
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);
         // TODO: Remove this eventually
