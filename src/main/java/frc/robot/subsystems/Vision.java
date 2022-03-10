@@ -30,13 +30,13 @@ public class Vision extends SubsystemBase {
     private boolean targetExists = false;
 
     private static double horizontalFov = Parameters.shooter.camera.CAMERA_HFOV,
-                            verticalFov = Parameters.shooter.camera.CAMERA_VFOV,
-                            vph = 2 * Math.tan(horizontalFov / 2),
-                            vpw = 2 * Math.tan(verticalFov / 2),
-                            resolutionX = Parameters.shooter.camera.CAMERA_RESOLUTION_X,
-                            resolutionY = Parameters.shooter.camera.CAMERA_RESOLUTION_Y,
-                            hresX = resolutionX / 2,
-                            hresY = resolutionY / 2;
+            verticalFov = Parameters.shooter.camera.CAMERA_VFOV,
+            vph = 2 * Math.tan(horizontalFov / 2),
+            vpw = 2 * Math.tan(verticalFov / 2),
+            resolutionX = Parameters.shooter.camera.CAMERA_RESOLUTION_X,
+            resolutionY = Parameters.shooter.camera.CAMERA_RESOLUTION_Y,
+            hresX = resolutionX / 2,
+            hresY = resolutionY / 2;
 
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
@@ -148,8 +148,8 @@ public class Vision extends SubsystemBase {
         if (targetCorners.size() == 0) return null;
 
         for (TargetCorner corner : targetCorners) {
-            double nx = (1/(hresX)) * (corner.x - hresX);
-            double ny = (1/(hresY)) * (hresY - corner.y);
+            double nx = (1 / (hresX)) * (corner.x - hresX);
+            double ny = (1 / (hresY)) * (hresY - corner.y);
             // coordinates on imaginary view plane (1 unit away from camera origin)
             double x = vpw / 2.0 * nx;
             double y = vph / 2.0 * ny;
