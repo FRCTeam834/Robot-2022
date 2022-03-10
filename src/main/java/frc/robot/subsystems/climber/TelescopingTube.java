@@ -113,14 +113,13 @@ public class TelescopingTube extends SubsystemBase {
     public void set(double percent) {
         spoolMotor.set(percent);
     }
+
     public void setWithLimitSwitch(double percent) {
-        if(!getLSValue()) {
+        if (!getLSValue()) {
             spoolMotor.set(percent);
-        }
-        else if(percent>0) {
+        } else if (percent > 0) {
             spoolMotor.set(percent);
-        }
-        else {
+        } else {
             spoolMotor.set(0);
         }
     }
@@ -221,7 +220,7 @@ public class TelescopingTube extends SubsystemBase {
         return !limitSwitch.get();
     }
 
-    public void setCurrentLimit(int limit){
+    public void setCurrentLimit(int limit) {
         spoolMotor.setSmartCurrentLimit(limit);
     }
 }

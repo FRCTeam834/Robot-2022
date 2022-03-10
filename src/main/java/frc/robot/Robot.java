@@ -14,7 +14,6 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 // Imports
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -35,7 +34,6 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
     private boolean shooterAtSpeed;
     private boolean linedUp;
-
 
     private Field2d field = new Field2d();
 
@@ -90,7 +88,6 @@ public class Robot extends TimedRobot {
             RobotContainer.lightColor = Parameters.led.BLUE_VIOLET;
         }
 
-        
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);
         // TODO: Remove this eventually
@@ -160,7 +157,6 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
         System.out.println(RobotContainer.hood.getCurrentAngle());
-
     }
 
     @Override

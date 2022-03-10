@@ -6,6 +6,7 @@ package frc.robot.subsystems.climber;
 
 // Imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters.climber.lift;
 import frc.robot.Parameters.climber.tilt;
 
@@ -20,22 +21,21 @@ public class StupidClimbers extends SubsystemBase {
     /** Creates a new Climber. */
     public StupidClimbers() {
 
-
-         rightTilt =
-                 new TelescopingTube(
-                         "RT",
-                         tilt.RIGHT_MOTOR_ID,
-                         tilt.RIGHT_LIMIT_SWITCH_PORT,
-                         tilt.SPOOL_CIRCUMFERENCE,
-                         tilt.GEARBOX_RATIO,
-                         tilt.kP,
-                         tilt.kD,
-                         tilt.MAX_DUTY,
-                         tilt.CONTROL_TYPE,
-                         tilt.HOME_DISTANCE,
-                         tilt.UP_DISTANCE,
-                         tilt.POS_TOLERANCE,
-                         true);
+        rightTilt =
+                new TelescopingTube(
+                        "RT",
+                        tilt.RIGHT_MOTOR_ID,
+                        tilt.RIGHT_LIMIT_SWITCH_PORT,
+                        tilt.SPOOL_CIRCUMFERENCE,
+                        tilt.GEARBOX_RATIO,
+                        tilt.kP,
+                        tilt.kD,
+                        tilt.MAX_DUTY,
+                        tilt.CONTROL_TYPE,
+                        tilt.HOME_DISTANCE,
+                        tilt.UP_DISTANCE,
+                        tilt.POS_TOLERANCE,
+                        true);
         leftTilt =
                 new TelescopingTube(
                         "LT",
@@ -53,35 +53,35 @@ public class StupidClimbers extends SubsystemBase {
                         true);
 
         rightLift =
-                 new TelescopingTube(
-                         "RL",
-                     lift.RIGHT_MOTOR_ID,
-                         lift.RIGHT_LIMIT_SWITCH_PORT,
-                         lift.SPOOL_CIRCUMFERENCE,
-                         lift.GEARBOX_RATIO,
-                         lift.kP,
-                         lift.kD,
-                         lift.MAX_DUTY,
-                         lift.CONTROL_TYPE,
-                         lift.HOME_DISTANCE,
-                         lift.UP_DISTANCE,
-                         lift.POS_TOLERANCE,
-                         true);
-         leftLift =
-                 new TelescopingTube(
-                         "LL",
-                         lift.LEFT_MOTOR_ID,
-                         lift.LEFT_LIMIT_SWITCH_PORT,
-                         lift.SPOOL_CIRCUMFERENCE,
-                         lift.GEARBOX_RATIO,
-                         lift.kP,
-                         lift.kD,
-                         lift.MAX_DUTY,
-                         lift.CONTROL_TYPE,
-                         lift.HOME_DISTANCE,
-                         lift.UP_DISTANCE,
-                         lift.POS_TOLERANCE,
-                         true);
+                new TelescopingTube(
+                        "RL",
+                        lift.RIGHT_MOTOR_ID,
+                        lift.RIGHT_LIMIT_SWITCH_PORT,
+                        lift.SPOOL_CIRCUMFERENCE,
+                        lift.GEARBOX_RATIO,
+                        lift.kP,
+                        lift.kD,
+                        lift.MAX_DUTY,
+                        lift.CONTROL_TYPE,
+                        lift.HOME_DISTANCE,
+                        lift.UP_DISTANCE,
+                        lift.POS_TOLERANCE,
+                        true);
+        leftLift =
+                new TelescopingTube(
+                        "LL",
+                        lift.LEFT_MOTOR_ID,
+                        lift.LEFT_LIMIT_SWITCH_PORT,
+                        lift.SPOOL_CIRCUMFERENCE,
+                        lift.GEARBOX_RATIO,
+                        lift.kP,
+                        lift.kD,
+                        lift.MAX_DUTY,
+                        lift.CONTROL_TYPE,
+                        lift.HOME_DISTANCE,
+                        lift.UP_DISTANCE,
+                        lift.POS_TOLERANCE,
+                        true);
     }
 
     @Override

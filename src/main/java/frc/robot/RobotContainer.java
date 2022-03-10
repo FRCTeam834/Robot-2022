@@ -23,23 +23,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Parameters.climber;
-import frc.robot.commands.climber.MoveTubeToPosition;
 
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.ColorSensorIndexing;
-import frc.robot.commands.indexing.IndexStupid;
 // import frc.robot.commands.intake.HomeIntake;
 // import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.DumbShoot;
-import frc.robot.commands.shooting.ShootStupid;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.LetsRoll;
@@ -54,8 +48,6 @@ import frc.robot.subsystems.IntakeWinch;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
-import frc.robot.subsystems.climber.Climber;
-import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.subsystems.climber.StupidClimbers;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
@@ -75,7 +67,7 @@ public class RobotContainer {
     public static DriveTrain driveTrain = new DriveTrain();
     public static Hood hood = new Hood();
 
-    //public static Climber climber = new Climber();
+    // public static Climber climber = new Climber();
     public static StupidClimbers climbers2 = new StupidClimbers();
     public static Intake intake = new Intake();
     public static IntakeWinch intakeWinch = new IntakeWinch();
@@ -103,7 +95,7 @@ public class RobotContainer {
     // Homing commands
     private final HomeHood homeHood = new HomeHood();
     private final HomeIntake homeIntake = new HomeIntake();
-    //private final HomeClimberTubes homeClimberTubes = new HomeClimberTubes();
+    // private final HomeClimberTubes homeClimberTubes = new HomeClimberTubes();
 
     // Autoshooting
     private final TurnToAngleVision turnToGoal = new TurnToAngleVision();
@@ -190,7 +182,7 @@ public class RobotContainer {
         // () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
         new JoystickButton(rightJoystick, 2).whenPressed(autoShoot);
 
-        //new JoystickButton(rightJoystick, 11).whenPressed(homeHood);
+        // new JoystickButton(rightJoystick, 11).whenPressed(homeHood);
 
         /*
         BM and BR: Move lift up
@@ -198,23 +190,45 @@ public class RobotContainer {
         TM and TR: move tilt up
         TL and ML: move tilt down
         */
-        //right and left lift up
-        MR.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.set(.75), RobotContainer.climbers2.rightLift::stop));
-        MM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftLift.set(.75), RobotContainer.climbers2.leftLift::stop));
+        // right and left lift up
+        MR.whenHeld(
+                new StartEndCommand(
+                        () -> RobotContainer.climbers2.rightLift.set(.75),
+                        RobotContainer.climbers2.rightLift::stop));
+        MM.whenHeld(
+                new StartEndCommand(
+                        () -> RobotContainer.climbers2.leftLift.set(.75),
+                        RobotContainer.climbers2.leftLift::stop));
 
-        //right and lift down
-        BR.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.set(-1), RobotContainer.climbers2.rightLift::stop));
-        BM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftLift.set(-1), RobotContainer.climbers2.leftLift::stop));
+        // right and lift down
+        BR.whenHeld(
+                new StartEndCommand(
+                        () -> RobotContainer.climbers2.rightLift.set(-1),
+                        RobotContainer.climbers2.rightLift::stop));
+        BM.whenHeld(
+                new StartEndCommand(
+                        () -> RobotContainer.climbers2.leftLift.set(-1),
+                        RobotContainer.climbers2.leftLift::stop));
 
+        // right and left tilt up
+        TM.whenHeld(
+                new StartEndCommand(
+                        () -> RobotContainer.climbers2.rightTilt.set(.75),
+                        RobotContainer.climbers2.rightTilt::stop));
+        TR.whenHeld(
+                new StartEndCommand(
+                        () -> RobotContainer.climbers2.leftTilt.set(.75),
+                        RobotContainer.climbers2.leftTilt::stop));
 
-        //right and left tilt up
-        TM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightTilt.set(.75), RobotContainer.climbers2.rightTilt::stop));
-        TR.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftTilt.set(.75), RobotContainer.climbers2.leftTilt::stop));
-
-        //right and tilt down
-        TL.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightTilt.set(-1), RobotContainer.climbers2.rightTilt::stop));
-        ML.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftTilt.set(-1), RobotContainer.climbers2.leftTilt::stop));
-
+        // right and tilt down
+        TL.whenHeld(
+                new StartEndCommand(
+                        () -> RobotContainer.climbers2.rightTilt.set(-1),
+                        RobotContainer.climbers2.rightTilt::stop));
+        ML.whenHeld(
+                new StartEndCommand(
+                        () -> RobotContainer.climbers2.leftTilt.set(-1),
+                        RobotContainer.climbers2.leftTilt::stop));
 
         // Button board
         /*
@@ -225,35 +239,37 @@ public class RobotContainer {
                                         rightJoystick.getZ() * Parameters.shooter.MAX_SPEED)));
         BR.whenPressed(new InstantCommand(() -> shooter.stop()));
         */
-        //new JoystickButton(xbox, Button.kY.value).whileHeld(
-          //      new InstantCommand(
-            //            () ->
-              //                  hood.setDesiredAngle(
-                //                        xbox.getRawAxis(3) * (Parameters.hood.ALLOWABLE_RANGE)
-                  //                              + Parameters.hood.HOME_ANGLE)));
+        // new JoystickButton(xbox, Button.kY.value).whileHeld(
+        //      new InstantCommand(
+        //            () ->
+        //                  hood.setDesiredAngle(
+        //                        xbox.getRawAxis(3) * (Parameters.hood.ALLOWABLE_RANGE)
+        //                              + Parameters.hood.HOME_ANGLE)));
 
-        //TL.whenPressed(
-               // new InstantCommand(
-                //        () ->
-               //                 interpolatingTable.addEntry(
-             //                           vision.getDistanceToGoal(),
-           //                             hood.getCurrentAngle(),
-         //                               shooter.getDesiredSpeed())));
-       // MM.whenPressed(new InstantCommand(() -> indexer.set(0.35), indexer));
-        //MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
+        // TL.whenPressed(
+        // new InstantCommand(
+        //        () ->
+        //                 interpolatingTable.addEntry(
+        //                           vision.getDistanceToGoal(),
+        //                             hood.getCurrentAngle(),
+        //                               shooter.getDesiredSpeed())));
+        // MM.whenPressed(new InstantCommand(() -> indexer.set(0.35), indexer));
+        // MR.whenPressed(new InstantCommand(() -> indexer.set(0)));
 
-        //TR.whenPressed(new HomeClimberTubes());
-        //TM.whenPressed(new MoveTubeToPosition(climber.leftTilt, Parameters.climber.tilt.UP_DISTANCE));
+        // TR.whenPressed(new HomeClimberTubes());
+        // TM.whenPressed(new MoveTubeToPosition(climber.leftTilt,
+        // Parameters.climber.tilt.UP_DISTANCE));
 
         // xbox controller
         new JoystickButton(xbox, Button.kX.value)
                 .whenHeld(new StartEndCommand(() -> intake.set(.5), intake::stop, intake));
-        //new JoystickButton(xbox, Button.kB.value).whenPressed(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 10));
+        // new JoystickButton(xbox, Button.kB.value).whenPressed(() ->
+        // hood.setDesiredAngle(hood.getCurrentAngle() + 10));
         new JoystickButton(xbox, Button.kA.value).whenHeld(new DumbShoot());
         new JoystickButton(xbox, Button.kRightBumper.value)
-         .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 1));
+                .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 1));
         new JoystickButton(xbox, Button.kLeftBumper.value)
-         .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
+                .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
@@ -330,9 +346,9 @@ public class RobotContainer {
         if (!intakeWinch.isHomed()) {
             CommandScheduler.getInstance().schedule(false, homeIntake);
         }
-        //if (!climber.areTubesHomed()) {
-           // CommandScheduler.getInstance().schedule(false, homeClimberTubes);
-       // }
+        // if (!climber.areTubesHomed()) {
+        // CommandScheduler.getInstance().schedule(false, homeClimberTubes);
+        // }
     }
 
     /**
