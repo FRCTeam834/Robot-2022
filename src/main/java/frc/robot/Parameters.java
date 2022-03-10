@@ -429,11 +429,17 @@ public final class Parameters {
         public static final class camera {
             public static final double HEIGHT = 0;
             public static final double TARGET_HEIGHT = 0;
+            public static final double TARGET_RADIUS = 0;
+
             public static final double PITCH = 0;
             public static final double CIRCLE_FIT_TOLERANCE = 0;
 
-            // Camera-specific parameters (pixels)
+            // Camera-specific parameters (intrinsics) (pixels)
             public static final double CAMERA_FOCAL_LENGTH = 333.82;
+            public static final double CAMERA_RESOLUTION_X = 0;
+            public static final double CAMERA_RESOLUTION_Y = 0;
+            public static final double CAMERA_HFOV = 0;
+            public static final double CAMERA_VFOV = 0;
         }
     }
 

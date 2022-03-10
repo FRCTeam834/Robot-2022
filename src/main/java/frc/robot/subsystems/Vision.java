@@ -27,17 +27,17 @@ public class Vision extends SubsystemBase {
 
     public static PhotonCamera camera;
     private CircleFitter circlefitter;
-    private static double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
     private boolean targetExists = false;
-    private double horizontalFov;
-    private double verticalFov;
-    private double vph = 2 * Math.tan(horizontalFov / 2);
-    private double vpw = 2 * Math.tan(verticalFov / 2);
-    private double resolution;
-    // Adding *0.5 to resx and resy so resolution isn't accidentally messed up
-    // Resolution = Video Width Resolution / 160 (or vwr / 120)
-    private double resolutionX = resolution * 160 * 0.5;
-    private double resolutionY = resolution * 120 * 0.5;
+
+    private static double horizontalFov = Parameters.shooter.camera.CAMERA_HFOV,
+                            verticalFov = Parameters.shooter.camera.CAMERA_VFOV,
+                            vph = 2 * Math.tan(horizontalFov / 2),
+                            vpw = 2 * Math.tan(verticalFov / 2),
+                            resolutionX = Parameters.shooter.camera.CAMERA_RESOLUTION_X,
+                            resolutionY = Parameters.shooter.camera.CAMERA_RESOLUTION_Y,
+                            hresX = resolutionX / 2,
+                            hresY = resolutionY / 2;
+
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
     private static boolean LEDsOn = false;
@@ -148,16 +148,16 @@ public class Vision extends SubsystemBase {
         if (targetCorners.size() == 0) return null;
 
         for (TargetCorner corner : targetCorners) {
-            // + 0.5 for 1 unit pixel plane
-            double nx = (1 / resolutionX) * (corner.x - resolutionX + 0.5);
-            double ny = (1 / resolutionY) * (resolutionY - corner.y + 0.5);
-            // coordinates on imaginary view plane
-            double x = vpw / 2 * nx;
-            double y = vph / 2 * ny;
+            double nx = (1/(hresX)) * (corner.x - hresX);
+            double ny = (1/(hresY)) * (hresY - corner.y);
+            // coordinates on imaginary view plane (1 unit away from camera origin)
+            double x = vpw / 2.0 * nx;
+            double y = vph / 2.0 * ny;
 
-            pitch = Math.atan2(1, x);
-            yaw = Math.atan2(1, y);
-            ret.add(new GlobalPoint(yaw, pitch + Parameters.shooter.camera.PITCH));
+            double yaw = Math.atan(x);
+            double pitch = Math.atan(y);
+
+            ret.add(new GlobalPoint(yaw, pitch + Math.toRadians(Parameters.shooter.camera.PITCH)));
         }
 
         return ret;
@@ -167,10 +167,9 @@ public class Vision extends SubsystemBase {
      * Get positional data for target center point ! Coords are robot relative and not field
      * relative
      *
-     * @return double array with cent data [x, y, radius]
+     * @return double array with target center data [x, y, radius]
      */
     public double[] getTargetCenter() {
-        // For Pose implementation use target x/y as minuend
         return CircleFitter.calculateCircle(calculateGlobalPoints());
     }
 

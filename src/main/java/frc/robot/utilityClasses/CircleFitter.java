@@ -63,6 +63,8 @@ public class CircleFitter {
         Y.set(1, 0, index2);
         Y.set(2, 0, index3);
 
+        if(X.determinant() == 0) return null;
+
         // Circle Fit calculations
         double[] ret = new double[3];
 
@@ -73,13 +75,14 @@ public class CircleFitter {
         C = M.get(2);
 
         // k value
-        ret[0] = A / 2;
+        ret[0] = A / 2.0;
         // m value
-        ret[1] = B / 2;
+        ret[1] = B / 2.0;
         // radius
-        ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2;
-        // Units are in feet, radius tolerance
-        if (Math.abs(ret[2] - 2) > Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) return null;
+        ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2.0;
+
+        // Radius tolerance
+        //if (Math.abs(ret[2] - Parameters.shooter.camera.TARGET_RADIUS) < Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) return null;
 
         return ret;
     }
