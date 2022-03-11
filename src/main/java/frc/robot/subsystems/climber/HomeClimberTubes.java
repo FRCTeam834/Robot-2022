@@ -18,7 +18,6 @@ public class HomeClimberTubes extends ParallelCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-            
                  new HomeTube(
                          RobotContainer.climbers2.rightLift,
                          Parameters.climber.lift.HOME_SPEED,

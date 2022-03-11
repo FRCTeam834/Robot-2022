@@ -13,14 +13,13 @@ public class IndexStupid extends CommandBase {
     /** Creates a new IndexStupi. */
     public IndexStupid() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.indexer, RobotContainer.shooter);
+        addRequirements(RobotContainer.indexer);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         RobotContainer.indexer.set(Parameters.indexer.MOTOR_SPEED);
-        RobotContainer.shooter.set(-.1);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -31,7 +30,6 @@ public class IndexStupid extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         RobotContainer.indexer.stop();
-        RobotContainer.shooter.stop();
     }
 
     // Returns true when the command should end.

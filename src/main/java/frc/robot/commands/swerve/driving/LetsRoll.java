@@ -36,7 +36,7 @@ public class LetsRoll extends CommandBase {
         double leftX, rightX, rightY;
 
         // Get all of the current joystick inputs
-        if (Parameters.driver.controllers.usingQuadController) {
+        if (!Parameters.driver.controllers.usingQuadController) {
             leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
             rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
             rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
@@ -57,7 +57,7 @@ public class LetsRoll extends CommandBase {
                     (rightY * Parameters.driver.maxModVelocity),
                     (rightX * Parameters.driver.maxModVelocity),
                     Math.toRadians(leftX * RobotContainer.turnRate),
-                    RobotContainer.fieldCentric);
+                    Parameters.driver.fieldCentric);
         } else if (Parameters.driver.lockemUp) {
             RobotContainer.driveTrain.lockemUp();
         } else {

@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
+import frc.robot.Parameters.shooter;
 
 public class Shooter extends SubsystemBase {
 
@@ -28,8 +29,6 @@ public class Shooter extends SubsystemBase {
     RelativeEncoder shooterMotorEncoder;
     PIDController shooterPIDController;
 
-    // Bang-bang controller
-    BangBangController bangBangController;
 
     /** Creates a new Shooter. */
     public Shooter() {
@@ -54,37 +53,21 @@ public class Shooter extends SubsystemBase {
         shooterMotor.burnFlash();
 
         shooterPIDController = new PIDController(0.024089, 0, 0);
-        shooterPIDController.setTolerance(Parameters.shooter.VELOCITY_TOLERANCE);
-        // Create a new bang-bang controller
-        bangBangController = new BangBangController();
-        bangBangController.setTolerance(Parameters.shooter.VELOCITY_TOLERANCE);
+        shooterPIDController.setTolerance(2);
     }
 
     public void set(double percentage) {
         shooterMotor.set(percentage);
     }
 
-    public void setDesiredSpeed(double setpoint) {
-        shooterMotor.setVoltage(
-                (bangBangController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12)
-                        + .9 * shooterFF.calculate(setpoint));
-    }
 
     public void setDesiredPID(double setpoint) {
-        shooterMotor.setVoltage(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12 + shooterFF.calculate(setpoint));
+        shooterMotor.setVoltage(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12 + .9 * shooterFF.calculate(setpoint));
     }
 
-    public double getDesiredSpeed() {
-        return bangBangController.getSetpoint();
-    }
-
-    // Is the motor at its setPoint
-    public boolean isAtSetPoint() {
-        return bangBangController.atSetpoint();
-    }
 
     public boolean readyToShoot() {
-        return bangBangController.atSetpoint() && RobotContainer.hood.isAtDesiredAngle();
+        return shooterPIDController.atSetpoint() && RobotContainer.hood.isAtDesiredAngle();
     }
 
     public void stop() {
@@ -104,7 +87,7 @@ public class Shooter extends SubsystemBase {
                     shooterPIDController::getSetpoint,
                     shooterPIDController::setSetpoint);
             builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, null);
-            builder.addBooleanProperty("atSetpoint", this::isAtSetPoint, null);
+            builder.addBooleanProperty("atSetpoint", shooterPIDController::atSetpoint, null);
         }
     }
 }

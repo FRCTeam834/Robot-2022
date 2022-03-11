@@ -11,7 +11,7 @@ public class ShotParams {
     double speed;
 
     // Overloading the constructor
-    public ShotParams(double angle, double speed) {
+    public ShotParams(double speed, double angle) {
         this.angle = angle;
         this.speed = speed;
     }

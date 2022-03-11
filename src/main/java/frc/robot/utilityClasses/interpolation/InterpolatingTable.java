@@ -6,6 +6,7 @@ package frc.robot.utilityClasses.interpolation;
 
 import static java.util.Map.entry;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -13,6 +14,7 @@ import java.util.function.BiConsumer;
 
 /** Add your docs here. */
 public class InterpolatingTable {
+    
     private static TreeMap<Double, ShotParams> table;
     private BiConsumer<Double, ShotParams> printEntry =
             (x, y) ->
@@ -25,34 +27,18 @@ public class InterpolatingTable {
         table =
                 new TreeMap<>(
                         Map.ofEntries(
-                                entry(1.0, new ShotParams(10, 20)),
-                                entry(2.0, new ShotParams(30, 40)),
-                                entry(3.0, new ShotParams(50, 60)),
-                                entry(4.0, new ShotParams(70, 80))));
+                                entry(0.0, new ShotParams(0, 0)),
+                                entry(1.32, new ShotParams(18.39, 70.16)),
+                                entry(1.75, new ShotParams(21.39, 71.1)),
+                                entry(2.413, new ShotParams(21.95, 63.211)),
+                                entry(3.35, new ShotParams(22.19, 59.44)),
+                                entry(3.749, new ShotParams(22.49,57.44)),
+                                entry(4.31, new ShotParams(22.76,55.19)),
+                                entry(4.89, new ShotParams(23.59,55.079))));
+
     }
 
-    /**
-     * Adds an entry to the table
-     *
-     * @param distance The distance to the goal (m)
-     * @param parameters The angle and speed of the successful shot
-     */
-    public void addEntry(Double distance, ShotParams parameters) {
-        table.put(distance, parameters);
-    }
-
-    /**
-     * Adds an entry to the table
-     *
-     * @param distance The distance to the goal (m)
-     * @param angle The angle of the successful shot (deg)
-     * @param speed The speed of the successful shot (m/s)
-     */
-    public void addEntry(Double distance, double angle, double speed) {
-        table.put(distance, new ShotParams(angle, speed));
-    }
-
-    public static ShotParams getShotParam(double distance) {
+    public ShotParams getShotParam(double distance) {
         Entry<Double, ShotParams> ceiling = table.ceilingEntry(distance);
         Entry<Double, ShotParams> floor = table.floorEntry(distance);
         if (ceiling == null) {

@@ -126,8 +126,8 @@ public class Vision extends SubsystemBase {
     @Override
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {
-            builder.addDoubleProperty("Yaw", () -> getYaw(), null);
-            builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()), null);
+            //builder.addDoubleProperty("Yaw", () -> getYaw(), null);
+            //builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()), null);
             builder.addBooleanProperty(
                     "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);

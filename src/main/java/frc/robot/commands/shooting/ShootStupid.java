@@ -18,13 +18,10 @@ import frc.robot.RobotContainer;
 public class ShootStupid extends SequentialCommandGroup {
     /** Creates a new ShootStupid. */
     public ShootStupid() {
+        //low goal shot speed: 18
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new PrintCommand("Stage 1"),
-                new InstantCommand(() -> RobotContainer.indexer.set(-.15))
-                        .withTimeout(.5)
-                        .andThen(() -> RobotContainer.indexer.set(0)),
                 new PrintCommand("Stage 2"),
                 new InstantCommand(() -> RobotContainer.shooter.set(.25), RobotContainer.shooter),
                 new PrintCommand("Stage 3"),

@@ -17,7 +17,6 @@ public class StopEverything extends CommandBase {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(
                 RobotContainer.shooter,
-                RobotContainer.driveTrain,
                 RobotContainer.indexer,
                 RobotContainer.intake,
                 RobotContainer.hood);
@@ -28,7 +27,6 @@ public class StopEverything extends CommandBase {
     public void initialize() {
         timer.start();
         RobotContainer.indexer.stop();
-        RobotContainer.driveTrain.haltAllModules();
         RobotContainer.shooter.stop();
         RobotContainer.intake.stop();
         RobotContainer.hood.stop();

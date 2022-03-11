@@ -13,7 +13,7 @@ public class DumbShoot extends CommandBase {
     /** Creates a new DumbShoot. */
     public DumbShoot() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.intake);
+        addRequirements(RobotContainer.shooter);
     }
 
     // Called when the command is initially scheduled.
@@ -24,7 +24,7 @@ public class DumbShoot extends CommandBase {
     @Override
     public void execute() {
         RobotContainer.shooter.setDesiredPID(
-                RobotContainer.xbox.getRawAxis(3) * Parameters.shooter.MAX_SPEED);
+                RobotContainer.leftJoystick.getRawAxis(2) * Parameters.shooter.MAX_SPEED);
         ;
     }
 

@@ -10,30 +10,33 @@ import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.interpolation.InterpolatingTable;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
-public class TrackGoal extends CommandBase {
+public class PrepareShooter extends CommandBase {
     /** Creates a new PrepareShooter. */
-    public TrackGoal() {
+    double distance = 0;
+    ShotParams shotParams;
+    public PrepareShooter() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.hood, RobotContainer.shooter);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {}
+    public void initialize() {
+
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
+                // Compute the distance from the target using the camera
+                distance = RobotContainer.vision.getDistanceToGoal();
 
-        // Compute the distance from the target using the camera
-        double distance = RobotContainer.vision.getDistanceToGoal();
-
-        // Look up the shot parameters for that distance
-        ShotParams shotParams = InterpolatingTable.getShotParam(distance);
-
-        // Set the hood and shooter's desired angles
-        RobotContainer.hood.setDesiredAngle(shotParams.getAngle());
-        RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed());
+                // Look up the shot parameters for that distance
+                shotParams = RobotContainer.interpolatingTable.getShotParam(distance);
+        
+                // Set the hood and shooter's desired angles
+                RobotContainer.hood.setDesiredAngle(shotParams.getAngle());
+                RobotContainer.shooter.setDesiredPID(shotParams.getSpeed());
     }
 
     // Called once the command ends or is interrupted.
@@ -41,7 +44,6 @@ public class TrackGoal extends CommandBase {
     public void end(boolean interrupted) {
 
         // Stop the shooter
-        RobotContainer.shooter.stop();
     }
 
     // Returns true when the command should end.

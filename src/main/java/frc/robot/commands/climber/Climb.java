@@ -4,6 +4,7 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
@@ -21,13 +22,15 @@ public class Climb extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
+            // TODO: TEST THIS
+            //new InstantCommand(() -> RobotContainer.navX.resetPitch()),
             new ParallelCommandGroup(
-             new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.UP_LEGAL_DISTANCE),
-             new MoveTubeToPosition(RobotContainer.climbers2.rightLift, Parameters.climber.lift.UP_LEGAL_DISTANCE),
-             new MoveTubeToPosition(RobotContainer.climbers2.leftTilt, Parameters.climber.tilt.LEFT_LEGAL_DISTANCE),
-             new MoveTubeToPosition(RobotContainer.climbers2.rightTilt, Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE)),
+            new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.UP_LEGAL_DISTANCE),
+            new MoveTubeToPosition(RobotContainer.climbers2.rightLift, Parameters.climber.lift.UP_LEGAL_DISTANCE),
+            new MoveTubeToPosition(RobotContainer.climbers2.leftTilt, Parameters.climber.tilt.LEFT_LEGAL_DISTANCE),
+            new MoveTubeToPosition(RobotContainer.climbers2.rightTilt, Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE)),
 
-            //new DriveUntilAngle(.25, Parameters.climber.ROBOT_TILT_ANGLE),
+            new DriveUntilAngle(-1, Parameters.climber.ROBOT_TILT_ANGLE),
 
             new ParallelCommandGroup(
                 new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.GRAB_DISTANCE),

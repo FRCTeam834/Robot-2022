@@ -20,12 +20,12 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class TurnToAngleVision extends CommandBase {
 
-    PIDController rotationalPID = new PIDController(pid.ROT_MOVE_P.get(), 0, 0);
+    PIDController rotationalPID = new PIDController(3, 0, 0);
     double omega = 0;
 
     public TurnToAngleVision() {
         rotationalPID.enableContinuousInput(0, 360);
-        rotationalPID.setTolerance(5);
+        rotationalPID.setTolerance(.5);
         // Request the subsystem
         addRequirements(RobotContainer.driveTrain);
     }
@@ -38,22 +38,23 @@ public class TurnToAngleVision extends CommandBase {
     @Override
     public void execute() {
         PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
-        omega =
+
+        if (latestResult == null) {
+            omega = 0;
+        }
+        else {
+            omega =
                 MathUtil.clamp(
                         Math.toRadians(
-                                -rotationalPID.calculate(
-                                        RobotContainer.driveTrain
-                                                .getEstPose2D()
-                                                .getRotation()
-                                                .getDegrees(),
-                                        latestResult.getYaw())),
+                            rotationalPID.calculate(RobotContainer.vision.getBestTarget().getYaw(), 0)),
                         -1,
                         1);
+        }
 
         RobotContainer.driveTrain.drive(
-                RobotContainer.getJoystickValues()[3] * Parameters.driveTrain.maximums.MAX_VELOCITY,
-                RobotContainer.getJoystickValues()[2] * Parameters.driveTrain.maximums.MAX_VELOCITY,
-                omega,
+                0 /*RobotContainer.getJoystickValues()[3] * Parameters.driveTrain.maximums.MAX_VELOCITY*/,
+                0 /*RobotContainer.getJoystickValues()[2] * Parameters.driveTrain.maximums.MAX_VELOCITY*/,
+                -omega,
                 false);
     }
 

@@ -96,33 +96,34 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FL_STEER_ID,
                         Parameters.driveTrain.can.FL_DRIVE_ID,
                         Parameters.driveTrain.can.FL_CODER_ID,
-                        false);
+                        true);
         frontRight =
                 new SwerveModule(
                         "FR",
                         Parameters.driveTrain.can.FR_STEER_ID,
                         Parameters.driveTrain.can.FR_DRIVE_ID,
                         Parameters.driveTrain.can.FR_CODER_ID,
-                        true);
+                        false);
         backLeft =
                 new SwerveModule(
                         "BL",
                         Parameters.driveTrain.can.BL_STEER_ID,
                         Parameters.driveTrain.can.BL_DRIVE_ID,
                         Parameters.driveTrain.can.BL_CODER_ID,
-                        false);
+                        true);
         backRight =
                 new SwerveModule(
                         "BR",
                         Parameters.driveTrain.can.BR_STEER_ID,
                         Parameters.driveTrain.can.BR_DRIVE_ID,
                         Parameters.driveTrain.can.BR_CODER_ID,
-                        true);
+                        false);
 
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
 
         SmartDashboard.putData("Field", field);
+    
         // Load the offsets for the CANCoders
         loadEncoderOffsets();
     }
@@ -464,6 +465,15 @@ public class DriveTrain extends SubsystemBase {
         frontRight.loadEncoderOffset();
         backLeft.loadEncoderOffset();
         backRight.loadEncoderOffset();
+    }
+
+    public void reloadSteerAngles() {
+
+        // Go through each module, reseting their angle
+        frontLeft.reloadSteerAngle();
+        frontRight.reloadSteerAngle();
+        backLeft.reloadSteerAngle();
+        backRight.reloadSteerAngle();
     }
 
     public double getXSpeed() {

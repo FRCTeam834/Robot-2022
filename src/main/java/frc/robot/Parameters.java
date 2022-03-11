@@ -37,7 +37,7 @@ public final class Parameters {
     // Enables all debug statements
     public static final boolean debug = false;
     public static final boolean tuningMode = false;
-    public static final boolean telemetryMode = false;
+    public static final boolean telemetryMode = true;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -277,15 +277,15 @@ public final class Parameters {
 
             // Distances to move to
             public static final double UP_LEGAL_DISTANCE =
-                    Units.inchesToMeters(12); // The distance of the string in the up position
+                    Units.inchesToMeters(14); // The distance of the string in the up position
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
-                            5); // The distance at which the hook grabs the bar, but doesn't lift
+                            4); // The distance at which the hook grabs the bar, but doesn't lift
             // ground
-            public static final double GRAB_DISTANCE = Units.inchesToMeters(10);
+            public static final double GRAB_DISTANCE = Units.inchesToMeters(12);
 
             // Homing info
-            public static final double HOME_SPEED = -0.25;
+            public static final double HOME_SPEED = -0.75;
             public static final double HOME_DISTANCE =
                     Units.inchesToMeters(3.25); // The distance at home
         }
@@ -321,14 +321,14 @@ public final class Parameters {
                                     1)); // Diameter is 1 inch, circumference is in meters
 
             // Distances to move to
-            public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(16.375);
-            public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(15.45);
+            public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(17.375);
+            public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(16.95);
             
             public static final double DOWN_DISTANCE = Units.inchesToMeters(5); // The distance of the climber when the robot is fully off the
             // ground
 
             // Homing info
-            public static final double HOME_SPEED = -0.25;
+            public static final double HOME_SPEED = -0.75;
             public static final double HOME_DISTANCE =
                     Units.inchesToMeters(4.75); // The distance at home
         }
@@ -337,7 +337,7 @@ public final class Parameters {
         public static final double DRIVE_TILT_SPEED = .25;
 
         // The angle to tilt the robot to before lifting the climbers
-        public static final double ROBOT_TILT_ANGLE = 20;
+        public static final double ROBOT_TILT_ANGLE = 26.5;
     }
 
     public static final class intake {
@@ -409,16 +409,11 @@ public final class Parameters {
         public static final int CURRENT_LIMIT = 40;
 
         public static final double VELOCITY_TOLERANCE = .15;
+        public static final double FENDER_SHOT_SPEED = 0;
+        public static final double FENDER_HOOD_ANGLE = 0;
 
-        // Game-specific parameters (meters and degrees)
-        public static final class camera {
-            public static final double HEIGHT = 0;
-            public static final double TARGET_HEIGHT = 0;
-            public static final double PITCH = 0;
 
-            // Camera-specific parameters (pixels)
-            public static final double CAMERA_FOCAL_LENGTH = 333.82;
-        }
+        
     }
 
     public static final class hood {

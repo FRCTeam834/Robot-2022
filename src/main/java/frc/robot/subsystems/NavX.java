@@ -15,17 +15,12 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.Parameters;
 
 public class NavX extends SubsystemBase {
     /** Creates a new NavX. */
     AHRS navX = new AHRS(SPI.Port.kMXP);
-
-    private float pitchOffset = 0;
 
     public NavX() {
         navX.calibrate();
@@ -48,7 +43,7 @@ public class NavX extends SubsystemBase {
 
     // The Rotation2D is the big brother of fused heading
     public Rotation2d getRotation2d() {
-        return navX.getRotation2d();
+        return Rotation2d.fromDegrees(-navX.getYaw());
     }
 
     // Grabs the roll
@@ -58,7 +53,7 @@ public class NavX extends SubsystemBase {
 
     // Grabs the pitch
     public float getPitch() {
-        return navX.getPitch() + pitchOffset;
+        return navX.getPitch();
     }
 
     // Gets the x displacement
@@ -86,20 +81,7 @@ public class NavX extends SubsystemBase {
         navX.zeroYaw();
     }
 
-    // Resets the NavX's yaw axis to zero
-    public void resetPitch() {
-        pitchOffset = -getPitch();
-    }
-
     public void resetDisplacement() {
         resetDisplacement();
-    }
-
-    @Override
-    public void initSendable(SendableBuilder builder) {
-        if (Parameters.telemetryMode) {
-            builder.setSmartDashboardType("NavX");
-            builder.addDoubleProperty("Angle", navX::getYaw, null);
-        }
     }
 }

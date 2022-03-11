@@ -57,6 +57,9 @@ public class SwerveModule extends SubsystemBase {
     // Feed forward for the motor
     private SimpleMotorFeedforward driveFF;
 
+    // If the module is reversed (used for if angle ever needs to be reset)
+    private boolean isReversed;
+
     /**
      * Set up the module and address each of the motor controllers
      *
@@ -173,6 +176,9 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
+
+        // Save if the drive motor should be reversed
+        isReversed = reversedDrive;
 
         // Load the offset of the encoder
         loadEncoderOffset();
@@ -409,14 +415,16 @@ public class SwerveModule extends SubsystemBase {
 
         // Set the encoder's position to zero
         // The getAngle reference should be changed now, so we need to re-request it
-        steerMotorEncoder.setPosition(getAngle());
+        reloadSteerAngle();
 
-        System.out.println(name + "_OFFSET: " + getCANCoder().getAbsolutePosition());
+        if (Parameters.debug) {
+            System.out.println(name + "_OFFSET: " + getCANCoder().getAbsolutePosition());
+        }
     }
 
     public void setRawEncoderOffset(double offset) {
         steerCANCoder.configMagnetOffset(offset);
-        steerMotorEncoder.setPosition(getAngle());
+        reloadSteerAngle();
     }
 
     // Saves the module's encoder offset
@@ -429,10 +437,20 @@ public class SwerveModule extends SubsystemBase {
     // Loads the module's encoder offset
     public void loadEncoderOffset() {
 
-        // Encoder offset
+        // Set the encoder offset
         steerCANCoder.configMagnetOffset(
                 Preferences.getDouble(name + "_ENCODER_OFFSET", cancoderOffset));
+        
+        // Reload the steer angle
+        reloadSteerAngle();
+    }
+
+    /**
+     * Gets the angle of the swerve module from the CANCoder, then sets that the steer motor is at that point
+     */
+    public void reloadSteerAngle() {
         steerMotorEncoder.setPosition(getAngle());
+        driveMotor.setInverted(isReversed);
     }
 
     // Stop both of the motors
