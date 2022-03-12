@@ -31,8 +31,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Parameters.climber;
 import frc.robot.Parameters.intake;
+import frc.robot.commands.autons.EmptyEverything;
 import frc.robot.commands.autons.TwoBallAuton;
 import frc.robot.commands.climber.Climb;
 
@@ -41,12 +43,18 @@ import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.DumbHood;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.ColorSensorIndexing;
-import frc.robot.commands.indexing.IndexStupid;
+import frc.robot.commands.indexing.IndexForTime;
+import frc.robot.commands.indexing.WaitForShooter;
 // import frc.robot.commands.intake.HomeIntake;
 // import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.intake.HomeIntake;
+import frc.robot.commands.intake.IntakeBalls;
+import frc.robot.commands.intake.IntakeBallsForTime;
+import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.DumbShoot;
+import frc.robot.commands.shooting.FenderShot;
+import frc.robot.commands.shooting.IncrementShooterSetpoint;
 import frc.robot.commands.shooting.ShootStupid;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToAngleVision;
@@ -107,7 +115,7 @@ public class RobotContainer {
     private final TestRotationalPID testRotationalPID = new TestRotationalPID();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
-    public static DumbShoot dumbShoot = new DumbShoot();
+    public static DumbShoot manualShoot = new DumbShoot();
 
     // Intaking/holding balls
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
@@ -153,11 +161,14 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        SmartDashboard.putData(shooter);
-        SmartDashboard.putData(hood);
-        SmartDashboard.putData(navX);
-        SmartDashboard.putData(vision);
-        SmartDashboard.putData(driveTrain);
+        if (Parameters.telemetryMode) {
+            SmartDashboard.putData(shooter);
+            SmartDashboard.putData(hood);
+            SmartDashboard.putData(navX);
+            SmartDashboard.putData(vision);
+            SmartDashboard.putData(driveTrain);
+        }
+
         // Configure the button bindings
         configureButtonBindings();
     }
@@ -177,8 +188,8 @@ public class RobotContainer {
         //                        () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
         new JoystickButton(leftJoystick, 2).whenPressed(letsRoll);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
-        new JoystickButton(leftJoystick, 8)
-                .whenPressed(
+        new JoystickButton(leftJoystick, 8).and(new JoystickButton(leftJoystick, 9))
+                .whenActive(
                         new InstantCommand(driveTrain::zeroEncoders, driveTrain)
                                 .andThen(
                                         new PrintCommand("Zeroed!")
@@ -198,17 +209,17 @@ public class RobotContainer {
                                                         ? Parameters.driver.slowSteerRate
                                                         : Parameters.driver.fastSteerRate));*/
         // () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
-        new JoystickButton(rightJoystick, 2).whenPressed(new AutoShoot());
+        new JoystickButton(rightJoystick, 2).whenPressed(new WaitForShooter());
         new JoystickButton(rightJoystick, 3).whenPressed(() -> driveTrain.reloadSteerAngles());
-
+        new JoystickButton(rightJoystick, 4).whenPressed(new HomeIntake());
+        new POVButton(rightJoystick, 0).whileHeld(new StartEndCommand(() -> intakeWinch.set(-.5), intakeWinch::stop, intakeWinch));
+        new POVButton(rightJoystick, 180).whileHeld(new StartEndCommand(() -> intakeWinch.set(.5), intakeWinch::stop, intakeWinch));
 
         //right and left lift up
         BM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftLift.setWithLimitSwitch(.75), RobotContainer.climbers2.leftLift::stop).alongWith(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(.75), RobotContainer.climbers2.rightTilt::stop)));
 
-        
         //right and lift down
-        BR.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(-1), RobotContainer.climbers2.rightLift::stop).alongWith(new StartEndCommand(() -> RobotContainer.climbers2.leftLift.setWithLimitSwitch(-1), RobotContainer.climbers2.leftLift::stop)));
-
+        BR.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(-1), RobotContainer.climbers2.leftLift::stop).alongWith(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(-1), RobotContainer.climbers2.leftLift::stop)));
 
         //right and left tilt up
         MM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftTilt.setWithLimitSwitch(.75), RobotContainer.climbers2.leftTilt::stop).alongWith(new StartEndCommand(() -> RobotContainer.climbers2.rightTilt.setWithLimitSwitch(.75), RobotContainer.climbers2.rightTilt::stop)));
@@ -218,8 +229,18 @@ public class RobotContainer {
         
         TM.whenPressed(new Climb());
         TR.whenPressed(new StopClimb());
-        new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(new StartEndCommand(()-> intake.set(.85), intake::stop,intake));
-        new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(new DumbHood());
+        ML.whenPressed(new HomeClimberTubes());
+        BL.whenPressed(new HomeHood());
+        TL.whenPressed(manualShoot);
+        //TL.whenHeld(new EmptyEverything());
+        // 87.6 20.4
+        new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(new IntakeBalls());
+        new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(new FenderShot());
+        //new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(new StartEndCommand(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1), hood::stop, hood));
+        //new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(new StartEndCommand(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1), hood::stop, hood));
+        //new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(.75), intake::stop, intake));
+
+        new POVButton(xbox, 0).whenPressed(new SwitchIntakeState());
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)

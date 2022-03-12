@@ -21,15 +21,17 @@ import frc.robot.Parameters.driveTrain;
 import frc.robot.commands.StopEverything;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.ColorSensorIndexing;
-import frc.robot.commands.indexing.IndexStupid;
-import frc.robot.commands.intake.IntakeBalls;
+import frc.robot.commands.indexing.IndexForTime;
+import frc.robot.commands.intake.IntakeBallsForTime;
 import frc.robot.commands.shooting.AutoShoot;
-import frc.robot.commands.shooting.DumbShoot;
-import frc.robot.commands.shooting.PrepareShooter;
+import frc.robot.commands.shooting.AutonShot;
+import frc.robot.commands.shooting.ManualShoot;
+import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.SpartechsSwerveController;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.DriveForTime;
 import frc.robot.commands.swerve.driving.SpinForTime;
+import frc.robot.subsystems.climber.HomeClimberTubes;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -40,10 +42,11 @@ public class TwoBallAuton extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new ParallelCommandGroup(new IntakeBalls(2), new DriveForTime(-1, 2), new HomeHood()),
+                new DriveForTime(4, .5),
+                new ParallelCommandGroup(new IntakeBallsForTime(3), new DriveForTime(-1, 2), new HomeHood(), new HomeClimberTubes()),
                 new SpinForTime(2, 1.5),
-                new ParallelCommandGroup(new TurnToAngleVision(), new PrepareShooter()).withInterrupt(RobotContainer.shooter::readyToShoot),
-                new IndexStupid(2),
+                new ParallelCommandGroup(new TurnToAngleVision(), new AutonShot()).withInterrupt(RobotContainer.shooter::readyToShoot),
+                new IndexForTime(2),
                 new StopEverything());
     }
 }

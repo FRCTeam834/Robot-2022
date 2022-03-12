@@ -15,7 +15,7 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.Parameters.indexer;
 import frc.robot.commands.StopEverything;
-import frc.robot.commands.indexing.IndexStupid;
+import frc.robot.commands.indexing.IndexForTime;
 import frc.robot.commands.swerve.TurnToAngleVision;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -27,8 +27,8 @@ public class AutoShoot extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-            new ParallelCommandGroup(new TurnToAngleVision(), new PrepareShooter()).withInterrupt(RobotContainer.shooter::readyToShoot),
-            new IndexStupid(3),
+            new ParallelCommandGroup(new TurnToAngleVision(), new PrepareShooterForVision()).withInterrupt(RobotContainer.shooter::readyToShoot),
+            new IndexForTime(3),
             new StopEverything());
 
                 // start out by turning the robot to the proper angle and preparing the shooter

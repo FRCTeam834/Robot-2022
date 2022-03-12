@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.autons;
+package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class EmptyEverything extends CommandBase {
-  /** Creates a new EmptyEverything. */
-  public EmptyEverything() {
+public class IncrementShooterSetpoint extends CommandBase {
+  /** Creates a new IncrementShooterSetpoint. */
+  double increment;
+  public IncrementShooterSetpoint(double increment) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.increment = increment;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      RobotContainer.shooter.set(-.5);
-      RobotContainer.indexer.set(-.5);
-      RobotContainer.intake.set(-.5);
+      RobotContainer.shooter.setDesiredPID(RobotContainer.shooter.getSpeed() + increment);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -27,11 +27,7 @@ public class EmptyEverything extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    RobotContainer.shooter.set(0);
-    RobotContainer.indexer.set(0);
-    RobotContainer.intake.set(0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

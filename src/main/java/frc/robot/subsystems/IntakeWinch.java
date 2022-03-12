@@ -73,7 +73,7 @@ public class IntakeWinch extends SubsystemBase {
         spoolMotor.set(percent);
     }
 
-    public void stopSpoolMotor() {
+    public void stop() {
         spoolMotor.stopMotor();
     }
     /**

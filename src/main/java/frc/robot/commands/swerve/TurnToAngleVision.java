@@ -39,6 +39,7 @@ public class TurnToAngleVision extends CommandBase {
     public void execute() {
         PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
 
+        
         if (latestResult == null) {
             omega = 0;
         }

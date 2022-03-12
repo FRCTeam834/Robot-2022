@@ -4,42 +4,42 @@
 
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class IntakeBalls extends CommandBase {
-    /** Creates a new IntakeBalls. */
-    Timer timer = new Timer();
-    double time = 0;
-    public IntakeBalls(double time) {
-        addRequirements(RobotContainer.intake);
-        this.time = time;
-    }
+  /** Creates a new IntakeBalls. */
+  public IntakeBalls() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.indexer, RobotContainer.intake);
+  }
 
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-        timer.start();
-    }
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {}
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-        RobotContainer.intake.set(.8);
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    if (!RobotContainer.indexer.hasBall()) {
+        RobotContainer.indexer.set(0.5);
     }
+    else {
+        RobotContainer.indexer.stop();
+    }
+    RobotContainer.intake.set(.75);
+  }
 
-    // Called once the command ends or is interrupted.
-    @Override
-    public void end(boolean interrupted) {
-        RobotContainer.intake.stop();
-    }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+      RobotContainer.intake.stop();
+      RobotContainer.indexer.stop();
+  }
 
-    // Returns true when the command should end.
-    @Override
-    public boolean isFinished() {
-        return timer.hasElapsed(time);
-    }
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
 }

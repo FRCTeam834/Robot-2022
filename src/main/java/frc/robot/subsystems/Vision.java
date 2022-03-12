@@ -100,7 +100,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
-        if (camera.getLatestResult().hasTargets()) {
+        if (bestTarget != null) {
             return PhotonUtils.calculateDistanceToTargetMeters(
                     Parameters.vision.CAMERA_HEIGHT,
                     Parameters.vision.GOAL_HEIGHT,

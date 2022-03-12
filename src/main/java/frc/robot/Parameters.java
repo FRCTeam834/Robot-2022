@@ -350,12 +350,12 @@ public final class Parameters {
             // TODO set these
             public static final int MOTOR_ID = 17;
             public static final int LS_PORT = 9;
-            public static final int MOTOR_CURRENT_LIMIT = 40;
+            public static final int MOTOR_CURRENT_LIMIT = 5;
 
             // Homing info
-            public static final double HOME_SPEED = 0.25;
-            public static final double HOME_DISTANCE = 0.31; // The distance at home
-            public static final int HOME_CURRENT = 3;
+            public static final double HOME_SPEED = 0.5;
+            public static final double HOME_DISTANCE = Units.inchesToMeters(13.5); // The distance at home
+            public static final int HOME_CURRENT = 2;
 
             // Basic info
             public static final double GEARBOX_RATIO =
@@ -365,11 +365,11 @@ public final class Parameters {
                             * Units.inchesToMeters(
                                     1)); // Diameter is 1 inch, circumfrence is in meters
             public static final double UP_DISTANCE =
-                    0.175; // The distance of the string from the spool in the up position
+                    Units.inchesToMeters(6.5); // The distance of the string from the spool in the up position
             public static final double DOWN_DISTANCE =
-                    0.35; // The distance of the string from the spool in the down position
+                    Units.inchesToMeters(14); // The distance of the string from the spool in the down position
             public static final double MAX_MOTOR_DUTY =
-                    1; // The maximum output of the motor when moving
+                    .35; // The maximum output of the motor when moving
 
             public static class pid {
                 public static final NetworkTable SPOOL_TABLE =
@@ -409,8 +409,8 @@ public final class Parameters {
         public static final int CURRENT_LIMIT = 40;
 
         public static final double VELOCITY_TOLERANCE = .15;
-        public static final double FENDER_SHOT_SPEED = 0;
-        public static final double FENDER_HOOD_ANGLE = 0;
+        public static final double FENDER_SHOT_SPEED = 20.4;
+        public static final double FENDER_HOOD_ANGLE = 87.6;
 
 
         

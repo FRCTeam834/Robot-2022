@@ -2,23 +2,25 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.autons;
+package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Parameters;
 import frc.robot.RobotContainer;
+import frc.robot.Parameters.shooter;
 
-public class EmptyEverything extends CommandBase {
-  /** Creates a new EmptyEverything. */
-  public EmptyEverything() {
+public class FenderShot extends CommandBase {
+  /** Creates a new FenderShot. */
+  public FenderShot() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.hood, RobotContainer.shooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      RobotContainer.shooter.set(-.5);
-      RobotContainer.indexer.set(-.5);
-      RobotContainer.intake.set(-.5);
+              RobotContainer.hood.setCurrentAngle(Parameters.shooter.FENDER_HOOD_ANGLE);
+               RobotContainer.shooter.setDesiredPID(Parameters.shooter.FENDER_SHOT_SPEED);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,14 +30,11 @@ public class EmptyEverything extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.shooter.set(0);
-    RobotContainer.indexer.set(0);
-    RobotContainer.intake.set(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
