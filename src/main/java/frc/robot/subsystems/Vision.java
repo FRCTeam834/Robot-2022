@@ -169,8 +169,37 @@ public class Vision extends SubsystemBase {
      *
      * @return double array with target center data [x, y, radius]
      */
-    public double[] getTargetCenter() {
+    private double[] headingToTargetCenter() {
         return CircleFitter.calculateCircle(calculateGlobalPoints());
+    }
+
+    /**
+     * Calculates robot pose using vision data
+     * 
+     * @param facing Return of gyro measurements, radians
+     * 
+     * @return calculated robot pose from vision
+     */
+    public Pose2d calculateRobotPose(double facing) {
+        // facing = Math.toRadians(facing);
+        double[] heading = headingToTargetCenter();
+        double x = heading[0];
+        double y = heading[1];
+
+        double vpw = 2 * Math.tan(horizontalFov / 2) * y;
+        double d = vpw / 2 + x;
+        double hfovcorner = (180 - horizontalFov) / 2;
+        double segx = Math.cos(hfovcorner) * d;
+        double vps = y / Math.cos(facing);
+
+        double realdx = vps - segx;
+        double beta = Math.arctan(x/y);
+        double realdy = realx * Math.tan(facing + beta);
+
+        double realx = Parameters.shooter.camera.TARGET_X + realx;
+        double realy = Parameters.shooter.camera.TARGET_Y + realy;
+
+        return new Pose2d(realx, realy, facing);
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {

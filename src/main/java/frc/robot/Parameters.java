@@ -430,6 +430,8 @@ public final class Parameters {
             public static final double HEIGHT = 0;
             public static final double TARGET_HEIGHT = 0;
             public static final double TARGET_RADIUS = 0;
+            public static final double TARGET_X = 0;
+            public static final double TARGET_Y = 0;
 
             public static final double PITCH = 0;
             public static final double CIRCLE_FIT_TOLERANCE = 0;
