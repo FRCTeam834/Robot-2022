@@ -450,7 +450,7 @@ public class SwerveModule extends SubsystemBase {
      */
     public void reloadSteerAngle() {
         steerMotorEncoder.setPosition(getAngle());
-        driveMotor.setInverted(isReversed);
+        //driveMotor.setInverted(isReversed);
     }
 
     // Stop both of the motors

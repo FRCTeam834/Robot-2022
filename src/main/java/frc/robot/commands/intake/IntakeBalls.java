@@ -21,12 +21,10 @@ public class IntakeBalls extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!RobotContainer.indexer.hasBall()) {
-        RobotContainer.indexer.set(0.5);
-    }
-    else {
-        RobotContainer.indexer.stop();
-    }
+   // if (!RobotContainer.indexer.hasBall()) {
+    //}
+    //else {
+    //}
     RobotContainer.intake.set(.75);
   }
 

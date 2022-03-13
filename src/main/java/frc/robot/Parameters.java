@@ -409,8 +409,8 @@ public final class Parameters {
         public static final int CURRENT_LIMIT = 40;
 
         public static final double VELOCITY_TOLERANCE = .15;
-        public static final double FENDER_SHOT_SPEED = 20.4;
-        public static final double FENDER_HOOD_ANGLE = 87.6;
+        public static final double FENDER_SHOT_SPEED = 20.75;
+        public static final double FENDER_HOOD_ANGLE = 79.5;
 
 
         

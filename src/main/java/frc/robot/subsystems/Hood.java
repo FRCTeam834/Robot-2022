@@ -72,10 +72,7 @@ public class Hood extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
         // Update the PID constants (if they are tunable)
-        if(CommandScheduler.getInstance().isScheduled(RobotContainer.manualShoot))
-        {
-            RobotContainer.hood.set(-.01);
-        }
+
         if (Parameters.tuningMode) {
             pidController.setP(Parameters.hood.pid.kP.get());
             pidController.setD(Parameters.hood.pid.kD.get());

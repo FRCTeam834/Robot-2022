@@ -35,7 +35,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Parameters.climber;
 import frc.robot.Parameters.intake;
 import frc.robot.commands.autons.EmptyEverything;
-import frc.robot.commands.autons.TwoBallAuton;
+import frc.robot.commands.autons.OneBallAuton;
 import frc.robot.commands.climber.Climb;
 
 import frc.robot.commands.climber.MoveTubeToPosition;
@@ -52,7 +52,7 @@ import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.intake.IntakeBallsForTime;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
-import frc.robot.commands.shooting.DumbShoot;
+import frc.robot.commands.shooting.ManualShoot;
 import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.shooting.IncrementShooterSetpoint;
 import frc.robot.commands.shooting.ShootStupid;
@@ -115,7 +115,7 @@ public class RobotContainer {
     private final TestRotationalPID testRotationalPID = new TestRotationalPID();
     private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
     private final StraightenWheels straightenWheels = new StraightenWheels();
-    public static DumbShoot manualShoot = new DumbShoot();
+    public static ManualShoot manualShoot = new ManualShoot();
 
     // Intaking/holding balls
     private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
@@ -209,9 +209,9 @@ public class RobotContainer {
                                                         ? Parameters.driver.slowSteerRate
                                                         : Parameters.driver.fastSteerRate));*/
         // () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
-        new JoystickButton(rightJoystick, 2).whenPressed(new WaitForShooter());
-        new JoystickButton(rightJoystick, 3).whenPressed(() -> driveTrain.reloadSteerAngles());
-        new JoystickButton(rightJoystick, 4).whenPressed(new HomeIntake());
+        //new JoystickButton(rightJoystick, 2).whenPressed(new WaitForShooter());
+       // new JoystickButton(rightJoystick, 3).whenPressed(() -> driveTrain.reloadSteerAngles());
+        //new JoystickButton(rightJoystick, 4).whenPressed(new HomeIntake());
         new POVButton(rightJoystick, 0).whileHeld(new StartEndCommand(() -> intakeWinch.set(-.5), intakeWinch::stop, intakeWinch));
         new POVButton(rightJoystick, 180).whileHeld(new StartEndCommand(() -> intakeWinch.set(.5), intakeWinch::stop, intakeWinch));
 
@@ -229,18 +229,24 @@ public class RobotContainer {
         
         TM.whenPressed(new Climb());
         TR.whenPressed(new StopClimb());
-        ML.whenPressed(new HomeClimberTubes());
-        BL.whenPressed(new HomeHood());
-        TL.whenPressed(manualShoot);
-        //TL.whenHeld(new EmptyEverything());
+        TL.whenPressed(new HomeClimberTubes());
+        ML.whenPressed(new HomeHood());
+        new JoystickButton(xbox, Button.kA.value).whileHeld(manualShoot);
+        new JoystickButton(rightJoystick, 2).whileHeld(new StartEndCommand(()-> indexer.set(0.5), indexer::stop, indexer));
+        new POVButton(xbox, 180).whileHeld(new EmptyEverything());
         // 87.6 20.4
-        new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(new IntakeBalls());
-        new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(new FenderShot());
-        //new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(new StartEndCommand(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1), hood::stop, hood));
-        //new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(new StartEndCommand(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1), hood::stop, hood));
+        new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
+        new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
+        new JoystickButton(xbox, Button.kX.value).whenPressed(new InstantCommand(shooter::stop));
+        new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1));
+        new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()+11));
         //new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(.75), intake::stop, intake));
 
-        new POVButton(xbox, 0).whenPressed(new SwitchIntakeState());
+        //new POVButton(xbox, 0).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));
+        //new POVButton(xbox, 180).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));
+
+
+        new POVButton(xbox, 270).whenPressed(new SwitchIntakeState());
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
@@ -329,6 +335,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new TwoBallAuton();
+        return new OneBallAuton();
     }
 }

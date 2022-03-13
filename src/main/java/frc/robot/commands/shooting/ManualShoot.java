@@ -9,9 +9,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
-public class DumbShoot extends CommandBase {
+public class ManualShoot extends CommandBase {
     /** Creates a new DumbShoot. */
-    public DumbShoot() {
+    public ManualShoot() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.shooter);
     }

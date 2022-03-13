@@ -21,9 +21,11 @@ public class MoveTubeToPosition extends CommandBase {
      *
      * <p>WARNING: IF THE DESIRED DISTANCE IS OUT OF SCOPE, THE COMMAND WILL NEVER FINISH
      */
-    public MoveTubeToPosition(TelescopingTube tube, double desiredDistance) {
+    public MoveTubeToPosition(TelescopingTube tube, double desiredDistance, double duty) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(tube);
+
+        tube.setDuty(duty);
 
         // Save the tube to interact with
         this.tube = tube;

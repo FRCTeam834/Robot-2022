@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -135,11 +136,12 @@ public class TelescopingTube extends SubsystemBase {
      */
     public void setDesiredDistance(double dist) {
 
-        // Set the motor's distance if homed
-        if (homed) {
+        // if not home, home
+        if (!homed) {
+            CommandScheduler.getInstance().schedule(new HomeClimberTubes());
+        }
+        else if(homed) {
             pidController.setReference(dist, controlType);
-        } else {
-            System.out.println("TUBE NOT HOMED!!!");
         }
 
         // Print out the angle information if desired
@@ -210,6 +212,10 @@ public class TelescopingTube extends SubsystemBase {
      */
     public boolean isHomed() {
         return homed;
+    }
+
+    public void setDuty(double duty) {
+        pidController.setOutputRange(-duty, duty);
     }
 
     /**

@@ -25,21 +25,21 @@ public class Climb extends SequentialCommandGroup {
             // TODO: TEST THIS
             //new InstantCommand(() -> RobotContainer.navX.resetPitch()),
             new ParallelCommandGroup(
-            new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.UP_LEGAL_DISTANCE),
-            new MoveTubeToPosition(RobotContainer.climbers2.rightLift, Parameters.climber.lift.UP_LEGAL_DISTANCE),
-            new MoveTubeToPosition(RobotContainer.climbers2.leftTilt, Parameters.climber.tilt.LEFT_LEGAL_DISTANCE),
-            new MoveTubeToPosition(RobotContainer.climbers2.rightTilt, Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE)),
+            new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.UP_LEGAL_DISTANCE, .5),
+            new MoveTubeToPosition(RobotContainer.climbers2.rightLift, Parameters.climber.lift.UP_LEGAL_DISTANCE, .5),
+            new MoveTubeToPosition(RobotContainer.climbers2.leftTilt, Parameters.climber.tilt.LEFT_LEGAL_DISTANCE, .5),
+            new MoveTubeToPosition(RobotContainer.climbers2.rightTilt, Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE, .5)),
 
-            new DriveUntilAngle(-1, Parameters.climber.ROBOT_TILT_ANGLE),
+            new DriveUntilAngle(-1, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
 
             new ParallelCommandGroup(
-                new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.GRAB_DISTANCE),
-                new MoveTubeToPosition(RobotContainer.climbers2.rightLift, Parameters.climber.lift.GRAB_DISTANCE)),
+                new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.GRAB_DISTANCE, 1),
+                new MoveTubeToPosition(RobotContainer.climbers2.rightLift, Parameters.climber.lift.GRAB_DISTANCE, 1)),
             new ParallelCommandGroup(
-                new MoveTubeToPosition(RobotContainer.climbers2.leftTilt, Parameters.climber.tilt.DOWN_DISTANCE),
-                new MoveTubeToPosition(RobotContainer.climbers2.rightTilt, Parameters.climber.tilt.DOWN_DISTANCE)),
+                new MoveTubeToPosition(RobotContainer.climbers2.leftTilt, Parameters.climber.tilt.DOWN_DISTANCE, 1),
+                new MoveTubeToPosition(RobotContainer.climbers2.rightTilt, Parameters.climber.tilt.DOWN_DISTANCE, 1)),
             new ParallelCommandGroup(
-                new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.DOWN_DISTANCE),
-                new MoveTubeToPosition(RobotContainer.climbers2.rightLift, Parameters.climber.lift.DOWN_DISTANCE)));
+                new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.DOWN_DISTANCE, 1),
+                new MoveTubeToPosition(RobotContainer.climbers2.rightLift, Parameters.climber.lift.DOWN_DISTANCE, 1)));
     }
 }

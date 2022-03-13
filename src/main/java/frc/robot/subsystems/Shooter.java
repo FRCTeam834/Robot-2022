@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
@@ -43,6 +44,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor.setInverted(false);
         shooterMotor.setSmartCurrentLimit(Parameters.shooter.CURRENT_LIMIT);
 
+        shooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000);
         // Get the encoder of the shooter motor
         shooterMotorEncoder = shooterMotor.getEncoder();
 
@@ -54,6 +56,7 @@ public class Shooter extends SubsystemBase {
 
         shooterPIDController = new PIDController(0.024089, 0, 0);
         shooterPIDController.setTolerance(2);
+        
     }
 
     public void set(double percentage) {

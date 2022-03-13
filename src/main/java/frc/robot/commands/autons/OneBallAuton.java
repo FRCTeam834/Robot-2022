@@ -25,6 +25,7 @@ import frc.robot.commands.indexing.IndexForTime;
 import frc.robot.commands.intake.IntakeBallsForTime;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.AutonShot;
+import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.shooting.ManualShoot;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.SpartechsSwerveController;
@@ -42,12 +43,11 @@ public class TwoBallAuton extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new DriveForTime(4, .5),
-                new ParallelCommandGroup(new IntakeBallsForTime(3), new DriveForTime(-1, 2), new HomeHood(), new HomeClimberTubes()),
-                new SpinForTime(2, 1.5),
-                new ParallelCommandGroup(new TurnToAngleVision(), new AutonShot()).withInterrupt(RobotContainer.shooter::readyToShoot),
-                new IndexForTime(2),
-                new StopEverything());
+                new HomeHood(),
+                new FenderShot(),
+                new WaitCommand(1),
+                new IndexForTime(3),
+                new DriveForTime(1, 3));
     }
 }
 
