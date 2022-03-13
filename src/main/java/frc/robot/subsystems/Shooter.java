@@ -30,6 +30,12 @@ public class Shooter extends SubsystemBase {
     RelativeEncoder shooterMotorEncoder;
     PIDController shooterPIDController;
 
+    // Store if we're using PID
+    boolean usingPID = false;
+
+    // Store the set velocity
+    double setVelocity = 0;
+
 
     /** Creates a new Shooter. */
     public Shooter() {
@@ -56,16 +62,18 @@ public class Shooter extends SubsystemBase {
 
         shooterPIDController = new PIDController(0.024089, 0, 0);
         shooterPIDController.setTolerance(2);
-        
     }
 
     public void set(double percentage) {
+        usingPID = false;
         shooterMotor.set(percentage);
     }
 
 
     public void setDesiredPID(double setpoint) {
-        shooterMotor.setVoltage(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setpoint) * 12 + .9 * shooterFF.calculate(setpoint));
+        shooterPIDController.setSetpoint(setpoint);
+        setVelocity = setpoint;
+        usingPID = true;
     }
 
 
@@ -74,7 +82,14 @@ public class Shooter extends SubsystemBase {
     }
 
     public void stop() {
+        usingPID = false;
         shooterMotor.stopMotor();
+    }
+
+    public void periodic() {
+        if (usingPID) {
+            shooterMotor.setVoltage(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity) * 12 + .9 * shooterFF.calculate(setVelocity));
+        }
     }
 
     public double getSpeed() {
