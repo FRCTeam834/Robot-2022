@@ -1,6 +1,5 @@
 package frc.robot.utilityClasses;
 
-import frc.robot.Parameters;
 
 import org.ejml.simple.SimpleMatrix;
 
@@ -63,7 +62,7 @@ public class CircleFitter {
         Y.set(1, 0, index2);
         Y.set(2, 0, index3);
 
-        if(X.determinant() == 0) return null;
+        if (X.determinant() == 0) return null;
 
         // Circle Fit calculations
         double[] ret = new double[3];
@@ -82,7 +81,8 @@ public class CircleFitter {
         ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2.0;
 
         // Radius tolerance
-        //if (Math.abs(ret[2] - Parameters.shooter.camera.TARGET_RADIUS) < Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) return null;
+        // if (Math.abs(ret[2] - Parameters.shooter.camera.TARGET_RADIUS) <
+        // Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) return null;
 
         return ret;
     }
