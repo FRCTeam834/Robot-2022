@@ -175,9 +175,8 @@ public class Vision extends SubsystemBase {
 
     /**
      * Calculates robot pose using vision data
-     * 
+     *
      * @param facing Return of gyro measurements, radians
-     * 
      * @return calculated robot pose from vision
      */
     public Pose2d calculateRobotPose(double facing) {
@@ -193,7 +192,7 @@ public class Vision extends SubsystemBase {
         double vps = y / Math.cos(facing);
 
         double realdx = vps - segx;
-        double beta = Math.arctan(x/y);
+        double beta = Math.arctan(x / y);
         double realdy = realx * Math.tan(facing + beta);
 
         double realx = Parameters.shooter.camera.TARGET_X + realx;

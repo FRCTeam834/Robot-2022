@@ -1,6 +1,5 @@
 package frc.robot.utilityClasses;
 
-
 import org.ejml.simple.SimpleMatrix;
 
 import java.util.List;
