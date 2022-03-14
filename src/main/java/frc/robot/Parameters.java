@@ -409,8 +409,8 @@ public final class Parameters {
         public static final int CURRENT_LIMIT = 40;
 
         public static final double VELOCITY_TOLERANCE = .15;
-        public static final double FENDER_SHOT_SPEED = 20.75;
-        public static final double FENDER_HOOD_ANGLE = 79.5;
+        public static final double FENDER_SHOT_SPEED = 20.85;
+        public static final double FENDER_HOOD_ANGLE = 70;
 
 
         
@@ -424,7 +424,7 @@ public final class Parameters {
         public static final int LS_PORT = 0;
 
         // Current limit
-        public static final int CURRENT_LIMIT = 5;
+        public static final int CURRENT_LIMIT = 1;
         public static final int HOME_CURRENT = 1;
 
         // Homing info

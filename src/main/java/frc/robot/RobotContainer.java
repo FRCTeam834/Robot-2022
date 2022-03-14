@@ -33,6 +33,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Parameters.climber;
+import frc.robot.Parameters.indexer;
 import frc.robot.Parameters.intake;
 import frc.robot.commands.autons.EmptyEverything;
 import frc.robot.commands.autons.OneBallAuton;
@@ -186,6 +187,7 @@ public class RobotContainer {
         //        .whenPressed(
         //                new InstantCommand(
         //                        () -> RobotContainer.fieldCentric = !RobotContainer.fieldCentric));
+        new JoystickButton(leftJoystick, 1).whileHeld(new EmptyEverything());
         new JoystickButton(leftJoystick, 2).whenPressed(letsRoll);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 8).and(new JoystickButton(leftJoystick, 9))
@@ -215,6 +217,8 @@ public class RobotContainer {
         new POVButton(rightJoystick, 0).whileHeld(new StartEndCommand(() -> intakeWinch.set(-.5), intakeWinch::stop, intakeWinch));
         new POVButton(rightJoystick, 180).whileHeld(new StartEndCommand(() -> intakeWinch.set(.5), intakeWinch::stop, intakeWinch));
 
+        new JoystickButton(rightJoystick, 1).whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
+
         //right and left lift up
         BM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftLift.setWithLimitSwitch(.75), RobotContainer.climbers2.leftLift::stop).alongWith(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(.75), RobotContainer.climbers2.rightTilt::stop)));
 
@@ -231,22 +235,21 @@ public class RobotContainer {
         TR.whenPressed(new StopClimb());
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
-        new JoystickButton(xbox, Button.kA.value).whileHeld(manualShoot);
-        new JoystickButton(rightJoystick, 2).whileHeld(new StartEndCommand(()-> indexer.set(0.5), indexer::stop, indexer));
+        new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
         new POVButton(xbox, 180).whileHeld(new EmptyEverything());
         // 87.6 20.4
         new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value).whenPressed(new InstantCommand(shooter::stop));
-        new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1));
-        new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()+11));
+        //new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1));
+        //new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()+1));
         //new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(.75), intake::stop, intake));
 
         //new POVButton(xbox, 0).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));
         //new POVButton(xbox, 180).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));
 
 
-        new POVButton(xbox, 270).whenPressed(new SwitchIntakeState());
+        //new POVButton(xbox, 270).whenPressed(new SwitchIntakeState());
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)
@@ -317,9 +320,9 @@ public class RobotContainer {
     public void homeAllPIDControllers() {
 
         // Check each if each is homed, running homing if not
-        if (!hood.isHomed()) {
-            CommandScheduler.getInstance().schedule(false, homeHood);
-        }
+       // if (!hood.isHomed()) {
+        //    CommandScheduler.getInstance().schedule(false, homeHood);
+        //}
         if (!intakeWinch.isHomed()) {
             CommandScheduler.getInstance().schedule(false, homeIntake);
         }

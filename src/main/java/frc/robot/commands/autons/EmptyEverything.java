@@ -16,7 +16,7 @@ public class EmptyEverything extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      RobotContainer.shooter.set(-.5);
+      RobotContainer.shooter.set(-.15);
       RobotContainer.indexer.set(-.5);
       RobotContainer.intake.set(-.5);
   }

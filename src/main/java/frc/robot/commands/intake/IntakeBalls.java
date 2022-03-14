@@ -11,7 +11,7 @@ public class IntakeBalls extends CommandBase {
   /** Creates a new IntakeBalls. */
   public IntakeBalls() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.indexer, RobotContainer.intake);
+    addRequirements(RobotContainer.intake);
   }
 
   // Called when the command is initially scheduled.
@@ -25,14 +25,13 @@ public class IntakeBalls extends CommandBase {
     //}
     //else {
     //}
-    RobotContainer.intake.set(.75);
+    RobotContainer.intake.set(.65);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
       RobotContainer.intake.stop();
-      RobotContainer.indexer.stop();
   }
 
   // Returns true when the command should end.

@@ -37,16 +37,16 @@ import frc.robot.subsystems.climber.HomeClimberTubes;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TwoBallAuton extends SequentialCommandGroup {
+public class OneBallAuton extends SequentialCommandGroup {
 
-    public TwoBallAuton() {
+    public OneBallAuton() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new HomeHood(),
+                new ParallelCommandGroup(new HomeHood(), new HomeClimberTubes()),
                 new FenderShot(),
                 new WaitCommand(1),
-                new IndexForTime(3),
+                new IndexForTime(2),
                 new DriveForTime(1, 3));
     }
 }
