@@ -47,8 +47,8 @@ public class LetsRoll extends CommandBase {
             // Move the drivetrain with the desired values (left right values are flipped from the
             // logical way, thanks WPI)
             RobotContainer.driveTrain.drive(
-                    (rightY * Parameters.driver.maxModVelocity),
-                    (rightX * Parameters.driver.maxModVelocity),
+                    (-rightY * Parameters.driver.maxModVelocity),
+                    (-rightX * Parameters.driver.maxModVelocity),
                     Math.toRadians(leftX * RobotContainer.turnRate),
                     Parameters.driver.fieldCentric,
                     Parameters.driver.tipProtection.USING_TIP_PROTECTION);

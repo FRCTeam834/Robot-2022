@@ -30,7 +30,7 @@ public class Climb extends SequentialCommandGroup {
             new MoveTubeToPosition(RobotContainer.climbers2.leftTilt, Parameters.climber.tilt.LEFT_LEGAL_DISTANCE, .25),
             new MoveTubeToPosition(RobotContainer.climbers2.rightTilt, Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE, .25)),
 
-            new DriveUntilAngle(-1, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
+            new DriveUntilAngle(1, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
 
             new ParallelCommandGroup(
                 new MoveTubeToPosition(RobotContainer.climbers2.leftLift, Parameters.climber.lift.GRAB_DISTANCE, 1),

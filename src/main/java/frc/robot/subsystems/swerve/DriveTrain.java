@@ -33,15 +33,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.Parameters.driveTrain;
 
 public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
 
-    // Create the modules
-    public Field2d field = new Field2d();
-    public SwerveModule frontLeft;
 
+    public Field2d field = new Field2d();
+
+    // Create the modules
+    public SwerveModule frontLeft;
     public SwerveModule frontRight;
     public SwerveModule backLeft;
     public SwerveModule backRight;
@@ -96,28 +96,28 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FL_STEER_ID,
                         Parameters.driveTrain.can.FL_DRIVE_ID,
                         Parameters.driveTrain.can.FL_CODER_ID,
-                        true);
+                        false);
         frontRight =
                 new SwerveModule(
                         "FR",
                         Parameters.driveTrain.can.FR_STEER_ID,
                         Parameters.driveTrain.can.FR_DRIVE_ID,
                         Parameters.driveTrain.can.FR_CODER_ID,
-                        false);
+                        true);
         backLeft =
                 new SwerveModule(
                         "BL",
                         Parameters.driveTrain.can.BL_STEER_ID,
                         Parameters.driveTrain.can.BL_DRIVE_ID,
                         Parameters.driveTrain.can.BL_CODER_ID,
-                        true);
+                        false);
         backRight =
                 new SwerveModule(
                         "BR",
                         Parameters.driveTrain.can.BR_STEER_ID,
                         Parameters.driveTrain.can.BR_DRIVE_ID,
                         Parameters.driveTrain.can.BR_CODER_ID,
-                        false);
+                        true);
 
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
