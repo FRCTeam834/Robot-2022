@@ -68,8 +68,8 @@ public class TelescopingTube extends SubsystemBase {
         NetworkTable tubeTable = NetworkTableInstance.getDefault().getTable("TeleTubies");
 
         // Set up the tunable numbers
-        this.kP = new TuneableNumber(tubeTable, name, kP);
-        this.kD = new TuneableNumber(tubeTable, name, kD);
+        this.kP = new TuneableNumber(tubeTable.getSubTable(name), name, kP);
+        this.kD = new TuneableNumber(tubeTable.getSubTable(name), name, kD);
 
         // Initialize the spool motor
         spoolMotor = new CANSparkMax(ID, MotorType.kBrushless);
