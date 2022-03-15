@@ -28,7 +28,7 @@ import frc.robot.commands.shooting.AutonShot;
 import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.shooting.ManualShoot;
 import frc.robot.commands.shooting.PrepareShooterForVision;
-import frc.robot.commands.swerve.SpartechsSwerveController;
+import frc.robot.commands.swerve.FollowPath;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.DriveForTime;
 import frc.robot.commands.swerve.driving.SpinForTime;
