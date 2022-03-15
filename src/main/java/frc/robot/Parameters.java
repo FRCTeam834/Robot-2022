@@ -16,13 +16,7 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.math.MatBuilder;
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -41,7 +35,7 @@ import frc.robot.utilityClasses.TuneableNumber;
 public final class Parameters {
 
     // Enables all debug statements
-    public static final boolean debug = true;
+    public static final boolean debug = false;
     public static final boolean tuningMode = false;
     public static final boolean telemetryMode = true;
 
@@ -83,7 +77,7 @@ public final class Parameters {
          *
          * @param name The name of the driver
          * @param joystickParams The joystick parameters to use
-         * @param maxSteerRate Maximum deg/s of rotational velocity
+         * @param fastSteerRate Maximum deg/s of rotational velocity
          * @param lockemUp If the swerve should lock the modules at 45 degrees, effectively hitting
          *     the brakes. Hard on the modules, but worth it in competition
          * @param fieldCentric If the robot should treat itself as forward or if the field's forward
@@ -98,16 +92,35 @@ public final class Parameters {
          */
         public static final String name = "CAP1Sup";
 
-        public static final double maxSteerRate = 180;
+        public static final double slowSteerRate = 180;
+        public static final double fastSteerRate = 540;
         public static final boolean lockemUp = true;
         public static final boolean fieldCentric = true;
         public static final double maxModVelocity = 8;
         public static final IdleMode driveIdleMode = IdleMode.kBrake;
 
         // Joystick settings
-        public static final class joysticks {
+        public static final class controllers {
             public static final double deadzone = 0.075;
             public static final JoystickOutputTypes clampingType = JoystickOutputTypes.ZEROED_QUAD;
+        }
+
+        // ! NOT IMPLEMENTED YET!!!
+        public static final class tipProtection {
+
+            // This still needs tested...
+            // ! ALWAYS USE PROTECTION!!!
+            public static final boolean USING_TIP_PROTECTION = false;
+
+            // The angle (deg) of when to start manipulating the drive base
+            public static final double MIN_TIP_ANGLE = 10;
+
+            // The angle (deg) of when the drive base will be completely taken over
+            // Correction is scaled between the min and max angles
+            public static final double MAX_TIP_ANGLE = 45;
+
+            // The maximum speed for the drivetrain to correct by
+            public static final double MAX_CORRECTION_SPEED = 3;
         }
     }
 
@@ -153,8 +166,8 @@ public final class Parameters {
         public static final class dimensions {
 
             // Swerve calculation parameters (in meters)
-            public static final double DRIVE_LENGTH = Units.inchesToMeters(22.5);
-            public static final double DRIVE_WIDTH = Units.inchesToMeters(22.5);
+            public static final double DRIVE_LENGTH = Units.inchesToMeters(26.5);
+            public static final double DRIVE_WIDTH = Units.inchesToMeters(20);
             public static final double MODULE_WHEEL_DIA_IN = 3.95; // Inches
             public static final double MODULE_WHEEL_DIA_M =
                     Units.inchesToMeters(MODULE_WHEEL_DIA_IN); // Meters (for odometry calculations)
@@ -162,11 +175,12 @@ public final class Parameters {
 
         // All of the maximums
         public static final class maximums {
-            public static final double MAX_MODULE_VELOCITY = 8; // (m/s)
-            public static final double MAX_VELOCITY = 10000; // (RPM)
-            public static final double MAX_ACCEL = 500000000; // (RPMM)
+            public static final double MAX_TRANS_VELOCITY = 4; // (m/s)
+            public static final double MAX_STEER_VELOCITY = 10000; // (RPM)
+            public static final double MAX_ROT_VELOCITY = 3.75;
+            public static final double MAX_STEER_ACCEL = 500000000; // (RPMM)
             public static final int MAX_STEER_CURRENT = 20; // Amps
-            public static final int MAX_DRIVE_CURRENT = 50; // Amps
+            public static final int MAX_DRIVE_CURRENT = 40; // Amps
         }
 
         // All of the PID parameters
@@ -216,8 +230,6 @@ public final class Parameters {
             public static final double ROT_MOVE_I = 0;
             public static final TuneableNumber ROT_MOVE_D =
                     new TuneableNumber(DRIVE_PID_TABLE, "Rot kD", 0);
-            public static final double DEFAULT_ROT_MAX_VELOCITY = 36000000; // deg/s
-            public static final double DEFAULT_ROT_MAX_ACCEL = 180000000; // deg/s
             public static final double DEFAULT_ROT_TOLERANCE = 5; // TODO: What units?
         }
 
@@ -226,14 +238,6 @@ public final class Parameters {
 
             // Timeout for all movements (break if position not reached in time)
             public static final double TIMEOUT = 10; // seconds
-
-            // Pose estimator parameters (units are m, m, radians)
-            public static final Matrix<N3, N1> POSE_STD_DEV =
-                    new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, Math.toRadians(0.125));
-            public static final Matrix<N1, N1> ENCODER_GYRO_DEV =
-                    new MatBuilder<>(Nat.N1(), Nat.N1()).fill(Math.toRadians(0.125));
-            public static final Matrix<N3, N1> VISION_DEVIATION =
-                    new MatBuilder<>(Nat.N3(), Nat.N1()).fill(0.02, 0.02, Math.toRadians(0.125));
         }
 
         // The gear ratios of the module
@@ -246,132 +250,127 @@ public final class Parameters {
 
         // Auton Constants
         public static final class auton {
-
-            // Must be updated for new games!
-            public static final double DRIVE_SPEED = -2; // m/s
-            public static final double TIME_OFF_LINE = 2.25; // s
-
-            public static final double LINE_UP_SPEED = 1.5; // m/s
-            public static final double LINEUP_TIME = .5; // s
-
             public static final double TURN_180_STEER_RATE_PERCENT =
                     0.5; // The percentage of maxSteerRate (based on driver profile)
         }
     }
 
-    // All of the starting position data
-    public static final class positions {
-
-        // All of the possible starting positions (and their angles)
-        // In format (default (no station assigned), 1st station, 2nd station, 3rd station)
-        public static final Pose2d[] POSSIBLE_STARTING_POSITIONS = {
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-            new Pose2d(0, 0, Rotation2d.fromDegrees(0))
-        };
-
-        // Actual starting position (declared in the global scope)
-        public static Pose2d STARTING_POS = new Pose2d(0, 0, new Rotation2d());
-        // Parameters.positions.POSSIBLE_STARTING_POSITIONS[DriverStation.getLocation()];
-    }
-
-    // All of the joystick variables
-    public static final class joysticks {
-
-        // Dynamically allocated Joysticks
-        // Joysticks have 11 buttons
-        public static final int JOYSTICK_BUTTON_COUNT = 11;
-    }
-
     public static final class climber {
 
-        public static final class tilt {
-            // CAN ID for tilt motors
-            public static final int RIGHT_PIVOT_MOTOR_ID = 20;
-            public static final int LEFT_PIVOT_MOTOR_ID = 21;
+        public static final int TUBE_CURRENT_LIMIT = 80;
+        public static final int TUBE_HOME_CURRENT = 3;
 
-            public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
-            public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
+        public static final class lift {
 
-            // Limit switch used for tilt
+            // CAN IDs for lift motors
+            public static final int RIGHT_MOTOR_ID = 20;
+            public static final int LEFT_MOTOR_ID = 21;
+
+            // The gearbox ratio
+            public static final double GEARBOX_RATIO = 48;
+
+            // Limit switch ports used for lift
             public static final int RIGHT_LIMIT_SWITCH_PORT = 1;
             public static final int LEFT_LIMIT_SWITCH_PORT = 2;
 
-            public static final double RIGHT_MAX_MOTOR_DUTY = 1;
-            public static final double LEFT_MAX_MOTOR_DUTY = 1;
+            // PID constants (I not used)
+            public static final double kP = 20;
+            public static final double kD = 0;
+            public static final ControlType CONTROL_TYPE = ControlType.kPosition;
 
-            // TODO: There isn't anything to do, I just like the color orange lol :D
+            // The tolerance for positioning the tubes (in m)
+            public static final double POS_TOLERANCE = 0.005; // 5 mm of tolerance
+
+            // Maximum motor duty
+            public static final double MAX_DUTY = 1;
+
+            // Circumference of the winch spool
+            public static final double SPOOL_CIRCUMFERENCE =
+                    (Math.PI
+                            * Units.inchesToMeters(
+                                    1)); // Diameter is 1 inch, circumference is in meters
+
+            // Distances to move to
+            public static final double UP_LEGAL_DISTANCE =
+                    Units.inchesToMeters(14); // The distance of the string in the up position
+            public static final double DOWN_DISTANCE =
+                    Units.inchesToMeters(
+                            4); // The distance at which the hook grabs the bar, but doesn't lift
+            // ground
+            public static final double GRAB_DISTANCE = Units.inchesToMeters(12);
+
+            // Homing info
+            public static final double HOME_SPEED = -0.75;
+            public static final double HOME_DISTANCE =
+                    Units.inchesToMeters(3.25); // The distance at home
         }
 
-        public static final class lift {
-            // CAN ID for lift motors
+        public static final class tilt {
 
-            public static final int RIGHT_SPOOL_MOTOR_ID = 22;
-            public static final int LEFT_SPOOL_MOTOR_ID = 23;
+            // CAN IDs for lift motors
+            public static final int RIGHT_MOTOR_ID = 18;
+            public static final int LEFT_MOTOR_ID = 19;
 
-            public static final int SPOOL_MOTOR_CURRENT_LIMIT = 40;
-            public static final int PIVOT_MOTOR_CURRENT_LIMIT = 40;
+            // The gearbox ratio
+            public static final double GEARBOX_RATIO = 25;
 
-            public static final double SPOOL_GEARBOX_RATIO = 36;
-
-            // Limit switch port used for lift
+            // Limit switch ports used for tilt
             public static final int RIGHT_LIMIT_SWITCH_PORT = 3;
             public static final int LEFT_LIMIT_SWITCH_PORT = 4;
 
-            public static final double LEFT_MAX_MOTOR_DUTY = 1;
-            public static final double RIGHT_MAX_MOTOR_DUTY = 1;
+            // PID constants (I not used)
+            public static final double kP = 20;
+            public static final double kD = 0;
+            public static final ControlType CONTROL_TYPE = ControlType.kPosition;
+
+            // The tolerance for positioning the tubes (in m)
+            public static final double POS_TOLERANCE = 0.005; // 5 mm of tolerance
+
+            // Maximum motor duty
+            public static final double MAX_DUTY = 1;
+
+            // Circumference of the winch spool
+            public static final double SPOOL_CIRCUMFERENCE =
+                    (Math.PI
+                            * Units.inchesToMeters(
+                                    1)); // Diameter is 1 inch, circumference is in meters
+
+            // Distances to move to
+            public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(17.375);
+            public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(16.95);
+
+            public static final double DOWN_DISTANCE = Units.inchesToMeters(5); // The distance of the climber when the robot is fully off the
+            // ground
+
+            // Homing info
+            public static final double HOME_SPEED = -0.75;
+            public static final double HOME_DISTANCE =
+                    Units.inchesToMeters(4.75); // The distance at home
         }
 
-        public static final double SPOOL_CIRCUMFERENCE =
-                (Math.PI
-                        * Units.inchesToMeters(1)); // Diameter is 1 inch, circumfrence is in meters
-        public static final double UP_DISTANCE =
-                0.175; // The distance of the string from the spool in the up position
-        public static final double DOWN_DISTANCE =
-                0.35; // The distance of the string from the spool in the down position
-        public static final double MAX_MOTOR_DUTY =
-                1; // The maximum output of the motor when moving;
+        // The speed of the drivetrain (in m/s) to move when tilting the robot
+        public static final double DRIVE_TILT_SPEED = .25;
 
-        // Position conversion factor (from encoder counts to meters)
-        // TODO: Find this factor
-        public static final double POS_CONV_FACTOR = 1;
-
-        // TODO: Find distance of a full climber move
-        public static final double MOVE_DISTANCE = 0;
-
-        // The allowable tolerance between the two climbing hooks while climbing (in m)
-        public static final double ALLOWABLE_DEVIATION = 0.05;
-
-        // The default speed for running the climber
-        public static final double DEFAULT_SPEED = 0.75;
-
-        // The adjustment to the speed of the climbers if they aren't equal
-        // This is added to the slower motor and subtracted from the faster one
-        public static final double SPEED_REDUCTION = 0.05;
-        public static final int RIGHT_ID = 14;
-        public static final int RIGHT_DIO = 0;
-
-        public static final int LEFT_ID = 15;
-
-        public static final int LEFT_DIO = 1;
+        // The angle to tilt the robot to before lifting the climbers
+        public static final double ROBOT_TILT_ANGLE = 26.5;
     }
 
     public static final class intake {
-        public static final double INTAKE_SPEED = .375;
+        public static final double INTAKE_SPEED = .8;
         public static final int INTAKE_MOTOR_ID = 16;
         public static final int INTAKE_MOTOR_CURRENT_LIMIT = 40;
 
         public static final class spool {
             // Ports
             // TODO set these
-            public static final int MOTOR_ID = 19;
+            public static final int MOTOR_ID = 17;
             public static final int LS_PORT = 9;
-            public static final int MOTOR_CURRENT_LIMIT = 40;
+            public static final int MOTOR_CURRENT_LIMIT = 5;
 
             // Homing info
-            public static final double HOME_SPEED = 0.25;
-            public static final double HOME_DISTANCE = 0.31; // The distance at home
+            public static final double HOME_SPEED = 0.5;
+            public static final double HOME_DISTANCE = Units.inchesToMeters(13.5); // The distance at home
+            public static final int HOME_CURRENT = 2;
 
             // Basic info
             public static final double GEARBOX_RATIO =
@@ -381,11 +380,11 @@ public final class Parameters {
                             * Units.inchesToMeters(
                                     1)); // Diameter is 1 inch, circumfrence is in meters
             public static final double UP_DISTANCE =
-                    0.175; // The distance of the string from the spool in the up position
+                    Units.inchesToMeters(6.5); // The distance of the string from the spool in the up position
             public static final double DOWN_DISTANCE =
-                    0.35; // The distance of the string from the spool in the down position
+                    Units.inchesToMeters(14); // The distance of the string from the spool in the down position
             public static final double MAX_MOTOR_DUTY =
-                    1; // The maximum output of the motor when moving
+                    .35; // The maximum output of the motor when moving
 
             public static class pid {
                 public static final NetworkTable SPOOL_TABLE =
@@ -416,14 +415,17 @@ public final class Parameters {
         public static final double LOAD_SPEED = 0.25; // In percent
 
         // Speed of shooter (in m/s of linear wheel speed)
-        public static final double STD_SPEED = 2;
+        public static final double MAX_SPEED = 35; // verified using julia calc
+        public static final double DEFAULT_SPEED = 2;
         public static final double SPIT_SPEED = 0.5;
-        public static final int ID = 18;
+        public static final int ID = 13;
 
         // Current limit
         public static final int CURRENT_LIMIT = 40;
 
-        public static final double VELOCITY_TOLERANCE = .5;
+        public static final double VELOCITY_TOLERANCE = .15;
+        public static final double FENDER_SHOT_SPEED = 20.85;
+        public static final double FENDER_HOOD_ANGLE = 70;
 
         // Game-specific parameters (meters and degrees)
         public static final class camera {
@@ -453,24 +455,32 @@ public final class Parameters {
         public static final int LS_PORT = 0;
 
         // Current limit
-        public static final int CURRENT_LIMIT = 40;
+        public static final int CURRENT_LIMIT = 1;
+        public static final int HOME_CURRENT = 1;
+
         // Homing info
-        public static final double HOME_SPEED = 0.25;
-        public static final double HOME_ANGLE = 90; // The angle at home
+        public static final double HOME_SPEED = 0.15;
+        public static final double HOME_ANGLE = 110; // The angle at home
+
+        // The default angle (if there isn't a shot interpolation available)
+        public static final double DEFAULT_ANGLE = 75;
+
+        // The angle tolerance (before shooting)
+        public static final double ANGLE_TOLERANCE = 2; // deg
 
         // Basic info
         public static final double GEARBOX_RATIO =
-                100; // Ratio of motor turns to gearbox output turns
+                25.0; // Ratio of motor turns to gearbox output turns
         public static final double CHAIN_RATIO =
                 (64.0 / 22.0); // Ratio of motor turns to hood movement
-        public static final double ALLOWABLE_RANGE = 50; // The range of motion, in degrees
+        public static final double ALLOWABLE_RANGE = 70; // The range of motion, in degrees
         public static final double MAX_MOTOR_DUTY =
-                0.5; // The maximum output of the motor when moving
+                1; // The maximum output of the motor when moving
 
         public static class pid {
             public static final NetworkTable HOOD_TABLE =
                     NetworkTableInstance.getDefault().getTable("Hood");
-            public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.05);
+            public static final TuneableNumber kP = new TuneableNumber(HOOD_TABLE, "kP", 0.25);
             public static final TuneableNumber kD = new TuneableNumber(HOOD_TABLE, "kD", 0.00);
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
         }
@@ -478,13 +488,14 @@ public final class Parameters {
 
     public static final class indexer {
         public static final int PROXIMITY_THRESHOLD = 200;
-        public static final int ID = 17;
-        public static final double MOTOR_SPEED = 0.15;
-        public static final int CURRENT_LIMIT = 40;
+        public static final int ID = 14;
+        public static final double MOTOR_SPEED = 0.15; // Duty
+        public static final int CURRENT_LIMIT = 40; // A
+        public static final double SHOT_TIME = 3; // s
     }
 
     public static final class led {
-        public static final int PORT = 9;
+        public static final int PWM_PORT = 0;
         public static final double LAVA_RAINBOW = -.87;
         public static final double STROBE_RED = -.11;
         public static final double PARTY = -.43;
@@ -513,23 +524,22 @@ public final class Parameters {
     }
 
     // All of the relevant vision information
-    public class vision {
+    public static class vision {
 
         // The name of the camera (from the network)
         public static final String CAMERA_NAME = "PiCam";
 
         // The distance to the camera from the floor (m)
-        public static final double CAMERA_HEIGHT = 1;
-
+        public static final double CAMERA_HEIGHT = Units.inchesToMeters(30.25);
         // The pitch of the camera from the floor (deg)
-        public static final double CAMERA_PITCH = 30;
+        public static final double CAMERA_PITCH = 52;
 
         // The height of the goal (m)
         // Converted 8ft 8in to meters
         public static final double GOAL_HEIGHT = 2.6416;
 
         // How far can the robot be from a target? (deg)
-        public static final double YAW_TOLERANCE = 0;
+        public static final double YAW_TOLERANCE = 2;
 
         // The maximum turning speed when turning to face a target (in deg/s)
         public static final double MAX_TURNING_SPEED = 45;

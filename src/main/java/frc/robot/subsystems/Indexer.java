@@ -47,7 +47,7 @@ public class Indexer extends SubsystemBase {
         // Configure the motor's settings
         indexMotor.restoreFactoryDefaults();
         indexMotor.setIdleMode(IdleMode.kBrake);
-        indexMotor.setInverted(true);
+        indexMotor.setInverted(false);
         indexMotor.setSmartCurrentLimit(Parameters.indexer.CURRENT_LIMIT);
 
         // Get the encoder of the shooter motor
@@ -63,7 +63,7 @@ public class Indexer extends SubsystemBase {
     @Override
     public void periodic() {}
 
-    public void setMotorSpeed(double speed) {
+    public void set(double speed) {
         indexMotor.set(speed);
     }
 

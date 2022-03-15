@@ -19,7 +19,10 @@ public class HomeHood extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.hood.runMotor(Parameters.hood.HOME_SPEED);
+
+        // Set the current way way way down in case the limit switch doesn't work
+        //RobotContainer.hood.setMotorCurrent(Parameters.hood.HOME_CURRENT);
+        //RobotContainer.hood.set(Parameters.hood.HOME_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -32,18 +35,21 @@ public class HomeHood extends CommandBase {
 
         // Stop the motor
         // ! THIS NEEDS TO BE DONE TO PREVENT OVERDRIVING THE MOTOR
-        RobotContainer.hood.stop();
+        //RobotContainer.hood.stop();
+
+        // Set the current back to the regular level
+        //RobotContainer.hood.setMotorCurrent(Parameters.hood.CURRENT_LIMIT);
 
         // If the command wasn't interrupted (like another command needing the hood), then we can
         // say that we're at the home position of the shooter
         if (!interrupted) {
-            RobotContainer.hood.setCurrentAngle(Parameters.hood.HOME_ANGLE);
+            //RobotContainer.hood.setCurrentAngle(Parameters.hood.HOME_ANGLE);
         }
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return RobotContainer.hood.getLSValue();
+        return true;//RobotContainer.hood.getLSValue();
     }
 }

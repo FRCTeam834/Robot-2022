@@ -6,8 +6,8 @@ import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.Trajectory.State;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -16,12 +16,10 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 @SuppressWarnings("MemberName")
-public class SpartechsSwerveController extends CommandBase {
+public class FollowPath extends CommandBase {
     private final Timer m_timer = new Timer();
     private final PathPlannerTrajectory m_trajectory;
     private final HolonomicDriveController m_controller;
-    private Rotation2d desiredRotation2d;
-    private final boolean targetLock;
 
     /**
      * Constructs a new PPSwerveControllerCommand that when executed will follow the provided
@@ -34,23 +32,25 @@ public class SpartechsSwerveController extends CommandBase {
      * @param trajectory The trajectory to follow.
      */
     @SuppressWarnings("ParameterName")
-    public SpartechsSwerveController(PathPlannerTrajectory trajectory, boolean targetLock) {
+    public FollowPath(PathPlannerTrajectory trajectory) {
         m_trajectory = trajectory;
-        this.targetLock = targetLock;
         PIDController xPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         PIDController yPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         ProfiledPIDController rotPID =
                 new ProfiledPIDController(
-                        Parameters.driveTrain.pid.ROT_MOVE_P.get(), 0, 0, new Constraints(8, 5));
+                        Parameters.driveTrain.pid.ROT_MOVE_P.get(),
+                        0,
+                        0,
+                        new Constraints(Math.PI, Math.PI * Math.PI));
 
         m_controller = new HolonomicDriveController(xPID, yPID, rotPID);
-        rotPID.enableContinuousInput(-180, 180);
+        rotPID.enableContinuousInput(-Math.PI, Math.PI);
         addRequirements(RobotContainer.driveTrain);
     }
 
     @Override
     public void initialize() {
-
+        m_timer.stop();
         m_timer.reset();
         m_timer.start();
     }
@@ -58,40 +58,26 @@ public class SpartechsSwerveController extends CommandBase {
     @Override
     @SuppressWarnings("LocalVariableName")
     public void execute() {
+
+        // Get the current time for the path
         double curTime = m_timer.get();
-        var desiredState = (PathPlannerState) m_trajectory.sample(curTime);
-        // System.out.println(desiredState.positionMeters);
-        if (!targetLock) {
-            desiredRotation2d = desiredState.holonomicRotation;
-        } else {
-            desiredRotation2d =
-                    RobotContainer.driveTrain
-                            .getEstPose2D()
-                            .getRotation()
-                            .rotateBy(
-                                    Rotation2d.fromDegrees(
-                                            (RobotContainer.vision.getBestTarget().getYaw())));
-        }
-        var targetChassisSpeeds =
+
+        // Look up where we need to be
+        PathPlannerState desiredState = (PathPlannerState) m_trajectory.sample(curTime);
+
+        // Calculate the required speeds to get there
+        ChassisSpeeds targetChassisSpeeds =
                 m_controller.calculate(
-                        RobotContainer.driveTrain.getEstPose2D(), desiredState, new Rotation2d());
-        /*
-        SmartDashboard.putNumber("Desired X Speed: ", targetChassisSpeeds.vxMetersPerSecond);
-        SmartDashboard.putNumber("Desired Y Speed: ", targetChassisSpeeds.vyMetersPerSecond);
+                        RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
 
-        SmartDashboard.putNumber("Desired Rot Speed: ", targetChassisSpeeds.omegaRadiansPerSecond);
-
-        SmartDashboard.putNumber("Desired Pose X: ", desiredState.poseMeters.getX());
-        SmartDashboard.putNumber("Desired Pose Y: ", desiredState.poseMeters.getY());
-
-        SmartDashboard.putNumber(
-                "Desired Rot:: ", desiredState.poseMeters.getRotation().getDegrees());
-        */
+        // Set the modules to carry out those commands
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
     }
 
-    public State getStartingState(PathPlannerTrajectory trajectory) {
-        return trajectory.sample(0);
+    public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {
+
+        // Calculate the first pose of the trajectory
+        return trajectory.sample(0).poseMeters;
     }
 
     @Override

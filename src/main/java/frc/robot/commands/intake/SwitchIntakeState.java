@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -15,7 +14,7 @@ import frc.robot.RobotContainer;
 public class SwitchIntakeState extends InstantCommand {
     public SwitchIntakeState() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.intake);
+        addRequirements(RobotContainer.intakeWinch);
     }
 
     // Called when the command is initially scheduled.
@@ -23,21 +22,21 @@ public class SwitchIntakeState extends InstantCommand {
     public void initialize() {
 
         // Check the currently set position of the intake
-        if (RobotContainer.intakeSpool.getDesiredDistance()
+        if (RobotContainer.intakeWinch.getDesiredDistance()
                 == Parameters.intake.spool.DOWN_DISTANCE) {
 
             // Intake is down, we need to put it up
-            RobotContainer.intakeSpool.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE);
+            RobotContainer.intakeWinch.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE);
 
             // Also shut off the intake
-            RobotContainer.intake.stop();
+            //RobotContainer.intake.stop();
         } else {
             // We must be in the up position or another floating state
             // Intake needs to be put down
-            RobotContainer.intakeSpool.setDesiredDistance(Parameters.intake.spool.DOWN_DISTANCE);
+            RobotContainer.intakeWinch.setDesiredDistance(Parameters.intake.spool.DOWN_DISTANCE);
 
             // Also shut off the intake
-            RobotContainer.intake.turnOn();
+            //RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
         }
     }
 }
