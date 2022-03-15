@@ -176,30 +176,33 @@ public class Vision extends SubsystemBase {
     /**
      * Calculates robot pose using vision data
      * 
-     * @param facing Return of gyro measurements, radians
+     * @param facing Rads - angle of camera from 0
      * 
      * @return calculated robot pose from vision
      */
     public Pose2d calculateRobotPose(double facing) {
-        // facing = Math.toRadians(facing);
         double[] heading = headingToTargetCenter();
-        double x = heading[0];
-        double y = heading[1];
+        facing %= Math.PI * 2;
+        // Camera relative displacement
+        double sx = heading[0];
+        double sy = heading[1];
+ 
+        double angleToTargetCameraRelative = Math.atan(sx/sy);
+        double angleToTargetFromZero = facing - angleToTargetCameraRelative;
+        
+        // Mod 90 deg for if angleToTargetFromZero is in Quadrants I or III
+        double angleOfCameraPVector = angleToTargetFromZero % (Math.PI / 2);
+        // Distance to target relative or global is shared
+        double s = Math.sqrt(sx * sx + sy * sy);
 
-        double vpw = 2 * Math.tan(horizontalFov / 2) * y;
-        double d = vpw / 2 + x;
-        double hfovcorner = (180 - horizontalFov) / 2;
-        double segx = Math.cos(hfovcorner) * d;
-        double vps = y / Math.cos(facing);
+        // find displacement components on real coordinates using known angle and distance
+        double sxglobal = s * Math.sin(angleOfCameraPVector);
+        double syglobal = s * Math.cos(angleOfCameraPVector);
 
-        double realdx = vps - segx;
-        double beta = Math.arctan(x/y);
-        double realdy = realx * Math.tan(facing + beta);
-
-        double realx = Parameters.shooter.camera.TARGET_X + realx;
-        double realy = Parameters.shooter.camera.TARGET_Y + realy;
-
-        return new Pose2d(realx, realy, facing);
+        double globalx = sxglobal + Parameters.shooter.camera.TARGET_X;
+        double globaly = syglobal + Parameters.shooter.camera.TARGET_Y;
+        
+        return new Pose2d(globalx, globaly, facing);
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
