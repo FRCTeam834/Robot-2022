@@ -121,7 +121,9 @@ public class Vision extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        camera.setVersionCheckEnabled(false);
+    }
 
     @Override
     public void initSendable(SendableBuilder builder) {

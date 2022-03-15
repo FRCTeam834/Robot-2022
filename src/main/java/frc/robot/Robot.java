@@ -84,6 +84,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+        DriverStation.silenceJoystickConnectionWarning(true);
        
 
         // Check the state of the functions on the robot

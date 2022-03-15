@@ -9,6 +9,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
@@ -20,7 +21,7 @@ import frc.robot.RobotContainer;
 @SuppressWarnings("MemberName")
 public class SpartechsSwerveController extends CommandBase {
     private final Timer m_timer = new Timer();
-    private final PathPlannerTrajectory m_trajectory;
+    private final Trajectory m_trajectory;
     private final HolonomicDriveController m_controller;
 
     /**
@@ -34,7 +35,7 @@ public class SpartechsSwerveController extends CommandBase {
      * @param trajectory The trajectory to follow.
      */
     @SuppressWarnings("ParameterName")
-    public SpartechsSwerveController(PathPlannerTrajectory trajectory) {
+    public SpartechsSwerveController(Trajectory trajectory) {
         m_trajectory = trajectory;
         PIDController xPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         PIDController yPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
@@ -67,13 +68,14 @@ public class SpartechsSwerveController extends CommandBase {
         // Look up where we need to be
         PathPlannerState desiredState = (PathPlannerState) m_trajectory.sample(curTime);
 
+        System.out.println(desiredState.poseMeters.getX());
         // Calculate the required speeds to get there
-        ChassisSpeeds targetChassisSpeeds =
-                m_controller.calculate(
-                        RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
-
+      //  ChassisSpeeds targetChassisSpeeds =
+        //        m_controller.calculate(
+             //           RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
+//
         // Set the modules to carry out those commands
-        RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
+        
     }
 
     public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {

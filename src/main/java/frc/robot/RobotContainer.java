@@ -37,6 +37,7 @@ import frc.robot.Parameters.indexer;
 import frc.robot.Parameters.intake;
 import frc.robot.commands.autons.EmptyEverything;
 import frc.robot.commands.autons.OneBallAuton;
+import frc.robot.commands.autons.PathPlannerTesting;
 import frc.robot.commands.climber.Climb;
 
 import frc.robot.commands.climber.MoveTubeToPosition;
@@ -338,6 +339,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new OneBallAuton();
+        return new PathPlannerTesting();
     }
 }
