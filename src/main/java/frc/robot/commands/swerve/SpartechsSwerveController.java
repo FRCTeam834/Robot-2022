@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
@@ -21,8 +22,6 @@ public class SpartechsSwerveController extends CommandBase {
     private final Timer m_timer = new Timer();
     private final PathPlannerTrajectory m_trajectory;
     private final HolonomicDriveController m_controller;
-    private Rotation2d desiredRotation2d;
-    private final boolean targetLock;
 
     /**
      * Constructs a new PPSwerveControllerCommand that when executed will follow the provided
@@ -35,9 +34,8 @@ public class SpartechsSwerveController extends CommandBase {
      * @param trajectory The trajectory to follow.
      */
     @SuppressWarnings("ParameterName")
-    public SpartechsSwerveController(PathPlannerTrajectory trajectory, boolean targetLock) {
+    public SpartechsSwerveController(PathPlannerTrajectory trajectory) {
         m_trajectory = trajectory;
-        this.targetLock = targetLock;
         PIDController xPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         PIDController yPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         ProfiledPIDController rotPID =
@@ -54,7 +52,7 @@ public class SpartechsSwerveController extends CommandBase {
 
     @Override
     public void initialize() {
-
+        m_timer.stop();
         m_timer.reset();
         m_timer.start();
     }
@@ -62,18 +60,26 @@ public class SpartechsSwerveController extends CommandBase {
     @Override
     @SuppressWarnings("LocalVariableName")
     public void execute() {
-        double curTime = m_timer.get();
-        var desiredState = (PathPlannerState) m_trajectory.sample(curTime);
 
-        var desiredRotation2d = desiredState.holonomicRotation;
-        var targetChassisSpeeds =
+        // Get the current time for the path
+        double curTime = m_timer.get();
+
+        // Look up where we need to be
+        PathPlannerState desiredState = (PathPlannerState) m_trajectory.sample(curTime);
+
+        // Calculate the required speeds to get there
+        ChassisSpeeds targetChassisSpeeds =
                 m_controller.calculate(
-                        RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredRotation2d);
+                        RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
+
+        // Set the modules to carry out those commands
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
     }
 
     public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {
-        return new Pose2d(trajectory.sample(0).poseMeters.getTranslation(), trajectory.sample(0).poseMeters.getRotation());
+
+        // Calculate the first pose of the trajectory
+        return trajectory.sample(0).poseMeters;
     }
 
     @Override

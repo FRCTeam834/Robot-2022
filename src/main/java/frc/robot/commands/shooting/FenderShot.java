@@ -10,12 +10,13 @@ import frc.robot.RobotContainer;
 import frc.robot.Parameters.shooter;
 
 public class FenderShot extends CommandBase {
-  /** Creates a new FenderShot. */
-  public FenderShot() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.hood, RobotContainer.shooter);
-  }
+    /** Creates a new FenderShot. */
+    public FenderShot() {
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(RobotContainer.hood, RobotContainer.shooter);
+    }
 
+<<<<<<< HEAD
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -27,16 +28,28 @@ public class FenderShot extends CommandBase {
   @Override
   public void execute() {
   }
+=======
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        RobotContainer.hood.setDesiredAngle(Parameters.shooter.FENDER_HOOD_ANGLE);
+        RobotContainer.shooter.setDesiredPID(Parameters.shooter.FENDER_SHOT_SPEED);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    //RobotContainer.shooter.stop();
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {}
+>>>>>>> 98a9a0007830f051a05c5f489e5e47f24c01f09d
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return true;
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        //RobotContainer.shooter.stop();
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

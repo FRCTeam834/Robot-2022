@@ -36,28 +36,22 @@ public class LetsRoll extends CommandBase {
         double leftX, rightX, rightY;
 
         // Get all of the current joystick inputs
-        if (!Parameters.driver.controllers.usingQuadController) {
-            leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
-            rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
-            rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
-        } else {
-            leftX = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(4));
-            rightX = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(0));
-            rightY = RobotContainer.constrainJoystick(RobotContainer.quadController.getRawAxis(1));
-        }
+        leftX = RobotContainer.constrainJoystick(RobotContainer.leftJoystick.getX());
+        rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
+        rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
 
         // If any of the sticks are out of range, then we need to move. Otherwise, lock up the
         // drivetrain (if specified) or just halt the modules
         if (leftX != 0 || rightX != 0 || rightY != 0) {
 
             // Move the drivetrain with the desired values (left right values are flipped from the
-            // logical
-            // way, thanks WPI)
+            // logical way, thanks WPI)
             RobotContainer.driveTrain.drive(
-                    (rightY * Parameters.driver.maxModVelocity),
-                    (rightX * Parameters.driver.maxModVelocity),
+                    (-rightY * Parameters.driver.maxModVelocity),
+                    (-rightX * Parameters.driver.maxModVelocity),
                     Math.toRadians(leftX * RobotContainer.turnRate),
-                    Parameters.driver.fieldCentric);
+                    Parameters.driver.fieldCentric,
+                    Parameters.driver.tipProtection.USING_TIP_PROTECTION);
         } else if (Parameters.driver.lockemUp) {
             RobotContainer.driveTrain.lockemUp();
         } else {

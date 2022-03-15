@@ -34,6 +34,7 @@ public class HomeTube extends CommandBase {
         // Save the distance of the home position
         this.homeDistance = homeDistance;
 
+        // Set a current limit on the tube (to prevent overdriving damage)
         this.tube.setCurrentLimit(Parameters.climber.TUBE_HOME_CURRENT);
     }
 
@@ -55,6 +56,7 @@ public class HomeTube extends CommandBase {
 
         // Stop the motor (VERY IMPORTANT!)
         tube.stop();
+
         // Set motor current limit back to normal
         this.tube.setCurrentLimit(Parameters.climber.TUBE_CURRENT_LIMIT);
 

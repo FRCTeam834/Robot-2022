@@ -47,7 +47,7 @@ public class OneBallAuton extends SequentialCommandGroup {
                 new FenderShot(),
                 new WaitCommand(1),
                 new IndexForTime(2),
-                new DriveForTime(1, 3));
+                new DriveForTime(-1, 3));
     }
 }
 

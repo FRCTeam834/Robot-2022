@@ -101,9 +101,26 @@ public final class Parameters {
 
         // Joystick settings
         public static final class controllers {
-            public static final boolean usingQuadController = false;
             public static final double deadzone = 0.075;
             public static final JoystickOutputTypes clampingType = JoystickOutputTypes.ZEROED_QUAD;
+        }
+
+        // ! NOT IMPLEMENTED YET!!!
+        public static final class tipProtection {
+
+            // This still needs tested...
+            // ! ALWAYS USE PROTECTION!!!
+            public static final boolean USING_TIP_PROTECTION = false;
+
+            // The angle (deg) of when to start manipulating the drive base
+            public static final double MIN_TIP_ANGLE = 10;
+
+            // The angle (deg) of when the drive base will be completely taken over
+            // Correction is scaled between the min and max angles
+            public static final double MAX_TIP_ANGLE = 45;
+
+            // The maximum speed for the drivetrain to correct by
+            public static final double MAX_CORRECTION_SPEED = 3;
         }
     }
 
@@ -159,9 +176,9 @@ public final class Parameters {
         // All of the maximums
         public static final class maximums {
             public static final double MAX_TRANS_VELOCITY = 4; // (m/s)
-            public static final double MAX_VELOCITY = 10000; // (RPM)
+            public static final double MAX_STEER_VELOCITY = 10000; // (RPM)
             public static final double MAX_ROT_VELOCITY = 3.75;
-            public static final double MAX_ACCEL = 500000000; // (RPMM)
+            public static final double MAX_STEER_ACCEL = 500000000; // (RPMM)
             public static final int MAX_STEER_CURRENT = 20; // Amps
             public static final int MAX_DRIVE_CURRENT = 40; // Amps
         }
@@ -233,8 +250,6 @@ public final class Parameters {
 
         // Auton Constants
         public static final class auton {
-
-            public static SwerveDriveKinematics kinematics = new SwerveDriveKinematics(RobotContainer.driveTrain.FL_POS, RobotContainer.driveTrain.FR_POS, RobotContainer.driveTrain.BL_POS, RobotContainer.driveTrain.BR_POS);
             public static final double TURN_180_STEER_RATE_PERCENT =
                     0.5; // The percentage of maxSteerRate (based on driver profile)
         }
@@ -323,7 +338,7 @@ public final class Parameters {
             // Distances to move to
             public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(17.375);
             public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(16.95);
-            
+
             public static final double DOWN_DISTANCE = Units.inchesToMeters(5); // The distance of the climber when the robot is fully off the
             // ground
 
@@ -413,7 +428,7 @@ public final class Parameters {
         public static final double FENDER_HOOD_ANGLE = 70;
 
 
-        
+
     }
 
     public static final class hood {

@@ -33,15 +33,15 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.Parameters.driveTrain;
 
 public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
 
-    // Create the modules
-    public Field2d field = new Field2d();
-    public SwerveModule frontLeft;
 
+    public Field2d field = new Field2d();
+
+    // Create the modules
+    public SwerveModule frontLeft;
     public SwerveModule frontRight;
     public SwerveModule backLeft;
     public SwerveModule backRight;
@@ -58,7 +58,7 @@ public class DriveTrain extends SubsystemBase {
                     0,
                     0,
                     0);
-    public ProfiledPIDController rotPID = 
+    public ProfiledPIDController rotPID =
     new ProfiledPIDController(2.8,0,0, new Constraints(Math.PI, Math.PI*2));
 
     // Define module positions (relative to center of robot)
@@ -96,41 +96,38 @@ public class DriveTrain extends SubsystemBase {
                         Parameters.driveTrain.can.FL_STEER_ID,
                         Parameters.driveTrain.can.FL_DRIVE_ID,
                         Parameters.driveTrain.can.FL_CODER_ID,
-                        true);
+                        false);
         frontRight =
                 new SwerveModule(
                         "FR",
                         Parameters.driveTrain.can.FR_STEER_ID,
                         Parameters.driveTrain.can.FR_DRIVE_ID,
                         Parameters.driveTrain.can.FR_CODER_ID,
-                        false);
+                        true);
         backLeft =
                 new SwerveModule(
                         "BL",
                         Parameters.driveTrain.can.BL_STEER_ID,
                         Parameters.driveTrain.can.BL_DRIVE_ID,
                         Parameters.driveTrain.can.BL_CODER_ID,
-                        true);
+                        false);
         backRight =
                 new SwerveModule(
                         "BR",
                         Parameters.driveTrain.can.BR_STEER_ID,
                         Parameters.driveTrain.can.BR_DRIVE_ID,
                         Parameters.driveTrain.can.BR_CODER_ID,
-                        false);
+                        true);
 
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
 
         SmartDashboard.putData("Field", field);
-    
+
         // Load the offsets for the CANCoders
         loadEncoderOffsets();
     }
 
-    public SwerveDriveKinematics getSwerveDriveKinemtatics() {
-        return kinematics;
-    }
     /**
      * Moves the entire drivetrain with the specified X and Y velocity with rotation
      *
@@ -139,28 +136,57 @@ public class DriveTrain extends SubsystemBase {
      * @param rot Rotation velocity in rad/s
      * @param fieldRelative If true, robot will use field as X and Y reference, regardless of angle.
      *     If false, robot will move in respect to itself
+     * @param tipProtection Should the drivetrain try to automatically adjust itself to prevent tipping?
      */
-    public void drive(double xVelocity, double yVelocity, double rot, boolean fieldRelative) {
+    public void drive(double xVelocity, double yVelocity, double rot, boolean fieldRelative, boolean tipProtection) {
+
+        // Declare a variable to store the chassis speeds
+        ChassisSpeeds speeds;
 
         // Set up the modules
         if (fieldRelative) {
-            setModuleStates(
-                    ChassisSpeeds.fromFieldRelativeSpeeds(
-                            xVelocity, yVelocity, rot, RobotContainer.navX.getRotation2d()));
+            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                            xVelocity, yVelocity, rot, RobotContainer.navX.getRotation2d());
         } else {
-            setModuleStates(new ChassisSpeeds(xVelocity, yVelocity, rot));
+            speeds = new ChassisSpeeds(xVelocity, yVelocity, rot);
         }
+
+        // Check the X and Y values of the robot for tip protection
+        // The chassis speeds are robot relative
+        // Positive X is forward, positive Y is left
+        if (tipProtection) {
+            double newXSpeed = adjustSpeedForAngle(RobotContainer.navX.getPitch(), speeds.vxMetersPerSecond);
+            double newYSpeed = adjustSpeedForAngle(RobotContainer.navX.getRoll(), speeds.vyMetersPerSecond);
+            speeds = new ChassisSpeeds(newXSpeed, newYSpeed, speeds.omegaRadiansPerSecond);
+        }
+
+        // Set the modules to carry out the speeds
+        setModuleStates(speeds);
     }
 
     /**
-     * Sets all of the states of the modules and updates the odometry of the robot
+     * Moves the entire drivetrain with the specified X and Y velocity with rotation (doesn't use tip protection)
      *
-     * @param chassisSpeeds The desired velocities of the movement of the entire drivetrain
-     * @param centerOfRotation The center of rotation that should be used. This is relative to the
-     *     robot
+     * @param xVelocity X velocity, in m/s
+     * @param yVelocity Y velocity, in m/s
+     * @param rot Rotation velocity in rad/s
+     * @param fieldRelative If true, robot will use field as X and Y reference, regardless of angle.
+     *     If false, robot will move in respect to itself
      */
-    public SwerveDriveKinematics getSwerveDriveKienmatics() {
-        return kinematics;
+    public void drive(double xVelocity, double yVelocity, double rot, boolean fieldRelative) {
+        drive(xVelocity, yVelocity, rot, fieldRelative, false);
+    }
+
+    /**
+     * Takes in an angle and raw speed value, and will adjust the speed to help prevent the robot from tipping
+     * @param angle The angle of the robot, in that axis (deg)
+     * @param rawValue The speed of the robot in that axis (m/s)
+     * @return The adjusted speed (should help to prevent tipping)
+     */
+    public double adjustSpeedForAngle(double angle, double rawValue) {
+
+        // ! STILL NEEDS TO BE WRITTEN
+        return rawValue;
     }
 
     /**
@@ -333,7 +359,7 @@ public class DriveTrain extends SubsystemBase {
         setDesiredVelocities(0, 0, 0, 0);
     }
 
-    public void setModuleStates(SwerveModuleState[] desiredStates) { 
+    public void setModuleStates(SwerveModuleState[] desiredStates) {
                 // normalizeDrive(swerveModuleStates, chassisSpeeds);
         // Scale the velocities of the swerve modules so that none exceed the maximum
         SwerveDriveKinematics.desaturateWheelSpeeds(
@@ -515,7 +541,7 @@ public class DriveTrain extends SubsystemBase {
 
         // Update the odometry as frequently as possible
         updateOdometry();
-        
+
         field.setRobotPose(swerveDriveOdometry.getPoseMeters());
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {

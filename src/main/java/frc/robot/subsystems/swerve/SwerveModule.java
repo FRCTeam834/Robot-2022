@@ -57,8 +57,8 @@ public class SwerveModule extends SubsystemBase {
     // Feed forward for the motor
     private SimpleMotorFeedforward driveFF;
 
-    // If the module is reversed (used for if angle ever needs to be reset)
-    private boolean isReversed;
+    // If the module is reversed (for angle optimization)
+    private boolean isDriveReversed;
 
     /**
      * Set up the module and address each of the motor controllers
@@ -115,8 +115,8 @@ public class SwerveModule extends SubsystemBase {
 
         // Set the angular velocity and acceleration values (if smart motion is being used)
         if (pid.steer.CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
-            steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_ACCEL);
-            steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_VELOCITY);
+            steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_STEER_ACCEL);
+            steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_STEER_VELOCITY);
             steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
         }
 
@@ -148,7 +148,7 @@ public class SwerveModule extends SubsystemBase {
         // Drive motor PID controller (from motor)
         // Note that we use a "cached" controller.
         // This version of the PID controller checks if the desired setpoint is already set.
-        // This reduces the load on the CAN bus, as we can only send a set amount across at once.
+        // This reduces the load on the CAN bus, as we only have to send a set amount across at once.
         driveMotorPID = new CachedPIDController(driveMotor);
         driveMotorPID.setP(pid.drive.kP.get());
         driveMotorPID.setD(pid.drive.kD.get());
@@ -177,8 +177,8 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
 
-        // Save if the drive motor should be reversed
-        isReversed = reversedDrive;
+        // Seed if the motor should be reversed
+        isDriveReversed = reversedDrive;
 
         // Load the offset of the encoder
         loadEncoderOffset();
@@ -272,18 +272,18 @@ public class SwerveModule extends SubsystemBase {
 
             // Full rotation optimizations
             if (angularDev >= 180) {
-                this.angularOffset += 360;
+                angularOffset += 360;
             } else if (angularDev <= -180) {
-                this.angularOffset -= 360;
+                angularOffset -= 360;
             }
 
             // Half rotation optimizations (full are prioritized first)
             else if (angularDev >= 90) {
                 angularOffset += 180;
-                driveMotor.setInverted(!driveMotor.getInverted());
+                invertDriveMotor();
             } else if (angularDev <= -90) {
                 angularOffset -= 180;
-                driveMotor.setInverted(!driveMotor.getInverted());
+                invertDriveMotor();
             }
         }
 
@@ -298,6 +298,14 @@ public class SwerveModule extends SubsystemBase {
         if (Parameters.debug) {
             printDebugString(targetAngle);
         }
+    }
+
+    /**
+     * Inverts the direction of the drive motor
+     */
+    private void invertDriveMotor() {
+        isDriveReversed = !isDriveReversed;
+        driveMotor.setInverted(isDriveReversed);
     }
 
     /**
@@ -440,7 +448,7 @@ public class SwerveModule extends SubsystemBase {
         // Set the encoder offset
         steerCANCoder.configMagnetOffset(
                 Preferences.getDouble(name + "_ENCODER_OFFSET", cancoderOffset));
-        
+
         // Reload the steer angle
         reloadSteerAngle();
     }
