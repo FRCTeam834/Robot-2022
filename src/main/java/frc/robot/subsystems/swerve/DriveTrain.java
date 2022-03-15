@@ -260,9 +260,6 @@ public class DriveTrain extends SubsystemBase {
         backRight.setDesiredAngle(BR);
     }
 
-    public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {
-        return new Pose2d(trajectory.sample(0).poseMeters.getTranslation(), trajectory.sample(0).poseMeters.getRotation());
-    }
     /**
      * Moves the modules to the desired angles, just with an array of angles instead of individual
      * parameters

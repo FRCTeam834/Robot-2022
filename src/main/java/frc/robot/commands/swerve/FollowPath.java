@@ -7,10 +7,12 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+<<<<<<< HEAD:src/main/java/frc/robot/commands/swerve/SpartechsSwerveController.java
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.Trajectory.State;
+=======
+>>>>>>> 242029fc7b57f3a1decc1cff7511685b3ffb97d2:src/main/java/frc/robot/commands/swerve/FollowPath.java
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -19,7 +21,7 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 @SuppressWarnings("MemberName")
-public class SpartechsSwerveController extends CommandBase {
+public class FollowPath extends CommandBase {
     private final Timer m_timer = new Timer();
     private final Trajectory m_trajectory;
     private final HolonomicDriveController m_controller;
@@ -35,7 +37,11 @@ public class SpartechsSwerveController extends CommandBase {
      * @param trajectory The trajectory to follow.
      */
     @SuppressWarnings("ParameterName")
+<<<<<<< HEAD:src/main/java/frc/robot/commands/swerve/SpartechsSwerveController.java
     public SpartechsSwerveController(Trajectory trajectory) {
+=======
+    public FollowPath(PathPlannerTrajectory trajectory) {
+>>>>>>> 242029fc7b57f3a1decc1cff7511685b3ffb97d2:src/main/java/frc/robot/commands/swerve/FollowPath.java
         m_trajectory = trajectory;
         PIDController xPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         PIDController yPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);

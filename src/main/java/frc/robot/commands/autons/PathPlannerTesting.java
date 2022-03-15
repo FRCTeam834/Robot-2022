@@ -9,6 +9,8 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.RobotContainer;
+import frc.robot.commands.swerve.FollowPath;
 
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.SpartechsSwerveController;
@@ -17,6 +19,7 @@ import frc.robot.commands.swerve.SpartechsSwerveController;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PathPlannerTesting extends SequentialCommandGroup {
+<<<<<<< HEAD
 
     public PathPlannerTesting() {
         // Add your commands in the addCommands() call, e.g.
@@ -26,3 +29,21 @@ public class PathPlannerTesting extends SequentialCommandGroup {
                 new SpartechsSwerveController(examplePath));
     }
 }
+=======
+  /** Creates a new PathPlannerTesting. */
+  public PathPlannerTesting() {
+    // Add your commands in the addCommands() call, e.g.
+    // addCommands(new FooCommand(), new BarCommand());
+    PathPlannerTrajectory examplePath = PathPlanner.loadPath("SparTechs Path", 8, 5);
+    addCommands(
+        new InstantCommand(RobotContainer.driveTrain::haltAllModules),
+        new InstantCommand(
+                () ->
+                        RobotContainer.driveTrain.resetOdometry(
+                                examplePath.getInitialPose())),
+        new FollowPath(examplePath),
+        new InstantCommand(RobotContainer.driveTrain::lockemUp)
+    );
+  }
+}
+>>>>>>> 242029fc7b57f3a1decc1cff7511685b3ffb97d2
