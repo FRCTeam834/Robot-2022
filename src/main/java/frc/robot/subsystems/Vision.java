@@ -175,9 +175,8 @@ public class Vision extends SubsystemBase {
 
     /**
      * Calculates robot pose using vision data
-     * 
+     *
      * @param facing Rads - angle of camera from 0
-     * 
      * @return calculated robot pose from vision
      */
     public Pose2d calculateRobotPose(double facing) {
@@ -186,10 +185,10 @@ public class Vision extends SubsystemBase {
         // Camera relative displacement
         double sx = heading[0];
         double sy = heading[1];
- 
-        double angleToTargetCameraRelative = Math.atan(sx/sy);
+
+        double angleToTargetCameraRelative = Math.atan(sx / sy);
         double angleToTargetFromZero = facing - angleToTargetCameraRelative;
-        
+
         // Mod 90 deg for if angleToTargetFromZero is in Quadrants I or III
         double angleOfCameraPVector = angleToTargetFromZero % (Math.PI / 2);
         // Distance to target relative or global is shared
@@ -201,7 +200,7 @@ public class Vision extends SubsystemBase {
 
         double globalx = sxglobal + Parameters.shooter.camera.TARGET_X;
         double globaly = syglobal + Parameters.shooter.camera.TARGET_Y;
-        
+
         return new Pose2d(globalx, globaly, facing);
     }
 
