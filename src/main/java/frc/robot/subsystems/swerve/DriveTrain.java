@@ -185,8 +185,31 @@ public class DriveTrain extends SubsystemBase {
      */
     public double adjustSpeedForAngle(double angle, double rawValue) {
 
-        // ! STILL NEEDS TO BE WRITTEN
-        return rawValue;
+        // ! STILL NEEDS TO BE TESTED
+        // ! THE ROBOT COULD GET VERY ANGRY, USE EXTREME CAUTION WHEN APPROACHING
+        if (Math.abs(angle) < Parameters.driver.tipProtection.MIN_TIP_ANGLE) {
+
+            // No need to correct, we're not having an issues right now
+            return rawValue;
+        }
+        else if (Math.abs(angle) > Parameters.driver.tipProtection.MAX_TIP_ANGLE) {
+
+            // ! POOP HAS HIT THE FAN... EVASIVE MANUEVERS ACTIVATE!
+            return Math.signum(angle) * Parameters.driver.tipProtection.MAX_CORRECTION_SPEED;
+        }
+        else {
+            // The angle must be between the min and maximum tip angle
+            // Use a fancy ratio for the percentage of correction
+            // So basically, if we're 80% to the max tip angle, when we'd
+            // need to use .2 * the raw value and .8 times the correction speed
+            return Math.signum(angle) *
+                ((Math.abs(angle) - Parameters.driver.tipProtection.MIN_TIP_ANGLE)/
+                    (Parameters.driver.tipProtection.CROSSOVER_RANGE) * Parameters.driver.tipProtection.MAX_CORRECTION_SPEED
+                     +
+                (Parameters.driver.tipProtection.MAX_TIP_ANGLE - Math.abs(angle))/
+                    (Parameters.driver.tipProtection.CROSSOVER_RANGE) * rawValue);
+        }
+
     }
 
     /**
