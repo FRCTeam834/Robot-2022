@@ -193,7 +193,7 @@ public class Vision extends SubsystemBase {
         double camerax = Parameters.shooter.camera.TARGET_X - globalsx;
         double cameray = Parameters.shooter.camera.TARGET_Y - globalsy;
         
-        return new Pose2d(new Translation2d(camerax, cameray), facing);
+        return new Pose2d(camerax, cameray, new Rotation2d(facing));
     }
 
     public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
