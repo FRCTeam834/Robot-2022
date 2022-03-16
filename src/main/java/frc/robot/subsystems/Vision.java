@@ -183,10 +183,10 @@ public class Vision extends SubsystemBase {
         double[] heading = headingToTargetCenter();
         facing %= Math.PI * 2;
         // Camera relative displacement
-        double sx = heading[0];
-        double sy = heading[1];
+        double sy = heading[0];
+        double sx = heading[1];
 
-        double angleToTargetCameraRelative = Math.atan(sx / sy);
+        double angleToTargetCameraRelative = Math.atan2(sx, sy);
         double angleToTargetFromZero = facing - angleToTargetCameraRelative;
 
         // Mod 90 deg for if angleToTargetFromZero is in Quadrants I or III
