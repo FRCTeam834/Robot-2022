@@ -119,6 +119,12 @@ public final class Parameters {
             // Correction is scaled between the min and max angles
             public static final double MAX_TIP_ANGLE = 45;
 
+            // The angle range (deg) of the crossover
+            // This is literally just the difference between the min and max angles
+            // This doesn't seem that complicated, but it helps to simplify the
+            // tip algorithm
+            public static final double CROSSOVER_RANGE = MAX_TIP_ANGLE - MIN_TIP_ANGLE;
+
             // The maximum speed for the drivetrain to correct by
             public static final double MAX_CORRECTION_SPEED = 3;
         }

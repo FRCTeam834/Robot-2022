@@ -123,7 +123,7 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
-        camera.setVersionCheckEnabled(false);
+        //camera.setVersionCheckEnabled(false);
     }
 
     @Override
