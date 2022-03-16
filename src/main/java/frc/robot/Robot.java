@@ -17,6 +17,7 @@ import java.lang.reflect.Field;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.DataLogManager;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -45,6 +46,8 @@ public class Robot extends TimedRobot {
     private RobotContainer m_robotContainer;
     private boolean linedUp;
     private boolean readyToShoot;
+    public Field2d field = new Field2d();
+
     
 
 
@@ -69,10 +72,12 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         CameraServer.startAutomaticCapture();
+        SmartDashboard.putData(field);
         RobotContainer.driveTrain.resetOdometry(new Pose2d());
         if (!Parameters.telemetryMode) {
             LiveWindow.disableAllTelemetry();
         }
+        DataLogManager.start();
     }
 
     /**
@@ -84,6 +89,8 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
+
+        field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
         DriverStation.silenceJoystickConnectionWarning(true);
        
 
@@ -162,7 +169,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-
+        //System.out.println(RobotContainer.navX.getYaw());
     }
 
     @Override

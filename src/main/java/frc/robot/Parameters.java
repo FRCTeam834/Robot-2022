@@ -439,7 +439,7 @@ public final class Parameters {
         public static final int LS_PORT = 0;
 
         // Current limit
-        public static final int CURRENT_LIMIT = 1;
+        public static final int CURRENT_LIMIT = 10;
         public static final int HOME_CURRENT = 1;
 
         // Homing info

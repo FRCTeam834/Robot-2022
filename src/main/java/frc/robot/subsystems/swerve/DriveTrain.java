@@ -38,7 +38,6 @@ public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
 
 
-    public Field2d field = new Field2d();
 
     // Create the modules
     public SwerveModule frontLeft;
@@ -122,7 +121,6 @@ public class DriveTrain extends SubsystemBase {
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
 
-        SmartDashboard.putData("Field", field);
 
         // Load the offsets for the CANCoders
         loadEncoderOffsets();
@@ -539,7 +537,6 @@ public class DriveTrain extends SubsystemBase {
         // Update the odometry as frequently as possible
         updateOdometry();
 
-        field.setRobotPose(swerveDriveOdometry.getPoseMeters());
         // If the tuning mode is on, check all of the PID settings
         if (Parameters.tuningMode) {
             xMovePID.setP(Parameters.driveTrain.pid.LINEAR_MOVE_P.get());

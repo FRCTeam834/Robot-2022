@@ -239,11 +239,11 @@ public class RobotContainer {
         new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
         new POVButton(xbox, 180).whileHeld(new EmptyEverything());
         // 87.6 20.4
-        new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
-        new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
-        new JoystickButton(xbox, Button.kX.value).whenPressed(new InstantCommand(shooter::stop));
-        //new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1));
-        //new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()+1));
+        new JoystickButton(xbox, Button.kY.value).whenPressed(new InstantCommand(shooter::recordShot));
+        new JoystickButton(xbox, Button.kB.value).whileHeld(new InstantCommand((() -> shooter.setDesiredPID(15))));
+        new JoystickButton(xbox, Button.kX.value).whenPressed(new PathPlannerTesting());
+        new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1));
+        new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()+1));
         //new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(.75), intake::stop, intake));
 
         //new POVButton(xbox, 0).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));

@@ -85,12 +85,12 @@ public class Hood extends SubsystemBase {
      * @param percent to run motor at
      */
     public void set(double percent) {
-        //hoodMotor.set(percent);
+        hoodMotor.set(percent);
     }
 
     /** Stops the hood */
     public void stop() {
-        //hoodMotor.stopMotor();
+        hoodMotor.stopMotor();
     }
 
     /**
@@ -102,7 +102,7 @@ public class Hood extends SubsystemBase {
 
         // Set the motor's angle if homed
         if (homed) {
-            //pidController.setReference(deg, Parameters.hood.pid.CONTROL_TYPE);
+            pidController.setReference(deg, Parameters.hood.pid.CONTROL_TYPE);
         }
 
         // Print out the angle information if desired
@@ -129,19 +129,19 @@ public class Hood extends SubsystemBase {
     public void setCurrentAngle(double currentAngle) {
 
         // Set the current position
-        //hoodMotorEncoder.setPosition(currentAngle);
+        hoodMotorEncoder.setPosition(currentAngle);
 
         // Set the soft limits
         // Soft limits are basically the controller not allowing certain values to be set for the
         // PID loop
-        //hoodMotor.setSoftLimit(SoftLimitDirection.kForward, (float) currentAngle);
-        //hoodMotor.setSoftLimit(
-        //        SoftLimitDirection.kReverse,
-        //        (float) (currentAngle - Parameters.hood.ALLOWABLE_RANGE));
+        hoodMotor.setSoftLimit(SoftLimitDirection.kForward, (float) currentAngle);
+        hoodMotor.setSoftLimit(
+                SoftLimitDirection.kReverse,
+                (float) (currentAngle - Parameters.hood.ALLOWABLE_RANGE));
 
         // Enable the soft limits
-        //hoodMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        //hoodMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        hoodMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        hoodMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
         // Set that the hood is homed
         homed = true;

@@ -15,7 +15,10 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.util.datalog.DoubleLogEntry;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -26,9 +29,13 @@ public class Shooter extends SubsystemBase {
 
     // Motor and motor encoder object
     CANSparkMax shooterMotor;
-    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.12608, 0.31356, 0.032386);
+    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.12608, 0.3475, 0.032386);
     RelativeEncoder shooterMotorEncoder;
     PIDController shooterPIDController;
+    DataLog shooterLog;
+    DoubleLogEntry speedLog;
+    DoubleLogEntry angleLog;
+    DoubleLogEntry distanceLog;
 
     // Store if we're using PID
     boolean usingPID = false;
@@ -62,7 +69,24 @@ public class Shooter extends SubsystemBase {
 
         shooterPIDController = new PIDController(0.024089, 0, 0);
         shooterPIDController.setTolerance(2);
+        shooterLog = DataLogManager.getLog();
+        speedLog = new DoubleLogEntry(shooterLog, "flywheelSpeedmeters");
+        distanceLog = new DoubleLogEntry(shooterLog, "distance");
+        angleLog = new DoubleLogEntry(shooterLog, "angle degrees");
     }
+    public void recordShot() {
+        if (RobotContainer.vision.getBestTarget() != null) {
+          distanceLog.append(RobotContainer.vision.getDistanceToGoal());
+          speedLog.append(getSpeed());
+          angleLog.append(RobotContainer.hood.getCurrentAngle());
+        } else {
+          distanceLog.append(-1, 0);
+          speedLog.append(-1, 0);
+          angleLog.append(-1,0);
+          DataLogManager.log("No PhotonVision Targets Found");
+        }
+      }
+      
 
     public void set(double percentage) {
         usingPID = false;
@@ -71,7 +95,7 @@ public class Shooter extends SubsystemBase {
 
 
     public void setDesiredPID(double setpoint) {
-        shooterPIDController.setSetpoint(setpoint);
+
         setVelocity = setpoint;
         usingPID = true;
     }
