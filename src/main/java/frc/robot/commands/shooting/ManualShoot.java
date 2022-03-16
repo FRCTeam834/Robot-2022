@@ -2,32 +2,36 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class RejectBall extends CommandBase {
-    /** Creates a new RejectBall. */
-    public RejectBall() {
+import frc.robot.Parameters;
+import frc.robot.RobotContainer;
+
+public class ManualShoot extends CommandBase {
+    /** Creates a new DumbShoot. */
+    public ManualShoot() {
         // Use addRequirements() here to declare subsystem dependencies.
-        // addRequirements(RobotContainer.intake);
+        addRequirements(RobotContainer.shooter);
     }
 
+    // Called when the command is initially scheduled.
     @Override
     public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // if (!RobotContainer.intake.suckABall().equals(Robot.getOurBallColor())) {
-        //    RobotContainer.intake.spitItOut();
-        // }
+        RobotContainer.shooter.setDesiredPID(
+                (RobotContainer.leftJoystick.getRawAxis(2)+1)/2 * Parameters.shooter.MAX_SPEED);
+        ;
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        // RobotContainer.intake.stop();
+        RobotContainer.shooter.stop();
     }
 
     // Returns true when the command should end.

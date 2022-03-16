@@ -4,50 +4,51 @@
 
 package frc.robot.commands.swerve.driving;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
 
-public class DriveForTime extends CommandBase {
-    /** Creates a new Drive. */
-    Timer timer = new Timer();
+public class DriveUntilAngle extends CommandBase {
 
-    double time = 0;
-    double speed = 0;
+    // The speed to move the robot at
+    double tipSpeed;
 
-    public DriveForTime(double speed, double time) {
+    // The angle to tip the robot to
+    double tipAngle;
+
+    /** Creates a new DriveUntilAngle. */
+    public DriveUntilAngle(double speed, double angle) {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.driveTrain);
-        this.time = time;
-        this.speed = speed;
+        addRequirements(RobotContainer.driveTrain, RobotContainer.navX);
+
+        // Save the tip speed and angle
+        tipSpeed = speed;
+        tipAngle = angle;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.driveTrain.straightenModules();
-        timer.reset();
-        timer.start();
+
+        // Start moving the drivetrain forward slowly
+        RobotContainer.driveTrain.drive(tipSpeed, 0, 0, false);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {
-        RobotContainer.driveTrain.drive(speed, 0, 0, false);
-    }
+    public void execute() {}
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+
+        // Stop the drivetrain once we're done
         RobotContainer.driveTrain.stopModules();
-        timer.reset();
-        timer.stop();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(time);
+        return (RobotContainer.navX.getPitch() >= tipAngle);
     }
 }

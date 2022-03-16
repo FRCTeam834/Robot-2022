@@ -12,13 +12,26 @@
  */
 package frc.robot;
 
+import java.lang.reflect.Field;
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.util.sendable.Sendable;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.PerpetualCommand;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
+import frc.robot.Parameters.driveTrain;
+import frc.robot.commands.hood.HomeHood;
+import frc.robot.commands.indexing.ColorSensorIndexing;
+import frc.robot.subsystems.climber.HomeClimberTubes;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,8 +43,10 @@ public class Robot extends TimedRobot {
 
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
-    private boolean shooterAtSpeed;
     private boolean linedUp;
+    private boolean readyToShoot;
+    
+
 
     /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
     Robot() {
@@ -44,6 +59,7 @@ public class Robot extends TimedRobot {
 
         // Reset the angle of the NavX
         RobotContainer.navX.resetYaw();
+        //RobotContainer.navX.resetPitch();
     }
 
     /**
@@ -52,11 +68,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
+        CameraServer.startAutomaticCapture();
         RobotContainer.driveTrain.resetOdometry(new Pose2d());
-        RobotContainer.led.set(RobotContainer.lightColor);
-        // Runs HomeIntake and HomeHood commands
-        // CommandScheduler.getInstance()
-        //        .schedule(RobotContainer.getHomeIntake(), RobotContainer.getHomeHood());
+        if (!Parameters.telemetryMode) {
+            LiveWindow.disableAllTelemetry();
+        }
     }
 
     /**
@@ -65,20 +81,19 @@ public class Robot extends TimedRobot {
      *
      * <p>This runs after the mode specific periodic functions, but before LiveWindow and
      * SmartDashboard integrated updating.
-     *
-     * <p>You thought this was a comment that would explain about this function, but it was me, DIO!
      */
     @Override
     public void robotPeriodic() {
+       
 
         // Check the state of the functions on the robot
-        shooterAtSpeed = RobotContainer.shooter.isAtSetPoint();
+        readyToShoot = RobotContainer.shooter.readyToShoot();
         linedUp = RobotContainer.vision.isLinedUp();
 
         // Decide which LED color
-        if (shooterAtSpeed && linedUp) {
+        if (readyToShoot && linedUp) {
             RobotContainer.lightColor = Parameters.led.GLITTER_RAINBOW;
-        } else if (shooterAtSpeed) {
+        } else if (readyToShoot) {
             RobotContainer.lightColor = Parameters.led.OCEAN;
         } else if (linedUp) {
             RobotContainer.lightColor = Parameters.led.PINK;
@@ -89,15 +104,7 @@ public class Robot extends TimedRobot {
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);
 
-        // System.out.println(RobotContainer.intakeSpool.getSpoolPosition());
-        // System.out.println(String.format("S: %.2f | A: %.2f",
-        // Units.radiansToDegrees(RobotContainer.driveTrain.rotationPID.getSetpoint().position),
-        // RobotContainer.navX.getYaw()));
 
-        // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-        // commands, running already-scheduled commands, removing finished or interrupted commands,
-        // and running subsystem periodic() methods.  This must be called from the robot's periodic
-        // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
     }
 
@@ -141,6 +148,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+        CommandScheduler.getInstance().schedule(new HomeClimberTubes());
+        //new ScheduleCommand(new PerpetualCommand(new ColorSensorIndexing()));
 
         // Stop all of the motors on the robot
         RobotContainer.indexer.stop();
@@ -151,7 +160,9 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+
+    }
 
     @Override
     public void testInit() {

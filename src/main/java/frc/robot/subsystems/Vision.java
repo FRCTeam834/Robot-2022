@@ -53,7 +53,7 @@ public class Vision extends SubsystemBase {
         camera.setLED(VisionLEDMode.kOff);
     }
 
-    public static void turnLEDsOn() {
+    public void turnLEDsOn() {
         if (!LEDsOn) {
             camera.setLED(VisionLEDMode.kOn);
         }
@@ -70,7 +70,7 @@ public class Vision extends SubsystemBase {
      *
      * @return The best found target
      */
-    public static PhotonTrackedTarget getBestTarget() {
+    public PhotonTrackedTarget getBestTarget() {
 
         // Make sure that the LEDs are on (can't detect colors correctly without them)
         if (!LEDsOn) {
@@ -177,9 +177,8 @@ public class Vision extends SubsystemBase {
 
     /**
      * Calculates robot pose using vision data
-     * 
+     *
      * @param facing Rads - angle of camera from 0
-     * 
      * @return calculated robot pose from vision
      */
     public Pose2d calculateRobotPose(double facing) {
@@ -197,8 +196,8 @@ public class Vision extends SubsystemBase {
         return new Pose2d(new Translation2d(camerax, cameray), facing);
     }
 
-    public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
-        if (camera.getLatestResult().hasTargets()) {
+    public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
+        if (bestTarget != null) {
             return PhotonUtils.calculateDistanceToTargetMeters(
                     Parameters.vision.CAMERA_HEIGHT,
                     Parameters.vision.GOAL_HEIGHT,
@@ -209,7 +208,11 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    public static double getYaw() {
+    public double getDistanceToGoal() {
+        return getDistanceToGoal(getBestTarget());
+    }
+
+    public double getYaw() {
         if (camera.getLatestResult().hasTargets()) return getBestTarget().getYaw();
         else return 0;
     }
@@ -220,8 +223,8 @@ public class Vision extends SubsystemBase {
     @Override
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {
-            builder.addDoubleProperty("Yaw", () -> getYaw(), null);
-            builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()), null);
+            //builder.addDoubleProperty("Yaw", () -> getYaw(), null);
+            //builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()), null);
             builder.addBooleanProperty(
                     "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);

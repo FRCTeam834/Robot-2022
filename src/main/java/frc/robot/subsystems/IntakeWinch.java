@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Parameters;
 import frc.robot.utilityClasses.CachedPIDController;
 
-public class IntakeSpool extends SubsystemBase {
-    /** Creates a new IntakeSpool. */
+public class IntakeWinch extends SubsystemBase {
+    /** Creates a new IntakeWinch. */
     // Motor object for spool
     CANSparkMax spoolMotor;
 
@@ -33,7 +33,7 @@ public class IntakeSpool extends SubsystemBase {
     // Variable to store if the spool has been homed yet
     boolean homed = false;
 
-    public IntakeSpool() {
+    public IntakeWinch() {
         // Initialize the spool motor
         spoolMotor = new CANSparkMax(Parameters.intake.spool.MOTOR_ID, MotorType.kBrushless);
         spoolMotor.restoreFactoryDefaults();
@@ -69,11 +69,11 @@ public class IntakeSpool extends SubsystemBase {
         }
     }
 
-    public void runSpoolMotor(double percent) {
+    public void set(double percent) {
         spoolMotor.set(percent);
     }
 
-    public void stopSpoolMotor() {
+    public void stop() {
         spoolMotor.stopMotor();
     }
     /**
@@ -145,11 +145,25 @@ public class IntakeSpool extends SubsystemBase {
     }
 
     /**
+     * Checks if the intake is homed yet
+     *
+     * @return Is the intake homed yet?
+     */
+    public boolean isHomed() {
+        return homed;
+    }
+
+    /**
      * Gets if the limit switch is triggered
      *
      * @return Is the spool currently at home?
      */
     public boolean getLSValue() {
         return limitSwitch.get();
+    }
+
+    // sets current limit of the spool motor
+    public void setCurrentLimit(int limit) {
+        spoolMotor.setSmartCurrentLimit(limit);
     }
 }

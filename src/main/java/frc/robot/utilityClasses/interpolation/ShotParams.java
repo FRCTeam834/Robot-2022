@@ -11,14 +11,13 @@ public class ShotParams {
     double speed;
 
     // Overloading the constructor
-    public ShotParams(double angle, double speed) {
+    public ShotParams(double speed, double angle) {
         this.angle = angle;
         this.speed = speed;
     }
 
-    public boolean equals(ShotParams other, double tolerance) {
-        if (Math.abs(angle - other.angle) <= tolerance
-                && Math.abs(speed - other.speed) <= tolerance) {
+    public boolean equals(ShotParams other, double angTol, double spdTol) {
+        if (Math.abs(angle - other.angle) <= angTol && Math.abs(speed - other.speed) <= spdTol) {
             return true;
         } else {
             return false;
@@ -35,5 +34,15 @@ public class ShotParams {
         return new ShotParams(
                 linearInterpolation(this.angle, end.angle, t),
                 (linearInterpolation(this.speed, end.speed, t)));
+    }
+
+    // Returns the shot angle (deg)
+    public double getAngle() {
+        return angle;
+    }
+
+    // Returns the speed (m/s)
+    public double getSpeed() {
+        return speed;
     }
 }

@@ -2,46 +2,52 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.shooting;
+package frc.robot.commands.swerve.driving;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
-public class Shoot extends CommandBase {
-    /** Creates a new ShootOneBall. */
-    public Shoot() {
+public class SpinForTime extends CommandBase {
+    /** Creates a new Drive. */
+    Timer timer = new Timer();
+
+    double time = 0;
+    double speed = 0;
+
+    public SpinForTime(double speed, double time) {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.shooter, RobotContainer.indexer);
+        addRequirements(RobotContainer.driveTrain);
+        this.time = time;
+        this.speed = speed;
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.shooter.set(Parameters.shooter.SHOT_SPEED);
+        RobotContainer.driveTrain.straightenModules();
+        timer.reset();
+        timer.start();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (RobotContainer.shooter.isAtSetPoint()) {
-            RobotContainer.indexer.setMotorSpeed(Parameters.indexer.MOTOR_SPEED);
-        } else {
-            RobotContainer.indexer.stop();
-        }
+        RobotContainer.driveTrain.drive(0, 0, speed, false);
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.shooter.stop();
-        RobotContainer.indexer.stop();
+        RobotContainer.driveTrain.stopModules();
+        timer.reset();
+        timer.stop();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return timer.hasElapsed(time);
     }
 }
