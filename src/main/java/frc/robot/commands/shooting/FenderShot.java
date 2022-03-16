@@ -16,19 +16,6 @@ public class FenderShot extends CommandBase {
         addRequirements(RobotContainer.hood, RobotContainer.shooter);
     }
 
-<<<<<<< HEAD
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-              RobotContainer.hood.setDesiredAngle(75.35);
-               RobotContainer.shooter.setDesiredPID(Parameters.shooter.FENDER_SHOT_SPEED);
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-=======
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
@@ -40,7 +27,6 @@ public class FenderShot extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {}
->>>>>>> 242029fc7b57f3a1decc1cff7511685b3ffb97d2
 
     // Called once the command ends or is interrupted.
     @Override

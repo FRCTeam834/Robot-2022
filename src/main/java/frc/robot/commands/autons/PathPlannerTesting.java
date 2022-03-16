@@ -13,23 +13,11 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.FollowPath;
 
 import frc.robot.RobotContainer;
-import frc.robot.commands.swerve.SpartechsSwerveController;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PathPlannerTesting extends SequentialCommandGroup {
-<<<<<<< HEAD
-
-    public PathPlannerTesting() {
-        // Add your commands in the addCommands() call, e.g.
-        // addCommands(new FooCommand(), new BarCommand());
-        PathPlannerTrajectory examplePath = PathPlanner.loadPath("New Path", 8, 5);
-        addCommands(
-                new SpartechsSwerveController(examplePath));
-    }
-}
-=======
   /** Creates a new PathPlannerTesting. */
   public PathPlannerTesting() {
     // Add your commands in the addCommands() call, e.g.
@@ -46,4 +34,3 @@ public class PathPlannerTesting extends SequentialCommandGroup {
     );
   }
 }
->>>>>>> 242029fc7b57f3a1decc1cff7511685b3ffb97d2

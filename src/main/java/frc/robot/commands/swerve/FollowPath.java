@@ -8,11 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-<<<<<<< HEAD:src/main/java/frc/robot/commands/swerve/SpartechsSwerveController.java
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.Trajectory.State;
-=======
->>>>>>> 242029fc7b57f3a1decc1cff7511685b3ffb97d2:src/main/java/frc/robot/commands/swerve/FollowPath.java
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -37,11 +33,7 @@ public class FollowPath extends CommandBase {
      * @param trajectory The trajectory to follow.
      */
     @SuppressWarnings("ParameterName")
-<<<<<<< HEAD:src/main/java/frc/robot/commands/swerve/SpartechsSwerveController.java
-    public SpartechsSwerveController(Trajectory trajectory) {
-=======
     public FollowPath(PathPlannerTrajectory trajectory) {
->>>>>>> 242029fc7b57f3a1decc1cff7511685b3ffb97d2:src/main/java/frc/robot/commands/swerve/FollowPath.java
         m_trajectory = trajectory;
         PIDController xPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
         PIDController yPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
@@ -81,7 +73,7 @@ public class FollowPath extends CommandBase {
              //           RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
 //
         // Set the modules to carry out those commands
-        
+
     }
 
     public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {
