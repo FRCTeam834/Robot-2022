@@ -4,7 +4,9 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -182,27 +184,17 @@ public class Vision extends SubsystemBase {
      */
     public Pose2d calculateRobotPose(double facing) {
         double[] heading = headingToTargetCenter();
-        facing %= Math.PI * 2;
         // Camera relative displacement
         double sx = heading[0];
         double sy = heading[1];
- 
-        double angleToTargetCameraRelative = Math.atan(sx/sy);
-        double angleToTargetFromZero = facing - angleToTargetCameraRelative;
         
-        // Mod 90 deg for if angleToTargetFromZero is in Quadrants I or III
-        double angleOfCameraPVector = angleToTargetFromZero % (Math.PI / 2);
-        // Distance to target relative or global is shared
-        double s = Math.sqrt(sx * sx + sy * sy);
+        double globalsx = sx * Math.cos(facing) - sy * Math.sin(facing);
+        double globalsy = sy * Math.cos(facing) + sx * Math.sin(facing);
 
-        // find displacement components on real coordinates using known angle and distance
-        double sxglobal = s * Math.sin(angleOfCameraPVector);
-        double syglobal = s * Math.cos(angleOfCameraPVector);
-
-        double globalx = sxglobal + Parameters.shooter.camera.TARGET_X;
-        double globaly = syglobal + Parameters.shooter.camera.TARGET_Y;
+        double camerax = Parameters.shooter.camera.TARGET_X - globalsx;
+        double cameray = Parameters.shooter.camera.TARGET_Y - globalsy;
         
-        return new Pose2d(globalx, globaly, facing);
+        return new Pose2d(new Translation2d(camerax, cameray), facing);
     }
 
     public static double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
