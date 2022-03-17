@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
 
     // Motor and motor encoder object
     CANSparkMax shooterMotor;
-    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.12608, 0.3475, 0.032386);
+    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.12608, 0.344, 0.032386);
     RelativeEncoder shooterMotorEncoder;
     PIDController shooterPIDController;
     DataLog shooterLog;
@@ -101,6 +101,10 @@ public class Shooter extends SubsystemBase {
     }
     public void setRPM(double rpm) {
         //shooterMotor.setRPM(rpm);
+    }
+
+    public double getSetpoint() {
+        return setVelocity;
     }
 
 

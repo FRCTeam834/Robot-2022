@@ -50,6 +50,7 @@ public class PrepareShooterForVision extends CommandBase {
     public void end(boolean interrupted) {
 
         // Stop the shooter
+        RobotContainer.shooter.stop();
     }
 
     // Returns true when the command should end.

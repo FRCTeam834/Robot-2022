@@ -156,7 +156,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        CommandScheduler.getInstance().schedule(new HomeClimberTubes());
+        CommandScheduler.getInstance().schedule(new HomeClimberTubes(), new HomeHood());
         //new ScheduleCommand(new PerpetualCommand(new ColorSensorIndexing()));
 
         // Stop all of the motors on the robot

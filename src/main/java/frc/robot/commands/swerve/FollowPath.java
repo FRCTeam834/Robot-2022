@@ -9,10 +9,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
-<<<<<<< HEAD
 import edu.wpi.first.math.trajectory.Trajectory.State;
-=======
->>>>>>> f7283b2ec6b7a7d4008a0249270fe16b834f4c9d
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -70,23 +67,12 @@ public class FollowPath extends CommandBase {
         // Look up where we need to be
         PathPlannerState desiredState = (PathPlannerState) m_trajectory.sample(curTime);
 
-<<<<<<< HEAD
         var targetChassisSpeeds =
         m_controller.calculate(
                 RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
 
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
         
-=======
-        System.out.println(desiredState.poseMeters.getX());
-        // Calculate the required speeds to get there
-      //  ChassisSpeeds targetChassisSpeeds =
-        //        m_controller.calculate(
-             //           RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
-//
-        // Set the modules to carry out those commands
-
->>>>>>> f7283b2ec6b7a7d4008a0249270fe16b834f4c9d
     }
 
     public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {

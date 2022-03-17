@@ -55,6 +55,7 @@ import frc.robot.commands.intake.IntakeBallsForTime;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.ManualShoot;
+import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.shooting.IncrementShooterSetpoint;
 import frc.robot.commands.shooting.ShootStupid;
@@ -219,6 +220,7 @@ public class RobotContainer {
         new POVButton(rightJoystick, 180).whileHeld(new StartEndCommand(() -> intakeWinch.set(.5), intakeWinch::stop, intakeWinch));
 
         new JoystickButton(rightJoystick, 1).whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
+        new JoystickButton(rightJoystick, 2).whenPressed(new ParallelCommandGroup(new TurnToAngleVision(), new PrepareShooterForVision()));
 
         //right and left lift up
         BM.whenHeld(new StartEndCommand(() -> RobotContainer.climbers2.leftLift.setWithLimitSwitch(.75), RobotContainer.climbers2.leftLift::stop).alongWith(new StartEndCommand(() -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(.75), RobotContainer.climbers2.rightTilt::stop)));
@@ -237,13 +239,15 @@ public class RobotContainer {
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
         new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
-        new POVButton(xbox, 180).whileHeld(new EmptyEverything());
+        //new POVButton(xbox, 180).whileHeld(new EmptyEverything());
         // 87.6 20.4
-        new JoystickButton(xbox, Button.kY.value).whenPressed(new InstantCommand(shooter::recordShot));
+        new JoystickButton(xbox, Button.kY.value).whileHeld(new StartEndCommand(() -> intake.set(.635), intake::stop, intake));
         new JoystickButton(xbox, Button.kB.value).whileHeld(new InstantCommand((() -> shooter.setDesiredPID(15))));
-        new JoystickButton(xbox, Button.kX.value).whenPressed(new PathPlannerTesting());
+        new JoystickButton(xbox, Button.kX.value).whenPressed(new InstantCommand(() -> shooter.stop()));
         new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1));
         new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()+1));
+        new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() + 0.25));
+        new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
         //new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(.75), intake::stop, intake));
 
         //new POVButton(xbox, 0).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));

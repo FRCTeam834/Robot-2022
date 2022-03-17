@@ -134,6 +134,7 @@ public class Vision extends SubsystemBase {
             builder.addBooleanProperty(
                     "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);
+            builder.addDoubleProperty("distance", this::getDistanceToGoal, null);
         }
     }
 }

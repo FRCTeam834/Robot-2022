@@ -16,21 +16,12 @@ public class AutonShot extends CommandBase {
         addRequirements(RobotContainer.hood, RobotContainer.shooter);
     }
 
-<<<<<<< HEAD
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
                RobotContainer.hood.setCurrentAngle(23.59);
                RobotContainer.shooter.setDesiredPID(55.079);
   }
-=======
-    // Called when the command is initially scheduled.
-    @Override
-    public void initialize() {
-        RobotContainer.hood.setCurrentAngle(23.59);
-        RobotContainer.shooter.setDesiredPID(55.079);
-    }
->>>>>>> f7283b2ec6b7a7d4008a0249270fe16b834f4c9d
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
