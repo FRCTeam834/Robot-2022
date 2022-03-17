@@ -3,8 +3,7 @@ package frc.robot.utilityClasses;
 import frc.robot.Parameters;
 
 public class GlobalPoint {
-    private static double z =
-            Parameters.shooter.camera.TARGET_HEIGHT - Parameters.shooter.camera.HEIGHT; // INCHES
+    private static double z = Parameters.shooter.camera.TARGET_HEIGHT - Parameters.shooter.camera.CAMERA_HEIGHT;
 
     private double x;
     private double y;

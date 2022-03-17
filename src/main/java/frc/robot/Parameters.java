@@ -429,16 +429,16 @@ public final class Parameters {
 
         // Game-specific parameters (meters and degrees)
         public static final class camera {
-            public static final double HEIGHT = 0;
-            public static final double TARGET_HEIGHT = 0;
-            public static final double TARGET_RADIUS = 0;
-            public static final double TARGET_X = 0;
-            public static final double TARGET_Y = 0;
+            public static final double TARGET_HEIGHT = 2.64;
+            public static final double TARGET_RADIUS = 0.68;
+            public static final double TARGET_X = 324;
+            public static final double TARGET_Y = 162;
 
             public static final double PITCH = 0;
-            public static final double CIRCLE_FIT_TOLERANCE = 0;
+            public static final double CIRCLE_FIT_TOLERANCE = 1;
 
             // Camera-specific parameters (intrinsics) (pixels)
+            public static final double CAMERA_HEIGHT = 0;
             public static final double CAMERA_FOCAL_LENGTH = 333.82;
             public static final double CAMERA_RESOLUTION_X = 0;
             public static final double CAMERA_RESOLUTION_Y = 0;
