@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 
+import java.util.function.DoubleSupplier;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.common.hardware.VisionLEDMode;
@@ -116,8 +118,14 @@ public class Vision extends SubsystemBase {
         return getDistanceToGoal(getBestTarget());
     }
 
+    public double getDistanceToGoalInches() {
+        return Units.metersToInches(getDistanceToGoal());
+    }
+
     public double getYaw() {
-        if (camera.getLatestResult().hasTargets()) return getBestTarget().getYaw();
+        // Get the best target
+        PhotonTrackedTarget bestTarget = getBestTarget();
+        if (bestTarget != null) return bestTarget.getYaw();
         else return 0;
     }
 
@@ -134,7 +142,7 @@ public class Vision extends SubsystemBase {
             builder.addBooleanProperty(
                     "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);
-            builder.addDoubleProperty("distance", this::getDistanceToGoal, null);
+            builder.addDoubleProperty("distance_inches", this::getDistanceToGoalInches, null);
         }
     }
 }

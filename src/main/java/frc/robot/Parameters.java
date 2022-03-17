@@ -520,9 +520,13 @@ public final class Parameters {
         public static final String CAMERA_NAME = "PiCam";
 
         // The distance to the camera from the floor (m)
-        public static final double CAMERA_HEIGHT = Units.inchesToMeters(30.25);
+        public static final double CAMERA_HEIGHT = Units.inchesToMeters(28.5);
+    
         // The pitch of the camera from the floor (deg)
-        public static final double CAMERA_PITCH = 52;
+        public static final double CAMERA_PITCH = 55;
+
+        // The yaw offset when straight
+        public static final double YAW_OFFSET = 15;
 
         // The height of the goal (m)
         // Converted 8ft 8in to meters

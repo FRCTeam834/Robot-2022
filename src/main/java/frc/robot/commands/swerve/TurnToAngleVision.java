@@ -50,7 +50,7 @@ public class TurnToAngleVision extends CommandBase {
             omega =
                 MathUtil.clamp(
                         Math.toRadians(
-                            rotationalPID.calculate(RobotContainer.vision.getBestTarget().getYaw(), 0)),
+                            rotationalPID.calculate(latestResult.getYaw(), Parameters.vision.YAW_OFFSET)),
                         -1,
                         1);
         }
