@@ -22,12 +22,6 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class Vision extends SubsystemBase {
 
     public static PhotonCamera camera;
-    private static double yaw, pitch, skew, distance = yaw = pitch = skew = 0.0;
-    private boolean targetExists = false;
-    private double vph;
-    private double vpw;
-    private Rotation2d horizontalPlaneToLens;
-    private double lensHeightMeters;
     private static boolean LEDsOn;
 
     public Vision() {
@@ -52,7 +46,7 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    
+
     public void turnLEDsOff() {
         if (LEDsOn) {
             camera.setDriverMode(true);

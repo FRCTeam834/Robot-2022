@@ -521,7 +521,7 @@ public final class Parameters {
 
         // The distance to the camera from the floor (m)
         public static final double CAMERA_HEIGHT = Units.inchesToMeters(28.5);
-    
+
         // The pitch of the camera from the floor (deg)
         public static final double CAMERA_PITCH = 55;
 
@@ -529,8 +529,7 @@ public final class Parameters {
         public static final double YAW_OFFSET = 15;
 
         // The height of the goal (m)
-        // Converted 8ft 8in to meters
-        public static final double GOAL_HEIGHT = 2.6416;
+        public static final double GOAL_HEIGHT = Units.feetToMeters(8) + Units.inchesToMeters(8);
 
         // How far can the robot be from a target? (deg)
         public static final double YAW_TOLERANCE = 2;
