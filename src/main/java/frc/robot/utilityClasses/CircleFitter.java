@@ -30,8 +30,8 @@ public class CircleFitter {
 
         for (int i = 0; i < points.size(); i++) {
             GlobalPoint point = points.get(i);
-            double x = point.x;
-            double y = point.y;
+            double x = point.getX();
+            double y = point.getY();
 
             xsum += x;
             ysum += y;
