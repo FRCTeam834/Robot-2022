@@ -41,7 +41,7 @@ public class Vision extends SubsystemBase {
 
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
-    private static boolean LEDsOn = false;
+    
     private static boolean LEDsOn;
 
     public Vision() {
@@ -49,8 +49,14 @@ public class Vision extends SubsystemBase {
         // Set up the PhotonVision camera
         camera = new PhotonCamera(Parameters.vision.CAMERA_NAME);
 
+        // Put the camera in driver mode (so that it's not processing without the LEDs)
+        camera.setDriverMode(true);
+
         // Turn the LEDs off (they are super bright and annoying)
         camera.setLED(VisionLEDMode.kOff);
+
+        // Set that the LEDs are off
+        LEDsOn = false;
     }
 
     public void turnLEDsOn() {
