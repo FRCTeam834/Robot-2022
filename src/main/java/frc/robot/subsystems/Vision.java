@@ -41,7 +41,7 @@ public class Vision extends SubsystemBase {
 
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
-    
+
     private static boolean LEDsOn;
 
     public Vision() {
