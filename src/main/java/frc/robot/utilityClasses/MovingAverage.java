@@ -17,7 +17,7 @@ public class MovingAverage {
     /**
      * @param dataPtCount The number of data points to consider
      */
-    MovingAverage(int dataPtCount) {
+    public MovingAverage(int dataPtCount) {
         this.dataPtCount = dataPtCount;
     }
 
