@@ -82,7 +82,7 @@ public class CircleFitter {
         ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2.0;
 
         // Radius tolerance
-        if (Math.abs(ret[2] - Parameters.shooter.camera.TARGET_RADIUS) < Parameters.shooter.camera.CIRCLE_FIT_TOLERANCE) return null;
+        if (Math.abs(ret[2] - Parameters.vision.GOAL_TAPE_RADIUS) < Parameters.vision.CIRCLE_FIT_TOLERANCE) return null;
 
         return ret;
     }

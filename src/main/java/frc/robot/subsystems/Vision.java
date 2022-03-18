@@ -31,12 +31,12 @@ public class Vision extends SubsystemBase {
     private CircleFitter circlefitter;
     private boolean targetExists = false;
 
-    private static double horizontalFov = Parameters.shooter.camera.CAMERA_HFOV,
-            verticalFov = Parameters.shooter.camera.CAMERA_VFOV,
+    private static double horizontalFov = Parameters.vision.CAMERA_HFOV,
+            verticalFov = Parameters.vision.CAMERA_VFOV,
             vph = 2 * Math.tan(horizontalFov / 2),
             vpw = 2 * Math.tan(verticalFov / 2),
-            resolutionX = Parameters.shooter.camera.CAMERA_RESOLUTION_X,
-            resolutionY = Parameters.shooter.camera.CAMERA_RESOLUTION_Y,
+            resolutionX = Parameters.vision.CAMERA_RESOLUTION_X,
+            resolutionY = Parameters.vision.CAMERA_RESOLUTION_Y,
             hresX = resolutionX / 2,
             hresY = resolutionY / 2;
 
@@ -159,7 +159,7 @@ public class Vision extends SubsystemBase {
             double yaw = Math.atan(x);
             double pitch = Math.atan(y);
 
-            ret.add(new GlobalPoint(yaw, pitch + Math.toRadians(Parameters.shooter.camera.PITCH)));
+            ret.add(new GlobalPoint(yaw, pitch + Math.toRadians(Parameters.vision.CAMERA_PITCH)));
         }
 
         return ret;
@@ -190,8 +190,8 @@ public class Vision extends SubsystemBase {
         double globalsx = sx * Math.cos(facing) - sy * Math.sin(facing);
         double globalsy = sy * Math.cos(facing) + sx * Math.sin(facing);
 
-        double camerax = Parameters.shooter.camera.TARGET_X - globalsx;
-        double cameray = Parameters.shooter.camera.TARGET_Y - globalsy;
+        double camerax = Parameters.vision.GOAL_X - globalsx;
+        double cameray = Parameters.vision.GOAL_Y - globalsy;
         
         return new Pose2d(camerax, cameray, new Rotation2d(facing));
     }
