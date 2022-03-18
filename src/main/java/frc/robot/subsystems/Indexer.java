@@ -71,11 +71,11 @@ public class Indexer extends SubsystemBase {
     }
 
     public double getProximity() {
-        return proximityAverage.addPt(colorSensor.getProximity());
+        return proximityAvg.addPt(colorSensor.getProximity());
     }
 
     public void clearProximityReadings() {
-        proximityAverage.clearPts();
+        proximityAvg.clearPts();
     }
 
     public boolean hasBall() {
