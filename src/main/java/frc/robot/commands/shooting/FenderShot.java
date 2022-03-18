@@ -5,9 +5,9 @@
 package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.Parameters.shooter;
 
 public class FenderShot extends CommandBase {
     /** Creates a new FenderShot. */
@@ -16,22 +16,21 @@ public class FenderShot extends CommandBase {
         addRequirements(RobotContainer.hood, RobotContainer.shooter);
     }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-              RobotContainer.hood.setDesiredAngle(75.35);
-               RobotContainer.shooter.setDesiredPID(Parameters.shooter.FENDER_SHOT_SPEED);
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        RobotContainer.hood.setDesiredAngle(75.35);
+        RobotContainer.shooter.setDesiredPID(Parameters.shooter.FENDER_SHOT_SPEED);
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {}
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        //RobotContainer.shooter.stop();
+        // RobotContainer.shooter.stop();
     }
 
     // Returns true when the command should end.

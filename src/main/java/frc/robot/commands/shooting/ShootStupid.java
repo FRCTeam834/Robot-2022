@@ -6,10 +6,9 @@ package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Parameters;
+
 import frc.robot.RobotContainer;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,7 +17,7 @@ import frc.robot.RobotContainer;
 public class ShootStupid extends SequentialCommandGroup {
     /** Creates a new ShootStupid. */
     public ShootStupid() {
-        //low goal shot speed: 18
+        // low goal shot speed: 18
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(

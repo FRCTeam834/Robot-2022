@@ -26,8 +26,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.util.sendable.SendableBuilder;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
@@ -36,28 +34,18 @@ import frc.robot.RobotContainer;
 public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
 
-
-
     // Create the modules
     public SwerveModule frontLeft;
+
     public SwerveModule frontRight;
     public SwerveModule backLeft;
     public SwerveModule backRight;
 
-
     // PID value storage, with default values from Parameters
-    public PIDController xMovePID =
-            new PIDController(
-                    0,
-                    0,
-                    0);
-    public PIDController yMovePID =
-            new PIDController(
-                    0,
-                    0,
-                    0);
+    public PIDController xMovePID = new PIDController(0, 0, 0);
+    public PIDController yMovePID = new PIDController(0, 0, 0);
     public ProfiledPIDController rotPID =
-    new ProfiledPIDController(2.8,0,0, new Constraints(Math.PI, Math.PI*2));
+            new ProfiledPIDController(2.8, 0, 0, new Constraints(Math.PI, Math.PI * 2));
 
     // Define module positions (relative to center of robot)
     public Translation2d FL_POS =
@@ -120,7 +108,6 @@ public class DriveTrain extends SubsystemBase {
         // Center the odometry of the robot
         resetOdometry(new Pose2d(0.0, 0.0, new Rotation2d()));
 
-
         // Load the offsets for the CANCoders
         loadEncoderOffsets();
     }
@@ -133,16 +120,23 @@ public class DriveTrain extends SubsystemBase {
      * @param rot Rotation velocity in rad/s
      * @param fieldRelative If true, robot will use field as X and Y reference, regardless of angle.
      *     If false, robot will move in respect to itself
-     * @param tipProtection Should the drivetrain try to automatically adjust itself to prevent tipping?
+     * @param tipProtection Should the drivetrain try to automatically adjust itself to prevent
+     *     tipping?
      */
-    public void drive(double xVelocity, double yVelocity, double rot, boolean fieldRelative, boolean tipProtection) {
+    public void drive(
+            double xVelocity,
+            double yVelocity,
+            double rot,
+            boolean fieldRelative,
+            boolean tipProtection) {
 
         // Declare a variable to store the chassis speeds
         ChassisSpeeds speeds;
 
         // Set up the modules
         if (fieldRelative) {
-            speeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+            speeds =
+                    ChassisSpeeds.fromFieldRelativeSpeeds(
                             xVelocity, yVelocity, rot, RobotContainer.navX.getRotation2d());
         } else {
             speeds = new ChassisSpeeds(xVelocity, yVelocity, rot);
@@ -152,8 +146,10 @@ public class DriveTrain extends SubsystemBase {
         // The chassis speeds are robot relative
         // Positive X is forward, positive Y is left
         if (tipProtection) {
-            double newXSpeed = adjustSpeedForAngle(RobotContainer.navX.getPitch(), speeds.vxMetersPerSecond);
-            double newYSpeed = adjustSpeedForAngle(RobotContainer.navX.getRoll(), speeds.vyMetersPerSecond);
+            double newXSpeed =
+                    adjustSpeedForAngle(RobotContainer.navX.getPitch(), speeds.vxMetersPerSecond);
+            double newYSpeed =
+                    adjustSpeedForAngle(RobotContainer.navX.getRoll(), speeds.vyMetersPerSecond);
             speeds = new ChassisSpeeds(newXSpeed, newYSpeed, speeds.omegaRadiansPerSecond);
         }
 
@@ -162,7 +158,8 @@ public class DriveTrain extends SubsystemBase {
     }
 
     /**
-     * Moves the entire drivetrain with the specified X and Y velocity with rotation (doesn't use tip protection)
+     * Moves the entire drivetrain with the specified X and Y velocity with rotation (doesn't use
+     * tip protection)
      *
      * @param xVelocity X velocity, in m/s
      * @param yVelocity Y velocity, in m/s
@@ -175,7 +172,9 @@ public class DriveTrain extends SubsystemBase {
     }
 
     /**
-     * Takes in an angle and raw speed value, and will adjust the speed to help prevent the robot from tipping
+     * Takes in an angle and raw speed value, and will adjust the speed to help prevent the robot
+     * from tipping
+     *
      * @param angle The angle of the robot, in that axis (deg)
      * @param rawValue The speed of the robot in that axis (m/s)
      * @return The adjusted speed (should help to prevent tipping)
@@ -188,25 +187,23 @@ public class DriveTrain extends SubsystemBase {
 
             // No need to correct, we're not having an issues right now
             return rawValue;
-        }
-        else if (Math.abs(angle) > Parameters.driver.tipProtection.MAX_TIP_ANGLE) {
+        } else if (Math.abs(angle) > Parameters.driver.tipProtection.MAX_TIP_ANGLE) {
 
             // ! POOP HAS HIT THE FAN... EVASIVE MANUEVERS ACTIVATE!
             return Math.signum(angle) * Parameters.driver.tipProtection.MAX_CORRECTION_SPEED;
-        }
-        else {
+        } else {
             // The angle must be between the min and maximum tip angle
             // Use a fancy ratio for the percentage of correction
             // So basically, if we're 80% to the max tip angle, when we'd
             // need to use .2 * the raw value and .8 times the correction speed
-            return Math.signum(angle) *
-                ((Math.abs(angle) - Parameters.driver.tipProtection.MIN_TIP_ANGLE)/
-                    (Parameters.driver.tipProtection.CROSSOVER_RANGE) * Parameters.driver.tipProtection.MAX_CORRECTION_SPEED
-                     +
-                (Parameters.driver.tipProtection.MAX_TIP_ANGLE - Math.abs(angle))/
-                    (Parameters.driver.tipProtection.CROSSOVER_RANGE) * rawValue);
+            return Math.signum(angle)
+                    * ((Math.abs(angle) - Parameters.driver.tipProtection.MIN_TIP_ANGLE)
+                                    / (Parameters.driver.tipProtection.CROSSOVER_RANGE)
+                                    * Parameters.driver.tipProtection.MAX_CORRECTION_SPEED
+                            + (Parameters.driver.tipProtection.MAX_TIP_ANGLE - Math.abs(angle))
+                                    / (Parameters.driver.tipProtection.CROSSOVER_RANGE)
+                                    * rawValue);
         }
-
     }
 
     /**
@@ -377,7 +374,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
-                // normalizeDrive(swerveModuleStates, chassisSpeeds);
+        // normalizeDrive(swerveModuleStates, chassisSpeeds);
         // Scale the velocities of the swerve modules so that none exceed the maximum
         SwerveDriveKinematics.desaturateWheelSpeeds(
                 desiredStates, Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY);
@@ -455,13 +452,23 @@ public class DriveTrain extends SubsystemBase {
     public double getEstYPos() {
         return swerveDriveOdometry.getPoseMeters().getY();
     }
+
     public void resetAllPIDControllers() {
         xMovePID.reset();
         yMovePID.reset();
         rotPID.reset(0);
     }
+
     public PPSwerveControllerCommand getPPSwerveContollerCommand(PathPlannerTrajectory path) {
-        return new PPSwerveControllerCommand(path, this::getEstPose2D, kinematics, xMovePID, yMovePID, rotPID, this::setModuleStates, RobotContainer.driveTrain);
+        return new PPSwerveControllerCommand(
+                path,
+                this::getEstPose2D,
+                kinematics,
+                xMovePID,
+                yMovePID,
+                rotPID,
+                this::setModuleStates,
+                RobotContainer.driveTrain);
     }
 
     /**

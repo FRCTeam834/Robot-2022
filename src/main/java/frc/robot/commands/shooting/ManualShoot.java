@@ -24,7 +24,7 @@ public class ManualShoot extends CommandBase {
     @Override
     public void execute() {
         RobotContainer.shooter.setDesiredPID(
-                (RobotContainer.leftJoystick.getRawAxis(2)+1)/2 * Parameters.shooter.MAX_SPEED);
+                (RobotContainer.leftJoystick.getRawAxis(2) + 1) / 2 * Parameters.shooter.MAX_SPEED);
         ;
     }
 

@@ -6,6 +6,7 @@ package frc.robot.commands.indexing;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.RobotContainer;
 
 public class WaitForShooter extends CommandBase {
@@ -29,7 +30,7 @@ public class WaitForShooter extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(RobotContainer.shooter.readyToShoot()) {
+        if (RobotContainer.shooter.readyToShoot()) {
             RobotContainer.indexer.set(.5);
             timer.start();
         }

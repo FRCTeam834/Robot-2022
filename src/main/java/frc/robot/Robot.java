@@ -12,11 +12,9 @@
  */
 package frc.robot;
 
-import java.lang.reflect.Field;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DataLogManager;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
@@ -27,11 +25,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.PerpetualCommand;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
-import frc.robot.Parameters.driveTrain;
+
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.indexing.ColorSensorIndexing;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
 /**
@@ -48,9 +43,6 @@ public class Robot extends TimedRobot {
     private boolean readyToShoot;
     public Field2d field = new Field2d();
 
-    
-
-
     /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
     Robot() {
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
@@ -62,7 +54,7 @@ public class Robot extends TimedRobot {
 
         // Reset the angle of the NavX
         RobotContainer.navX.resetYaw();
-        //RobotContainer.navX.resetPitch();
+        // RobotContainer.navX.resetPitch();
     }
 
     /**
@@ -92,7 +84,6 @@ public class Robot extends TimedRobot {
 
         field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
         DriverStation.silenceJoystickConnectionWarning(true);
-       
 
         // Check the state of the functions on the robot
         readyToShoot = RobotContainer.shooter.readyToShoot();
@@ -111,7 +102,6 @@ public class Robot extends TimedRobot {
 
         // Set the new color of the LEDs
         RobotContainer.led.set(RobotContainer.lightColor);
-
 
         CommandScheduler.getInstance().run();
     }
@@ -157,7 +147,7 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
         CommandScheduler.getInstance().schedule(new HomeClimberTubes(), new HomeHood());
-        //new ScheduleCommand(new PerpetualCommand(new ColorSensorIndexing()));
+        // new ScheduleCommand(new PerpetualCommand(new ColorSensorIndexing()));
 
         // Stop all of the motors on the robot
         RobotContainer.indexer.stop();
@@ -169,7 +159,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        //System.out.println(RobotContainer.navX.getYaw());
+        // System.out.println(RobotContainer.navX.getYaw());
     }
 
     @Override

@@ -12,8 +12,8 @@ public class MovingAverage {
     ArrayList<Double> dataPts = new ArrayList<Double>();
 
     /**
-    * @param dataPtCount The number of data points to consider
-    */
+     * @param dataPtCount The number of data points to consider
+     */
     MovingAverage(int dataPtCount) {
         this.dataPtCount = dataPtCount;
     }
@@ -30,7 +30,7 @@ public class MovingAverage {
         if (dataPts.size() > dataPtCount) {
             sum -= dataPts.remove(0);
         }
-        
+
         // Return the average
         return getAverage();
     }
@@ -42,8 +42,7 @@ public class MovingAverage {
 
         if (size > 0) {
             return (sum / size);
-        }
-        else {
+        } else {
             return 0;
         }
     }
@@ -52,5 +51,4 @@ public class MovingAverage {
         dataPts.clear();
         sum = 0;
     }
-    
 }

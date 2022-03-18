@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.utilityClasses.MovingAverage;
 import frc.robot.Parameters;
+import frc.robot.utilityClasses.MovingAverage;
 
 public class Indexer extends SubsystemBase {
 

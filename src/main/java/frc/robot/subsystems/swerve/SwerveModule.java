@@ -116,7 +116,8 @@ public class SwerveModule extends SubsystemBase {
         // Set the angular velocity and acceleration values (if smart motion is being used)
         if (pid.steer.CONTROL_TYPE.equals(ControlType.kSmartMotion)) {
             steerMotorPID.setSmartMotionMaxAccel(Parameters.driveTrain.maximums.MAX_STEER_ACCEL);
-            steerMotorPID.setSmartMotionMaxVelocity(Parameters.driveTrain.maximums.MAX_STEER_VELOCITY);
+            steerMotorPID.setSmartMotionMaxVelocity(
+                    Parameters.driveTrain.maximums.MAX_STEER_VELOCITY);
             steerMotorPID.setSmartMotionAccelStrategy(AccelStrategy.kTrapezoidal);
         }
 
@@ -148,7 +149,8 @@ public class SwerveModule extends SubsystemBase {
         // Drive motor PID controller (from motor)
         // Note that we use a "cached" controller.
         // This version of the PID controller checks if the desired setpoint is already set.
-        // This reduces the load on the CAN bus, as we only have to send a set amount across at once.
+        // This reduces the load on the CAN bus, as we only have to send a set amount across at
+        // once.
         driveMotorPID = new CachedPIDController(driveMotor);
         driveMotorPID.setP(pid.drive.kP.get());
         driveMotorPID.setD(pid.drive.kD.get());
@@ -300,9 +302,7 @@ public class SwerveModule extends SubsystemBase {
         }
     }
 
-    /**
-     * Inverts the direction of the drive motor
-     */
+    /** Inverts the direction of the drive motor */
     private void invertDriveMotor() {
         isDriveReversed = !isDriveReversed;
         driveMotor.setInverted(isDriveReversed);
@@ -454,11 +454,12 @@ public class SwerveModule extends SubsystemBase {
     }
 
     /**
-     * Gets the angle of the swerve module from the CANCoder, then sets that the steer motor is at that point
+     * Gets the angle of the swerve module from the CANCoder, then sets that the steer motor is at
+     * that point
      */
     public void reloadSteerAngle() {
         steerMotorEncoder.setPosition(getAngle());
-        //driveMotor.setInverted(isReversed);
+        // driveMotor.setInverted(isReversed);
     }
 
     // Stop both of the motors
