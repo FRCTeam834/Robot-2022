@@ -13,7 +13,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
-import frc.robot.Parameters.driveTrain.pid;
 import frc.robot.RobotContainer;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -39,23 +38,25 @@ public class TurnToAngleVision extends CommandBase {
     public void execute() {
         PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
 
-        
+        double rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
+        double rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
+
         if (latestResult == null) {
             omega = 0;
-        }
-        else {
+        } else {
             omega =
-                MathUtil.clamp(
-                        Math.toRadians(
-                            rotationalPID.calculate(RobotContainer.vision.getBestTarget().getYaw(), 0)),
-                        -1,
-                        1);
+                    MathUtil.clamp(
+                            Math.toRadians(
+                                    rotationalPID.calculate(
+                                            latestResult.getYaw(), Parameters.vision.YAW_OFFSET)),
+                            -1,
+                            1);
         }
 
         RobotContainer.driveTrain.drive(
-                0 /*RobotContainer.getJoystickValues()[3] * Parameters.driveTrain.maximums.MAX_VELOCITY*/,
-                0 /*RobotContainer.getJoystickValues()[2] * Parameters.driveTrain.maximums.MAX_VELOCITY*/,
-                -omega,
+                (-rightY * Parameters.driver.maxModVelocity),
+                (-rightX * Parameters.driver.maxModVelocity),
+                omega,
                 false);
     }
 

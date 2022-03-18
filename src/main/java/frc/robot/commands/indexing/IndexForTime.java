@@ -7,13 +7,14 @@ package frc.robot.commands.indexing;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class IndexForTime extends CommandBase {
     /** Creates a new IndexStupi. */
     Timer timer = new Timer();
+
     double time = 0;
+
     public IndexForTime(double time) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.indexer);

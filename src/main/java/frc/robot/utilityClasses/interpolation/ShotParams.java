@@ -32,8 +32,8 @@ public class ShotParams {
 
     public ShotParams interpolate(ShotParams end, double t) {
         return new ShotParams(
-                linearInterpolation(this.angle, end.angle, t),
-                (linearInterpolation(this.speed, end.speed, t)));
+                linearInterpolation(this.speed, end.speed, t),
+                (linearInterpolation(this.angle, end.angle, t)));
     }
 
     // Returns the shot angle (deg)

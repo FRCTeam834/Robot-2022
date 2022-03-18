@@ -104,9 +104,7 @@ public class TelescopingTube extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
-
-    }
+    public void periodic() {}
 
     public void set(double percent) {
         spoolMotor.set(percent);
@@ -139,8 +137,7 @@ public class TelescopingTube extends SubsystemBase {
         // if not home, home
         if (!homed) {
             CommandScheduler.getInstance().schedule(new HomeClimberTubes());
-        }
-        else if(homed) {
+        } else if (homed) {
             pidController.setReference(dist, controlType);
         }
 

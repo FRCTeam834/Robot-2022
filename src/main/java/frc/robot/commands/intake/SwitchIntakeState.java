@@ -29,14 +29,14 @@ public class SwitchIntakeState extends InstantCommand {
             RobotContainer.intakeWinch.setDesiredDistance(Parameters.intake.spool.UP_DISTANCE);
 
             // Also shut off the intake
-            //RobotContainer.intake.stop();
+            // RobotContainer.intake.stop();
         } else {
             // We must be in the up position or another floating state
             // Intake needs to be put down
             RobotContainer.intakeWinch.setDesiredDistance(Parameters.intake.spool.DOWN_DISTANCE);
 
             // Also shut off the intake
-            //RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
+            // RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
         }
     }
 }

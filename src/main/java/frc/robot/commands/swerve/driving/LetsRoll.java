@@ -49,7 +49,7 @@ public class LetsRoll extends CommandBase {
             RobotContainer.driveTrain.drive(
                     (-rightY * Parameters.driver.maxModVelocity),
                     (-rightX * Parameters.driver.maxModVelocity),
-                    Math.toRadians(leftX * RobotContainer.turnRate),
+                    Math.toRadians(-leftX * RobotContainer.turnRate),
                     Parameters.driver.fieldCentric,
                     Parameters.driver.tipProtection.USING_TIP_PROTECTION);
         } else if (Parameters.driver.lockemUp) {

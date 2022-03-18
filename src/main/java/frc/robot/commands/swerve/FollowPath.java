@@ -7,7 +7,7 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -18,7 +18,7 @@ import frc.robot.RobotContainer;
 @SuppressWarnings("MemberName")
 public class FollowPath extends CommandBase {
     private final Timer m_timer = new Timer();
-    private final PathPlannerTrajectory m_trajectory;
+    private final Trajectory m_trajectory;
     private final HolonomicDriveController m_controller;
 
     /**
@@ -65,19 +65,21 @@ public class FollowPath extends CommandBase {
         // Look up where we need to be
         PathPlannerState desiredState = (PathPlannerState) m_trajectory.sample(curTime);
 
-        // Calculate the required speeds to get there
-        ChassisSpeeds targetChassisSpeeds =
+        var targetChassisSpeeds =
                 m_controller.calculate(
-                        RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
+                        RobotContainer.driveTrain.getEstPose2D(),
+                        desiredState,
+                        desiredState.holonomicRotation);
 
-        // Set the modules to carry out those commands
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
     }
 
     public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {
 
         // Calculate the first pose of the trajectory
-        return trajectory.sample(0).poseMeters;
+        return new Pose2d(
+                trajectory.getInitialState().poseMeters.getTranslation(),
+                trajectory.getInitialState().holonomicRotation);
     }
 
     @Override

@@ -7,8 +7,10 @@ package frc.robot.commands.autons;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.FollowPath;
 
@@ -16,19 +18,23 @@ import frc.robot.commands.swerve.FollowPath;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class PathPlannerTesting extends SequentialCommandGroup {
-  /** Creates a new PathPlannerTesting. */
-  public PathPlannerTesting() {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    PathPlannerTrajectory examplePath = PathPlanner.loadPath("SparTechs Path", 8, 5);
-    addCommands(
-        new InstantCommand(RobotContainer.driveTrain::haltAllModules),
-        new InstantCommand(
-                () ->
-                        RobotContainer.driveTrain.resetOdometry(
-                                examplePath.getInitialPose())),
-        new FollowPath(examplePath),
-        new InstantCommand(RobotContainer.driveTrain::lockemUp)
-    );
-  }
+
+    public PathPlannerTesting() {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
+        PathPlannerTrajectory examplePath = PathPlanner.loadPath("Straight Test", 8, 5);
+        addCommands(
+                new InstantCommand(RobotContainer.driveTrain::haltAllModules),
+                new InstantCommand(
+                        () ->
+                                RobotContainer.driveTrain.resetOdometry(
+                                        new Pose2d(
+                                                examplePath
+                                                        .getInitialState()
+                                                        .poseMeters
+                                                        .getTranslation(),
+                                                examplePath.getInitialState().holonomicRotation))),
+                new FollowPath(examplePath),
+                new InstantCommand(RobotContainer.driveTrain::haltAllModules));
+    }
 }

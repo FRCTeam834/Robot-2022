@@ -15,10 +15,7 @@ public class StopEverything extends CommandBase {
 
     public StopEverything() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(
-                RobotContainer.shooter,
-                RobotContainer.indexer,
-                RobotContainer.hood);
+        addRequirements(RobotContainer.shooter, RobotContainer.indexer, RobotContainer.hood);
     }
 
     // Called when the command is initially scheduled.

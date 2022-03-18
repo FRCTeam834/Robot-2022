@@ -5,9 +5,8 @@
 package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Parameters;
+
 import frc.robot.RobotContainer;
-import frc.robot.Parameters.shooter;
 
 public class AutonShot extends CommandBase {
     /** Creates a new FenderShot. */
@@ -29,8 +28,7 @@ public class AutonShot extends CommandBase {
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-    }
+    public void end(boolean interrupted) {}
 
     // Returns true when the command should end.
     @Override

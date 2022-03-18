@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -43,6 +44,7 @@ public class Vision extends SubsystemBase {
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
     private static boolean LEDsOn = false;
+    private static boolean LEDsOn;
 
     public Vision() {
 
@@ -212,22 +214,32 @@ public class Vision extends SubsystemBase {
         return getDistanceToGoal(getBestTarget());
     }
 
+    public double getDistanceToGoalInches() {
+        return Units.metersToInches(getDistanceToGoal());
+    }
+
     public double getYaw() {
-        if (camera.getLatestResult().hasTargets()) return getBestTarget().getYaw();
+        // Get the best target
+        PhotonTrackedTarget bestTarget = getBestTarget();
+        if (bestTarget != null) return bestTarget.getYaw();
         else return 0;
     }
 
     @Override
-    public void periodic() {}
+    public void periodic() {
+        // camera.setVersionCheckEnabled(false);
+    }
 
     @Override
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {
-            //builder.addDoubleProperty("Yaw", () -> getYaw(), null);
-            //builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()), null);
+            // builder.addDoubleProperty("Yaw", () -> getYaw(), null);
+            // builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()),
+            // null);
             builder.addBooleanProperty(
                     "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);
+            builder.addDoubleProperty("distance_inches", this::getDistanceToGoalInches, null);
         }
     }
 }

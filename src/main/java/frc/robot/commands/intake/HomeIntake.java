@@ -4,8 +4,6 @@
 
 package frc.robot.commands.intake;
 
-import com.fasterxml.jackson.databind.deser.impl.CreatorCandidate.Param;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
@@ -14,6 +12,7 @@ import frc.robot.RobotContainer;
 public class HomeIntake extends CommandBase {
     // Creates a new HomeIntake.
     boolean moveUp = false;
+
     public HomeIntake() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.intakeWinch);
@@ -25,8 +24,7 @@ public class HomeIntake extends CommandBase {
         RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.spool.HOME_CURRENT);
         if (!RobotContainer.intakeWinch.getLSValue()) {
             RobotContainer.intakeWinch.set(Parameters.intake.spool.HOME_SPEED);
-        }   
-        else {
+        } else {
             moveUp = true;
             RobotContainer.intakeWinch.set(-Parameters.intake.spool.HOME_SPEED);
         }
@@ -35,8 +33,8 @@ public class HomeIntake extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if(moveUp) {
-            if(!RobotContainer.intakeWinch.getLSValue()) {
+        if (moveUp) {
+            if (!RobotContainer.intakeWinch.getLSValue()) {
                 RobotContainer.intakeWinch.set(Parameters.intake.spool.HOME_SPEED);
                 moveUp = false;
             }

@@ -6,7 +6,6 @@ package frc.robot.utilityClasses.interpolation;
 
 import static java.util.Map.entry;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -14,7 +13,7 @@ import java.util.function.BiConsumer;
 
 /** Add your docs here. */
 public class InterpolatingTable {
-    
+
     private static TreeMap<Double, ShotParams> table;
     private BiConsumer<Double, ShotParams> printEntry =
             (x, y) ->
@@ -27,15 +26,14 @@ public class InterpolatingTable {
         table =
                 new TreeMap<>(
                         Map.ofEntries(
-                                entry(0.0, new ShotParams(0, 0)),
-                                entry(1.32, new ShotParams(18.39, 70.16)),
-                                entry(1.75, new ShotParams(21.39, 71.1)),
-                                entry(2.413, new ShotParams(21.95, 63.211)),
-                                entry(3.35, new ShotParams(22.19, 59.44)),
-                                entry(3.749, new ShotParams(22.49,57.44)),
-                                entry(4.31, new ShotParams(22.76,55.19)),
-                                entry(4.89, new ShotParams(23.59,55.079))));
-
+                                entry(0.0, new ShotParams(19.49, 76.76)),
+                                entry(0.343, new ShotParams(19.79, 64.97)),
+                                entry(.592485, new ShotParams(21.16, 62.22)),
+                                entry(.768, new ShotParams(21.35, 62.5)),
+                                entry(.957, new ShotParams(21.62, 61.56)),
+                                entry(1.330958, new ShotParams(23.102, 59.086)),
+                                entry(1.465, new ShotParams(24.12, 54.081)),
+                                entry(1.87, new ShotParams(27.29, 49.5))));
     }
 
     public ShotParams getShotParam(double distance) {

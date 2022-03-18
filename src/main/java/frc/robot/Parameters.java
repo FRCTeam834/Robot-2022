@@ -16,7 +16,6 @@ package frc.robot;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -118,6 +117,12 @@ public final class Parameters {
             // The angle (deg) of when the drive base will be completely taken over
             // Correction is scaled between the min and max angles
             public static final double MAX_TIP_ANGLE = 45;
+
+            // The angle range (deg) of the crossover
+            // This is literally just the difference between the min and max angles
+            // This doesn't seem that complicated, but it helps to simplify the
+            // tip algorithm
+            public static final double CROSSOVER_RANGE = MAX_TIP_ANGLE - MIN_TIP_ANGLE;
 
             // The maximum speed for the drivetrain to correct by
             public static final double MAX_CORRECTION_SPEED = 3;
@@ -339,7 +344,9 @@ public final class Parameters {
             public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(17.375);
             public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(16.95);
 
-            public static final double DOWN_DISTANCE = Units.inchesToMeters(5); // The distance of the climber when the robot is fully off the
+            public static final double DOWN_DISTANCE =
+                    Units.inchesToMeters(
+                            5); // The distance of the climber when the robot is fully off the
             // ground
 
             // Homing info
@@ -369,7 +376,8 @@ public final class Parameters {
 
             // Homing info
             public static final double HOME_SPEED = 0.5;
-            public static final double HOME_DISTANCE = Units.inchesToMeters(13.5); // The distance at home
+            public static final double HOME_DISTANCE =
+                    Units.inchesToMeters(13.5); // The distance at home
             public static final int HOME_CURRENT = 2;
 
             // Basic info
@@ -380,9 +388,11 @@ public final class Parameters {
                             * Units.inchesToMeters(
                                     1)); // Diameter is 1 inch, circumfrence is in meters
             public static final double UP_DISTANCE =
-                    Units.inchesToMeters(6.5); // The distance of the string from the spool in the up position
+                    Units.inchesToMeters(
+                            6.5); // The distance of the string from the spool in the up position
             public static final double DOWN_DISTANCE =
-                    Units.inchesToMeters(14); // The distance of the string from the spool in the down position
+                    Units.inchesToMeters(
+                            14); // The distance of the string from the spool in the down position
             public static final double MAX_MOTOR_DUTY =
                     .35; // The maximum output of the motor when moving
 
@@ -436,7 +446,7 @@ public final class Parameters {
         public static final int LS_PORT = 0;
 
         // Current limit
-        public static final int CURRENT_LIMIT = 1;
+        public static final int CURRENT_LIMIT = 10;
         public static final int HOME_CURRENT = 1;
 
         // Homing info
@@ -468,6 +478,7 @@ public final class Parameters {
     }
 
     public static final class indexer {
+        public static final int MOVING_AVG_PTS = 100;
         public static final int PROXIMITY_THRESHOLD = 200;
         public static final int ID = 14;
         public static final double MOTOR_SPEED = 0.15; // Duty
