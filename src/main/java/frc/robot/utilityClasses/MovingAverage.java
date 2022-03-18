@@ -1,3 +1,6 @@
+package frc.robot.utilityClasses;
+
+// Imports
 import java.util.ArrayList;
 
 public class MovingAverage {
