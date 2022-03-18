@@ -6,8 +6,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -188,13 +186,13 @@ public class Vision extends SubsystemBase {
         // Camera relative displacement
         double sx = heading[0];
         double sy = heading[1];
-        
+
         double globalsx = sx * Math.cos(facing) - sy * Math.sin(facing);
         double globalsy = sy * Math.cos(facing) + sx * Math.sin(facing);
 
         double camerax = Parameters.vision.GOAL_X - globalsx;
         double cameray = Parameters.vision.GOAL_Y - globalsy;
-        
+
         return new Pose2d(camerax, cameray, new Rotation2d(facing));
     }
 

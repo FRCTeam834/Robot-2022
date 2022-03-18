@@ -1,8 +1,8 @@
 package frc.robot.utilityClasses;
 
-import org.ejml.simple.SimpleMatrix;
-
 import frc.robot.Parameters;
+
+import org.ejml.simple.SimpleMatrix;
 
 import java.util.List;
 
@@ -82,7 +82,8 @@ public class CircleFitter {
         ret[2] = Math.sqrt(4 * C + A * A + B * B) / 2.0;
 
         // Radius tolerance
-        if (Math.abs(ret[2] - Parameters.vision.GOAL_TAPE_RADIUS) < Parameters.vision.CIRCLE_FIT_TOLERANCE) return null;
+        if (Math.abs(ret[2] - Parameters.vision.GOAL_TAPE_RADIUS)
+                < Parameters.vision.CIRCLE_FIT_TOLERANCE) return null;
 
         return ret;
     }
