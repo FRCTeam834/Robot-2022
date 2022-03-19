@@ -25,8 +25,7 @@ public class ColorSensorIntaking extends CommandBase {
     public void execute() {
         if (!RobotContainer.indexer.hasBall()) {
             RobotContainer.indexer.set(0.1);
-        }
-        else {
+        } else {
             RobotContainer.indexer.stop();
         }
     }

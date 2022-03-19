@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.intake.ColorSensorIntaking;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
 /**
