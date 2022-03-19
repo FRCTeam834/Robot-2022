@@ -358,7 +358,7 @@ public class RobotContainer {
         //    CommandScheduler.getInstance().schedule(false, homeHood);
         // }
         if (!intakeWinch.isHomed()) {
-            CommandScheduler.getInstance().schedule(false, homeIntake);
+            //CommandScheduler.getInstance().schedule(false, homeIntake);
         }
         // if (!climber.areTubesHomed()) {
         // CommandScheduler.getInstance().schedule(false, homeClimberTubes);

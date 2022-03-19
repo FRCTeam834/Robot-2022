@@ -366,6 +366,9 @@ public final class Parameters {
         public static final double INTAKE_SPEED = .8;
         public static final int INTAKE_MOTOR_ID = 16;
         public static final int INTAKE_MOTOR_CURRENT_LIMIT = 40;
+        public static final double FRONT_WHEEL_DIA = 2;
+        public static final double UPPER_WHEEL_DIA = 3;
+        public static final double FRONT_WHEEL_DIA_M = Units.inchesToMeters(FRONT_WHEEL_DIA);
 
         public static final class spool {
             // Ports

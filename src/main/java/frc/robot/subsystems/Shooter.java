@@ -48,13 +48,13 @@ public class Shooter extends SubsystemBase {
         shooterMotor = new CANSparkMax(Parameters.shooter.ID, MotorType.kBrushless);
 
         // Configure the motor's settings
-        // ! MOTOR MUST BE ON COAST FOR BANG-BANG
         shooterMotor.restoreFactoryDefaults();
         shooterMotor.setIdleMode(IdleMode.kCoast);
         shooterMotor.setInverted(false);
         shooterMotor.setSmartCurrentLimit(Parameters.shooter.CURRENT_LIMIT);
 
         shooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000);
+
         // Get the encoder of the shooter motor
         shooterMotorEncoder = shooterMotor.getEncoder();
 
@@ -91,7 +91,6 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setDesiredPID(double setpoint) {
-
         setVelocity = setpoint;
         usingPID = true;
     }
