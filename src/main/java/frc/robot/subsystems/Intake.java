@@ -30,7 +30,7 @@ public class Intake extends SubsystemBase {
     PIDController intakeMotorPID;
 
     // The feed forward of the motor (helps to correct for friction and other forces)
-    SimpleMotorFeedforward intakeMotorFF = new SimpleMotorFeedforward(0.12608, 0.344, 0.032386);
+    SimpleMotorFeedforward intakeMotorFF = new SimpleMotorFeedforward(0.3312, 0.82218, 0.0292);
 
     // Store if we're using PID
     boolean usingPID = false;

@@ -14,6 +14,8 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
@@ -153,12 +155,19 @@ public class Robot extends TimedRobot {
         RobotContainer.intake.stop();
         RobotContainer.shooter.stop();
         RobotContainer.hood.stop();
+        RobotContainer.driveTrain.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d()));
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
         // System.out.println(RobotContainer.navX.getYaw());
+        field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
+        //System.out.println("FL: " + RobotContainer.driveTrain.frontLeft.getState().toString());
+        //System.out.println("FR: " + RobotContainer.driveTrain.frontRight.getState().toString());
+        //System.out.println("BL: " + RobotContainer.driveTrain.backLeft.getState().toString());
+        //System.out.println("BR: " + RobotContainer.driveTrain.backRight.getState().toString());
+
     }
 
     @Override

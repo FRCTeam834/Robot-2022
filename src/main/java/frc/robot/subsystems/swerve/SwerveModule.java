@@ -102,7 +102,7 @@ public class SwerveModule extends SubsystemBase {
                 360.0 / Parameters.driveTrain.ratios.STEER_GEAR_RATIO);
         steerMotorEncoder.setVelocityConversionFactor(
                 360.0 / (Parameters.driveTrain.ratios.STEER_GEAR_RATIO * 60));
-        steerMotorEncoder.setPosition(getAngle());
+        steerMotorEncoder.setPosition(getTrueAngle());
 
         // Steering PID controller (from motor)
         // Note that we use a "cached" controller.
@@ -316,7 +316,7 @@ public class SwerveModule extends SubsystemBase {
     public boolean isAtDesiredAngle(double desiredAngle) {
 
         // Get the current angle of the module
-        double currentAngle = getAngle();
+        double currentAngle = getAdjAngle();
 
         // Return if the module has reached the desired angle
         return (currentAngle < (desiredAngle + Parameters.driveTrain.angleTolerance)
@@ -389,12 +389,17 @@ public class SwerveModule extends SubsystemBase {
 
     // Gets the state of the module
     public SwerveModuleState getState() {
-        return new SwerveModuleState(getVelocity(), Rotation2d.fromDegrees(getAngle()));
+        return new SwerveModuleState(getVelocity(), Rotation2d.fromDegrees(getAdjAngle()));
     }
 
     // Gets the position of the encoder (in deg)
-    public double getAngle() {
+    public double getTrueAngle() {
         return steerCANCoder.getAbsolutePosition();
+    }
+
+    // Gets the position of the encoder (flipped with the drive motor to account for angle optimizations)
+    public double getAdjAngle() {
+        return (steerCANCoder.getAbsolutePosition() - angularOffset);
     }
 
     // Gets the adjusted steer motor's angle
@@ -416,7 +421,7 @@ public class SwerveModule extends SubsystemBase {
     public void setEncoderOffset(double correctPosition) {
 
         // Set the CANCoder offset variable
-        cancoderOffset = correctPosition - (getAngle() - steerCANCoder.configGetMagnetOffset());
+        cancoderOffset = correctPosition - (getTrueAngle() - steerCANCoder.configGetMagnetOffset());
 
         // Set the offset on the encoder
         steerCANCoder.configMagnetOffset(cancoderOffset);
@@ -458,7 +463,7 @@ public class SwerveModule extends SubsystemBase {
      * that point
      */
     public void reloadSteerAngle() {
-        steerMotorEncoder.setPosition(getAngle());
+        steerMotorEncoder.setPosition(getTrueAngle());
         // driveMotor.setInverted(isReversed);
     }
 
@@ -477,7 +482,7 @@ public class SwerveModule extends SubsystemBase {
                         "%s | TAR_A: %.2f | ACT_A: %.2f | ADJ_A: %.2f | MOT_A: %.2f | OFF: %.2f",
                         name,
                         targetAngle,
-                        getAngle(),
+                        getAdjAngle(),
                         getAdjSteerMotorAng(),
                         getActSteerMotorAngle(),
                         angularOffset));

@@ -34,11 +34,11 @@ public class FollowPath extends CommandBase {
     @SuppressWarnings("ParameterName")
     public FollowPath(PathPlannerTrajectory trajectory) {
         m_trajectory = trajectory;
-        PIDController xPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
-        PIDController yPID = new PIDController(Parameters.driveTrain.pid.LINEAR_MOVE_P.get(), 0, 0);
+        PIDController xPID = new PIDController(0, 0, 0);
+        PIDController yPID = new PIDController(0, 0, 0);
         ProfiledPIDController rotPID =
                 new ProfiledPIDController(
-                        Parameters.driveTrain.pid.ROT_MOVE_P.get(),
+                        0,
                         0,
                         0,
                         new Constraints(Math.PI, Math.PI * Math.PI));

@@ -262,8 +262,8 @@ public final class Parameters {
 
     public static final class climber {
 
-        public static final int TUBE_CURRENT_LIMIT = 80;
-        public static final int TUBE_HOME_CURRENT = 3;
+        public static final int TUBE_CURRENT_LIMIT = 60;
+        public static final int TUBE_HOME_CURRENT = 5;
 
         public static final class lift {
 
@@ -531,7 +531,7 @@ public final class Parameters {
         public static final double CAMERA_PITCH = 55;
 
         // The yaw offset when straight
-        public static final double YAW_OFFSET = 15;
+        public static final double YAW_OFFSET = 9;
 
         // The height of the goal (m)
         public static final double GOAL_HEIGHT = Units.feetToMeters(8) + Units.inchesToMeters(8);
