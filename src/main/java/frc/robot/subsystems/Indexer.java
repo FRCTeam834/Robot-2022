@@ -106,7 +106,7 @@ public class Indexer extends SubsystemBase {
 
         Color ballColor = colorSensor.getColor();
 
-        if ((ballColor.red > ballColor.blue) && hasBall() ) {
+        if ((ballColor.red > ballColor.blue) && hasBall()) {
             return "Red";
         } else if ((ballColor.blue > ballColor.red) && hasBall()) {
             return "Blue";
@@ -119,13 +119,14 @@ public class Indexer extends SubsystemBase {
     public int getBallCount() {
         return ballCount;
     }
+
     public double getRedColor() {
         return colorSensor.getRed();
     }
+
     public double getBlueColor() {
         return colorSensor.getBlue();
     }
-    
 
     @Override
     public void initSendable(SendableBuilder builder) {

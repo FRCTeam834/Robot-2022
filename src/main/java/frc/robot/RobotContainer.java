@@ -270,11 +270,17 @@ public class RobotContainer {
                 .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
         // new POVButton(xbox, 180).whileHeld(new EmptyEverything());
         // 87.6 20.4
-        new JoystickButton(xbox, Button.kY.value).whileHeld(new ColorSensorIntaking()/*new StartEndCommand(() -> intake.set(.635), intake::stop, intake)*/);
-        new JoystickButton(xbox, Button.kB.value).whileHeld(new InstantCommand((() -> shooter.setDesiredPID(15))));
-        new JoystickButton(xbox, Button.kX.value).whenPressed(new InstantCommand(() -> shooter.stop()));
-        new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1));
-        new JoystickButton(xbox, Button.kLeftBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()+1));
+        new JoystickButton(xbox, Button.kY.value)
+                .whileHeld(
+                        new ColorSensorIntaking() /*new StartEndCommand(() -> intake.set(.635), intake::stop, intake)*/);
+        new JoystickButton(xbox, Button.kB.value)
+                .whileHeld(new InstantCommand((() -> shooter.setDesiredPID(15))));
+        new JoystickButton(xbox, Button.kX.value)
+                .whenPressed(new InstantCommand(() -> shooter.stop()));
+        new JoystickButton(xbox, Button.kRightBumper.value)
+                .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 1));
+        new JoystickButton(xbox, Button.kLeftBumper.value)
+                .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() + 0.25));
         new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
         // new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() ->
