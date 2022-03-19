@@ -7,9 +7,7 @@ import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.Trajectory.State;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -68,18 +66,21 @@ public class FollowPath extends CommandBase {
         PathPlannerState desiredState = (PathPlannerState) m_trajectory.sample(curTime);
 
         var targetChassisSpeeds =
-        m_controller.calculate(
-                RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
+                m_controller.calculate(
+                        RobotContainer.driveTrain.getEstPose2D(),
+                        desiredState,
+                        desiredState.holonomicRotation);
 
         System.out.println(desiredState.velocityMetersPerSecond);
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
-        
     }
 
     public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {
 
         // Calculate the first pose of the trajectory
-        return new Pose2d(trajectory.getInitialState().poseMeters.getTranslation(), trajectory.getInitialState().holonomicRotation);
+        return new Pose2d(
+                trajectory.getInitialState().poseMeters.getTranslation(),
+                trajectory.getInitialState().holonomicRotation);
     }
 
     @Override

@@ -5,33 +5,35 @@
 package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.RobotContainer;
 
 public class IncrementShooterSetpoint extends CommandBase {
-  /** Creates a new IncrementShooterSetpoint. */
-  double increment;
-  public IncrementShooterSetpoint(double increment) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.increment = increment;
-  }
+    /** Creates a new IncrementShooterSetpoint. */
+    double increment;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-      RobotContainer.shooter.setDesiredPID(RobotContainer.shooter.getSpeed() + increment);
-  }
+    public IncrementShooterSetpoint(double increment) {
+        // Use addRequirements() here to declare subsystem dependencies.
+        this.increment = increment;
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        RobotContainer.shooter.setDesiredPID(RobotContainer.shooter.getSpeed() + increment);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {}
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

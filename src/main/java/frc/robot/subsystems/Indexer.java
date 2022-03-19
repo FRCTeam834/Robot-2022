@@ -1,7 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-// You thought this was part of this top cluster of comments, but it was me, DIO!
 
 package frc.robot.subsystems;
 
@@ -9,12 +8,10 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.ColorMatch;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
-import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -22,6 +19,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.utilityClasses.MovingAverage;
 
 public class Indexer extends SubsystemBase {
 
@@ -35,8 +33,8 @@ public class Indexer extends SubsystemBase {
     // Color sensor object
     ColorSensorV3 colorSensor;
 
-    // Color matching object
-    ColorMatch colorMatcher;
+    // The moving average of the proximity sensor
+    MovingAverage proximityAvg;
 
     LinearFilter proximityFilter;
 
@@ -61,10 +59,8 @@ public class Indexer extends SubsystemBase {
         // Set up the color sensor
         colorSensor = new ColorSensorV3(Port.kMXP);
 
-        // Set up the color matcher
-        colorMatcher = new ColorMatch();
-        
-        proximityFilter = LinearFilter.movingAverage(50);
+        // Set up the proximity average
+        proximityAvg = new MovingAverage(Parameters.indexer.MOVING_AVG_PTS);
     }
 
     @Override
@@ -78,12 +74,16 @@ public class Indexer extends SubsystemBase {
         indexMotor.set(0);
     }
 
-    public double getBallProximity() {
-        return proximityFilter.calculate(colorSensor.getProximity());
+    public double getProximity() {
+        return proximityAvg.addPt(colorSensor.getProximity());
+    }
+
+    public void clearProximityReadings() {
+        proximityAvg.clearPts();
     }
 
     public boolean hasBall() {
-        return (getBallProximity() > Parameters.indexer.PROXIMITY_THRESHOLD);
+        return (getProximity() > Parameters.indexer.PROXIMITY_THRESHOLD);
     }
 
     public boolean isRed() {
@@ -114,6 +114,7 @@ public class Indexer extends SubsystemBase {
             return "None";
         }
     }
+
     // Returns ballCount
     public int getBallCount() {
         return ballCount;
@@ -130,7 +131,7 @@ public class Indexer extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Indexer");
-            builder.addDoubleProperty("Ball Distance", this::getBallProximity, null);
+            builder.addDoubleProperty("Ball Distance", this::getProximity, null);
             builder.addDoubleProperty("Color Red Value", this::getRedColor, null);
             builder.addDoubleProperty("Color Blue Value", this::getBlueColor, null);
             builder.addBooleanProperty("Ball Detected", this::hasBall, null);

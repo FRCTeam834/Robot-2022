@@ -6,7 +6,6 @@ package frc.robot.utilityClasses.interpolation;
 
 import static java.util.Map.entry;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -14,7 +13,7 @@ import java.util.function.BiConsumer;
 
 /** Add your docs here. */
 public class InterpolatingTable {
-    
+
     private static TreeMap<Double, ShotParams> table;
     private BiConsumer<Double, ShotParams> printEntry =
             (x, y) ->
@@ -35,7 +34,6 @@ public class InterpolatingTable {
                                 entry(1.330958, new ShotParams(23.102, 59.086)),
                                 entry(1.465, new ShotParams(24.12, 54.081)),
                                 entry(1.87, new ShotParams(27.29, 49.5))));
-
     }
 
     public ShotParams getShotParam(double distance) {

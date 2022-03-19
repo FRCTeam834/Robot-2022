@@ -13,13 +13,9 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.RobotContainer;
-import frc.robot.Parameters.shooter;
-import frc.robot.commands.shooting.ManualShoot;
 import frc.robot.utilityClasses.CachedPIDController;
 
 public class Hood extends SubsystemBase {

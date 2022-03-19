@@ -4,14 +4,11 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-
-import java.util.function.DoubleSupplier;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -45,7 +42,6 @@ public class Vision extends SubsystemBase {
             camera.setLED(VisionLEDMode.kOn);
         }
     }
-
 
     public void turnLEDsOff() {
         if (LEDsOn) {
@@ -125,14 +121,15 @@ public class Vision extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //camera.setVersionCheckEnabled(false);
+        // camera.setVersionCheckEnabled(false);
     }
 
     @Override
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {
-            //builder.addDoubleProperty("Yaw", () -> getYaw(), null);
-            //builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()), null);
+            // builder.addDoubleProperty("Yaw", () -> getYaw(), null);
+            // builder.addDoubleProperty("Distance", () -> getDistanceToGoal(getBestTarget()),
+            // null);
             builder.addBooleanProperty(
                     "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);

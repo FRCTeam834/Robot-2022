@@ -7,13 +7,14 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class IntakeBallsForTime extends CommandBase {
     /** Creates a new IntakeBalls. */
     Timer timer = new Timer();
+
     double time = 0;
+
     public IntakeBallsForTime(double time) {
         addRequirements(RobotContainer.intake);
         this.time = time;

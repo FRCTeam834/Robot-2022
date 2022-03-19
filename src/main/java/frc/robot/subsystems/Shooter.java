@@ -12,7 +12,6 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.util.datalog.DataLog;
@@ -23,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.Parameters.shooter;
 
 public class Shooter extends SubsystemBase {
 
@@ -42,7 +40,6 @@ public class Shooter extends SubsystemBase {
 
     // Store the set velocity
     double setVelocity = 0;
-
 
     /** Creates a new Shooter. */
     public Shooter() {
@@ -74,39 +71,38 @@ public class Shooter extends SubsystemBase {
         distanceLog = new DoubleLogEntry(shooterLog, "distance");
         angleLog = new DoubleLogEntry(shooterLog, "angle degrees");
     }
+
     public void recordShot() {
         if (RobotContainer.vision.getBestTarget() != null) {
-          distanceLog.append(RobotContainer.vision.getDistanceToGoal());
-          speedLog.append(getSpeed());
-          angleLog.append(RobotContainer.hood.getCurrentAngle());
+            distanceLog.append(RobotContainer.vision.getDistanceToGoal());
+            speedLog.append(getSpeed());
+            angleLog.append(RobotContainer.hood.getCurrentAngle());
         } else {
-          distanceLog.append(-1, 0);
-          speedLog.append(-1, 0);
-          angleLog.append(-1,0);
-          DataLogManager.log("No PhotonVision Targets Found");
+            distanceLog.append(-1, 0);
+            speedLog.append(-1, 0);
+            angleLog.append(-1, 0);
+            DataLogManager.log("No PhotonVision Targets Found");
         }
-      }
-      
+    }
 
     public void set(double percentage) {
         usingPID = false;
         shooterMotor.set(percentage);
     }
 
-
     public void setDesiredPID(double setpoint) {
 
         setVelocity = setpoint;
         usingPID = true;
     }
+
     public void setRPM(double rpm) {
-        //shooterMotor.setRPM(rpm);
+        // shooterMotor.setRPM(rpm);
     }
 
     public double getSetpoint() {
         return setVelocity;
     }
-
 
     public boolean readyToShoot() {
         return shooterPIDController.atSetpoint() && RobotContainer.hood.isAtDesiredAngle();
@@ -119,7 +115,10 @@ public class Shooter extends SubsystemBase {
 
     public void periodic() {
         if (usingPID) {
-            shooterMotor.setVoltage(shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity) * 12 + .9 * shooterFF.calculate(setVelocity));
+            shooterMotor.setVoltage(
+                    shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity)
+                                    * 12
+                            + .9 * shooterFF.calculate(setVelocity));
         }
     }
 

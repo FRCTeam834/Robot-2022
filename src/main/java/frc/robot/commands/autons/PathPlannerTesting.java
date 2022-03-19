@@ -10,10 +10,9 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.RobotContainer;
-import frc.robot.commands.swerve.FollowPath;
 
 import frc.robot.RobotContainer;
+import frc.robot.commands.swerve.FollowPath;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -28,7 +27,13 @@ public class PathPlannerTesting extends SequentialCommandGroup {
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules),
                 new InstantCommand(
                         () ->
-                                RobotContainer.driveTrain.resetOdometry(new Pose2d(examplePath.sample(0).poseMeters.getTranslation(), examplePath.getInitialState().holonomicRotation))),
+                                RobotContainer.driveTrain.resetOdometry(
+                                        new Pose2d(
+                                                examplePath
+                                                        .getInitialState()
+                                                        .poseMeters
+                                                        .getTranslation(),
+                                                examplePath.getInitialState().holonomicRotation))),
                 new FollowPath(examplePath),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
