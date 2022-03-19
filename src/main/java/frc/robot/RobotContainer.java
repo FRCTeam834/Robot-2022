@@ -44,9 +44,9 @@ import frc.robot.commands.climber.MoveTubeToPosition;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.DumbHood;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.indexing.ColorSensorIndexing;
 import frc.robot.commands.indexing.IndexForTime;
 import frc.robot.commands.indexing.WaitForShooter;
+import frc.robot.commands.intake.ColorSensorIntaking;
 // import frc.robot.commands.intake.HomeIntake;
 // import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.intake.HomeIntake;
@@ -121,7 +121,7 @@ public class RobotContainer {
     public static ManualShoot manualShoot = new ManualShoot();
 
     // Intaking/holding balls
-    private final ColorSensorIndexing indexingThings = new ColorSensorIndexing();
+    private final ColorSensorIntaking indexingThings = new ColorSensorIntaking();
     // private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
 
     // Homing commands
@@ -241,7 +241,7 @@ public class RobotContainer {
         new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
         //new POVButton(xbox, 180).whileHeld(new EmptyEverything());
         // 87.6 20.4
-        new JoystickButton(xbox, Button.kY.value).whileHeld(new StartEndCommand(() -> intake.set(.635), intake::stop, intake));
+        new JoystickButton(xbox, Button.kY.value).whileHeld(new ColorSensorIntaking()/*new StartEndCommand(() -> intake.set(.635), intake::stop, intake)*/);
         new JoystickButton(xbox, Button.kB.value).whileHeld(new InstantCommand((() -> shooter.setDesiredPID(15))));
         new JoystickButton(xbox, Button.kX.value).whenPressed(new InstantCommand(() -> shooter.stop()));
         new JoystickButton(xbox, Button.kRightBumper.value).whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle()-1));

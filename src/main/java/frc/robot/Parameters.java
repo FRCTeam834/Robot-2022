@@ -477,7 +477,7 @@ public final class Parameters {
     }
 
     public static final class indexer {
-        public static final int PROXIMITY_THRESHOLD = 200;
+        public static final int PROXIMITY_THRESHOLD = 85;
         public static final int ID = 14;
         public static final double MOTOR_SPEED = 0.15; // Duty
         public static final int CURRENT_LIMIT = 40; // A

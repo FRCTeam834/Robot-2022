@@ -14,6 +14,9 @@ import com.revrobotics.ColorSensorV3;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -34,6 +37,8 @@ public class Indexer extends SubsystemBase {
 
     // Color matching object
     ColorMatch colorMatcher;
+
+    LinearFilter proximityFilter;
 
     // A count of how many balls the robot has
     int ballCount = 0;
@@ -58,6 +63,8 @@ public class Indexer extends SubsystemBase {
 
         // Set up the color matcher
         colorMatcher = new ColorMatch();
+        
+        proximityFilter = LinearFilter.movingAverage(50);
     }
 
     @Override
@@ -71,8 +78,12 @@ public class Indexer extends SubsystemBase {
         indexMotor.set(0);
     }
 
+    public double getBallProximity() {
+        return proximityFilter.calculate(colorSensor.getProximity());
+    }
+
     public boolean hasBall() {
-        return (colorSensor.getProximity() > Parameters.indexer.PROXIMITY_THRESHOLD);
+        return (getBallProximity() > Parameters.indexer.PROXIMITY_THRESHOLD);
     }
 
     public boolean isRed() {
@@ -95,9 +106,9 @@ public class Indexer extends SubsystemBase {
 
         Color ballColor = colorSensor.getColor();
 
-        if ((ballColor.red / ballColor.blue) > 2.5) {
+        if ((ballColor.red > ballColor.blue) && hasBall() ) {
             return "Red";
-        } else if ((ballColor.blue / ballColor.red) > 2.5) {
+        } else if ((ballColor.blue > ballColor.red) && hasBall()) {
             return "Blue";
         } else {
             return "None";
@@ -106,5 +117,24 @@ public class Indexer extends SubsystemBase {
     // Returns ballCount
     public int getBallCount() {
         return ballCount;
+    }
+    public double getRedColor() {
+        return colorSensor.getRed();
+    }
+    public double getBlueColor() {
+        return colorSensor.getBlue();
+    }
+    
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        if (Parameters.telemetryMode) {
+            builder.setSmartDashboardType("Indexer");
+            builder.addDoubleProperty("Ball Distance", this::getBallProximity, null);
+            builder.addDoubleProperty("Color Red Value", this::getRedColor, null);
+            builder.addDoubleProperty("Color Blue Value", this::getBlueColor, null);
+            builder.addBooleanProperty("Ball Detected", this::hasBall, null);
+            builder.addStringProperty("Color", this::getBallColorString, null);
+        }
     }
 }

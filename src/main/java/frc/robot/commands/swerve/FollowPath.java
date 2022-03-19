@@ -71,6 +71,7 @@ public class FollowPath extends CommandBase {
         m_controller.calculate(
                 RobotContainer.driveTrain.getEstPose2D(), desiredState, desiredState.holonomicRotation);
 
+        System.out.println(desiredState.velocityMetersPerSecond);
         RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
         
     }

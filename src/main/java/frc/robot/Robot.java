@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 import frc.robot.Parameters.driveTrain;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.indexing.ColorSensorIndexing;
+import frc.robot.commands.intake.ColorSensorIntaking;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
 /**
@@ -156,7 +156,7 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        CommandScheduler.getInstance().schedule(new HomeClimberTubes(), new HomeHood());
+        CommandScheduler.getInstance().schedule();//new HomeClimberTubes(), new HomeHood());
         //new ScheduleCommand(new PerpetualCommand(new ColorSensorIndexing()));
 
         // Stop all of the motors on the robot

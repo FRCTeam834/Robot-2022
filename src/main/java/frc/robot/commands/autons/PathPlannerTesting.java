@@ -23,12 +23,12 @@ public class PathPlannerTesting extends SequentialCommandGroup {
     public PathPlannerTesting() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        PathPlannerTrajectory examplePath = PathPlanner.loadPath("Straight Test", 8, 5);
+        PathPlannerTrajectory examplePath = PathPlanner.loadPath("New Path", 2, .5);
         addCommands(
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules),
                 new InstantCommand(
                         () ->
-                                RobotContainer.driveTrain.resetOdometry(new Pose2d(examplePath.getInitialState().poseMeters.getTranslation(), examplePath.getInitialState().holonomicRotation))),
+                                RobotContainer.driveTrain.resetOdometry(new Pose2d(examplePath.sample(0).poseMeters.getTranslation(), examplePath.getInitialState().holonomicRotation))),
                 new FollowPath(examplePath),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
