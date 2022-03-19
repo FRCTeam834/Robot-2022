@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -364,7 +363,7 @@ public class RobotContainer {
         //    CommandScheduler.getInstance().schedule(false, homeHood);
         // }
         if (!intakeWinch.isHomed()) {
-            //CommandScheduler.getInstance().schedule(false, homeIntake);
+            // CommandScheduler.getInstance().schedule(false, homeIntake);
         }
         // if (!climber.areTubesHomed()) {
         // CommandScheduler.getInstance().schedule(false, homeClimberTubes);

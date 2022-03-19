@@ -6,10 +6,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -73,7 +73,6 @@ public class Intake extends SubsystemBase {
         intakeMotorPID = new PIDController(0.024089, 0, 0);
     }
 
-    
     public void set(double percentage) {
         usingPID = false;
         intakeMotor.set(percentage);
@@ -96,8 +95,7 @@ public class Intake extends SubsystemBase {
     public void periodic() {
         if (usingPID) {
             intakeMotor.setVoltage(
-                    intakeMotorPID.calculate(intakeMotorEncoder.getVelocity(), setVelocity)
-                                    * 12
+                    intakeMotorPID.calculate(intakeMotorEncoder.getVelocity(), setVelocity) * 12
                             + .9 * intakeMotorFF.calculate(setVelocity));
         }
     }
