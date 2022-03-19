@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -33,7 +32,6 @@ import frc.robot.Parameters.indexer;
 import frc.robot.Parameters.intake;
 import frc.robot.commands.autons.EmptyEverything;
 import frc.robot.commands.autons.PathPlannerTesting;
-import frc.robot.commands.climber.Climb;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.ColorSensorIntaking;
@@ -262,7 +260,12 @@ public class RobotContainer {
                                                         .setWithLimitSwitch(-1),
                                         RobotContainer.climbers2.rightTilt::stop)));
 
-        TM.whenPressed(new StartEndCommand(()-> RobotContainer.driveTrain.drive(1, 0, 0, false), () -> RobotContainer.driveTrain.stopModules(), driveTrain).withTimeout(2));//new Climb());
+        TM.whenPressed(
+                new StartEndCommand(
+                                () -> RobotContainer.driveTrain.drive(1, 0, 0, false),
+                                () -> RobotContainer.driveTrain.stopModules(),
+                                driveTrain)
+                        .withTimeout(2)); // new Climb());
         TR.whenPressed(new StopClimb());
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());

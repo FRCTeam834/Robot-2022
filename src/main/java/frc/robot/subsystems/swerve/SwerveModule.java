@@ -397,7 +397,8 @@ public class SwerveModule extends SubsystemBase {
         return steerCANCoder.getAbsolutePosition();
     }
 
-    // Gets the position of the encoder (flipped with the drive motor to account for angle optimizations)
+    // Gets the position of the encoder (flipped with the drive motor to account for angle
+    // optimizations)
     public double getAdjAngle() {
         return (steerCANCoder.getAbsolutePosition() - angularOffset);
     }

@@ -12,7 +12,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 @SuppressWarnings("MemberName")
@@ -37,11 +36,7 @@ public class FollowPath extends CommandBase {
         PIDController xPID = new PIDController(0, 0, 0);
         PIDController yPID = new PIDController(0, 0, 0);
         ProfiledPIDController rotPID =
-                new ProfiledPIDController(
-                        0,
-                        0,
-                        0,
-                        new Constraints(Math.PI, Math.PI * Math.PI));
+                new ProfiledPIDController(0, 0, 0, new Constraints(Math.PI, Math.PI * Math.PI));
 
         m_controller = new HolonomicDriveController(xPID, yPID, rotPID);
         rotPID.enableContinuousInput(-Math.PI, Math.PI);

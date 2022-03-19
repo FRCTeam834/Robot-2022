@@ -155,7 +155,8 @@ public class Robot extends TimedRobot {
         RobotContainer.intake.stop();
         RobotContainer.shooter.stop();
         RobotContainer.hood.stop();
-        RobotContainer.driveTrain.resetOdometry(new Pose2d(new Translation2d(0,0), new Rotation2d()));
+        RobotContainer.driveTrain.resetOdometry(
+                new Pose2d(new Translation2d(0, 0), new Rotation2d()));
     }
 
     /** This function is called periodically during operator control. */
@@ -163,10 +164,10 @@ public class Robot extends TimedRobot {
     public void teleopPeriodic() {
         // System.out.println(RobotContainer.navX.getYaw());
         field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
-        //System.out.println("FL: " + RobotContainer.driveTrain.frontLeft.getState().toString());
-        //System.out.println("FR: " + RobotContainer.driveTrain.frontRight.getState().toString());
-        //System.out.println("BL: " + RobotContainer.driveTrain.backLeft.getState().toString());
-        //System.out.println("BR: " + RobotContainer.driveTrain.backRight.getState().toString());
+        // System.out.println("FL: " + RobotContainer.driveTrain.frontLeft.getState().toString());
+        // System.out.println("FR: " + RobotContainer.driveTrain.frontRight.getState().toString());
+        // System.out.println("BL: " + RobotContainer.driveTrain.backLeft.getState().toString());
+        // System.out.println("BR: " + RobotContainer.driveTrain.backRight.getState().toString());
 
     }
 
