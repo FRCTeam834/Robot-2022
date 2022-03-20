@@ -144,9 +144,10 @@ public class Vision extends SubsystemBase {
             if (p4.y < midY) ret.add(p4);
         }
 
-        // Camera did not update (`equals` is order senstive but more performant, use if confident Photon retains order)
+        // Camera did not update (`equals` is order senstive but more performant, use if confident
+        // Photon retains order)
         // if(ret.equals(lastTargetCorners)) return null;
-        if(ret.containsAll(lastTargetCorners)) return null;
+        if (ret.containsAll(lastTargetCorners)) return null;
         lastTargetCorners = ret;
 
         return ret;
@@ -197,8 +198,8 @@ public class Vision extends SubsystemBase {
     private void calculateRobotPose(Rotation2d facing) {
         double facingInRadians = facing.getRadians();
         double[] heading = headingToTargetCenter();
-        
-        if(heading == null) return;
+
+        if (heading == null) return;
 
         // Camera relative displacement
         double sx = heading[0];
@@ -215,7 +216,7 @@ public class Vision extends SubsystemBase {
 
     /**
      * Getter for latest pose calculated from vision data
-     * 
+     *
      * @return last pose calculated from vision data
      */
     public Pose2d getLastPoseFromVision() {

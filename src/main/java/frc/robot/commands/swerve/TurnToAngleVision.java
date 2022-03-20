@@ -44,13 +44,17 @@ public class TurnToAngleVision extends CommandBase {
         double rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
 
         if (latestResult == null) {
-            if(DriverStation.isFMSAttached()) {
+            if (DriverStation.isFMSAttached()) {
                 Pose2d robotPose = RobotContainer.vision.getLastPoseFromVision();
                 double facingInRadians = RobotContainer.navX.getRotation2d().getRadians();
                 double x = robotPose.getX();
                 double y = robotPose.getY();
-                double targetRadians = Math.atan2(Parameters.vision.GOAL_X - y, Parameters.vision.GOAL_Y - x);
-                double closestAngle = (targetRadians - facingInRadians + Math.toRadians(540)) % Math.toRadians(360) - Math.toRadians(180);
+                double targetRadians =
+                        Math.atan2(Parameters.vision.GOAL_X - y, Parameters.vision.GOAL_Y - x);
+                double closestAngle =
+                        (targetRadians - facingInRadians + Math.toRadians(540))
+                                        % Math.toRadians(360)
+                                - Math.toRadians(180);
                 omega = Math.signum(closestAngle);
             } else {
                 omega = 0;
