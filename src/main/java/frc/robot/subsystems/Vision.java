@@ -11,6 +11,7 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.CircleFitter;
 import frc.robot.utilityClasses.GlobalPoint;
 
@@ -27,7 +28,6 @@ import java.util.List;
 public class Vision extends SubsystemBase {
 
     public static PhotonCamera camera;
-    private CircleFitter circlefitter;
     private boolean targetExists = false;
 
     private static double horizontalFov = Parameters.vision.CAMERA_HFOV,
@@ -41,7 +41,10 @@ public class Vision extends SubsystemBase {
 
     private Rotation2d horizontalPlaneToLens;
     private double lensHeightMeters;
-    
+
+    private Pose2d lastPoseFromVision;
+    private List<TargetCorner> lastTargetCorners;
+
     private static boolean LEDsOn;
 
     public Vision() {
@@ -141,6 +144,11 @@ public class Vision extends SubsystemBase {
             if (p4.y < midY) ret.add(p4);
         }
 
+        // Camera did not update (`equals` is order senstive but more performant, use if confident Photon retains order)
+        // if(ret.equals(lastTargetCorners)) return null;
+        if(ret.containsAll(lastTargetCorners)) return null;
+        lastTargetCorners = ret;
+
         return ret;
     }
 
@@ -185,21 +193,33 @@ public class Vision extends SubsystemBase {
      * Calculates robot pose using vision data
      *
      * @param facing Rads - angle of camera from 0
-     * @return calculated robot pose from vision
      */
-    public Pose2d calculateRobotPose(double facing) {
+    private void calculateRobotPose(Rotation2d facing) {
+        double facingInRadians = facing.getRadians();
         double[] heading = headingToTargetCenter();
+        
+        if(heading == null) return;
+
         // Camera relative displacement
         double sx = heading[0];
         double sy = heading[1];
 
-        double globalsx = sx * Math.cos(facing) - sy * Math.sin(facing);
-        double globalsy = sy * Math.cos(facing) + sx * Math.sin(facing);
+        double globalsx = sx * Math.cos(facingInRadians) - sy * Math.sin(facingInRadians);
+        double globalsy = sy * Math.cos(facingInRadians) + sx * Math.sin(facingInRadians);
 
         double camerax = Parameters.vision.GOAL_X - globalsx;
         double cameray = Parameters.vision.GOAL_Y - globalsy;
 
-        return new Pose2d(camerax, cameray, new Rotation2d(facing));
+        lastPoseFromVision = new Pose2d(camerax, cameray, facing);
+    }
+
+    /**
+     * Getter for latest pose calculated from vision data
+     * 
+     * @return last pose calculated from vision data
+     */
+    public Pose2d getLastPoseFromVision() {
+        return lastPoseFromVision;
     }
 
     public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
@@ -232,6 +252,7 @@ public class Vision extends SubsystemBase {
     @Override
     public void periodic() {
         // camera.setVersionCheckEnabled(false);
+        calculateRobotPose(RobotContainer.navX.getRotation2d());
     }
 
     @Override

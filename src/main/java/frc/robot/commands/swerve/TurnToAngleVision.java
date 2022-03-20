@@ -10,6 +10,8 @@ package frc.robot.commands.swerve;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
@@ -42,7 +44,17 @@ public class TurnToAngleVision extends CommandBase {
         double rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
 
         if (latestResult == null) {
-            omega = 0;
+            if(DriverStation.isFMSAttached()) {
+                Pose2d robotPose = RobotContainer.vision.getLastPoseFromVision();
+                double facingInRadians = RobotContainer.navX.getRotation2d().getRadians();
+                double x = robotPose.getX();
+                double y = robotPose.getY();
+                double targetRadians = Math.atan2(Parameters.vision.GOAL_X - y, Parameters.vision.GOAL_Y - x);
+                double closestAngle = (targetRadians - facingInRadians + Math.toRadians(540)) % Math.toRadians(360) - Math.toRadians(180);
+                omega = Math.signum(closestAngle);
+            } else {
+                omega = 0;
+            }
         } else {
             omega =
                     MathUtil.clamp(
