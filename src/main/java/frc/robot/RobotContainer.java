@@ -109,7 +109,6 @@ public class RobotContainer {
     private final TurnToAngleVision turnToGoal = new TurnToAngleVision();
     private final AutoShoot autoShoot = new AutoShoot();
 
-
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
     public static Joystick rightJoystick = new Joystick(1);
