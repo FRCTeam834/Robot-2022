@@ -360,7 +360,7 @@ public final class Parameters {
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot
-        public static final double DRIVE_TILT_SPEED = .25;
+        public static final double DRIVE_TILT_SPEED = 1.5;
 
         // The angle to tilt the robot to before lifting the climbers
         public static final double ROBOT_TILT_ANGLE = 26.5;
