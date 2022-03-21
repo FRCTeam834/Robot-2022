@@ -30,127 +30,126 @@ public class Climb extends SequentialCommandGroup {
             // addCommands(new FooCommand(), new BarCommand());
             addCommands(
 
-                // Stop all of the unused motors (includes the drivetrain)
-                new InstantCommand(() -> RobotContainer.intake.stop()),
-                new InstantCommand(() -> RobotContainer.indexer.stop()),
-                new InstantCommand(() -> RobotContainer.shooter.stop()),
-                new InstantCommand(() -> RobotContainer.hood.stop()),
-                new InstantCommand(() -> RobotContainer.intakeWinch.stop()),
-                new InstantCommand(() -> RobotContainer.driveTrain.stopModules()),
+                    // Stop all of the unused motors (includes the drivetrain)
+                    new InstantCommand(() -> RobotContainer.intake.stop()),
+                    new InstantCommand(() -> RobotContainer.indexer.stop()),
+                    new InstantCommand(() -> RobotContainer.shooter.stop()),
+                    new InstantCommand(() -> RobotContainer.hood.stop()),
+                    new InstantCommand(() -> RobotContainer.intakeWinch.stop()),
+                    new InstantCommand(() -> RobotContainer.driveTrain.stopModules()),
 
-                // Now extend the tubes
-                new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftLift,
-                                Parameters.climber.lift.UP_LEGAL_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightLift,
-                                Parameters.climber.lift.UP_LEGAL_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftTilt,
-                                Parameters.climber.tilt.LEFT_LEGAL_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightTilt,
-                                Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
-                                1)),
+                    // Now extend the tubes
+                    new ParallelCommandGroup(
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftLift,
+                                    Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightLift,
+                                    Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftTilt,
+                                    Parameters.climber.tilt.LEFT_LEGAL_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightTilt,
+                                    Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
+                                    1)),
 
-                // Tilt the robot
-                new DriveUntilAngle(Parameters.climber.DRIVE_TILT_SPEED, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
+                    // Tilt the robot
+                    new DriveUntilAngle(Parameters.climber.DRIVE_TILT_SPEED, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
 
-                // Grab the 3rd rung bar
-                new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftLift,
-                                Parameters.climber.lift.GRAB_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightLift,
-                                Parameters.climber.lift.GRAB_DISTANCE,
-                                1)),
+                    // Grab the 3rd rung bar
+                    new ParallelCommandGroup(
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftLift,
+                                    Parameters.climber.lift.GRAB_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightLift,
+                                    Parameters.climber.lift.GRAB_DISTANCE,
+                                    1)),
 
-                // We lifting boys!
-                new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftTilt,
-                                Parameters.climber.tilt.DOWN_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightTilt,
-                                Parameters.climber.tilt.DOWN_DISTANCE,
-                                1)),
-                new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftLift,
-                                Parameters.climber.lift.DOWN_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightLift,
-                                Parameters.climber.lift.DOWN_DISTANCE,
-                                1)),
+                    // We lifting boys!
+                    new ParallelCommandGroup(
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftTilt,
+                                    Parameters.climber.tilt.DOWN_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightTilt,
+                                    Parameters.climber.tilt.DOWN_DISTANCE,
+                                    1)),
+                    new ParallelCommandGroup(
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftLift,
+                                    Parameters.climber.lift.DOWN_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightLift,
+                                    Parameters.climber.lift.DOWN_DISTANCE,
+                                    1)),
 
-                // ! The climb is done... PARTY TIME!!!
-                new InstantCommand(() -> RobotContainer.leds.setColor(LEDColors.PARTY)));
-        }
-        else { // ! DISABLE_UNUSED_MOTORS
+                    // ! The climb is done... PARTY TIME!!!
+                    new InstantCommand(() -> RobotContainer.leds.setColor(LEDColors.PARTY)));
+        } else { // ! DISABLE_UNUSED_MOTORS
             addCommands(
-                // Now extend the tubes
-                new ParallelCommandGroup(
-                    new MoveTubeToPosition(
-                            RobotContainer.climbers2.leftLift,
-                            Parameters.climber.lift.UP_LEGAL_DISTANCE,
-                            1),
-                    new MoveTubeToPosition(
-                            RobotContainer.climbers2.rightLift,
-                            Parameters.climber.lift.UP_LEGAL_DISTANCE,
-                            1),
-                    new MoveTubeToPosition(
-                            RobotContainer.climbers2.leftTilt,
-                            Parameters.climber.tilt.LEFT_LEGAL_DISTANCE,
-                            1),
-                    new MoveTubeToPosition(
-                            RobotContainer.climbers2.rightTilt,
-                            Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
-                            1)),
+                    // Now extend the tubes
+                    new ParallelCommandGroup(
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftLift,
+                                    Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightLift,
+                                    Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftTilt,
+                                    Parameters.climber.tilt.LEFT_LEGAL_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightTilt,
+                                    Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
+                                    1)),
 
-                // Tilt the robot
-                new DriveUntilAngle(Parameters.climber.DRIVE_TILT_SPEED, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
+                    // Tilt the robot
+                    new DriveUntilAngle(Parameters.climber.DRIVE_TILT_SPEED, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
 
-                // Grab the 3rd rung bar
-                new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftLift,
-                                Parameters.climber.lift.GRAB_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightLift,
-                                Parameters.climber.lift.GRAB_DISTANCE,
-                                1)),
+                    // Grab the 3rd rung bar
+                    new ParallelCommandGroup(
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftLift,
+                                    Parameters.climber.lift.GRAB_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightLift,
+                                    Parameters.climber.lift.GRAB_DISTANCE,
+                                    1)),
 
-                // We lifting boys!
-                new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftTilt,
-                                Parameters.climber.tilt.DOWN_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightTilt,
-                                Parameters.climber.tilt.DOWN_DISTANCE,
-                                1)),
-                new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftLift,
-                                Parameters.climber.lift.DOWN_DISTANCE,
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightLift,
-                                Parameters.climber.lift.DOWN_DISTANCE,
-                                1)),
+                    // We lifting boys!
+                    new ParallelCommandGroup(
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftTilt,
+                                    Parameters.climber.tilt.DOWN_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightTilt,
+                                    Parameters.climber.tilt.DOWN_DISTANCE,
+                                    1)),
+                    new ParallelCommandGroup(
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftLift,
+                                    Parameters.climber.lift.DOWN_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightLift,
+                                    Parameters.climber.lift.DOWN_DISTANCE,
+                                    1)),
 
-                // ! The climb is done... PARTY TIME!!!
-                new InstantCommand(() -> RobotContainer.leds.setColor(LEDColors.PARTY)));
+                    // ! The climb is done... PARTY TIME!!!
+                    new InstantCommand(() -> RobotContainer.leds.setColor(LEDColors.PARTY)));
         }
     }
 }

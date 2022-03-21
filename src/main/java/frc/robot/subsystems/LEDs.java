@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Parameters;
 
 public class LEDs extends SubsystemBase {
@@ -22,6 +23,7 @@ public class LEDs extends SubsystemBase {
 
     /**
      * Sets the color of the LEDs to the specified value
+     *
      * @param colorValue The color to set it to
      */
     public void setColor(double colorValue) {
