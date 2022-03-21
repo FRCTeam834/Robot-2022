@@ -58,7 +58,10 @@ public class Climb extends SequentialCommandGroup {
                                     1)),
 
                     // Tilt the robot
-                    new DriveUntilAngle(Parameters.climber.DRIVE_TILT_SPEED, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
+                    new DriveUntilAngle(
+                                    Parameters.climber.DRIVE_TILT_SPEED,
+                                    Parameters.climber.ROBOT_TILT_ANGLE)
+                            .withTimeout(5),
 
                     // Grab the 3rd rung bar
                     new ParallelCommandGroup(
@@ -115,7 +118,10 @@ public class Climb extends SequentialCommandGroup {
                                     1)),
 
                     // Tilt the robot
-                    new DriveUntilAngle(Parameters.climber.DRIVE_TILT_SPEED, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
+                    new DriveUntilAngle(
+                                    Parameters.climber.DRIVE_TILT_SPEED,
+                                    Parameters.climber.ROBOT_TILT_ANGLE)
+                            .withTimeout(5),
 
                     // Grab the 3rd rung bar
                     new ParallelCommandGroup(
