@@ -18,7 +18,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -35,8 +34,6 @@ import frc.robot.commands.autons.PathPlannerTesting;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.ColorSensorIntaking;
-// import frc.robot.commands.intake.HomeIntake;
-// import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.ManualShoot;
@@ -52,13 +49,12 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.IntakeWinch;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.subsystems.climber.StupidClimbers;
-// import frc.robot.subsystems.climber.Climber;
-// import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
 import frc.robot.utilityClasses.interpolation.InterpolatingTable;
@@ -85,6 +81,7 @@ public class RobotContainer {
     public static Indexer indexer = new Indexer();
     public static Vision vision = new Vision();
     public static InterpolatingTable interpolatingTable = new InterpolatingTable();
+    public static LEDs leds = new LEDs();
 
     // Commands
 
@@ -112,16 +109,12 @@ public class RobotContainer {
     private final TurnToAngleVision turnToGoal = new TurnToAngleVision();
     private final AutoShoot autoShoot = new AutoShoot();
 
-    // Lights! No camera and no action
-    public static Spark led = new Spark(Parameters.led.PWM_PORT);
-    public static double lightColor = -.45;
 
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
     public static Joystick rightJoystick = new Joystick(1);
     public static XboxController xbox = new XboxController(2);
     public static Joystick buttonBoard = new Joystick(3);
-    public static GenericHID quadController = new GenericHID(4);
 
     // Define button board buttons
     public static JoystickButton TL = new JoystickButton(buttonBoard, ButtonBoard.TL);

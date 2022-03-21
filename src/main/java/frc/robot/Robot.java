@@ -28,7 +28,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.commands.hood.HomeHood;
+import frc.robot.subsystems.LEDs;
 import frc.robot.subsystems.climber.HomeClimberTubes;
+import frc.robot.utilityClasses.LEDColors;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -92,18 +94,16 @@ public class Robot extends TimedRobot {
 
         // Decide which LED color
         if (readyToShoot && linedUp) {
-            RobotContainer.lightColor = Parameters.led.GLITTER_RAINBOW;
+            RobotContainer.leds.setColor(LEDColors.GLITTER_RAINBOW);
         } else if (readyToShoot) {
-            RobotContainer.lightColor = Parameters.led.OCEAN;
+            RobotContainer.leds.setColor(LEDColors.OCEAN);
         } else if (linedUp) {
-            RobotContainer.lightColor = Parameters.led.PINK;
+            RobotContainer.leds.setColor(LEDColors.PINK);
         } else {
-            RobotContainer.lightColor = Parameters.led.BLUE_VIOLET;
+            RobotContainer.leds.setColor(LEDColors.BLUE_VIOLET);
         }
 
-        // Set the new color of the LEDs
-        RobotContainer.led.set(RobotContainer.lightColor);
-
+        // Run the scheduler
         CommandScheduler.getInstance().run();
     }
 

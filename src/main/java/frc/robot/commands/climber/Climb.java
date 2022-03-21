@@ -4,12 +4,14 @@
 
 package frc.robot.commands.climber;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.driving.DriveUntilAngle;
+import frc.robot.utilityClasses.LEDColors;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,29 +20,47 @@ public class Climb extends SequentialCommandGroup {
     /** Creates a new Climb. */
     public Climb() {
 
-        // Add your commands in the addCommands() call, e.g.
-        // addCommands(new FooCommand(), new BarCommand());
-        addCommands(
-                // TODO: TEST THIS
-                // new InstantCommand(() -> RobotContainer.navX.resetPitch()),
+        // Set the LEDs to red, we're climbing baby!
+        RobotContainer.leds.setColor(LEDColors.STROBE_RED);
+
+        // Load a separate set of commands for disabling unused motors
+        if (Parameters.climber.DISABLE_UNUSED_MOTORS) {
+
+            // Add your commands in the addCommands() call, e.g.
+            // addCommands(new FooCommand(), new BarCommand());
+            addCommands(
+
+                // Stop all of the unused motors (includes the drivetrain)
+                new InstantCommand(() -> RobotContainer.intake.stop()),
+                new InstantCommand(() -> RobotContainer.indexer.stop()),
+                new InstantCommand(() -> RobotContainer.shooter.stop()),
+                new InstantCommand(() -> RobotContainer.hood.stop()),
+                new InstantCommand(() -> RobotContainer.intakeWinch.stop()),
+                new InstantCommand(() -> RobotContainer.driveTrain.stopModules()),
+
+                // Now extend the tubes
                 new ParallelCommandGroup(
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.leftLift,
                                 Parameters.climber.lift.UP_LEGAL_DISTANCE,
-                                .25),
+                                1),
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.rightLift,
                                 Parameters.climber.lift.UP_LEGAL_DISTANCE,
-                                .25),
+                                1),
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.leftTilt,
                                 Parameters.climber.tilt.LEFT_LEGAL_DISTANCE,
-                                .25),
+                                1),
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.rightTilt,
                                 Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
-                                .25)),
+                                1)),
+
+                // Tilt the robot
                 new DriveUntilAngle(1, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
+
+                // Grab the 3rd rung bar
                 new ParallelCommandGroup(
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.leftLift,
@@ -50,6 +70,8 @@ public class Climb extends SequentialCommandGroup {
                                 RobotContainer.climbers2.rightLift,
                                 Parameters.climber.lift.GRAB_DISTANCE,
                                 1)),
+
+                // We lifting boys!
                 new ParallelCommandGroup(
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.leftTilt,
@@ -67,6 +89,68 @@ public class Climb extends SequentialCommandGroup {
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.rightLift,
                                 Parameters.climber.lift.DOWN_DISTANCE,
-                                1)));
+                                1)),
+
+                // ! The climb is done... PARTY TIME!!!
+                new InstantCommand(() -> RobotContainer.leds.setColor(LEDColors.PARTY)));
+        }
+        else { // ! DISABLE_UNUSED_MOTORS
+            addCommands(
+                // Now extend the tubes
+                new ParallelCommandGroup(
+                    new MoveTubeToPosition(
+                            RobotContainer.climbers2.leftLift,
+                            Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                            1),
+                    new MoveTubeToPosition(
+                            RobotContainer.climbers2.rightLift,
+                            Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                            1),
+                    new MoveTubeToPosition(
+                            RobotContainer.climbers2.leftTilt,
+                            Parameters.climber.tilt.LEFT_LEGAL_DISTANCE,
+                            1),
+                    new MoveTubeToPosition(
+                            RobotContainer.climbers2.rightTilt,
+                            Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
+                            1)),
+
+                // Tilt the robot
+                new DriveUntilAngle(1, Parameters.climber.ROBOT_TILT_ANGLE).withTimeout(5),
+
+                // Grab the 3rd rung bar
+                new ParallelCommandGroup(
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.leftLift,
+                                Parameters.climber.lift.GRAB_DISTANCE,
+                                1),
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.rightLift,
+                                Parameters.climber.lift.GRAB_DISTANCE,
+                                1)),
+
+                // We lifting boys!
+                new ParallelCommandGroup(
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.leftTilt,
+                                Parameters.climber.tilt.DOWN_DISTANCE,
+                                1),
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.rightTilt,
+                                Parameters.climber.tilt.DOWN_DISTANCE,
+                                1)),
+                new ParallelCommandGroup(
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.leftLift,
+                                Parameters.climber.lift.DOWN_DISTANCE,
+                                1),
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.rightLift,
+                                Parameters.climber.lift.DOWN_DISTANCE,
+                                1)),
+
+                // ! The climb is done... PARTY TIME!!!
+                new InstantCommand(() -> RobotContainer.leds.setColor(LEDColors.PARTY)));
+        }
     }
 }
