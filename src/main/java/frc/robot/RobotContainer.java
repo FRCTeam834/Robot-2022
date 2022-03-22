@@ -281,7 +281,8 @@ public class RobotContainer {
         new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
 
         // Runs function tests
-        // Holding down keeps the test running, letting go cycles to the next on the next button push
+        // Holding down keeps the test running, letting go cycles to the next on the next button
+        // push
         new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
 
         // new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() ->

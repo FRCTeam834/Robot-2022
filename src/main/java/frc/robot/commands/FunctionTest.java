@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
@@ -19,7 +20,13 @@ public class FunctionTest extends CommandBase {
     /** Creates a new FunctionTest. */
     public FunctionTest() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.driveTrain, RobotContainer.hood, RobotContainer.indexer, RobotContainer.shooter, RobotContainer.climbers2, RobotContainer.intake);
+        addRequirements(
+                RobotContainer.driveTrain,
+                RobotContainer.hood,
+                RobotContainer.indexer,
+                RobotContainer.shooter,
+                RobotContainer.climbers2,
+                RobotContainer.intake);
     }
 
     // Called when the command is initially scheduled.
@@ -28,7 +35,6 @@ public class FunctionTest extends CommandBase {
 
         // Decide what to run
         switch (testNumber) {
-
             case 0: // Intake
                 RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
                 break;
