@@ -55,7 +55,7 @@ public class TurnToAngleVision extends CommandBase {
                         (targetRadians - facingInRadians + Math.toRadians(540))
                                         % Math.toRadians(360)
                                 - Math.toRadians(180);
-                omega = Math.signum(closestAngle);
+                omega = Math.signum(closestAngle) * -1;
             } else {
                 omega = 0;
             }
