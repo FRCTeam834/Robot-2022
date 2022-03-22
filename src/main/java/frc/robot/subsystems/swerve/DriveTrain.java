@@ -369,7 +369,15 @@ public class DriveTrain extends SubsystemBase {
     }
 
     /** Stops the drive wheel of the modules and sets it to hold stopped */
-    public void stopModules() {
+    public void stop() {
+        frontLeft.stop();
+        frontRight.stop();
+        backLeft.stop();
+        backRight.stop();
+    }
+
+    /** Stops the drive wheel of the modules and sets it to hold stopped */
+    public void zeroVelocities() {
         setDesiredVelocities(0, 0, 0, 0);
     }
 

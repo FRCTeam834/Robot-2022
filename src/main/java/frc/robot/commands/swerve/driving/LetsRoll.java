@@ -55,14 +55,14 @@ public class LetsRoll extends CommandBase {
         } else if (Parameters.driver.lockemUp) {
             RobotContainer.driveTrain.lockemUp();
         } else {
-            RobotContainer.driveTrain.stopModules();
+            RobotContainer.driveTrain.zeroVelocities();
         }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.driveTrain.stopModules();
+        RobotContainer.driveTrain.zeroVelocities();
     }
 
     // Returns true when the command should end.

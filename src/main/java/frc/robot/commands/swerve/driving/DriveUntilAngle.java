@@ -43,7 +43,7 @@ public class DriveUntilAngle extends CommandBase {
     public void end(boolean interrupted) {
 
         // Stop the drivetrain once we're done
-        RobotContainer.driveTrain.stopModules();
+        RobotContainer.driveTrain.zeroVelocities();
     }
 
     // Returns true when the command should end.

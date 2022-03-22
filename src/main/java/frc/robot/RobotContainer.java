@@ -255,7 +255,7 @@ public class RobotContainer {
         TM.whenPressed(
                 new StartEndCommand(
                                 () -> RobotContainer.driveTrain.drive(1, 0, 0, false),
-                                () -> RobotContainer.driveTrain.stopModules(),
+                                () -> RobotContainer.driveTrain.zeroVelocities(),
                                 driveTrain)
                         .withTimeout(2)); // new Climb());
         TR.whenPressed(new StopClimb());
