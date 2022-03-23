@@ -535,7 +535,7 @@ public final class Parameters {
         public static final double YAW_TOLERANCE = 2;
 
         // The maximum turning speed when turning to face a target (in deg/s)
-        public static final double MAX_TURNING_SPEED = 45;
+        public static final double MAX_TURNING_SPEED = 60;
 
         // Spin speed - used when looking for a target to lock on to (in deg/s)
         public static final double SPIN_SPEED = 0;
