@@ -57,7 +57,7 @@ public class TurnToAngleVision extends CommandBase {
                 (-rightY * Parameters.driver.maxModVelocity),
                 (-rightX * Parameters.driver.maxModVelocity),
                 omega,
-                false);
+                true);
     }
 
     // Called once the command ends or is interrupted.
@@ -65,7 +65,7 @@ public class TurnToAngleVision extends CommandBase {
     public void end(boolean interrupted) {
 
         // Stop all of the modules (basically zero their velocities)
-        RobotContainer.driveTrain.stopModules();
+        RobotContainer.driveTrain.zeroVelocities();
     }
 
     // Returns true when the command should end.

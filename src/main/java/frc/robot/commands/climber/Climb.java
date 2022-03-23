@@ -36,7 +36,7 @@ public class Climb extends SequentialCommandGroup {
                     new InstantCommand(() -> RobotContainer.shooter.stop()),
                     new InstantCommand(() -> RobotContainer.hood.stop()),
                     new InstantCommand(() -> RobotContainer.intakeWinch.stop()),
-                    new InstantCommand(() -> RobotContainer.driveTrain.stopModules()),
+                    new InstantCommand(() -> RobotContainer.driveTrain.stop()),
 
                     // Now extend the tubes
                     new ParallelCommandGroup(

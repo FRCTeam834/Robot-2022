@@ -44,7 +44,7 @@ public class TestRotationalPID extends CommandBase {
     public void end(boolean interrupted) {
 
         // Make sure that the robot isn't left moving
-        RobotContainer.driveTrain.stopModules();
+        RobotContainer.driveTrain.zeroVelocities();
     }
 
     // Returns true when the command should end.

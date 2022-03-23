@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.Parameters.indexer;
 import frc.robot.Parameters.intake;
+import frc.robot.commands.FunctionTest;
 import frc.robot.commands.autons.EmptyEverything;
 import frc.robot.commands.autons.PathPlannerTesting;
 import frc.robot.commands.climber.StopClimb;
@@ -255,7 +256,7 @@ public class RobotContainer {
         TM.whenPressed(
                 new StartEndCommand(
                                 () -> RobotContainer.driveTrain.drive(1, 0, 0, false),
-                                () -> RobotContainer.driveTrain.stopModules(),
+                                () -> RobotContainer.driveTrain.zeroVelocities(),
                                 driveTrain)
                         .withTimeout(2)); // new Climb());
         TR.whenPressed(new StopClimb());
@@ -278,6 +279,12 @@ public class RobotContainer {
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() + 0.25));
         new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
+
+        // Runs function tests
+        // Holding down keeps the test running, letting go cycles to the next on the next button
+        // push
+        new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
+
         // new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() ->
         // intake.set(.75), intake::stop, intake));
 
