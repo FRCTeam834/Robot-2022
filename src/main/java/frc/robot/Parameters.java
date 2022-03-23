@@ -59,9 +59,6 @@ public final class Parameters {
                 -10; // What happens when Andrew is around the safety team... backwards progress
         public static final int CHRISTIAN_FORTNITE_WINS =
                 39; // The number of the lead programmer's Fortnite wins EASY DUBS LETS GO
-        public static final int DIO_COMMENTS =
-                7; // You thought this was a comment that would explain what the parameter means,
-        // but it was me, DIO!
         public static final int JOJO_PARTS = 8; // parts in JOJO
         public static final int RIDICULOUS_QUESTIONS =
                 1; // How many times people have asked what this parameter is for
