@@ -33,10 +33,10 @@ public class FollowPath extends CommandBase {
     @SuppressWarnings("ParameterName")
     public FollowPath(PathPlannerTrajectory trajectory) {
         m_trajectory = trajectory;
-        PIDController xPID = new PIDController(0, 0, 0);
-        PIDController yPID = new PIDController(0, 0, 0);
+        PIDController xPID = new PIDController(1, 0, 0);
+        PIDController yPID = new PIDController(1, 0, 0);
         ProfiledPIDController rotPID =
-                new ProfiledPIDController(0, 0, 0, new Constraints(Math.PI, Math.PI * Math.PI));
+                new ProfiledPIDController(3, 0, 0, new Constraints(Math.PI, Math.PI * Math.PI));
 
         m_controller = new HolonomicDriveController(xPID, yPID, rotPID);
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
@@ -75,7 +75,7 @@ public class FollowPath extends CommandBase {
         // Calculate the first pose of the trajectory
         return new Pose2d(
                 trajectory.getInitialState().poseMeters.getTranslation(),
-                trajectory.getInitialState().holonomicRotation);
+                trajectory.getInitialState().poseMeters.getRotation());
     }
 
     @Override

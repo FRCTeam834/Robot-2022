@@ -147,9 +147,9 @@ public class DriveTrain extends SubsystemBase {
         // Positive X is forward, positive Y is left
         if (tipProtection) {
             double newXSpeed =
-                    adjustSpeedForAngle(RobotContainer.navX.getPitch(), speeds.vxMetersPerSecond);
+                    adjustSpeedForAngle(RobotContainer.navX.getRoll(), speeds.vxMetersPerSecond);
             double newYSpeed =
-                    adjustSpeedForAngle(RobotContainer.navX.getRoll(), speeds.vyMetersPerSecond);
+                    adjustSpeedForAngle(RobotContainer.navX.getPitch(), speeds.vyMetersPerSecond);
             speeds = new ChassisSpeeds(newXSpeed, newYSpeed, speeds.omegaRadiansPerSecond);
         }
 
@@ -190,17 +190,17 @@ public class DriveTrain extends SubsystemBase {
         } else if (Math.abs(angle) > Parameters.driver.tipProtection.MAX_TIP_ANGLE) {
 
             // ! POOP HAS HIT THE FAN... EVASIVE MANUEVERS ACTIVATE!
-            return Math.signum(angle) * Parameters.driver.tipProtection.MAX_CORRECTION_SPEED;
+            return Math.signum(angle) * -Parameters.driver.tipProtection.MAX_CORRECTION_SPEED;
         } else {
             // The angle must be between the min and maximum tip angle
             // Use a fancy ratio for the percentage of correction
             // So basically, if we're 80% to the max tip angle, when we'd
             // need to use .2 * the raw value and .8 times the correction speed
-            return Math.signum(angle)
+            return -Math.signum(angle)
                     * ((Math.abs(angle) - Parameters.driver.tipProtection.MIN_TIP_ANGLE)
                                     / (Parameters.driver.tipProtection.CROSSOVER_RANGE)
                                     * Parameters.driver.tipProtection.MAX_CORRECTION_SPEED
-                            + (Parameters.driver.tipProtection.MAX_TIP_ANGLE - Math.abs(angle))
+                            - (Parameters.driver.tipProtection.MAX_TIP_ANGLE - Math.abs(angle))
                                     / (Parameters.driver.tipProtection.CROSSOVER_RANGE)
                                     * rawValue);
         }
@@ -429,6 +429,10 @@ public class DriveTrain extends SubsystemBase {
      */
     public void resetOdometry(Pose2d currentPosition) {
         swerveDriveOdometry.resetPosition(currentPosition, RobotContainer.navX.getRotation2d());
+        frontLeft.resetDriveEncoder();
+        frontRight.resetDriveEncoder();
+        backLeft.resetDriveEncoder();
+        backRight.resetDriveEncoder();
     }
 
     public void resetOdometry(Pose2d currentPosition, Rotation2d currentAngle) {
