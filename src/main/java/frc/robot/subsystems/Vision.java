@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -105,11 +104,12 @@ public class Vision extends SubsystemBase {
 
     public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
         if (bestTarget != null) {
-            return distAverage.addPt(PhotonUtils.calculateDistanceToTargetMeters(
-                    Parameters.vision.CAMERA_HEIGHT,
-                    Parameters.vision.GOAL_HEIGHT,
-                    Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
-                    Units.degreesToRadians(bestTarget.getPitch())));
+            return distAverage.addPt(
+                    PhotonUtils.calculateDistanceToTargetMeters(
+                            Parameters.vision.CAMERA_HEIGHT,
+                            Parameters.vision.GOAL_HEIGHT,
+                            Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
+                            Units.degreesToRadians(bestTarget.getPitch())));
         } else {
             return 0;
         }

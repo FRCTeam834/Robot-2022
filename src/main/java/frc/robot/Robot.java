@@ -13,9 +13,6 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
@@ -165,7 +162,6 @@ public class Robot extends TimedRobot {
         // System.out.println("BL: " + RobotContainer.driveTrain.backLeft.getState().toString());
         // System.out.println("BR: " + RobotContainer.driveTrain.backRight.getState().toString());
         System.out.println(RobotContainer.navX.getRoll());
-
     }
 
     @Override

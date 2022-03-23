@@ -6,6 +6,7 @@ package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.interpolation.ShotParams;
@@ -13,6 +14,7 @@ import frc.robot.utilityClasses.interpolation.ShotParams;
 public class PrepareShooterForVision extends CommandBase {
     /** Creates a new PrepareShooter. */
     double distance = 0;
+
     boolean ready = false;
     ShotParams shotParams;
     Timer timer;
