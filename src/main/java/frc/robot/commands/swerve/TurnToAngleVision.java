@@ -12,6 +12,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.driving.LetsRoll;
@@ -67,11 +68,11 @@ public class TurnToAngleVision extends CommandBase {
             // Clamping is done to keep the movement within reasonable turning rates
             omega =
                     Math.toRadians(
-                        MathUtil.clamp(
+                            MathUtil.clamp(
                                     rotationalPID.calculate(
                                             latestResult.getYaw(), Parameters.vision.YAW_OFFSET),
-                            -Parameters.vision.MAX_TURNING_SPEED,
-                            Parameters.vision.MAX_TURNING_SPEED));
+                                    -Parameters.vision.MAX_TURNING_SPEED,
+                                    Parameters.vision.MAX_TURNING_SPEED));
         }
 
         RobotContainer.driveTrain.drive(
@@ -99,8 +100,7 @@ public class TurnToAngleVision extends CommandBase {
     public boolean isFinished() {
         if (exitWhenAligned) {
             return rotationalPID.atSetpoint();
-        }
-        else {
+        } else {
             return false;
         }
     }
