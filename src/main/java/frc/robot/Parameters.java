@@ -523,10 +523,17 @@ public final class Parameters {
         public static final double CAMERA_PITCH = 55;
 
         // The yaw offset when straight
-        public static final double YAW_OFFSET = 9;
+        public static final double YAW_OFFSET = 15;
 
         // The height of the goal (m)
         public static final double GOAL_HEIGHT = Units.feetToMeters(8) + Units.inchesToMeters(8);
+
+        // Goal x and y on field (m)
+        public static final double GOAL_X = Units.feetToMeters(27);
+        public static final double GOAL_Y = Units.feetToMeters(13.5);
+
+        // The radius of the tape on goal
+        public static final double GOAL_TAPE_RADIUS = Units.feetToMeters(4.5) / 2.0;
 
         // How far can the robot be from a target? (deg)
         public static final double YAW_TOLERANCE = 2;
@@ -536,5 +543,16 @@ public final class Parameters {
 
         // Spin speed - used when looking for a target to lock on to (in deg/s)
         public static final double SPIN_SPEED = 0;
+
+        // Tolerance for radius given by circlefitter
+        public static final double CIRCLE_FIT_TOLERANCE = Units.inchesToMeters(6);
+
+        // Camera resolution in pixels
+        public static final double CAMERA_RESOLUTION_X = 0;
+        public static final double CAMERA_RESOLUTION_Y = 0;
+
+        // Camera fov in degrees
+        public static final double CAMERA_HFOV = 0;
+        public static final double CAMERA_VFOV = 0;
     }
 }
