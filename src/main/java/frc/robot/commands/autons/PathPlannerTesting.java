@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.ColorSensorIntaking;
-import frc.robot.commands.intake.IntakeBallsForTime;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
 import frc.robot.commands.swerve.TurnToAngleVision;
@@ -44,10 +43,13 @@ public class PathPlannerTesting extends SequentialCommandGroup {
                                                 examplePath.getInitialState().holonomicRotation))),
                 new ParallelRaceGroup(new FollowPath(examplePath), new ColorSensorIntaking()),
                 new ParallelRaceGroup(
-                                new TurnToAngleVision(true, false), new PrepareShooterForVision()).withTimeout(4),
+                                new TurnToAngleVision(true, false), new PrepareShooterForVision())
+                        .withTimeout(4),
                 new ParallelRaceGroup(new DriveForTime(2, 1), new ColorSensorIntaking()),
                 new ParallelRaceGroup(
-                                new ColorSensorIntaking(), new TurnToAngleVision(true, false), new PrepareShooterForVision()),
+                        new ColorSensorIntaking(),
+                        new TurnToAngleVision(true, false),
+                        new PrepareShooterForVision()),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }

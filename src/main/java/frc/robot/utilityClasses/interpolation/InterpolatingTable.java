@@ -11,8 +11,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
 
-import frc.robot.Parameters.climber;
-
 /** Add your docs here. */
 public class InterpolatingTable {
 
@@ -48,7 +46,7 @@ public class InterpolatingTable {
             return floor.getValue();
         }
         if (floor == null) return ceiling.getValue();
-        //if (ceiling.getValue().equals(floor.getValue())) return ceiling.getValue();
+        // if (ceiling.getValue().equals(floor.getValue())) return ceiling.getValue();
         /*
         System.out.println("Ceil: " + ceiling.toString());
         System.out.println("Floor: " + floor.toString());

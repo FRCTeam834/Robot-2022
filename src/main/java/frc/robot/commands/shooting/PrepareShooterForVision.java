@@ -47,13 +47,14 @@ public class PrepareShooterForVision extends CommandBase {
 
         // Set the hood and shooter's desired angles
         RobotContainer.hood.setDesiredAngle(shotParams.getAngle());
-        RobotContainer.shooter.setDesiredPID(shotParams.getSpeed()+.201);
+        RobotContainer.shooter.setDesiredPID(shotParams.getSpeed() + .201);
 
         // else {
         //   RobotContainer.hood.setCurrentAngle(Parameters.shooter.FENDER_HOOD_ANGLE);
         // RobotContainer.shooter.setDesiredPID(Parameters.shooter.FENDER_SHOT_SPEED);
         // }
-        if (/*RobotContainer.shooter.readyToShoot()*/ timer.hasElapsed(1)) {
+        if (
+        /*RobotContainer.shooter.readyToShoot()*/ timer.hasElapsed(1)) {
             RobotContainer.indexer.set(Parameters.indexer.MOTOR_SPEED);
             ready = true;
             timer.reset();

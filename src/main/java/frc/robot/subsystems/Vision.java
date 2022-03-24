@@ -104,11 +104,11 @@ public class Vision extends SubsystemBase {
 
     public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
         if (bestTarget != null) {
-                return PhotonUtils.calculateDistanceToTargetMeters(
-                            Parameters.vision.CAMERA_HEIGHT,
-                            Parameters.vision.GOAL_HEIGHT,
-                            Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
-                            Units.degreesToRadians(bestTarget.getPitch()));
+            return PhotonUtils.calculateDistanceToTargetMeters(
+                    Parameters.vision.CAMERA_HEIGHT,
+                    Parameters.vision.GOAL_HEIGHT,
+                    Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
+                    Units.degreesToRadians(bestTarget.getPitch()));
         } else {
             return 0;
         }
