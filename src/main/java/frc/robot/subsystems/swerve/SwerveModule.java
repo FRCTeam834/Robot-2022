@@ -489,6 +489,10 @@ public class SwerveModule extends SubsystemBase {
                         angularOffset));
     }
 
+    public void resetDriveEncoder() {
+        driveMotorEncoder.setPosition(0);
+    }
+
     @Override
     public void periodic() {
         if (Parameters.tuningMode) {

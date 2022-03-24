@@ -65,7 +65,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor.burnFlash();
 
         shooterPIDController = new PIDController(0.024089, 0, 0);
-        shooterPIDController.setTolerance(2);
+        shooterPIDController.setTolerance(0.5);
         shooterLog = DataLogManager.getLog();
         speedLog = new DoubleLogEntry(shooterLog, "flywheelSpeedmeters");
         distanceLog = new DoubleLogEntry(shooterLog, "distance");

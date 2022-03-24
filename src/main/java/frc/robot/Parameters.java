@@ -59,9 +59,6 @@ public final class Parameters {
                 -10; // What happens when Andrew is around the safety team... backwards progress
         public static final int CHRISTIAN_FORTNITE_WINS =
                 39; // The number of the lead programmer's Fortnite wins EASY DUBS LETS GO
-        public static final int DIO_COMMENTS =
-                7; // You thought this was a comment that would explain what the parameter means,
-        // but it was me, DIO!
         public static final int JOJO_PARTS = 8; // parts in JOJO
         public static final int RIDICULOUS_QUESTIONS =
                 1; // How many times people have asked what this parameter is for
@@ -116,7 +113,7 @@ public final class Parameters {
 
             // The angle (deg) of when the drive base will be completely taken over
             // Correction is scaled between the min and max angles
-            public static final double MAX_TIP_ANGLE = 45;
+            public static final double MAX_TIP_ANGLE = 25;
 
             // The angle range (deg) of the crossover
             // This is literally just the difference between the min and max angles
@@ -267,7 +264,7 @@ public final class Parameters {
         public static final boolean DISABLE_UNUSED_MOTORS = false;
 
         public static final int TUBE_CURRENT_LIMIT = 60;
-        public static final int TUBE_HOME_CURRENT = 5;
+        public static final int TUBE_HOME_CURRENT = 1;
 
         public static final class lift {
 
@@ -471,7 +468,7 @@ public final class Parameters {
                 25.0; // Ratio of motor turns to gearbox output turns
         public static final double CHAIN_RATIO =
                 (64.0 / 22.0); // Ratio of motor turns to hood movement
-        public static final double ALLOWABLE_RANGE = 70; // The range of motion, in degrees
+        public static final double ALLOWABLE_RANGE = 75; // The range of motion, in degrees
         public static final double MAX_MOTOR_DUTY =
                 1; // The maximum output of the motor when moving
 
@@ -542,7 +539,7 @@ public final class Parameters {
         public static final double YAW_TOLERANCE = 2;
 
         // The maximum turning speed when turning to face a target (in deg/s)
-        public static final double MAX_TURNING_SPEED = 45;
+        public static final double MAX_TURNING_SPEED = 60;
 
         // Spin speed - used when looking for a target to lock on to (in deg/s)
         public static final double SPIN_SPEED = 0;

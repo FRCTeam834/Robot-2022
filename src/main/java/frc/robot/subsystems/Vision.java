@@ -9,6 +9,8 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.RobotContainer;
+import frc.robot.utilityClasses.MovingAverage;
 
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
@@ -20,6 +22,7 @@ public class Vision extends SubsystemBase {
 
     public static PhotonCamera camera;
     private static boolean LEDsOn;
+    private MovingAverage distAverage;
 
     public Vision() {
 
@@ -34,6 +37,9 @@ public class Vision extends SubsystemBase {
 
         // Set that the LEDs are off
         LEDsOn = false;
+
+        // Set up the moving average filter
+        distAverage = new MovingAverage(10);
     }
 
     public void turnLEDsOn() {
@@ -92,13 +98,18 @@ public class Vision extends SubsystemBase {
         }
     }
 
+    public void flushDistAvg() {
+        distAverage.clearPts();
+    }
+
     public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
         if (bestTarget != null) {
-            return PhotonUtils.calculateDistanceToTargetMeters(
-                    Parameters.vision.CAMERA_HEIGHT,
-                    Parameters.vision.GOAL_HEIGHT,
-                    Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
-                    Units.degreesToRadians(bestTarget.getPitch()));
+            return distAverage.addPt(
+                    PhotonUtils.calculateDistanceToTargetMeters(
+                            Parameters.vision.CAMERA_HEIGHT,
+                            Parameters.vision.GOAL_HEIGHT,
+                            Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
+                            Units.degreesToRadians(bestTarget.getPitch())));
         } else {
             return 0;
         }
@@ -110,6 +121,14 @@ public class Vision extends SubsystemBase {
 
     public double getDistanceToGoalInches() {
         return Units.metersToInches(getDistanceToGoal());
+    }
+
+    private double getShotSpeed() {
+        return RobotContainer.interpolatingTable.getShotParam(getDistanceToGoalInches()).getSpeed();
+    }
+
+    private double getShotAngle() {
+        return RobotContainer.interpolatingTable.getShotParam(getDistanceToGoalInches()).getAngle();
     }
 
     public double getYaw() {
@@ -134,6 +153,8 @@ public class Vision extends SubsystemBase {
                     "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);
             builder.addDoubleProperty("distance_inches", this::getDistanceToGoalInches, null);
+            builder.addDoubleProperty("shot_speed", this::getShotSpeed, null);
+            builder.addDoubleProperty("shot_angle", this::getShotAngle, null);
         }
     }
 }

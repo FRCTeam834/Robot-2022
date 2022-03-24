@@ -13,21 +13,34 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
+import frc.robot.commands.swerve.driving.LetsRoll;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class TurnToAngleVision extends CommandBase {
 
+    boolean exitWhenAligned;
+    boolean startDrivingAfter;
     PIDController rotationalPID = new PIDController(3, 0, 0);
     double omega = 0;
 
-    public TurnToAngleVision() {
+    public TurnToAngleVision(boolean runDriveAfterEnd, boolean shouldExitWhenAligned) {
+
+        // Set up the rotational PID controller
         rotationalPID.enableContinuousInput(0, 360);
         rotationalPID.setTolerance(.5);
-        // Request the subsystem
+
+        // Save if we should exit when aligned
+        exitWhenAligned = shouldExitWhenAligned;
+
+        // Save if the drivetrain should go back to driving after being interrupted
+        startDrivingAfter = runDriveAfterEnd;
+
+        // Request the drivetrain
         addRequirements(RobotContainer.driveTrain);
     }
 
@@ -38,11 +51,15 @@ public class TurnToAngleVision extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
 
+        // Get the joystick values (for translational movement)
         double rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
         double rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
 
+        // Get the vision target
+        PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
+
+        // Make sure that we actually have a target
         if (latestResult == null) {
             if (DriverStation.isFMSAttached()) {
                 Pose2d robotPose = RobotContainer.driveTrain.getEstPose2D();
@@ -60,13 +77,16 @@ public class TurnToAngleVision extends CommandBase {
                 omega = 0;
             }
         } else {
+            // Use the target to feed the PID controller
+            // We need to convert from deg to rad because drive() uses radians
+            // Clamping is done to keep the movement within reasonable turning rates
             omega =
-                    MathUtil.clamp(
-                            Math.toRadians(
+                    Math.toRadians(
+                            MathUtil.clamp(
                                     rotationalPID.calculate(
-                                            latestResult.getYaw(), Parameters.vision.YAW_OFFSET)),
-                            -1,
-                            1);
+                                            latestResult.getYaw(), Parameters.vision.YAW_OFFSET),
+                                    -Parameters.vision.MAX_TURNING_SPEED,
+                                    Parameters.vision.MAX_TURNING_SPEED));
         }
 
         RobotContainer.driveTrain.drive(
@@ -82,11 +102,20 @@ public class TurnToAngleVision extends CommandBase {
 
         // Stop all of the modules (basically zero their velocities)
         RobotContainer.driveTrain.zeroVelocities();
+
+        // Schedule the drive command
+        if (startDrivingAfter) {
+            CommandScheduler.getInstance().schedule(new LetsRoll());
+        }
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return rotationalPID.atSetpoint();
+        if (exitWhenAligned) {
+            return rotationalPID.atSetpoint();
+        } else {
+            return false;
+        }
     }
 }

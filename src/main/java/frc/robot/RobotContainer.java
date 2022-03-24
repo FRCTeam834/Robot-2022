@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.Parameters.indexer;
 import frc.robot.Parameters.intake;
+import frc.robot.commands.FunctionTest;
 import frc.robot.commands.autons.EmptyEverything;
 import frc.robot.commands.autons.PathPlannerTesting;
 import frc.robot.commands.climber.StopClimb;
@@ -106,7 +107,6 @@ public class RobotContainer {
     // private final HomeClimberTubes homeClimberTubes = new HomeClimberTubes();
 
     // Autoshooting
-    private final TurnToAngleVision turnToGoal = new TurnToAngleVision();
     private final AutoShoot autoShoot = new AutoShoot();
 
     // Define the joysticks (need to be public so commands can access axes)
@@ -201,8 +201,8 @@ public class RobotContainer {
                 .whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
         new JoystickButton(rightJoystick, 2)
                 .whenPressed(
-                        new ParallelCommandGroup(
-                                new TurnToAngleVision(), new PrepareShooterForVision()));
+                        new ParallelRaceGroup(
+                                new TurnToAngleVision(true, false), new PrepareShooterForVision()));
 
         // right and left lift up
         BM.whenHeld(
@@ -278,6 +278,12 @@ public class RobotContainer {
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() + 0.25));
         new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
+
+        // Runs function tests
+        // Holding down keeps the test running, letting go cycles to the next on the next button
+        // push
+        new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
+
         // new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() ->
         // intake.set(.75), intake::stop, intake));
 

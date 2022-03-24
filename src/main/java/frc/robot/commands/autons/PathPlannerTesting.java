@@ -22,7 +22,7 @@ public class PathPlannerTesting extends SequentialCommandGroup {
     public PathPlannerTesting() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        PathPlannerTrajectory examplePath = PathPlanner.loadPath("New Path", .5, .25);
+        PathPlannerTrajectory examplePath = PathPlanner.loadPath("Sigma Test Path", 1, .5);
         addCommands(
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules),
                 new InstantCommand(
