@@ -45,4 +45,8 @@ public class ShotParams {
     public double getSpeed() {
         return speed;
     }
+
+    public String toString() {
+        return String.format("S: %f | A: %f", speed, angle);
+    }
 }

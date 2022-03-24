@@ -39,7 +39,7 @@ public class Vision extends SubsystemBase {
         LEDsOn = false;
 
         // Set up the moving average filter
-        distAverage = new MovingAverage(10);
+        distAverage = new MovingAverage(50);
     }
 
     public void turnLEDsOn() {
@@ -104,12 +104,11 @@ public class Vision extends SubsystemBase {
 
     public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
         if (bestTarget != null) {
-            return distAverage.addPt(
-                    PhotonUtils.calculateDistanceToTargetMeters(
+                return PhotonUtils.calculateDistanceToTargetMeters(
                             Parameters.vision.CAMERA_HEIGHT,
                             Parameters.vision.GOAL_HEIGHT,
                             Units.degreesToRadians(Parameters.vision.CAMERA_PITCH),
-                            Units.degreesToRadians(bestTarget.getPitch())));
+                            Units.degreesToRadians(bestTarget.getPitch()));
         } else {
             return 0;
         }
@@ -120,7 +119,7 @@ public class Vision extends SubsystemBase {
     }
 
     public double getDistanceToGoalInches() {
-        return Units.metersToInches(getDistanceToGoal());
+        return distAverage.addPt(Units.metersToInches(getDistanceToGoal()));
     }
 
     private double getShotSpeed() {

@@ -9,10 +9,17 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.RobotContainer;
+import frc.robot.commands.hood.HomeHood;
+import frc.robot.commands.intake.ColorSensorIntaking;
+import frc.robot.commands.intake.IntakeBallsForTime;
+import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
+import frc.robot.commands.swerve.TurnToAngleVision;
+import frc.robot.commands.swerve.driving.DriveForTime;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,9 +29,10 @@ public class PathPlannerTesting extends SequentialCommandGroup {
     public PathPlannerTesting() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        PathPlannerTrajectory examplePath = PathPlanner.loadPath("Sigma Test Path", 1, .5);
+        PathPlannerTrajectory examplePath = PathPlanner.loadPath("Two Ball", 4, 2);
         addCommands(
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules),
+                new HomeHood(),
                 new InstantCommand(
                         () ->
                                 RobotContainer.driveTrain.resetOdometry(
@@ -34,7 +42,12 @@ public class PathPlannerTesting extends SequentialCommandGroup {
                                                         .poseMeters
                                                         .getTranslation(),
                                                 examplePath.getInitialState().holonomicRotation))),
-                new FollowPath(examplePath),
+                new ParallelRaceGroup(new FollowPath(examplePath), new ColorSensorIntaking()),
+                new ParallelRaceGroup(
+                                new TurnToAngleVision(true, false), new PrepareShooterForVision()).withTimeout(4),
+                new ParallelRaceGroup(new DriveForTime(2, 1), new ColorSensorIntaking()),
+                new ParallelRaceGroup(
+                                new ColorSensorIntaking(), new TurnToAngleVision(true, false), new PrepareShooterForVision()),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }

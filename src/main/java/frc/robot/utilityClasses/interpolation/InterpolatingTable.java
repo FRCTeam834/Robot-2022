@@ -11,6 +11,8 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
 
+import frc.robot.Parameters.climber;
+
 /** Add your docs here. */
 public class InterpolatingTable {
 
@@ -27,19 +29,16 @@ public class InterpolatingTable {
                 new TreeMap<>(
                         Map.ofEntries(
                                 entry(0.0, new ShotParams(19.49, 76.76)),
-                                entry(17.85, new ShotParams(19.98, 65.804)),
-                                entry(29.7, new ShotParams(20.17, 63.68)),
-                                entry(41.17, new ShotParams(20.37, 60.85)),
-                                entry(46.48, new ShotParams(20.93, 57.43)),
-                                entry(61.32, new ShotParams(22.22, 55.78)),
-                                entry(69.37, new ShotParams(22.4, 54)),
-                                entry(77.908, new ShotParams(23.026, 54)),
-                                entry(85.86, new ShotParams(24, 52.6)),
-                                entry(92.064, new ShotParams(24.69, 50.36)),
-                                entry(97.19, new ShotParams(24.79, 50.19)),
-                                entry(104.91, new ShotParams(25.68, 44.94)),
-                                // entry(110.84, new ShotParams(26.18,46.17)),
-                                entry(113.17, new ShotParams(29, 40))));
+                                entry(104.0, new ShotParams(26.9, 44.8)),
+                                entry(114.2, new ShotParams(27.4, 44.4)),
+                                entry(95.2, new ShotParams(25.85, 50.0)),
+                                entry(85.0, new ShotParams(23.55, 52.01)),
+                                entry(75.89, new ShotParams(23.06, 52.72)),
+                                entry(65.0, new ShotParams(22.72, 55.31)),
+                                entry(55.16, new ShotParams(22.22, 57.67)),
+                                entry(47.28, new ShotParams(21.39, 59.32)),
+                                entry(32.45, new ShotParams(20.51, 64.15)),
+                                entry(19.71, new ShotParams(20.25, 69.1))));
     }
 
     public ShotParams getShotParam(double distance) {
@@ -49,10 +48,18 @@ public class InterpolatingTable {
             return floor.getValue();
         }
         if (floor == null) return ceiling.getValue();
-        if (ceiling.getValue().equals(floor.getValue())) return ceiling.getValue();
-        return ceiling.getValue()
+        //if (ceiling.getValue().equals(floor.getValue())) return ceiling.getValue();
+        /*
+        System.out.println("Ceil: " + ceiling.toString());
+        System.out.println("Floor: " + floor.toString());
+        System.out.println("Result: " + distance+  " " + floor.getValue()
+        .interpolate(
+                ceiling.getValue(),
+                (distance - floor.getKey()) / (ceiling.getKey() - floor.getKey())).toString());*/
+
+        return floor.getValue()
                 .interpolate(
-                        floor.getValue(),
+                        ceiling.getValue(),
                         (distance - floor.getKey()) / (ceiling.getKey() - floor.getKey()));
     }
 

@@ -27,7 +27,7 @@ public class Shooter extends SubsystemBase {
 
     // Motor and motor encoder object
     CANSparkMax shooterMotor;
-    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.12608, 0.344, 0.032386);
+    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.1009, 0.357, 0.048143);
     RelativeEncoder shooterMotorEncoder;
     PIDController shooterPIDController;
     DataLog shooterLog;
@@ -65,7 +65,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor.burnFlash();
 
         shooterPIDController = new PIDController(0.024089, 0, 0);
-        shooterPIDController.setTolerance(0.5);
+        shooterPIDController.setTolerance(0.25);
         shooterLog = DataLogManager.getLog();
         speedLog = new DoubleLogEntry(shooterLog, "flywheelSpeedmeters");
         distanceLog = new DoubleLogEntry(shooterLog, "distance");
