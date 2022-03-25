@@ -402,7 +402,7 @@ public final class Parameters {
                     HOME_DISTANCE
                             + Units.inchesToMeters(
                                     .5); // The distance of the string from the spool in the up
-                                         // position
+            // position
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
                             15); // The distance of the string from the spool in the down position

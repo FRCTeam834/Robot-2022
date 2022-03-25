@@ -29,7 +29,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.Parameters.indexer;
-import frc.robot.Parameters.intake;
 import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.FunctionTest;
 import frc.robot.commands.autons.OneBallAuton;
@@ -281,7 +280,6 @@ public class RobotContainer {
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 1));
         new JoystickButton(xbox, Button.kLeftBumper.value)
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
-
 
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() + 0.25));
         new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
