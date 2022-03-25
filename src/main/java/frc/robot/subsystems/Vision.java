@@ -22,6 +22,7 @@ public class Vision extends SubsystemBase {
 
     public static PhotonCamera camera;
     private static boolean LEDsOn;
+    public static boolean hasTargets;
     private MovingAverage distAverage;
 
     public Vision() {
@@ -137,9 +138,12 @@ public class Vision extends SubsystemBase {
         else return 0;
     }
 
+    public boolean hasTargets() {
+        return hasTargets;
+    }
     @Override
     public void periodic() {
-        // camera.setVersionCheckEnabled(false);
+        hasTargets = camera.getLatestResult().hasTargets();
     }
 
     @Override

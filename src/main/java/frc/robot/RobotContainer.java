@@ -141,11 +141,10 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        autoChooser.setDefaultOption("One Ball Auto", new OneBallAuton());
-        autoChooser.addOption("Two Ball Auton (Scoring Table HP Far)", null);
-        autoChooser.addOption("Two Ball Auton (Scoring Table HP Close)", null);
-        autoChooser.addOption("Two Ball Auton (Hangar)", null);
-        autoChooser.addOption("Three Ball Auton (HP)", null);
+        autoChooser.setDefaultOption("One Ball Auton", new OneBallAuton());
+        autoChooser.addOption("Two Ball Auton", null);
+        autoChooser.addOption("Three Ball Auton (HP)", new PathPlannerTesting());
+        SmartDashboard.putData(autoChooser);
         if (Parameters.telemetryMode) {
             SmartDashboard.putData(shooter);
             SmartDashboard.putData(hood);
@@ -270,19 +269,26 @@ public class RobotContainer {
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
         BL.whenPressed(new HomeIntake());
+<<<<<<< HEAD
+        
+=======
         new JoystickButton(xbox, Button.kA.value)
                 .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
 
+>>>>>>> 8fbc366089035e7e45835d1406975df797e65e32
         // 87.6 20.4
         new JoystickButton(xbox, Button.kY.value).whileHeld(new ColorSensorIntaking());
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value)
                 .whenPressed(new InstantCommand(() -> shooter.stop()));
+        new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
+
         new JoystickButton(xbox, Button.kRightBumper.value)
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 1));
         new JoystickButton(xbox, Button.kLeftBumper.value)
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
-        new JoystickButton(xbox, 8).whenPressed(new SwitchIntakeState());
+
+
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() + 0.25));
         new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
 
@@ -374,6 +380,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new PathPlannerTesting();
+        return autoChooser.getSelected();
     }
 }
