@@ -47,6 +47,7 @@ import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.LetsRoll;
+import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
 import frc.robot.commands.swerve.testing.TestModulePID;
 import frc.robot.commands.swerve.testing.TestModulePositioning;
 import frc.robot.commands.swerve.testing.TestModuleVelocity;
@@ -174,6 +175,7 @@ public class RobotContainer {
         new JoystickButton(leftJoystick, 1).whileHeld(new EmptyEverything());
         new JoystickButton(leftJoystick, 2).whenPressed(letsRoll);
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
+        new JoystickButton(leftJoystick, 4).whenPressed(new LetsRollEgoCentric());
         new JoystickButton(leftJoystick, 8)
                 .and(new JoystickButton(leftJoystick, 9))
                 .whenActive(

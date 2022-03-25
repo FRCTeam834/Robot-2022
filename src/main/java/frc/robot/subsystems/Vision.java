@@ -91,7 +91,7 @@ public class Vision extends SubsystemBase {
         if (bestTarget != null) {
 
             // Check to see if the yaw deviation is below the tolerance
-            return (Parameters.vision.YAW_TOLERANCE > Math.abs(bestTarget.getYaw()));
+            return (Parameters.vision.YAW_TOLERANCE > Math.abs(bestTarget.getYaw() - Parameters.vision.YAW_OFFSET));
         } else {
             // We don't have a target, so we're not lined up
             return false;

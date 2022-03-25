@@ -18,9 +18,9 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.LEDColors;
 
-public class LetsRoll extends CommandBase {
+public class LetsRollEgoCentric extends CommandBase {
 
-    public LetsRoll() {
+    public LetsRollEgoCentric() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.driveTrain);
     }
@@ -51,7 +51,7 @@ public class LetsRoll extends CommandBase {
                     (-rightY * Parameters.driver.maxModVelocity),
                     (-rightX * Parameters.driver.maxModVelocity),
                     Math.toRadians(-leftX * RobotContainer.turnRate),
-                    Parameters.driver.fieldCentric,
+                    false,
                     Parameters.driver.tipProtection.USING_TIP_PROTECTION);
         } else if (Parameters.driver.lockemUp) {
             RobotContainer.driveTrain.lockemUp();
