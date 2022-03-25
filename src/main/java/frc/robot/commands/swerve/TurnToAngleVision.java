@@ -10,8 +10,6 @@ package frc.robot.commands.swerve;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
@@ -59,21 +57,9 @@ public class TurnToAngleVision extends CommandBase {
 
         // Make sure that we actually have a target
         if (latestResult == null) {
-            if (DriverStation.isFMSAttached()) {
-                Pose2d robotPose = RobotContainer.driveTrain.getEstPose2D();
-                double facingInRadians = RobotContainer.navX.getRotation2d().getRadians();
-                double x = robotPose.getX();
-                double y = robotPose.getY();
-                double targetRadians =
-                        Math.atan2(Parameters.vision.GOAL_X - y, Parameters.vision.GOAL_Y - x);
-                double closestAngle =
-                        (targetRadians - facingInRadians + Math.toRadians(540))
-                                        % Math.toRadians(360)
-                                - Math.toRadians(180);
-                omega = Math.signum(closestAngle) * -1;
-            } else {
-                omega = 0;
-            }
+
+            // We shouldn't be moving if there isn't a target
+            omega = 0;
         } else {
             // Use the target to feed the PID controller
             // We need to convert from deg to rad because drive() uses radians
