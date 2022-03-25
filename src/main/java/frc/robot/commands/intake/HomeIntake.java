@@ -21,6 +21,11 @@ public class HomeIntake extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+
+        // Disable the soft limits
+        RobotContainer.intakeWinch.disableSoftLimits();
+
+        // Set the homing current
         RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.spool.HOME_CURRENT);
         if (!RobotContainer.intakeWinch.getLSValue()) {
             RobotContainer.intakeWinch.set(Parameters.intake.spool.HOME_SPEED);
