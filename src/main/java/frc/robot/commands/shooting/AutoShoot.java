@@ -26,7 +26,5 @@ public class AutoShoot extends SequentialCommandGroup {
                         .withInterrupt(RobotContainer.shooter::readyToShoot),
                 new IndexForTime(3),
                 new StopEverything());
-
-
     }
 }

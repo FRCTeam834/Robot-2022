@@ -54,6 +54,7 @@ public class HomeIntake extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return RobotContainer.intakeWinch.getMotorCurrent() > Parameters.intake.spool.HOMING_CURRENT_THRESHOLD;
+        return RobotContainer.intakeWinch.getMotorCurrent()
+                > Parameters.intake.spool.HOMING_CURRENT_THRESHOLD;
     }
 }

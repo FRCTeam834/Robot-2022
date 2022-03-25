@@ -16,13 +16,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.Parameters.intake.spool;
 import frc.robot.utilityClasses.CachedPIDController;
 
 public class IntakeWinch extends SubsystemBase {
     /** Creates a new IntakeWinch. */
     // Motor object for spool
     CANSparkMax spoolMotor;
+
     Debouncer debouncer = new Debouncer(.2);
 
     // Motor encoder
@@ -126,14 +126,14 @@ public class IntakeWinch extends SubsystemBase {
         // Set the soft limits
         // Soft limits are basically the controller not allowing certain values to be set for the
         // PID loop
-        //spoolMotor.setSoftLimit(
+        // spoolMotor.setSoftLimit(
         //        SoftLimitDirection.kForward, (float) Parameters.intake.spool.DOWN_DISTANCE);
-        //spoolMotor.setSoftLimit(
+        // spoolMotor.setSoftLimit(
         //        SoftLimitDirection.kReverse, (float) (Parameters.intake.spool.UP_DISTANCE));
 
         // Enable the soft limits
-        //spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        //spoolMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        // spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        // spoolMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
         // Set that the spool is homed
         homed = true;

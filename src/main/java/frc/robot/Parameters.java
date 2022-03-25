@@ -355,10 +355,11 @@ public final class Parameters {
             public static final double HOME_DISTANCE =
                     Units.inchesToMeters(4.75); // The distance at home
 
-            
             // Midway distances
-            public static final double LEFT_HALF_DISTANCE = (LEFT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE;
-            public static final double RIGHT_HALF_DISTANCE = (RIGHT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE;
+            public static final double LEFT_HALF_DISTANCE =
+                    (LEFT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE;
+            public static final double RIGHT_HALF_DISTANCE =
+                    (RIGHT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE;
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot
@@ -397,7 +398,11 @@ public final class Parameters {
                     (Math.PI
                             * Units.inchesToMeters(
                                     1)); // Diameter is 1 inch, circumfrence is in meters
-            public static final double UP_DISTANCE = HOME_DISTANCE + Units.inchesToMeters(.5); // The distance of the string from the spool in the up position
+            public static final double UP_DISTANCE =
+                    HOME_DISTANCE
+                            + Units.inchesToMeters(
+                                    .5); // The distance of the string from the spool in the up
+                                         // position
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
                             15); // The distance of the string from the spool in the down position
