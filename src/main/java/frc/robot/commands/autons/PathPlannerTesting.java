@@ -47,7 +47,7 @@ public class PathPlannerTesting extends SequentialCommandGroup {
                 new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision())
                         .withTimeout(3),
-                new ParallelRaceGroup(new DriveForTime(1, 1), new ColorSensorIntaking()),
+                new ParallelRaceGroup(new DriveForTime(2, 1), new ColorSensorIntaking()),
                 new ParallelRaceGroup(
                         new ColorSensorIntaking(),
                         new TurnToAngleVision(true, false),
