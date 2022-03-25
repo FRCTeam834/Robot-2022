@@ -34,16 +34,23 @@ public class PathPlannerTesting extends SequentialCommandGroup {
         // addCommands(new FooCommand(), new BarCommand());
         PathPlannerTrajectory examplePath = PathPlanner.loadPath("Two Ball", 4, 2);
         addCommands(
-                new ParallelCommandGroup( new InstantCommand(
-                        () ->
-                                RobotContainer.driveTrain.resetOdometry(
-                                        new Pose2d(
-                                                examplePath
-                                                        .getInitialState()
-                                                        .poseMeters
-                                                        .getTranslation(),
-                                                examplePath.getInitialState().holonomicRotation))), new HomeClimberTubes()),
-                new ParallelDeadlineGroup(new FollowPath(examplePath), new ColorSensorIntaking(), new HomeHood(), new IdleShooter()),
+                new ParallelCommandGroup(
+                        new InstantCommand(
+                                () ->
+                                        RobotContainer.driveTrain.resetOdometry(
+                                                new Pose2d(
+                                                        examplePath
+                                                                .getInitialState()
+                                                                .poseMeters
+                                                                .getTranslation(),
+                                                        examplePath.getInitialState()
+                                                                .holonomicRotation))),
+                        new HomeClimberTubes()),
+                new ParallelDeadlineGroup(
+                        new FollowPath(examplePath),
+                        new ColorSensorIntaking(),
+                        new HomeHood(),
+                        new IdleShooter()),
                 new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision())
                         .withTimeout(3),

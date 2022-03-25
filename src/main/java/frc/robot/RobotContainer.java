@@ -270,11 +270,9 @@ public class RobotContainer {
         BL.whenPressed(new HomeIntake());
         new JoystickButton(xbox, Button.kA.value)
                 .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
-        
+
         // 87.6 20.4
-        new JoystickButton(xbox, Button.kY.value)
-                .whileHeld(
-                        new ColorSensorIntaking());
+        new JoystickButton(xbox, Button.kY.value).whileHeld(new ColorSensorIntaking());
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value)
                 .whenPressed(new InstantCommand(() -> shooter.stop()));
@@ -365,9 +363,7 @@ public class RobotContainer {
     }
 
     /** Homes all of the robot's PID controllers if they haven't already been homed */
-    public void homeAllPIDControllers() {
-
-    }
+    public void homeAllPIDControllers() {}
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
