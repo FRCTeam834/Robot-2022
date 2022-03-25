@@ -269,13 +269,7 @@ public class RobotContainer {
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
         BL.whenPressed(new HomeIntake());
-<<<<<<< HEAD
-        
-=======
-        new JoystickButton(xbox, Button.kA.value)
-                .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
 
->>>>>>> 8fbc366089035e7e45835d1406975df797e65e32
         // 87.6 20.4
         new JoystickButton(xbox, Button.kY.value).whileHeld(new ColorSensorIntaking());
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
