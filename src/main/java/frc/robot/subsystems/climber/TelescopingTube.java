@@ -184,9 +184,7 @@ public class TelescopingTube extends SubsystemBase {
         homed = true;
     }
 
-    /**
-     * Disables the soft limits of the motor. POTENTIALLY DANGEROUS, ONLY USE WHEN HOMING
-     */
+    /** Disables the soft limits of the motor. POTENTIALLY DANGEROUS, ONLY USE WHEN HOMING */
     public void disableSoftLimits() {
         spoolMotor.enableSoftLimit(SoftLimitDirection.kForward, false);
         spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, false);
