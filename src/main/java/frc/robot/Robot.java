@@ -155,13 +155,7 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        // System.out.println(RobotContainer.navX.getYaw());
         field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
-        // System.out.println("FL: " + RobotContainer.driveTrain.frontLeft.getState().toString());
-        // System.out.println("FR: " + RobotContainer.driveTrain.frontRight.getState().toString());
-        // System.out.println("BL: " + RobotContainer.driveTrain.backLeft.getState().toString());
-        // System.out.println("BR: " + RobotContainer.driveTrain.backRight.getState().toString());
-        System.out.println(RobotContainer.navX.getRoll());
     }
 
     @Override

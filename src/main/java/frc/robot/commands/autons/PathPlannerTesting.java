@@ -9,16 +9,20 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.ColorSensorIntaking;
+import frc.robot.commands.shooting.IdleShooter;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.DriveForTime;
+import frc.robot.subsystems.climber.HomeClimberTubes;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -30,9 +34,7 @@ public class PathPlannerTesting extends SequentialCommandGroup {
         // addCommands(new FooCommand(), new BarCommand());
         PathPlannerTrajectory examplePath = PathPlanner.loadPath("Two Ball", 4, 2);
         addCommands(
-                new InstantCommand(RobotContainer.driveTrain::haltAllModules),
-                new HomeHood(),
-                new InstantCommand(
+                new ParallelCommandGroup( new InstantCommand(
                         () ->
                                 RobotContainer.driveTrain.resetOdometry(
                                         new Pose2d(
@@ -40,12 +42,12 @@ public class PathPlannerTesting extends SequentialCommandGroup {
                                                         .getInitialState()
                                                         .poseMeters
                                                         .getTranslation(),
-                                                examplePath.getInitialState().holonomicRotation))),
-                new ParallelRaceGroup(new FollowPath(examplePath), new ColorSensorIntaking()),
+                                                examplePath.getInitialState().holonomicRotation))), new HomeClimberTubes()),
+                new ParallelDeadlineGroup(new FollowPath(examplePath), new ColorSensorIntaking(), new HomeHood(), new IdleShooter()),
                 new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision())
-                        .withTimeout(4),
-                new ParallelRaceGroup(new DriveForTime(2, 1), new ColorSensorIntaking()),
+                        .withTimeout(3),
+                new ParallelRaceGroup(new DriveForTime(1, 1), new ColorSensorIntaking()),
                 new ParallelRaceGroup(
                         new ColorSensorIntaking(),
                         new TurnToAngleVision(true, false),

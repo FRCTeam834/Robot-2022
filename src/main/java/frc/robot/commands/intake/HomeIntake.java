@@ -11,8 +11,6 @@ import frc.robot.RobotContainer;
 
 public class HomeIntake extends CommandBase {
     // Creates a new HomeIntake.
-    boolean moveUp = false;
-
     public HomeIntake() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.intakeWinch);
@@ -22,24 +20,12 @@ public class HomeIntake extends CommandBase {
     @Override
     public void initialize() {
         RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.spool.HOME_CURRENT);
-        if (!RobotContainer.intakeWinch.getLSValue()) {
-            RobotContainer.intakeWinch.set(Parameters.intake.spool.HOME_SPEED);
-        } else {
-            moveUp = true;
-            RobotContainer.intakeWinch.set(-Parameters.intake.spool.HOME_SPEED);
-        }
+        RobotContainer.intakeWinch.set(-Parameters.intake.spool.HOME_SPEED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {
-        if (moveUp) {
-            if (!RobotContainer.intakeWinch.getLSValue()) {
-                RobotContainer.intakeWinch.set(Parameters.intake.spool.HOME_SPEED);
-                moveUp = false;
-            }
-        }
-    }
+    public void execute() {}
 
     // Called once the command ends or is interrupted.
     @Override
@@ -48,6 +34,7 @@ public class HomeIntake extends CommandBase {
         // Stop the motor
         // ! THIS NEEDS TO BE DONE TO PREVENT OVERDRIVING THE MOTOR
         RobotContainer.intakeWinch.stop();
+
         // Sets it back to standard current limit
         RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.spool.MOTOR_CURRENT_LIMIT);
 
@@ -62,6 +49,6 @@ public class HomeIntake extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (RobotContainer.intakeWinch.getLSValue() && !moveUp);
+        return RobotContainer.intakeWinch.getMotorCurrent() > Parameters.intake.spool.HOMING_CURRENT_THRESHOLD;
     }
 }

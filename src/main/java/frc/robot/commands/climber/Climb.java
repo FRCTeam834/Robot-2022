@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.driving.DriveUntilAngle;
+import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.utilityClasses.LEDColors;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -37,6 +38,9 @@ public class Climb extends SequentialCommandGroup {
                     new InstantCommand(() -> RobotContainer.hood.stop()),
                     new InstantCommand(() -> RobotContainer.intakeWinch.stop()),
                     new InstantCommand(() -> RobotContainer.driveTrain.stop()),
+
+                    // Home the climber tubes
+                    new HomeClimberTubes(),
 
                     // Now extend the tubes
                     new ParallelCommandGroup(
@@ -78,11 +82,11 @@ public class Climb extends SequentialCommandGroup {
                     new ParallelCommandGroup(
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.leftTilt,
-                                    Parameters.climber.tilt.DOWN_DISTANCE,
+                                    Parameters.climber.tilt.LEFT_HALF_DISTANCE,
                                     1),
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.rightTilt,
-                                    Parameters.climber.tilt.DOWN_DISTANCE,
+                                    Parameters.climber.tilt.RIGHT_HALF_DISTANCE,
                                     1)),
                     new ParallelCommandGroup(
                             new MoveTubeToPosition(
@@ -92,12 +96,21 @@ public class Climb extends SequentialCommandGroup {
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.rightLift,
                                     Parameters.climber.lift.DOWN_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.leftTilt,
+                                    Parameters.climber.tilt.DOWN_DISTANCE,
+                                    1),
+                            new MoveTubeToPosition(
+                                    RobotContainer.climbers2.rightTilt,
+                                    Parameters.climber.tilt.DOWN_DISTANCE,
                                     1)),
 
                     // ! The climb is done... PARTY TIME!!!
                     new InstantCommand(() -> RobotContainer.leds.setColor(LEDColors.PARTY)));
         } else { // ! DISABLE_UNUSED_MOTORS
             addCommands(
+                    new HomeClimberTubes(),
                     // Now extend the tubes
                     new ParallelCommandGroup(
                             new MoveTubeToPosition(

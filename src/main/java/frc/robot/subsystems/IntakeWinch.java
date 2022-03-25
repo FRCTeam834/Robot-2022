@@ -10,16 +10,20 @@ import com.revrobotics.CANSparkMax.SoftLimitDirection;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.filter.Debouncer;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.Parameters.intake.spool;
 import frc.robot.utilityClasses.CachedPIDController;
 
 public class IntakeWinch extends SubsystemBase {
     /** Creates a new IntakeWinch. */
     // Motor object for spool
     CANSparkMax spoolMotor;
+    Debouncer debouncer = new Debouncer(.2);
 
     // Motor encoder
     RelativeEncoder spoolMotorEncoder;
@@ -39,7 +43,7 @@ public class IntakeWinch extends SubsystemBase {
         spoolMotor.restoreFactoryDefaults();
         spoolMotor.enableVoltageCompensation(12);
         spoolMotor.setIdleMode(IdleMode.kBrake);
-        spoolMotor.setSmartCurrentLimit(10);
+        spoolMotor.setSmartCurrentLimit(Parameters.intake.spool.MOTOR_CURRENT_LIMIT);
         spoolMotor.setInverted(true);
 
         // Set up the encoder of the spool motor
@@ -122,14 +126,14 @@ public class IntakeWinch extends SubsystemBase {
         // Set the soft limits
         // Soft limits are basically the controller not allowing certain values to be set for the
         // PID loop
-        spoolMotor.setSoftLimit(
-                SoftLimitDirection.kForward, (float) Parameters.intake.spool.DOWN_DISTANCE);
-        spoolMotor.setSoftLimit(
-                SoftLimitDirection.kReverse, (float) (Parameters.intake.spool.UP_DISTANCE));
+        //spoolMotor.setSoftLimit(
+        //        SoftLimitDirection.kForward, (float) Parameters.intake.spool.DOWN_DISTANCE);
+        //spoolMotor.setSoftLimit(
+        //        SoftLimitDirection.kReverse, (float) (Parameters.intake.spool.UP_DISTANCE));
 
         // Enable the soft limits
-        spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
-        spoolMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
+        //spoolMotor.enableSoftLimit(SoftLimitDirection.kReverse, true);
+        //spoolMotor.enableSoftLimit(SoftLimitDirection.kForward, true);
 
         // Set that the spool is homed
         homed = true;
@@ -165,5 +169,20 @@ public class IntakeWinch extends SubsystemBase {
     // sets current limit of the spool motor
     public void setCurrentLimit(int limit) {
         spoolMotor.setSmartCurrentLimit(limit);
+    }
+
+    // Gets the current of the motor (in A)
+    public double getMotorCurrent() {
+        return spoolMotor.getOutputCurrent();
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        if (Parameters.telemetryMode) {
+            builder.setSmartDashboardType("IntakeWinch");
+            builder.addDoubleProperty("Current", this::getMotorCurrent, null);
+            builder.addDoubleProperty("Position", this::getSpoolPosition, null);
+            builder.addDoubleProperty("Desired", this::getDesiredDistance, null);
+        }
     }
 }

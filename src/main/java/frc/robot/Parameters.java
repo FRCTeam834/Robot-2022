@@ -261,7 +261,7 @@ public final class Parameters {
 
         // If the extra motors (includes the drivetrain at times) should be disabled when possible
         // This shouldn't hurt performance, but still needs testing regardless
-        public static final boolean DISABLE_UNUSED_MOTORS = false;
+        public static final boolean DISABLE_UNUSED_MOTORS = true;
 
         public static final int TUBE_CURRENT_LIMIT = 60;
         public static final int TUBE_HOME_CURRENT = 1;
@@ -342,8 +342,8 @@ public final class Parameters {
                                     1)); // Diameter is 1 inch, circumference is in meters
 
             // Distances to move to
-            public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(17.375);
-            public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(16.95);
+            public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(19.375);
+            public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(17.95);
 
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
@@ -354,13 +354,18 @@ public final class Parameters {
             public static final double HOME_SPEED = -0.75;
             public static final double HOME_DISTANCE =
                     Units.inchesToMeters(4.75); // The distance at home
+
+            
+            // Midway distances
+            public static final double LEFT_HALF_DISTANCE = (LEFT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE;
+            public static final double RIGHT_HALF_DISTANCE = (RIGHT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE;
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot
         public static final double DRIVE_TILT_SPEED = 1.5;
 
         // The angle to tilt the robot to before lifting the climbers
-        public static final double ROBOT_TILT_ANGLE = 26.5;
+        public static final double ROBOT_TILT_ANGLE = 27.5;
     }
 
     public static final class intake {
@@ -376,13 +381,14 @@ public final class Parameters {
             // TODO set these
             public static final int MOTOR_ID = 17;
             public static final int LS_PORT = 9;
-            public static final int MOTOR_CURRENT_LIMIT = 5;
+            public static final int MOTOR_CURRENT_LIMIT = 10;
 
             // Homing info
             public static final double HOME_SPEED = 0.5;
             public static final double HOME_DISTANCE =
-                    Units.inchesToMeters(13.5); // The distance at home
-            public static final int HOME_CURRENT = 2;
+                    Units.inchesToMeters(1); // The distance at home
+            public static final int HOME_CURRENT = 15;
+            public static final int HOMING_CURRENT_THRESHOLD = 20;
 
             // Basic info
             public static final double GEARBOX_RATIO =
@@ -391,14 +397,12 @@ public final class Parameters {
                     (Math.PI
                             * Units.inchesToMeters(
                                     1)); // Diameter is 1 inch, circumfrence is in meters
-            public static final double UP_DISTANCE =
-                    Units.inchesToMeters(
-                            6.5); // The distance of the string from the spool in the up position
+            public static final double UP_DISTANCE = HOME_DISTANCE + Units.inchesToMeters(.5); // The distance of the string from the spool in the up position
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
-                            14); // The distance of the string from the spool in the down position
+                            15); // The distance of the string from the spool in the down position
             public static final double MAX_MOTOR_DUTY =
-                    .35; // The maximum output of the motor when moving
+                    1; // The maximum output of the motor when moving
 
             public static class pid {
                 public static final NetworkTable SPOOL_TABLE =

@@ -5,7 +5,7 @@
 package frc.robot.commands.swerve.driving;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class DriveUntilAngle extends CommandBase {
@@ -49,6 +49,6 @@ public class DriveUntilAngle extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return (RobotContainer.navX.getPitch() >= tipAngle);
+        return (RobotContainer.navX.getRoll() >= Parameters.climber.ROBOT_TILT_ANGLE);
     }
 }

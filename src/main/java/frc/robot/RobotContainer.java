@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -29,14 +30,18 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.Parameters.indexer;
 import frc.robot.Parameters.intake;
+import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.FunctionTest;
-import frc.robot.commands.autons.EmptyEverything;
+import frc.robot.commands.autons.OneBallAuton;
 import frc.robot.commands.autons.PathPlannerTesting;
+import frc.robot.commands.climber.Climb;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.ColorSensorIntaking;
 import frc.robot.commands.intake.HomeIntake;
+import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
+import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.shooting.ManualShoot;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.StraightenWheels;
@@ -88,6 +93,7 @@ public class RobotContainer {
 
     // Movement
     private final LetsRoll letsRoll = new LetsRoll();
+    SendableChooser<Command> autoChooser = new SendableChooser<>();
 
     // Debugging
     private final TestModulePID testModulePID = new TestModulePID();
@@ -134,6 +140,11 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        autoChooser.setDefaultOption("One Ball Auto", new OneBallAuton());
+        autoChooser.addOption("Two Ball Auton (Scoring Table HP Far)", null);
+        autoChooser.addOption("Two Ball Auton (Scoring Table HP Close)", null);
+        autoChooser.addOption("Two Ball Auton (Hangar)", null);
+        autoChooser.addOption("Three Ball Auton (HP)", null);
         if (Parameters.telemetryMode) {
             SmartDashboard.putData(shooter);
             SmartDashboard.putData(hood);
@@ -214,17 +225,17 @@ public class RobotContainer {
                                         () ->
                                                 RobotContainer.climbers2.rightLift
                                                         .setWithLimitSwitch(.75),
-                                        RobotContainer.climbers2.rightTilt::stop)));
+                                        RobotContainer.climbers2.rightLift::stop)));
 
         // right and lift down
         BR.whenHeld(
                 new StartEndCommand(
                                 () -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(-1),
-                                RobotContainer.climbers2.leftLift::stop)
+                                RobotContainer.climbers2.rightLift::stop)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->
-                                                RobotContainer.climbers2.rightLift
+                                                RobotContainer.climbers2.leftLift
                                                         .setWithLimitSwitch(-1),
                                         RobotContainer.climbers2.leftLift::stop)));
 
@@ -252,30 +263,26 @@ public class RobotContainer {
                                                         .setWithLimitSwitch(-1),
                                         RobotContainer.climbers2.rightTilt::stop)));
 
-        TM.whenPressed(
-                new StartEndCommand(
-                                () -> RobotContainer.driveTrain.drive(1, 0, 0, false),
-                                () -> RobotContainer.driveTrain.zeroVelocities(),
-                                driveTrain)
-                        .withTimeout(2)); // new Climb());
+        TM.whenPressed(new Climb());
         TR.whenPressed(new StopClimb());
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
+        BL.whenPressed(new HomeIntake());
         new JoystickButton(xbox, Button.kA.value)
                 .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
-        // new POVButton(xbox, 180).whileHeld(new EmptyEverything());
+        
         // 87.6 20.4
         new JoystickButton(xbox, Button.kY.value)
                 .whileHeld(
-                        new ColorSensorIntaking() /*new StartEndCommand(() -> intake.set(.635), intake::stop, intake)*/);
-        new JoystickButton(xbox, Button.kB.value)
-                .whileHeld(new InstantCommand((() -> shooter.setDesiredPID(15))));
+                        new ColorSensorIntaking());
+        new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value)
                 .whenPressed(new InstantCommand(() -> shooter.stop()));
         new JoystickButton(xbox, Button.kRightBumper.value)
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 1));
         new JoystickButton(xbox, Button.kLeftBumper.value)
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
+        new JoystickButton(xbox, 8).whenPressed(new SwitchIntakeState());
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() + 0.25));
         new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
 
@@ -360,16 +367,6 @@ public class RobotContainer {
     /** Homes all of the robot's PID controllers if they haven't already been homed */
     public void homeAllPIDControllers() {
 
-        // Check each if each is homed, running homing if not
-        // if (!hood.isHomed()) {
-        //    CommandScheduler.getInstance().schedule(false, homeHood);
-        // }
-        if (!intakeWinch.isHomed()) {
-            // CommandScheduler.getInstance().schedule(false, homeIntake);
-        }
-        // if (!climber.areTubesHomed()) {
-        // CommandScheduler.getInstance().schedule(false, homeClimberTubes);
-        // }
     }
 
     /**
