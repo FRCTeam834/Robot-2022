@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
+import frc.robot.utilityClasses.LEDColors;
 
 public class LEDs extends SubsystemBase {
 
@@ -19,6 +20,9 @@ public class LEDs extends SubsystemBase {
 
         // Create the Spark object to control the Blinkin
         blinkin = new Spark(Parameters.led.PWM_PORT);
+
+        // Default to the beautiful new blue
+        blinkin.set(LEDColors.OCEAN);
     }
 
     /**

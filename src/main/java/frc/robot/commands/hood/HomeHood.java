@@ -20,6 +20,9 @@ public class HomeHood extends CommandBase {
     @Override
     public void initialize() {
 
+        // Disable the soft limits, we don't know where we are
+        RobotContainer.hood.disableSoftLimits();
+
         // Set the current way way way down in case the limit switch doesn't work
         RobotContainer.hood.setMotorCurrent(Parameters.hood.HOME_CURRENT);
         RobotContainer.hood.set(Parameters.hood.HOME_SPEED);

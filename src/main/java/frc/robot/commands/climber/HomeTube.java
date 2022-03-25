@@ -41,6 +41,11 @@ public class HomeTube extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+
+        // Disable the soft limits (we don't know where we are)
+        tube.disableSoftLimits();
+
+        // If we're not already on the limit switch, we can start moving
         if (!tube.getLSValue()) {
             tube.set(homeSpeed);
         }
