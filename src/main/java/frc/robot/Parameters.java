@@ -357,9 +357,13 @@ public final class Parameters {
 
             // Midway distances
             public static final double LEFT_HALF_DISTANCE =
-                    (LEFT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE - Units.inchesToMeters(1);
+                    (LEFT_LEGAL_DISTANCE - HOME_DISTANCE) / 2
+                            + HOME_DISTANCE
+                            - Units.inchesToMeters(1);
             public static final double RIGHT_HALF_DISTANCE =
-                    (RIGHT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE - Units.inchesToMeters(1);
+                    (RIGHT_LEGAL_DISTANCE - HOME_DISTANCE) / 2
+                            + HOME_DISTANCE
+                            - Units.inchesToMeters(1);
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot

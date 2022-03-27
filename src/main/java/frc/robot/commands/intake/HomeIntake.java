@@ -65,6 +65,7 @@ public class HomeIntake extends CommandBase {
     @Override
     public boolean isFinished() {
         return (RobotContainer.intakeWinch.getMotorCurrent()
-                > Parameters.intake.spool.HOMING_CURRENT_THRESHOLD) || timer.hasElapsed(5);
+                        > Parameters.intake.spool.HOMING_CURRENT_THRESHOLD)
+                || timer.hasElapsed(5);
     }
 }

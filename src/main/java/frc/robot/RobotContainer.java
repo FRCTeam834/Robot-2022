@@ -33,7 +33,6 @@ import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.FunctionTest;
 import frc.robot.commands.autons.OneBallAuton;
 import frc.robot.commands.autons.ThreeBallAuton;
-import frc.robot.commands.autons.TwoBallAuton;
 import frc.robot.commands.autons.TwoBallHP;
 import frc.robot.commands.autons.TwoBallHangar;
 import frc.robot.commands.climber.Climb;
@@ -205,10 +204,8 @@ public class RobotContainer {
         // new JoystickButton(rightJoystick, 2).whenPressed(new WaitForShooter());
         // new JoystickButton(rightJoystick, 3).whenPressed(() -> driveTrain.reloadSteerAngles());
         // new JoystickButton(rightJoystick, 4).whenPressed(new HomeIntake());
-        new POVButton(rightJoystick, 0)
-                .whileHeld(new MoveIntakeUpDumb());
-        new POVButton(rightJoystick, 180)
-                .whileHeld(new MoveIntakeDownDumb());
+        new POVButton(rightJoystick, 0).whileHeld(new MoveIntakeUpDumb());
+        new POVButton(rightJoystick, 180).whileHeld(new MoveIntakeDownDumb());
 
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
@@ -216,8 +213,6 @@ public class RobotContainer {
                 .whenPressed(
                         new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision()));
-
-
 
         new JoystickButton(rightJoystick, 12).whenPressed(new Climb());
         new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());
@@ -275,8 +270,8 @@ public class RobotContainer {
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
         BL.whenPressed(new HomeIntake());
-        //new JoystickButton(xbox, Button.kA.value)
-           //     .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
+        // new JoystickButton(xbox, Button.kA.value)
+        //     .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
 
         // 87.6 20.4
         new JoystickButton(xbox, Button.kY.value).whileHeld(new ColorSensorIntaking());
