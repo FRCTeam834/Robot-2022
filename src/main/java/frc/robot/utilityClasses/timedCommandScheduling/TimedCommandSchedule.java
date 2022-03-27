@@ -1,12 +1,11 @@
 package frc.robot.utilityClasses.timedCommandScheduling;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+
+import java.util.ArrayList;
 
 public class TimedCommandSchedule {
     private ArrayList<CommandAtTime> commands;
@@ -43,7 +42,8 @@ public class TimedCommandSchedule {
             // Get the time of the mid command
             double midTime = commands.get(mid).getTime();
 
-            // If the time of the middle command is the same, schedule it directly after the middle command
+            // If the time of the middle command is the same, schedule it directly after the middle
+            // command
             if (midTime == newTime) {
                 return mid + 1;
             }

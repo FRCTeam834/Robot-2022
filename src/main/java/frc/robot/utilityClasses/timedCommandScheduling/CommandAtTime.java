@@ -10,6 +10,7 @@ public class CommandAtTime {
 
     /**
      * A command that is scheduled to run at a specific time
+     *
      * @param command The command to run
      * @param runAt The time (ms, according to FPGA) to run the command at
      */
@@ -20,6 +21,7 @@ public class CommandAtTime {
 
     /**
      * Gets the time that the command should run at
+     *
      * @return time to run at (ms)
      */
     public double getTime() {
@@ -28,6 +30,7 @@ public class CommandAtTime {
 
     /**
      * Gets the command to run
+     *
      * @return the command to run
      */
     public Command getCommand() {
