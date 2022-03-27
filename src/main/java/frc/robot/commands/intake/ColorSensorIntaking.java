@@ -12,6 +12,7 @@ public class ColorSensorIntaking extends CommandBase {
     /** Creates a new IndexingThings. */
     public ColorSensorIntaking() {
         // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(RobotContainer.indexer);
     }
 
     // Called when the command is initially scheduled.

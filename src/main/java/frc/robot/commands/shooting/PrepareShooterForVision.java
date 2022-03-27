@@ -22,7 +22,7 @@ public class PrepareShooterForVision extends CommandBase {
 
     public PrepareShooterForVision() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.hood, RobotContainer.shooter);
+        addRequirements(RobotContainer.hood, RobotContainer.shooter, RobotContainer.indexer);
         timer = new Timer();
     }
 

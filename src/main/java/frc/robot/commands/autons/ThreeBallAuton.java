@@ -54,16 +54,13 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                         new ColorSensorIntaking(),
                         new HomeHood(),
                         new IdleShooter()),
-                new ParallelRaceGroup(
-                                new TurnToAngleVision(true, false), new PrepareShooterForVision())
-                        .withTimeout(3),
-                new InstantCommand(() -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0)),
-                new WaitCommand(.5),            
-                new ParallelRaceGroup(new DriveForTime(1, 1), new ColorSensorIntaking()),
-                new ParallelRaceGroup(
-                        new ColorSensorIntaking(),
-                        new TurnToAngleVision(true, false),
-                        new PrepareShooterForVision()),
+                new ParallelDeadlineGroup(
+                    new PrepareShooterForVision(), new TurnToAngleVision(true, false)).withTimeout(3),
+                new InstantCommand(() -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0), RobotContainer.driveTrain),
+                new WaitCommand(.5),
+                new ParallelDeadlineGroup(new DriveForTime(1, 1), new ColorSensorIntaking(), new IdleShooter()),
+                new ParallelDeadlineGroup(
+                    new PrepareShooterForVision(), new TurnToAngleVision(true, false)).withTimeout(3),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }
