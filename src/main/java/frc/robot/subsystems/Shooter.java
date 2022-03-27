@@ -61,7 +61,6 @@ public class Shooter extends SubsystemBase {
         shooterPIDController.setTolerance(0.25);
     }
 
-
     public void set(double percentage) {
         usingPID = false;
         shooterMotor.set(percentage);

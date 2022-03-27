@@ -13,16 +13,14 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.ColorSensorIntaking;
-import frc.robot.commands.shooting.IdleShooter;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
 import frc.robot.commands.swerve.TurnToAngleVision;
-import frc.robot.commands.swerve.driving.DriveForTime;
-import frc.robot.subsystems.IntakeWinch;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -35,7 +33,10 @@ public class TwoBallHangar extends SequentialCommandGroup {
         // addCommands(new FooCommand(), new BarCommand());
         PathPlannerTrajectory examplePath = PathPlanner.loadPath("Two Ball Hangar", 1, .5);
         addCommands(
-                new InstantCommand(() -> RobotContainer.intakeWinch.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE)),
+                new InstantCommand(
+                        () ->
+                                RobotContainer.intakeWinch.setCurrentDistance(
+                                        Parameters.intake.spool.HOME_DISTANCE)),
                 new ParallelCommandGroup(
                         new InstantCommand(
                                 () ->
@@ -47,11 +48,13 @@ public class TwoBallHangar extends SequentialCommandGroup {
                                                                 .getTranslation(),
                                                         examplePath.getInitialState()
                                                                 .holonomicRotation))),
-                        new HomeClimberTubes(), new InstantCommand(() -> RobotContainer.intakeWinch.setDesiredDistance(Parameters.intake.spool.DOWN_DISTANCE))),
+                        new HomeClimberTubes(),
+                        new InstantCommand(
+                                () ->
+                                        RobotContainer.intakeWinch.setDesiredDistance(
+                                                Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
-                        new FollowPath(examplePath),
-                        new ColorSensorIntaking(),
-                        new HomeHood()),
+                        new FollowPath(examplePath), new ColorSensorIntaking(), new HomeHood()),
                 new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision())
                         .withTimeout(3),

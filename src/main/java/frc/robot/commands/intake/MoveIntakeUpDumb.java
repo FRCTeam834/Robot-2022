@@ -5,35 +5,36 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.RobotContainer;
 
 public class MoveIntakeUpDumb extends CommandBase {
-  /** Creates a new MoveIntakeUpDumb. */
-  public MoveIntakeUpDumb() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.intakeWinch);
-  }
+    /** Creates a new MoveIntakeUpDumb. */
+    public MoveIntakeUpDumb() {
+        // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(RobotContainer.intakeWinch);
+    }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-      RobotContainer.intakeWinch.disableSoftLimits();
-      RobotContainer.intakeWinch.set(-0.5);
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        RobotContainer.intakeWinch.disableSoftLimits();
+        RobotContainer.intakeWinch.set(-0.5);
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {}
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-      RobotContainer.intakeWinch.stop();
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        RobotContainer.intakeWinch.stop();
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }
