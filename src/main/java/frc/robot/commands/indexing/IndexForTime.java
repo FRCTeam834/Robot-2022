@@ -25,7 +25,7 @@ public class IndexForTime extends CommandBase {
     @Override
     public void initialize() {
         timer.start();
-        RobotContainer.indexer.set(.75);
+        RobotContainer.indexer.set(.5);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

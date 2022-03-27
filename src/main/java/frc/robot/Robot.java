@@ -13,7 +13,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.util.net.PortForwarder;
 // Imports
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -29,9 +29,12 @@ import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.utilityClasses.LEDColors;
 
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the
+ * name of this class or
+ * the package after creating this project, you must also update the
+ * build.gradle file in the
  * project.
  */
 public class Robot extends TimedRobot {
@@ -42,9 +45,13 @@ public class Robot extends TimedRobot {
     private boolean readyToShoot;
     public Field2d field = new Field2d();
 
-    /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
+    /**
+     * Moved the NavX to the Robot constructor here, allowing the NavX to only be
+     * reset once
+     */
     Robot() {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+        // Instantiate our RobotContainer. This will perform all our button bindings,
+        // and put our
         // autonomous chooser on the dashboard.
         m_robotContainer = new RobotContainer();
 
@@ -57,24 +64,32 @@ public class Robot extends TimedRobot {
     }
 
     /**
-     * This function is run when the robot is first started up and should be used for any
+     * This function is run when the robot is first started up and should be used
+     * for any
      * initialization code.
      */
     @Override
     public void robotInit() {
+        PortForwarder.add(5800, "photonvision.local", 5800);
         CameraServer.startAutomaticCapture();
         SmartDashboard.putData(field);
         if (!Parameters.telemetryMode) {
             LiveWindow.disableAllTelemetry();
         }
-        DataLogManager.start();
+
+        // Set that the spool is homed (must be up to be legal)
+        RobotContainer.intakeWinch.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
     }
 
     /**
-     * This function is called every robot packet, no matter the mode. Use this for items like
-     * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
+     * This function is called every robot packet, no matter the mode. Use this for
+     * items like
+     * diagnostics that you want ran during disabled, autonomous, teleoperated and
+     * test.
      *
-     * <p>This runs after the mode specific periodic functions, but before LiveWindow and
+     * <p>
+     * This runs after the mode specific periodic functions, but before LiveWindow
+     * and
      * SmartDashboard integrated updating.
      */
     @Override
@@ -114,24 +129,33 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void disabledPeriodic() {}
+    public void disabledPeriodic() {
+    }
 
     /**
-     * This autonomous runs the autonomous command selected by your {@link RobotContainer} class.
+     * This autonomous runs the autonomous command selected by your
+     * {@link RobotContainer} class.
      */
     @Override
     public void autonomousInit() {
+
+        // Set the distancing on the intake winch
+        RobotContainer.intakeWinch.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
+
+        // Get the auto command from the SmartDashboard chooser
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
+
     }
 
     /** This function is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+    }
 
     @Override
     public void teleopInit() {
@@ -166,7 +190,8 @@ public class Robot extends TimedRobot {
 
     /** This function is called periodically during test mode. */
     @Override
-    public void testPeriodic() {}
+    public void testPeriodic() {
+    }
 
     // Returns the color of ball that we should be collecting
     public static Color getOurBallColor() {

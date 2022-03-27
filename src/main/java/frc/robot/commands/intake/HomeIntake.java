@@ -4,12 +4,14 @@
 
 package frc.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class HomeIntake extends CommandBase {
+    Timer timer = new Timer();
     // Creates a new HomeIntake.
     public HomeIntake() {
         // Use addRequirements() here to declare subsystem dependencies.
@@ -26,6 +28,10 @@ public class HomeIntake extends CommandBase {
         // Set the homing current
         RobotContainer.intakeWinch.setCurrentLimit(Parameters.intake.spool.HOME_CURRENT);
         RobotContainer.intakeWinch.set(-Parameters.intake.spool.HOME_SPEED);
+
+        // Start the timeout timer
+        timer.reset();
+        timer.start();
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -35,6 +41,10 @@ public class HomeIntake extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+
+        // Stop the timer
+        timer.reset();
+        timer.stop();
 
         // Stop the motor
         // ! THIS NEEDS TO BE DONE TO PREVENT OVERDRIVING THE MOTOR
@@ -54,7 +64,7 @@ public class HomeIntake extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return RobotContainer.intakeWinch.getMotorCurrent()
-                > Parameters.intake.spool.HOMING_CURRENT_THRESHOLD;
+        return (RobotContainer.intakeWinch.getMotorCurrent()
+                > Parameters.intake.spool.HOMING_CURRENT_THRESHOLD) || timer.hasElapsed(5);
     }
 }

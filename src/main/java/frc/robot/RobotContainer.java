@@ -32,12 +32,17 @@ import frc.robot.Parameters.indexer;
 import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.FunctionTest;
 import frc.robot.commands.autons.OneBallAuton;
-import frc.robot.commands.autons.PathPlannerTesting;
+import frc.robot.commands.autons.ThreeBallAuton;
+import frc.robot.commands.autons.TwoBallAuton;
+import frc.robot.commands.autons.TwoBallHP;
+import frc.robot.commands.autons.TwoBallHangar;
 import frc.robot.commands.climber.Climb;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.ColorSensorIntaking;
 import frc.robot.commands.intake.HomeIntake;
+import frc.robot.commands.intake.MoveIntakeDownDumb;
+import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.FenderShot;
@@ -141,8 +146,9 @@ public class RobotContainer {
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         autoChooser.setDefaultOption("One Ball Auton", new OneBallAuton());
-        autoChooser.addOption("Two Ball Auton", null);
-        autoChooser.addOption("Three Ball Auton (HP)", new PathPlannerTesting());
+        autoChooser.addOption("Two Ball Auton HP", new TwoBallHP());
+        autoChooser.addOption("Two Ball Auton Hangar", new TwoBallHangar());
+        autoChooser.addOption("Three Ball Auton (HP)", new ThreeBallAuton());
         SmartDashboard.putData(autoChooser);
         if (Parameters.telemetryMode) {
             SmartDashboard.putData(shooter);
@@ -200,13 +206,9 @@ public class RobotContainer {
         // new JoystickButton(rightJoystick, 3).whenPressed(() -> driveTrain.reloadSteerAngles());
         // new JoystickButton(rightJoystick, 4).whenPressed(new HomeIntake());
         new POVButton(rightJoystick, 0)
-                .whileHeld(
-                        new StartEndCommand(
-                                () -> intakeWinch.set(-.5), intakeWinch::stop, intakeWinch));
+                .whileHeld(new MoveIntakeUpDumb());
         new POVButton(rightJoystick, 180)
-                .whileHeld(
-                        new StartEndCommand(
-                                () -> intakeWinch.set(.5), intakeWinch::stop, intakeWinch));
+                .whileHeld(new MoveIntakeDownDumb());
 
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
@@ -214,6 +216,11 @@ public class RobotContainer {
                 .whenPressed(
                         new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision()));
+
+
+
+        new JoystickButton(rightJoystick, 12).whenPressed(new Climb());
+        new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());
 
         // right and left lift up
         BM.whenHeld(
@@ -268,12 +275,14 @@ public class RobotContainer {
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
         BL.whenPressed(new HomeIntake());
+        //new JoystickButton(xbox, Button.kA.value)
+           //     .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
 
         // 87.6 20.4
         new JoystickButton(xbox, Button.kY.value).whileHeld(new ColorSensorIntaking());
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value)
-                .whenPressed(new InstantCommand(() -> shooter.stop()));
+                .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
         new JoystickButton(xbox, Button.kRightBumper.value)

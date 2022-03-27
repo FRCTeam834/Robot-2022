@@ -357,16 +357,16 @@ public final class Parameters {
 
             // Midway distances
             public static final double LEFT_HALF_DISTANCE =
-                    (LEFT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE;
+                    (LEFT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE - Units.inchesToMeters(1);
             public static final double RIGHT_HALF_DISTANCE =
-                    (RIGHT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE;
+                    (RIGHT_LEGAL_DISTANCE - HOME_DISTANCE) / 2 + HOME_DISTANCE - Units.inchesToMeters(1);
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot
         public static final double DRIVE_TILT_SPEED = 1.5;
 
         // The angle to tilt the robot to before lifting the climbers
-        public static final double ROBOT_TILT_ANGLE = 27.5;
+        public static final double ROBOT_TILT_ANGLE = 26;
     }
 
     public static final class intake {
@@ -389,7 +389,7 @@ public final class Parameters {
             public static final double HOME_DISTANCE =
                     Units.inchesToMeters(1); // The distance at home
             public static final int HOME_CURRENT = 15;
-            public static final int HOMING_CURRENT_THRESHOLD = 20;
+            public static final int HOMING_CURRENT_THRESHOLD = 15;
 
             // Basic info
             public static final double GEARBOX_RATIO =
@@ -407,7 +407,7 @@ public final class Parameters {
                     Units.inchesToMeters(
                             15); // The distance of the string from the spool in the down position
             public static final double MAX_MOTOR_DUTY =
-                    1; // The maximum output of the motor when moving
+                    0.35; // The maximum output of the motor when moving
 
             public static class pid {
                 public static final NetworkTable SPOOL_TABLE =
