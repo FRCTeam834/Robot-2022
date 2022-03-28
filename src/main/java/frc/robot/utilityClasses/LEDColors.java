@@ -14,4 +14,5 @@ public class LEDColors {
     public static final double BLUE_VIOLET = .89;
     public static final double SKY_BLUE = .83;
     public static final double LIME = 0.73;
+    public static final double RED = 0.61;
 }

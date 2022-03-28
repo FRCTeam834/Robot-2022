@@ -13,7 +13,7 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StopEverything;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.intake.ColorSensorIntaking;
+import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.DriveForTime;
@@ -40,7 +40,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
                                 () ->
                                         RobotContainer.intakeWinch.setDesiredDistance(
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
-                new ParallelRaceGroup(new DriveForTime(1, 3), new ColorSensorIntaking()),
+                new ParallelRaceGroup(new DriveForTime(1, 3), new IntakeBalls()),
                 new SpinForTime(1, 3.2),
                 new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision())

@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.intake.ColorSensorIntaking;
+import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
 import frc.robot.commands.swerve.TurnToAngleVision;
@@ -54,7 +54,7 @@ public class TwoBallHangar extends SequentialCommandGroup {
                                         RobotContainer.intakeWinch.setDesiredDistance(
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
-                        new FollowPath(examplePath), new ColorSensorIntaking(), new HomeHood()),
+                        new FollowPath(examplePath), new IntakeBalls(), new HomeHood()),
                 new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision())
                         .withTimeout(3),

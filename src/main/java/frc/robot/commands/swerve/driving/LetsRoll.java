@@ -62,10 +62,10 @@ public class LetsRoll extends CommandBase {
         // Set the LEDs
         // If we can see a target, make them green
         if (RobotContainer.vision.getBestTarget() != null) {
-            RobotContainer.leds.setColor(LEDColors.LIME);
+            RobotContainer.leds.setPrimaryColor(LEDColors.LIME);
         } else {
             // Otherwise, just default to regular team colors
-            RobotContainer.leds.setColor(LEDColors.OCEAN);
+            RobotContainer.leds.setPrimaryColor(LEDColors.OCEAN);
         }
     }
 
