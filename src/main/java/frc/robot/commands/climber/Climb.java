@@ -60,7 +60,7 @@ public class Climb extends SequentialCommandGroup {
                                     RobotContainer.climbers2.rightTilt,
                                     Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
                                     1)),
-        
+
                     // Disable the tubes during tilting
                     new InstantCommand(RobotContainer.climbers2.leftLift::stop),
                     new InstantCommand(RobotContainer.climbers2.rightLift::stop),
