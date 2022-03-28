@@ -52,7 +52,7 @@ public class PrepareShooterForVision extends CommandBase {
 
             // Set the hood and shooter's desired angles
             RobotContainer.hood.setDesiredAngle(shotParams.getAngle());
-            RobotContainer.shooter.setDesiredPID(shotParams.getSpeed() + .21);
+            RobotContainer.shooter.setDesiredPID(shotParams.getSpeed() + .21375);
         } else {
             // RobotContainer.hood.setDesiredAngle(70);
             RobotContainer.shooter.setDesiredPID(0);
