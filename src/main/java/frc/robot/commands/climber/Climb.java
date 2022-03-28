@@ -46,11 +46,11 @@ public class Climb extends SequentialCommandGroup {
                     new ParallelCommandGroup(
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.leftLift,
-                                    Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                                    Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT,
                                     1),
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.rightLift,
-                                    Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                                    Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT,
                                     1),
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.leftTilt,
@@ -60,6 +60,12 @@ public class Climb extends SequentialCommandGroup {
                                     RobotContainer.climbers2.rightTilt,
                                     Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
                                     1)),
+        
+                    // Disable the tubes during tilting
+                    new InstantCommand(RobotContainer.climbers2.leftLift::stop),
+                    new InstantCommand(RobotContainer.climbers2.rightLift::stop),
+                    new InstantCommand(RobotContainer.climbers2.leftTilt::stop),
+                    new InstantCommand(RobotContainer.climbers2.rightTilt::stop),
 
                     // Tilt the robot
                     new DriveUntilAngle(
@@ -115,11 +121,11 @@ public class Climb extends SequentialCommandGroup {
                     new ParallelCommandGroup(
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.leftLift,
-                                    Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                                    Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT,
                                     1),
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.rightLift,
-                                    Parameters.climber.lift.UP_LEGAL_DISTANCE,
+                                    Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT,
                                     1),
                             new MoveTubeToPosition(
                                     RobotContainer.climbers2.leftTilt,
