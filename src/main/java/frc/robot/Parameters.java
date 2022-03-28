@@ -285,7 +285,7 @@ public final class Parameters {
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
 
             // The tolerance for positioning the tubes (in m)
-            public static final double POS_TOLERANCE = 0.005; // 5 mm of tolerance
+            public static final double POS_TOLERANCE = 0.01; // 5 mm of tolerance
 
             // Maximum motor duty
             public static final double MAX_DUTY = 1;
@@ -297,7 +297,9 @@ public final class Parameters {
                                     1)); // Diameter is 1 inch, circumference is in meters
 
             // Distances to move to
-            public static final double UP_LEGAL_DISTANCE =
+            public static final double UP_LEGAL_DISTANCE_LEFT =
+                    Units.inchesToMeters(15); // The distance of the string in the up position
+            public static final double UP_LEGAL_DISTANCE_RIGHT =
                     Units.inchesToMeters(14); // The distance of the string in the up position
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
@@ -367,7 +369,7 @@ public final class Parameters {
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot
-        public static final double DRIVE_TILT_SPEED = 1.5;
+        public static final double DRIVE_TILT_SPEED = 2;
 
         // The angle to tilt the robot to before lifting the climbers
         public static final double ROBOT_TILT_ANGLE = 26;

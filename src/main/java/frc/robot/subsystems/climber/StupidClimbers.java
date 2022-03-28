@@ -64,7 +64,7 @@ public class StupidClimbers extends SubsystemBase {
                         lift.MAX_DUTY,
                         lift.CONTROL_TYPE,
                         lift.HOME_DISTANCE,
-                        lift.UP_LEGAL_DISTANCE,
+                        lift.UP_LEGAL_DISTANCE_RIGHT,
                         lift.POS_TOLERANCE,
                         true);
         leftLift =
@@ -79,7 +79,7 @@ public class StupidClimbers extends SubsystemBase {
                         lift.MAX_DUTY,
                         lift.CONTROL_TYPE,
                         lift.HOME_DISTANCE,
-                        lift.UP_LEGAL_DISTANCE,
+                        lift.UP_LEGAL_DISTANCE_LEFT,
                         lift.POS_TOLERANCE,
                         true);
     }

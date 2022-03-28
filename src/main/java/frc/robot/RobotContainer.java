@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Parameters.indexer;
 import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.FunctionTest;
+import frc.robot.commands.autons.FourBallAuton;
 import frc.robot.commands.autons.OneBallAuton;
 import frc.robot.commands.autons.ThreeBallAuton;
 import frc.robot.commands.autons.TwoBallHP;
@@ -148,6 +149,7 @@ public class RobotContainer {
         autoChooser.addOption("Two Ball Auton HP", new TwoBallHP());
         autoChooser.addOption("Two Ball Auton Hangar", new TwoBallHangar());
         autoChooser.addOption("Three Ball Auton (HP)", new ThreeBallAuton());
+        autoChooser.addOption("Four Ball", new FourBallAuton());
         SmartDashboard.putData(autoChooser);
         if (Parameters.telemetryMode) {
             SmartDashboard.putData(shooter);
@@ -220,13 +222,13 @@ public class RobotContainer {
         // right and left lift up
         BM.whenHeld(
                 new StartEndCommand(
-                                () -> RobotContainer.climbers2.leftLift.setWithLimitSwitch(.75),
+                                () -> RobotContainer.climbers2.leftLift.setWithLimitSwitch(1),
                                 RobotContainer.climbers2.leftLift::stop)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->
                                                 RobotContainer.climbers2.rightLift
-                                                        .setWithLimitSwitch(.75),
+                                                        .setWithLimitSwitch(-1),
                                         RobotContainer.climbers2.rightLift::stop)));
 
         // right and lift down
@@ -244,13 +246,13 @@ public class RobotContainer {
         // right and left tilt up
         MM.whenHeld(
                 new StartEndCommand(
-                                () -> RobotContainer.climbers2.leftTilt.setWithLimitSwitch(.75),
+                                () -> RobotContainer.climbers2.leftTilt.setWithLimitSwitch(1),
                                 RobotContainer.climbers2.leftTilt::stop)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->
                                                 RobotContainer.climbers2.rightTilt
-                                                        .setWithLimitSwitch(.75),
+                                                        .setWithLimitSwitch(1),
                                         RobotContainer.climbers2.rightTilt::stop)));
 
         // right and tilt down
