@@ -67,7 +67,7 @@ public class FollowPath extends CommandBase {
                         desiredState.holonomicRotation);
 
         System.out.println(desiredState.velocityMetersPerSecond);
-        RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds);
+        RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds,false);
     }
 
     public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {

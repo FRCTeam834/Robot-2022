@@ -77,7 +77,7 @@ public class TurnToGoal extends CommandBase {
                 (-rightY * Parameters.driver.maxModVelocity),
                 (-rightX * Parameters.driver.maxModVelocity),
                 omega,
-                true);
+                true, true);
     }
 
     // Called once the command ends or is interrupted.

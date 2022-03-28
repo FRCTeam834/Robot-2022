@@ -36,7 +36,7 @@ public class TestRotationalPID extends CommandBase {
                 -rotationPID.calculate(Units.degreesToRadians(RobotContainer.navX.getYaw()));
 
         // Set that the drivetrain should move there
-        RobotContainer.driveTrain.drive(0, 0, rotationSpeed, false);
+        RobotContainer.driveTrain.drive(0, 0, rotationSpeed, false, true);
     }
 
     // Called once the command ends or is interrupted.
