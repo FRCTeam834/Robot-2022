@@ -56,12 +56,9 @@ public class FourBallAuton extends SequentialCommandGroup {
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
                         new FollowPath(fourBallPart1), new IntakeBalls(), new HomeHood()),
-                new ParallelRaceGroup(
-                                new TurnToGoal(true, false), new ShootBalls())
-                        .withTimeout(3),
+                new ParallelRaceGroup(new TurnToGoal(true, false), new ShootBalls()).withTimeout(3),
                 new ParallelDeadlineGroup(new FollowPath(fourBallPart2), new IntakeBalls()),
-                new ParallelRaceGroup(
-                        new TurnToGoal(true, false), new ShootBalls()),
+                new ParallelRaceGroup(new TurnToGoal(true, false), new ShootBalls()),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }

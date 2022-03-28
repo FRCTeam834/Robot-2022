@@ -21,8 +21,7 @@ public class AutoShoot extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new ParallelCommandGroup(
-                                new TurnToGoal(false, true), new ShootBalls())
+                new ParallelCommandGroup(new TurnToGoal(false, true), new ShootBalls())
                         .withInterrupt(RobotContainer.shooter::readyToShoot),
                 new IndexForTime(3),
                 new StopEverything());

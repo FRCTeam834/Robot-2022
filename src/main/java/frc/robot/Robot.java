@@ -20,10 +20,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.indexing.AutoIndex;
 import frc.robot.subsystems.climber.HomeClimberTubes;
@@ -89,7 +89,9 @@ public class Robot extends TimedRobot {
         if (Parameters.shooter.AUTO_PROCESS_BALLS) {
 
             // Check if any command is using the indexer, shooter, or hood
-            if (!usingSubsystem(RobotContainer.indexer) && !usingSubsystem(RobotContainer.shooter) && !usingSubsystem(RobotContainer.hood)) {
+            if (!usingSubsystem(RobotContainer.indexer)
+                    && !usingSubsystem(RobotContainer.shooter)
+                    && !usingSubsystem(RobotContainer.hood)) {
 
                 // Schedule the autoindexing command
                 // Note that this command will not be scheduled if it's already running
@@ -183,7 +185,7 @@ public class Robot extends TimedRobot {
             case Blue:
                 return "Blue";
 
-            // Also used when the alliance isn't valid (not set)
+                // Also used when the alliance isn't valid (not set)
             default:
                 return "Blue";
         }
@@ -191,6 +193,7 @@ public class Robot extends TimedRobot {
 
     /**
      * Checks if a particular subsystem is currently being used by a command
+     *
      * @param whichSubsystem The subsystem to check
      * @return Is that subsystem being used currently?
      */

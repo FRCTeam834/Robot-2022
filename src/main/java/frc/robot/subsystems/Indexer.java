@@ -95,14 +95,12 @@ public class Indexer extends SubsystemBase {
         // If we don't have a ball, return "None"
         if (!hasBall()) {
             return "None";
-        }
-        else {
+        } else {
 
             // Check which color predominates
             if (ballColor.red > ballColor.blue) {
                 return "Red";
-            }
-            else {
+            } else {
                 // The ball must be blue
                 return "Blue";
             }

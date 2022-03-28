@@ -73,7 +73,7 @@ public class Shooter extends SubsystemBase {
 
     // WARNING: THIS IS DUMB, ONLY ESTIMATES MOTOR OUTPUT
     public void setRPM(double rpm) {
-        shooterMotor.set(rpm/5820);
+        shooterMotor.set(rpm / 5820);
     }
 
     public double getSetpoint() {

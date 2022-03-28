@@ -60,8 +60,7 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                         new IntakeBalls(),
                         new HomeHood(),
                         new IdleShooter()),
-                new ParallelDeadlineGroup(
-                                new ShootBalls(), new TurnToGoal(true, false))
+                new ParallelDeadlineGroup(new ShootBalls(), new TurnToGoal(true, false))
                         .withTimeout(3),
                 new InstantCommand(
                         () -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0),
@@ -69,8 +68,7 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                 new WaitCommand(.5),
                 new ParallelDeadlineGroup(
                         new DriveForTime(1, 1), new IntakeBalls(), new IdleShooter()),
-                new ParallelDeadlineGroup(
-                                new ShootBalls(), new TurnToGoal(true, false))
+                new ParallelDeadlineGroup(new ShootBalls(), new TurnToGoal(true, false))
                         .withTimeout(3),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }

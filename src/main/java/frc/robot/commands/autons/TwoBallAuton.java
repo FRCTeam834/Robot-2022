@@ -42,9 +42,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelRaceGroup(new DriveForTime(1, 3), new IntakeBalls()),
                 new SpinForTime(1, 3.2),
-                new ParallelRaceGroup(
-                                new TurnToGoal(true, false), new ShootBalls())
-                        .withTimeout(3),
+                new ParallelRaceGroup(new TurnToGoal(true, false), new ShootBalls()).withTimeout(3),
                 new StopEverything());
     }
 }

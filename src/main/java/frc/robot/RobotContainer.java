@@ -39,7 +39,6 @@ import frc.robot.commands.autons.TwoBallHangar;
 import frc.robot.commands.climber.Climb;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.indexing.AutoIndex;
 import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.intake.MoveIntakeDownDumb;
@@ -188,9 +187,7 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
         new JoystickButton(rightJoystick, 2)
-                .whenPressed(
-                        new ParallelRaceGroup(
-                                new TurnToGoal(true, false), new ShootBalls()));
+                .whenPressed(new ParallelRaceGroup(new TurnToGoal(true, false), new ShootBalls()));
 
         new JoystickButton(rightJoystick, 10).whenPressed(new BeyBlade());
         new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());
@@ -264,7 +261,8 @@ public class RobotContainer {
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
 
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() + 0.25));
-        new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() - 0.25));
+        new POVButton(xbox, 180)
+                .whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() - 0.25));
 
         // Runs function tests
         // Holding down keeps the test running, letting go cycles to the next on the next button

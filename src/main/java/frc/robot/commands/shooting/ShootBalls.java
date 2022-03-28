@@ -14,8 +14,8 @@ import frc.robot.utilityClasses.interpolation.ShotParams;
 
 public class ShootBalls extends CommandBase {
     /** Creates a new PrepareShooter. */
-
     double distance = 0;
+
     boolean ready = false;
     ShotParams shotParams;
     Timer timer;

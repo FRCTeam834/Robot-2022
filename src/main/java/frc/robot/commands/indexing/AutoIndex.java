@@ -6,6 +6,7 @@ package frc.robot.commands.indexing;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.Parameters;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
@@ -60,8 +61,7 @@ public class AutoIndex extends CommandBase {
                 // Set that we're finished spitting
                 spitting = false;
             }
-        }
-        else {
+        } else {
             // Get the color of the ball
             String color = RobotContainer.indexer.getBallColor();
 
@@ -71,14 +71,12 @@ public class AutoIndex extends CommandBase {
                 // No ball found, we need to continue to load
                 RobotContainer.indexer.set(0.1);
                 RobotContainer.leds.setSecondaryColor(LEDColors.RED);
-            }
-            else if (color.equals(Robot.getOurBallColor())) {
+            } else if (color.equals(Robot.getOurBallColor())) {
 
                 // This is a good ball, stop running the indexer, set the color to green
                 RobotContainer.indexer.stop();
                 RobotContainer.leds.setSecondaryColor(LEDColors.LIME);
-            }
-            else {
+            } else {
                 // This is a bad ball, set it to be disposed of
                 spitting = true;
 
