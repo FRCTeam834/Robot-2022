@@ -342,6 +342,9 @@ public class SwerveModule extends SubsystemBase {
         // Save the desired velocity
         desiredVelocity = targetVelocity;
     }
+    public void setDesiredVelocityOpenLoop(double speed) {
+        driveMotor.set(speed);
+    }
 
     // Sets the desired velocity in m/s (proportional to the error of the angle)
     public boolean setDesiredVelocity(double targetVelocity, double targetAngle) {
@@ -380,11 +383,17 @@ public class SwerveModule extends SubsystemBase {
     }
 
     // Sets the desired state of the module
-    public void setDesiredState(SwerveModuleState setState) {
+    public void setDesiredState(SwerveModuleState setState, boolean openLoopDrive) {
 
         // Set module to the right angles and velocities
+
         setDesiredAngle(setState.angle.getDegrees());
-        setDesiredVelocity(setState.speedMetersPerSecond, setState.angle.getDegrees());
+        if(!openLoopDrive) {
+            setDesiredVelocity(setState.speedMetersPerSecond, setState.angle.getDegrees());
+        }
+        else {
+            setDesiredVelocityOpenLoop(setState.speedMetersPerSecond/Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY);
+        }
     }
 
     // Gets the state of the module
