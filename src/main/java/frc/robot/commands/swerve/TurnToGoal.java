@@ -17,14 +17,14 @@ import frc.robot.RobotContainer;
 
 import org.photonvision.targeting.PhotonTrackedTarget;
 
-public class TurnToAngleVision extends CommandBase {
+public class TurnToGoal extends CommandBase {
 
     boolean exitWhenAligned;
     boolean startDrivingAfter;
     PIDController rotationalPID = new PIDController(3, 0, 0);
     double omega = 0;
 
-    public TurnToAngleVision(boolean runDriveAfterEnd, boolean shouldExitWhenAligned) {
+    public TurnToGoal(boolean runDriveAfterEnd, boolean shouldExitWhenAligned) {
 
         // Set up the rotational PID controller
         rotationalPID.enableContinuousInput(0, 360);

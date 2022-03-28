@@ -18,9 +18,9 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.IntakeBalls;
-import frc.robot.commands.shooting.PrepareShooterForVision;
+import frc.robot.commands.shooting.ShootBalls;
 import frc.robot.commands.swerve.FollowPath;
-import frc.robot.commands.swerve.TurnToAngleVision;
+import frc.robot.commands.swerve.TurnToGoal;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -56,7 +56,7 @@ public class TwoBallHP extends SequentialCommandGroup {
                 new ParallelDeadlineGroup(
                         new FollowPath(examplePath), new IntakeBalls(), new HomeHood()),
                 new ParallelRaceGroup(
-                                new TurnToAngleVision(true, false), new PrepareShooterForVision())
+                                new TurnToGoal(true, false), new ShootBalls())
                         .withTimeout(3),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }

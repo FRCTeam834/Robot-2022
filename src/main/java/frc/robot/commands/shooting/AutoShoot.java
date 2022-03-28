@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StopEverything;
 import frc.robot.commands.indexing.IndexForTime;
-import frc.robot.commands.swerve.TurnToAngleVision;
+import frc.robot.commands.swerve.TurnToGoal;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,7 +22,7 @@ public class AutoShoot extends SequentialCommandGroup {
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
                 new ParallelCommandGroup(
-                                new TurnToAngleVision(false, true), new PrepareShooterForVision())
+                                new TurnToGoal(false, true), new ShootBalls())
                         .withInterrupt(RobotContainer.shooter::readyToShoot),
                 new IndexForTime(3),
                 new StopEverything());

@@ -23,8 +23,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.commands.hood.HomeHood;
+import frc.robot.commands.indexing.AutoIndex;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
 /**
@@ -84,6 +85,18 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
 
+        // If we should be automatically preparing the shooter, do so
+        if (Parameters.shooter.AUTO_PROCESS_BALLS) {
+
+            // Check if any command is using the indexer, shooter, or hood
+            if (!usingSubsystem(RobotContainer.indexer) && !usingSubsystem(RobotContainer.shooter) && !usingSubsystem(RobotContainer.hood)) {
+
+                // Schedule the autoindexing command
+                // Note that this command will not be scheduled if it's already running
+                CommandScheduler.getInstance().schedule(new AutoIndex());
+            }
+        }
+
         // Run the scheduler
         CommandScheduler.getInstance().run();
     }
@@ -134,7 +147,6 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
         CommandScheduler.getInstance().schedule(new HomeClimberTubes(), new HomeHood());
-        // new ScheduleCommand(new PerpetualCommand(new ColorSensorIndexing()));
 
         // Stop all of the motors on the robot
         RobotContainer.indexer.stop();
@@ -160,17 +172,29 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {}
 
     // Returns the color of ball that we should be collecting
-    public static Color getOurBallColor() {
+    public static String getOurBallColor() {
 
         // Get the alliance that we're on
         // Default to blue balls
         switch (DriverStation.getAlliance()) {
             case Red:
-                return Color.kRed;
+                return "Red";
+
             case Blue:
-                return Color.kBlue;
-            default: // Used when the alliance isn't valid (not set)
-                return Color.kBlue;
+                return "Blue";
+
+            // Also used when the alliance isn't valid (not set)
+            default:
+                return "Blue";
         }
+    }
+
+    /**
+     * Checks if a particular subsystem is currently being used by a command
+     * @param whichSubsystem The subsystem to check
+     * @return Is that subsystem being used currently?
+     */
+    public static boolean usingSubsystem(Subsystem whichSubsystem) {
+        return (CommandScheduler.getInstance().requiring(whichSubsystem) != null);
     }
 }

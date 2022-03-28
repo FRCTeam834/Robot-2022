@@ -20,7 +20,7 @@ public class IncrementShooterSetpoint extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.shooter.setDesiredPID(RobotContainer.shooter.getSpeed() + increment);
+        RobotContainer.shooter.setDesiredSpeed(RobotContainer.shooter.getSpeed() + increment);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

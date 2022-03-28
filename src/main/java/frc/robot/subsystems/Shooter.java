@@ -66,13 +66,14 @@ public class Shooter extends SubsystemBase {
         shooterMotor.set(percentage);
     }
 
-    public void setDesiredPID(double setpoint) {
+    public void setDesiredSpeed(double setpoint) {
         setVelocity = setpoint;
         usingPID = true;
     }
 
+    // WARNING: THIS IS DUMB, ONLY ESTIMATES MOTOR OUTPUT
     public void setRPM(double rpm) {
-        // shooterMotor.setRPM(rpm);
+        shooterMotor.set(rpm/5820);
     }
 
     public double getSetpoint() {

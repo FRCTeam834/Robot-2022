@@ -12,25 +12,31 @@ import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.LEDColors;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
-public class PrepareShooterForVision extends CommandBase {
+public class ShootBalls extends CommandBase {
     /** Creates a new PrepareShooter. */
-    double distance = 0;
 
+    double distance = 0;
     boolean ready = false;
     ShotParams shotParams;
     Timer timer;
+    Timer timeSinceLastIndexedBall;
 
-    public PrepareShooterForVision() {
+    public ShootBalls() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.hood, RobotContainer.shooter, RobotContainer.indexer);
         timer = new Timer();
+        timeSinceLastIndexedBall = new Timer();
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+
+        // Reset the timer
         timer.reset();
-        timer.start();
+
+        // Reset the last indexed ball timer
+        timeSinceLastIndexedBall.reset();
 
         // Clear the distance average
         RobotContainer.vision.flushDistAvg();
@@ -52,16 +58,11 @@ public class PrepareShooterForVision extends CommandBase {
 
             // Set the hood and shooter's desired angles
             RobotContainer.hood.setDesiredAngle(shotParams.getAngle());
-            RobotContainer.shooter.setDesiredPID(shotParams.getSpeed() + .21375);
+            RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed() + .21375);
         } else {
-            // RobotContainer.hood.setDesiredAngle(70);
-            RobotContainer.shooter.setDesiredPID(0);
+            RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
         }
 
-        // else {
-        //   RobotContainer.hood.setCurrentAngle(Parameters.shooter.FENDER_HOOD_ANGLE);
-        // RobotContainer.shooter.setDesiredPID(Parameters.shooter.FENDER_SHOT_SPEED);
-        // }
         if (
         /*RobotContainer.shooter.readyToShoot()*/ timer.hasElapsed(1)) {
             RobotContainer.indexer.set(Parameters.indexer.MOTOR_SPEED);
@@ -70,6 +71,11 @@ public class PrepareShooterForVision extends CommandBase {
             timer.start();
             // We're ready to start shooting, turn them green
             RobotContainer.leds.setPrimaryColor(LEDColors.LIME);
+        }
+
+        // Check if the time since the last indexed ball needs reset
+        if (RobotContainer.indexer.hasBall()) {
+            timeSinceLastIndexedBall.reset();
         }
     }
 
@@ -86,6 +92,8 @@ public class PrepareShooterForVision extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return timer.hasElapsed(3) && ready;
+
+        // Check the if the ball shooting delay has passed and we've started the shooter
+        return timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && ready;
     }
 }
