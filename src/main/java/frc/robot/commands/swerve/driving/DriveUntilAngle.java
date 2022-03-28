@@ -32,7 +32,7 @@ public class DriveUntilAngle extends CommandBase {
     public void initialize() {
 
         // Start moving the drivetrain forward slowly
-        RobotContainer.driveTrain.drive(tipSpeed, 0, 0, false);
+        RobotContainer.driveTrain.drive(tipSpeed, 0, 0, false,false);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
