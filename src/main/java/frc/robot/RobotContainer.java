@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -39,8 +40,9 @@ import frc.robot.commands.autons.TwoBallHangar;
 import frc.robot.commands.climber.Climb;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.intake.ColorSensorIntaking;
+import frc.robot.commands.indexing.AutoLoadIntoIndexer;
 import frc.robot.commands.intake.HomeIntake;
+import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.intake.MoveIntakeDownDumb;
 import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
@@ -50,6 +52,7 @@ import frc.robot.commands.shooting.ManualShoot;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToAngleVision;
+import frc.robot.commands.swerve.driving.BeyBlade;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
 import frc.robot.commands.swerve.testing.TestModulePID;
@@ -94,31 +97,8 @@ public class RobotContainer {
     public static InterpolatingTable interpolatingTable = new InterpolatingTable();
     public static LEDs leds = new LEDs();
 
-    // Commands
-
-    // Movement
-    private final LetsRoll letsRoll = new LetsRoll();
+    // Auton chooser
     SendableChooser<Command> autoChooser = new SendableChooser<>();
-
-    // Debugging
-    private final TestModulePID testModulePID = new TestModulePID();
-    private final TestModulePositioning testModulePositioning = new TestModulePositioning();
-    private final TestRotationalPID testRotationalPID = new TestRotationalPID();
-    private final TestModuleVelocity testModuleVelocity = new TestModuleVelocity();
-    private final StraightenWheels straightenWheels = new StraightenWheels();
-    public static ManualShoot manualShoot = new ManualShoot();
-
-    // Intaking/holding balls
-    private final ColorSensorIntaking indexingThings = new ColorSensorIntaking();
-    // private final SwitchIntakeState switchIntakeState = new SwitchIntakeState();
-
-    // Homing commands
-    private final HomeHood homeHood = new HomeHood();
-    private final HomeIntake homeIntake = new HomeIntake();
-    // private final HomeClimberTubes homeClimberTubes = new HomeClimberTubes();
-
-    // Autoshooting
-    private final AutoShoot autoShoot = new AutoShoot();
 
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
@@ -171,6 +151,10 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
 
+        // Default commands
+        // Automatically load the balls into the indexer
+        //!!!!!!!CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new AutoLoadIntoIndexer());
+
         // Left Joystick
         // new JoystickButton(leftJoystick, 1)
         //        .whenPressed(
@@ -178,7 +162,7 @@ public class RobotContainer {
         //                        () -> RobotContainer.fieldCentric =
         // !RobotContainer.fieldCentric));
         new JoystickButton(leftJoystick, 1).whileHeld(new EmptyEverything());
-        new JoystickButton(leftJoystick, 2).whenPressed(letsRoll);
+        new JoystickButton(leftJoystick, 2).whenPressed(new LetsRoll());
         new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
         new JoystickButton(leftJoystick, 4).whenPressed(new LetsRollEgoCentric());
         new JoystickButton(leftJoystick, 8)
@@ -216,8 +200,10 @@ public class RobotContainer {
                         new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision()));
 
-        new JoystickButton(rightJoystick, 12).whenPressed(new Climb());
+
+        new JoystickButton(rightJoystick, 10).whenPressed(new BeyBlade());
         new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());
+        new JoystickButton(rightJoystick, 12).whenPressed(new Climb());
 
         // right and left lift up
         BM.whenHeld(
@@ -275,8 +261,7 @@ public class RobotContainer {
         // new JoystickButton(xbox, Button.kA.value)
         //     .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
 
-        // 87.6 20.4
-        new JoystickButton(xbox, Button.kY.value).whileHeld(new ColorSensorIntaking());
+        new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value)
                 .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
@@ -293,7 +278,7 @@ public class RobotContainer {
         // Runs function tests
         // Holding down keeps the test running, letting go cycles to the next on the next button
         // push
-        new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
+       //new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
 
         // new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() ->
         // intake.set(.75), intake::stop, intake));

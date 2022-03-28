@@ -35,8 +35,8 @@ public class PrepareShooterForVision extends CommandBase {
         // Clear the distance average
         RobotContainer.vision.flushDistAvg();
 
-        // Red LEDS, were not ready to shoot
-        RobotContainer.leds.setColor(LEDColors.STROBE_RED);
+        // Red LEDs
+        RobotContainer.leds.setPrimaryColor(LEDColors.STROBE_RED);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -69,7 +69,7 @@ public class PrepareShooterForVision extends CommandBase {
             timer.reset();
             timer.start();
             // We're ready to start shooting, turn them green
-            RobotContainer.leds.setColor(LEDColors.LIME);
+            RobotContainer.leds.setPrimaryColor(LEDColors.LIME);
         }
     }
 
