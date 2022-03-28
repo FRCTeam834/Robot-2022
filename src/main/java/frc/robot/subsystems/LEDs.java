@@ -54,6 +54,7 @@ public class LEDs extends SubsystemBase {
 
     /**
      * Sets if the LEDs should alternate between the primary and secondary colors
+     *
      * @param alternate Should it alternate?
      */
     public void shouldAlternate(boolean alternate) {
@@ -62,6 +63,7 @@ public class LEDs extends SubsystemBase {
 
     /**
      * Sets the new color, but uses caching for better performance
+     *
      * @param newColor The new color to set the LEDs to
      */
     private void setColor(double newColor) {
@@ -85,22 +87,21 @@ public class LEDs extends SubsystemBase {
         if (alternating) {
 
             // Check if we need to change the state
-            // Note that we need to use half the period to cycle between both states in a full period
+            // Note that we need to use half the period to cycle between both states in a full
+            // period
             if (timer.hasElapsed(Parameters.led.ALTERNATE_PERIOD / 2)) {
 
                 // Decide the new color for the LEDs
                 if (currentColor == primaryColor) {
                     setColor(secondaryColor);
-                }
-                else {
+                } else {
                     setColor(primaryColor);
                 }
 
                 // Reset the timer
                 timer.reset();
             }
-        }
-        else {
+        } else {
             // Just set the color to the primary color
             setColor(primaryColor);
         }

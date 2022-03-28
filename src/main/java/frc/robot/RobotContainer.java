@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -31,7 +30,6 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 
 import frc.robot.Parameters.indexer;
 import frc.robot.commands.EmptyEverything;
-import frc.robot.commands.FunctionTest;
 import frc.robot.commands.autons.FourBallAuton;
 import frc.robot.commands.autons.OneBallAuton;
 import frc.robot.commands.autons.ThreeBallAuton;
@@ -40,25 +38,17 @@ import frc.robot.commands.autons.TwoBallHangar;
 import frc.robot.commands.climber.Climb;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.indexing.AutoLoadIntoIndexer;
 import frc.robot.commands.intake.HomeIntake;
 import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.intake.MoveIntakeDownDumb;
 import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
-import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.FenderShot;
-import frc.robot.commands.shooting.ManualShoot;
 import frc.robot.commands.shooting.PrepareShooterForVision;
-import frc.robot.commands.swerve.StraightenWheels;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.BeyBlade;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
-import frc.robot.commands.swerve.testing.TestModulePID;
-import frc.robot.commands.swerve.testing.TestModulePositioning;
-import frc.robot.commands.swerve.testing.TestModuleVelocity;
-import frc.robot.commands.swerve.testing.TestRotationalPID;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
@@ -153,7 +143,8 @@ public class RobotContainer {
 
         // Default commands
         // Automatically load the balls into the indexer
-        //!!!!!!!CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new AutoLoadIntoIndexer());
+        // !!!!!!!CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new
+        // AutoLoadIntoIndexer());
 
         // Left Joystick
         // new JoystickButton(leftJoystick, 1)
@@ -199,7 +190,6 @@ public class RobotContainer {
                 .whenPressed(
                         new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision()));
-
 
         new JoystickButton(rightJoystick, 10).whenPressed(new BeyBlade());
         new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());
@@ -278,7 +268,7 @@ public class RobotContainer {
         // Runs function tests
         // Holding down keeps the test running, letting go cycles to the next on the next button
         // push
-       //new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
+        // new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
 
         // new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() ->
         // intake.set(.75), intake::stop, intake));
