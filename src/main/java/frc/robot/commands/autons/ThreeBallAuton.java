@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.intake.ColorSensorIntaking;
+import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.shooting.IdleShooter;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
@@ -57,7 +57,7 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
                         new FollowPath(examplePath),
-                        new ColorSensorIntaking(),
+                        new IntakeBalls(),
                         new HomeHood(),
                         new IdleShooter()),
                 new ParallelDeadlineGroup(
@@ -68,7 +68,7 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                         RobotContainer.driveTrain),
                 new WaitCommand(.5),
                 new ParallelDeadlineGroup(
-                        new DriveForTime(1, 1), new ColorSensorIntaking(), new IdleShooter()),
+                        new DriveForTime(1, 1), new IntakeBalls(), new IdleShooter()),
                 new ParallelDeadlineGroup(
                                 new PrepareShooterForVision(), new TurnToAngleVision(true, false))
                         .withTimeout(3),

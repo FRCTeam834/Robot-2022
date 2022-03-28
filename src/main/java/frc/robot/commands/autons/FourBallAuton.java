@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.intake.ColorSensorIntaking;
+import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
 import frc.robot.commands.swerve.TurnToAngleVision;
@@ -55,11 +55,11 @@ public class FourBallAuton extends SequentialCommandGroup {
                                         RobotContainer.intakeWinch.setDesiredDistance(
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
-                        new FollowPath(fourBallPart1), new ColorSensorIntaking(), new HomeHood()),
+                        new FollowPath(fourBallPart1), new IntakeBalls(), new HomeHood()),
                 new ParallelRaceGroup(
                                 new TurnToAngleVision(true, false), new PrepareShooterForVision())
                         .withTimeout(3),
-                new ParallelDeadlineGroup(new FollowPath(fourBallPart2), new ColorSensorIntaking()),
+                new ParallelDeadlineGroup(new FollowPath(fourBallPart2), new IntakeBalls()),
                 new ParallelRaceGroup(
                         new TurnToAngleVision(true, false), new PrepareShooterForVision()),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));

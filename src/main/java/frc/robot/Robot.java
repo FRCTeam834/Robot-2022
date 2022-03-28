@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.commands.hood.HomeHood;
+import frc.robot.commands.indexing.AutoLoadIntoIndexer;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 import frc.robot.utilityClasses.LEDColors;
 
@@ -69,6 +70,7 @@ public class Robot extends TimedRobot {
         if (!Parameters.telemetryMode) {
             LiveWindow.disableAllTelemetry();
         }
+        DriverStation.silenceJoystickConnectionWarning(true);
 
         // Set that the spool is homed (must be up to be legal)
         RobotContainer.intakeWinch.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
@@ -83,24 +85,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-
-        field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
-        DriverStation.silenceJoystickConnectionWarning(true);
-
-        // Check the state of the functions on the robot
-        readyToShoot = RobotContainer.shooter.readyToShoot();
-        linedUp = RobotContainer.vision.isLinedUp();
-
-        // Decide which LED color
-        if (readyToShoot && linedUp) {
-            RobotContainer.leds.setColor(LEDColors.GLITTER_RAINBOW);
-        } else if (readyToShoot) {
-            RobotContainer.leds.setColor(LEDColors.OCEAN);
-        } else if (linedUp) {
-            RobotContainer.leds.setColor(LEDColors.PINK);
-        } else {
-            RobotContainer.leds.setColor(LEDColors.BLUE_VIOLET);
-        }
 
         // Run the scheduler
         CommandScheduler.getInstance().run();

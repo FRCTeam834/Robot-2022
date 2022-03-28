@@ -259,10 +259,6 @@ public final class Parameters {
 
     public static final class climber {
 
-        // If the extra motors (includes the drivetrain at times) should be disabled when possible
-        // This shouldn't hurt performance, but still needs testing regardless
-        public static final boolean DISABLE_UNUSED_MOTORS = true;
-
         public static final int TUBE_CURRENT_LIMIT = 60;
         public static final int TUBE_HOME_CURRENT = 1;
 
@@ -507,6 +503,7 @@ public final class Parameters {
 
     public static final class led {
         public static final int PWM_PORT = 0;
+        public static final double ALTERNATE_PERIOD = 1;
 
         /*
             Color documentation:
