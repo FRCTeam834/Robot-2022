@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-import frc.robot.utilityClasses.LEDColors;
 
 public class LetsRoll extends CommandBase {
 
@@ -57,15 +56,6 @@ public class LetsRoll extends CommandBase {
             RobotContainer.driveTrain.lockemUp();
         } else {
             RobotContainer.driveTrain.zeroVelocities();
-        }
-
-        // Set the LEDs
-        // If we can see a target, make them green
-        if (RobotContainer.vision.getBestTarget() != null) {
-            RobotContainer.leds.setColor(LEDColors.LIME);
-        } else {
-            // Otherwise, just default to regular team colors
-            RobotContainer.leds.setColor(LEDColors.OCEAN);
         }
     }
 

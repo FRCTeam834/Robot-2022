@@ -12,21 +12,13 @@
  */
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.util.net.PortForwarder;
-// Imports
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
-import frc.robot.commands.hood.HomeHood;
-import frc.robot.subsystems.climber.HomeClimberTubes;
-import frc.robot.utilityClasses.LEDColors;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -38,8 +30,6 @@ public class Robot extends TimedRobot {
 
     private Command m_autonomousCommand;
     private RobotContainer m_robotContainer;
-    private boolean linedUp;
-    private boolean readyToShoot;
     public Field2d field = new Field2d();
 
     /** Moved the NavX to the Robot constructor here, allowing the NavX to only be reset once */
@@ -63,15 +53,11 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotInit() {
-        PortForwarder.add(5800, "photonvision.local", 5800);
-        CameraServer.startAutomaticCapture();
         SmartDashboard.putData(field);
         if (!Parameters.telemetryMode) {
             LiveWindow.disableAllTelemetry();
         }
-
-        // Set that the spool is homed (must be up to be legal)
-        RobotContainer.intakeWinch.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
+        DriverStation.silenceJoystickConnectionWarning(true);
     }
 
     /**
@@ -85,22 +71,6 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
 
         field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
-        DriverStation.silenceJoystickConnectionWarning(true);
-
-        // Check the state of the functions on the robot
-        readyToShoot = RobotContainer.shooter.readyToShoot();
-        linedUp = RobotContainer.vision.isLinedUp();
-
-        // Decide which LED color
-        if (readyToShoot && linedUp) {
-            RobotContainer.leds.setColor(LEDColors.GLITTER_RAINBOW);
-        } else if (readyToShoot) {
-            RobotContainer.leds.setColor(LEDColors.OCEAN);
-        } else if (linedUp) {
-            RobotContainer.leds.setColor(LEDColors.PINK);
-        } else {
-            RobotContainer.leds.setColor(LEDColors.BLUE_VIOLET);
-        }
 
         // Run the scheduler
         CommandScheduler.getInstance().run();
@@ -108,14 +78,7 @@ public class Robot extends TimedRobot {
 
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
-    public void disabledInit() {
-
-        // Stop all of the motors on the robot
-        RobotContainer.indexer.stop();
-        RobotContainer.intake.stop();
-        RobotContainer.shooter.stop();
-        RobotContainer.hood.stop();
-    }
+    public void disabledInit() {}
 
     @Override
     public void disabledPeriodic() {}
@@ -125,9 +88,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void autonomousInit() {
-
-        // Set the distancing on the intake winch
-        RobotContainer.intakeWinch.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
 
         // Get the auto command from the SmartDashboard chooser
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -151,14 +111,6 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
-        CommandScheduler.getInstance().schedule(new HomeClimberTubes(), new HomeHood());
-        // new ScheduleCommand(new PerpetualCommand(new ColorSensorIndexing()));
-
-        // Stop all of the motors on the robot
-        RobotContainer.indexer.stop();
-        RobotContainer.intake.stop();
-        RobotContainer.shooter.stop();
-        RobotContainer.hood.stop();
     }
 
     /** This function is called periodically during operator control. */
@@ -176,19 +128,4 @@ public class Robot extends TimedRobot {
     /** This function is called periodically during test mode. */
     @Override
     public void testPeriodic() {}
-
-    // Returns the color of ball that we should be collecting
-    public static Color getOurBallColor() {
-
-        // Get the alliance that we're on
-        // Default to blue balls
-        switch (DriverStation.getAlliance()) {
-            case Red:
-                return Color.kRed;
-            case Blue:
-                return Color.kBlue;
-            default: // Used when the alliance isn't valid (not set)
-                return Color.kBlue;
-        }
-    }
 }
