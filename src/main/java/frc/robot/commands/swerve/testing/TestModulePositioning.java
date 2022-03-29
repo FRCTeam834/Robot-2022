@@ -15,10 +15,6 @@ import frc.robot.RobotContainer;
 
 public class TestModulePositioning extends CommandBase {
     /** Creates a new TestModulePositioning. */
-
-    // Joystick value array, in form (LX, LY, RX, RY)
-    double[] joystickValues = new double[4];
-
     public TestModulePositioning() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.driveTrain);
@@ -38,7 +34,7 @@ public class TestModulePositioning extends CommandBase {
     public void execute() {
 
         // Get the values of the joysticks
-        joystickValues = RobotContainer.getJoystickValues();
+        double[] joystickValues = RobotContainer.getJoystickValues();
 
         // Multiply each of the elements by the angle value
         for (int index = 0; index < joystickValues.length; index++) {
@@ -55,7 +51,7 @@ public class TestModulePositioning extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.driveTrain.stopModules();
+        RobotContainer.driveTrain.zeroVelocities();
     }
 
     // Returns true when the command should end.

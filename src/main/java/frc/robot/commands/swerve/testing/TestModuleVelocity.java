@@ -53,7 +53,7 @@ public class TestModuleVelocity extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.driveTrain.stopModules();
+        RobotContainer.driveTrain.zeroVelocities();
     }
 
     // Returns true when the command should end.

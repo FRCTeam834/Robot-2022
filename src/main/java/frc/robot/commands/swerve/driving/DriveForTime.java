@@ -7,7 +7,6 @@ package frc.robot.commands.swerve.driving;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class DriveForTime extends CommandBase {
@@ -17,10 +16,11 @@ public class DriveForTime extends CommandBase {
     double time = 0;
     double speed = 0;
 
-    public DriveForTime(double time) {
+    public DriveForTime(double speed, double time) {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.driveTrain);
         this.time = time;
+        this.speed = speed;
     }
 
     // Called when the command is initially scheduled.
@@ -29,11 +29,6 @@ public class DriveForTime extends CommandBase {
         RobotContainer.driveTrain.straightenModules();
         timer.reset();
         timer.start();
-        if (time == Parameters.driveTrain.auton.TIME_OFF_LINE) {
-            speed = Parameters.driveTrain.auton.DRIVE_SPEED;
-        } else {
-            speed = Parameters.driveTrain.auton.LINE_UP_SPEED;
-        }
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +40,7 @@ public class DriveForTime extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.driveTrain.stopModules();
+        RobotContainer.driveTrain.zeroVelocities();
         timer.reset();
         timer.stop();
     }

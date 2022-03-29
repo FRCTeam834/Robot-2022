@@ -1,8 +1,7 @@
-// Copyright (c) FIRST and other WPILib contributors.
+package frc.robot.utilityClasses.interpolation;
+
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
-package frc.robot.utilityClasses.interpolation;
 
 /** Add your docs here. */
 public class ShotParams {
@@ -11,35 +10,14 @@ public class ShotParams {
     double angle;
     double speed;
 
-    // Creating the constructor
-    public ShotParams() {
-        angle = 0;
-        speed = 0;
-    }
-
     // Overloading the constructor
-    public ShotParams(double angle) {
-        angle = this.angle;
-        speed = 0;
+    public ShotParams(double speed, double angle) {
+        this.angle = angle;
+        this.speed = speed;
     }
 
-    // Overloading the constructor
-    public ShotParams(double angle, double speed) {
-        angle = this.angle;
-        speed = this.speed;
-    }
-
-    private double getAngle() {
-        return angle;
-    }
-
-    private double getSpeed() {
-        return speed;
-    }
-
-    public boolean equals(ShotParams other, double tolerance) {
-        if (Math.abs(angle - other.getAngle()) <= tolerance
-                && Math.abs(speed - other.getSpeed()) <= tolerance) {
+    public boolean equals(ShotParams other, double angTol, double spdTol) {
+        if (Math.abs(angle - other.angle) <= angTol && Math.abs(speed - other.speed) <= spdTol) {
             return true;
         } else {
             return false;
@@ -49,12 +27,26 @@ public class ShotParams {
     // Linear interpolation code, taken from:
     // https://medium.com/swlh/youre-using-lerp-wrong-73579052a3c3
     public double linearInterpolation(double y1, double y2, double t) {
-        return y1 + t * (y2 - y1);
+        return y1 + ((y2 - y1) * t);
     }
 
-    public ShotParams interpolate(ShotParams a, double t) {
+    public ShotParams interpolate(ShotParams end, double t) {
         return new ShotParams(
-                linearInterpolation(this.angle, a.getAngle(), t),
-                (linearInterpolation(this.speed, a.getSpeed(), t)));
+                linearInterpolation(this.speed, end.speed, t),
+                (linearInterpolation(this.angle, end.angle, t)));
+    }
+
+    // Returns the shot angle (deg)
+    public double getAngle() {
+        return angle;
+    }
+
+    // Returns the speed (m/s)
+    public double getSpeed() {
+        return speed;
+    }
+
+    public String toString() {
+        return String.format("S: %f | A: %f", speed, angle);
     }
 }
