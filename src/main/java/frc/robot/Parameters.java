@@ -534,8 +534,8 @@ public final class Parameters {
         public static final double GOAL_HEIGHT = Units.feetToMeters(8) + Units.inchesToMeters(8);
 
         // Goal x and y on field (m)
-        public static final double GOAL_X = 324;
-        public static final double GOAL_Y = 162;
+        public static final double GOAL_X = Units.feetToMeters(27);
+        public static final double GOAL_Y = Units.feetToMeters(13.5);
 
         // The radius of the tape on goal
         public static final double GOAL_TAPE_RADIUS = Units.feetToMeters(4.5) / 2.0;
