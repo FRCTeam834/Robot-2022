@@ -128,7 +128,8 @@ public class DriveTrain extends SubsystemBase {
             double yVelocity,
             double rot,
             boolean fieldRelative,
-            boolean tipProtection, boolean openLoop) {
+            boolean tipProtection,
+            boolean openLoop) {
 
         // Declare a variable to store the chassis speeds
         ChassisSpeeds speeds;
@@ -167,7 +168,12 @@ public class DriveTrain extends SubsystemBase {
      * @param fieldRelative If true, robot will use field as X and Y reference, regardless of angle.
      *     If false, robot will move in respect to itself
      */
-    public void drive(double xVelocity, double yVelocity, double rot, boolean fieldRelative, boolean openLoopDrive) {
+    public void drive(
+            double xVelocity,
+            double yVelocity,
+            double rot,
+            boolean fieldRelative,
+            boolean openLoopDrive) {
         drive(xVelocity, yVelocity, rot, fieldRelative, false, openLoopDrive);
     }
 
@@ -221,11 +227,10 @@ public class DriveTrain extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, Parameters.driveTrain.maximums.MAX_TRANS_VELOCITY);
 
-            frontLeft.setDesiredState(swerveModuleStates[0], openLoopDrive);
-            frontRight.setDesiredState(swerveModuleStates[1], openLoopDrive);
-            backLeft.setDesiredState(swerveModuleStates[2], openLoopDrive);
-            backRight.setDesiredState(swerveModuleStates[3], openLoopDrive);
-
+        frontLeft.setDesiredState(swerveModuleStates[0], openLoopDrive);
+        frontRight.setDesiredState(swerveModuleStates[1], openLoopDrive);
+        backLeft.setDesiredState(swerveModuleStates[2], openLoopDrive);
+        backRight.setDesiredState(swerveModuleStates[3], openLoopDrive);
     }
 
     public void normalizeDrive(SwerveModuleState[] desiredStates, ChassisSpeeds speeds) {
