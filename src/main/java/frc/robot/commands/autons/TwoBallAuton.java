@@ -15,8 +15,6 @@ import frc.robot.commands.StopEverything;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.shooting.AutoShoot;
-import frc.robot.commands.shooting.ShootBalls;
-import frc.robot.commands.swerve.TurnToGoal;
 import frc.robot.commands.swerve.driving.DriveForTime;
 import frc.robot.commands.swerve.driving.SpinForTime;
 import frc.robot.subsystems.climber.HomeClimberTubes;
