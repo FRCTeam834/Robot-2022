@@ -19,6 +19,9 @@ public class IntakeBalls extends CommandBase {
     @Override
     public void initialize() {
         RobotContainer.intake.set(.65);
+
+        // Tell the indexer to autoindex
+        RobotContainer.autoIndex = true;
     }
 
     // Called every time the scheduler runs while the command is scheduled.

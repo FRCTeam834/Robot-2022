@@ -14,7 +14,7 @@ package frc.robot;
 
 // Imports
 import edu.wpi.first.wpilibj.GenericHID;
-// Imports
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
@@ -44,6 +44,7 @@ import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.intake.MoveIntakeDownDumb;
 import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
+import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.shooting.ShootBalls;
 import frc.robot.commands.swerve.TurnToGoal;
@@ -113,6 +114,9 @@ public class RobotContainer {
 
     // The robot's turn rate
     public static double turnRate = Parameters.driver.slowSteerRate;
+
+    // If the indexer should be running (autoschedules)
+    public static boolean autoIndex = false;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -187,7 +191,7 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
         new JoystickButton(rightJoystick, 2)
-                .whenPressed(new ParallelRaceGroup(new TurnToGoal(true, false), new ShootBalls()));
+                .whenPressed(new AutoShoot());
 
         new JoystickButton(rightJoystick, 10).whenPressed(new BeyBlade());
         new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());

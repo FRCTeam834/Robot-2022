@@ -91,7 +91,8 @@ public class Robot extends TimedRobot {
             // Check if any command is using the indexer, shooter, or hood
             if (!usingSubsystem(RobotContainer.indexer)
                     && !usingSubsystem(RobotContainer.shooter)
-                    && !usingSubsystem(RobotContainer.hood)) {
+                    && !usingSubsystem(RobotContainer.hood)
+                    && RobotContainer.autoIndex) {
 
                 // Schedule the autoindexing command
                 // Note that this command will not be scheduled if it's already running

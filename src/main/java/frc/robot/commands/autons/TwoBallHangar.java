@@ -18,6 +18,7 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.IntakeBalls;
+import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.ShootBalls;
 import frc.robot.commands.swerve.FollowPath;
 import frc.robot.commands.swerve.TurnToGoal;
@@ -55,7 +56,7 @@ public class TwoBallHangar extends SequentialCommandGroup {
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
                         new FollowPath(examplePath), new IntakeBalls(), new HomeHood()),
-                new ParallelRaceGroup(new TurnToGoal(true, false), new ShootBalls()).withTimeout(3),
+                new AutoShoot().withTimeout(3),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }

@@ -14,6 +14,7 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.StopEverything;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.IntakeBalls;
+import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.ShootBalls;
 import frc.robot.commands.swerve.TurnToGoal;
 import frc.robot.commands.swerve.driving.DriveForTime;
@@ -42,7 +43,7 @@ public class TwoBallAuton extends SequentialCommandGroup {
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelRaceGroup(new DriveForTime(1, 3), new IntakeBalls()),
                 new SpinForTime(1, 3.2),
-                new ParallelRaceGroup(new TurnToGoal(true, false), new ShootBalls()).withTimeout(3),
+                new AutoShoot().withTimeout(3),
                 new StopEverything());
     }
 }

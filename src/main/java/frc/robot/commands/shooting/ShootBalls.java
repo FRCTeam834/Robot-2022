@@ -87,6 +87,9 @@ public class ShootBalls extends CommandBase {
         RobotContainer.shooter.stop();
         RobotContainer.indexer.stop();
         timer.stop();
+
+        // Stop indexing the balls
+        RobotContainer.autoIndex = false;
     }
 
     // Returns true when the command should end.

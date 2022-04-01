@@ -20,11 +20,10 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 public class TurnToGoal extends CommandBase {
 
     boolean exitWhenAligned;
-    boolean startDrivingAfter;
     PIDController rotationalPID = new PIDController(3, 0, 0);
     double omega = 0;
 
-    public TurnToGoal(boolean runDriveAfterEnd, boolean shouldExitWhenAligned) {
+    public TurnToGoal(boolean shouldExitWhenAligned) {
 
         // Set up the rotational PID controller
         rotationalPID.enableContinuousInput(0, 360);
@@ -32,9 +31,6 @@ public class TurnToGoal extends CommandBase {
 
         // Save if we should exit when aligned
         exitWhenAligned = shouldExitWhenAligned;
-
-        // Save if the drivetrain should go back to driving after being interrupted
-        startDrivingAfter = runDriveAfterEnd;
 
         // Request the drivetrain
         addRequirements(RobotContainer.driveTrain);
@@ -87,11 +83,6 @@ public class TurnToGoal extends CommandBase {
 
         // Stop all of the modules (basically zero their velocities)
         RobotContainer.driveTrain.zeroVelocities();
-
-        // Schedule the drive command
-        if (startDrivingAfter) {
-            // CommandScheduler.getInstance().schedule(new LetsRoll());
-        }
     }
 
     // Returns true when the command should end.

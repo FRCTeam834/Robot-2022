@@ -24,6 +24,7 @@ public class IntakeBallsForTime extends CommandBase {
     @Override
     public void initialize() {
         timer.start();
+        RobotContainer.autoIndex = true;
     }
 
     // Called every time the scheduler runs while the command is scheduled.
