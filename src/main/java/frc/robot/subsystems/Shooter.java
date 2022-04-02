@@ -23,7 +23,7 @@ public class Shooter extends SubsystemBase {
 
     // Motor and motor encoder object
     CANSparkMax shooterMotor;
-    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.1009, 0.357, 0.048143);
+    SimpleMotorFeedforward shooterFF = new SimpleMotorFeedforward(0.1009, 0.31, 0.048143);
     RelativeEncoder shooterMotorEncoder;
     PIDController shooterPIDController;
 
@@ -58,7 +58,7 @@ public class Shooter extends SubsystemBase {
                 (Parameters.shooter.WHEEL_DIA_M * Math.PI) / 60);
         shooterMotor.burnFlash();
 
-        shooterPIDController = new PIDController(0.024089, 0, 0);
+        shooterPIDController = new PIDController(0.065, 0, 0);
         shooterPIDController.setTolerance(0.25);
     }
 
@@ -95,7 +95,7 @@ public class Shooter extends SubsystemBase {
             shooterMotor.setVoltage(
                     shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity)
                                     * 12
-                            + .9 * shooterFF.calculate(setVelocity));
+                            + shooterFF.calculate(setVelocity));
         }
     }
 

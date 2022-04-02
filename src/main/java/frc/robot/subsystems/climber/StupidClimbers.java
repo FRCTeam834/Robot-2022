@@ -4,9 +4,10 @@
 
 package frc.robot.subsystems.climber;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 // Imports
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Parameters;
 import frc.robot.Parameters.climber.lift;
 import frc.robot.Parameters.climber.tilt;
 
@@ -110,4 +111,15 @@ public class StupidClimbers extends SubsystemBase {
         // rightTilt.stop();
         leftTilt.stop();
     }
+
+    public void initSendable(SendableBuilder builder) {
+        if (Parameters.telemetryMode) {
+            builder.setSmartDashboardType("Climber");
+            builder.addDoubleProperty("Left Lift Height", leftLift::getTubePosition, null);
+            builder.addDoubleProperty("Left Tilt Height", leftTilt::getTubePosition, null);
+            builder.addDoubleProperty("Right Lift Height", rightLift::getTubePosition, null);
+            builder.addDoubleProperty("Rightt Height", rightTilt::getTubePosition, null);
+
+        }
+}
 }

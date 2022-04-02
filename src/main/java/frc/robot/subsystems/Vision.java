@@ -40,7 +40,7 @@ public class Vision extends SubsystemBase {
         LEDsOn = false;
 
         // Set up the moving average filter
-        distAverage = new MovingAverage(50);
+        distAverage = new MovingAverage(25);
     }
 
     public void turnLEDsOn() {

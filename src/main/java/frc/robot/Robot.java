@@ -100,6 +100,8 @@ public class Robot extends TimedRobot {
         }
         */
 
+        System.out.println(RobotContainer.navX.getRoll());
+
         // Run the scheduler
         CommandScheduler.getInstance().run();
     }

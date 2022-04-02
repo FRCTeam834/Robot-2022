@@ -27,16 +27,17 @@ public class InterpolatingTable {
                 new TreeMap<>(
                         Map.ofEntries(
                                 entry(0.0, new ShotParams(19.49, 76.76)),
-                                entry(104.0, new ShotParams(26.9, 44.8)),
-                                entry(114.2, new ShotParams(27.4, 44.4)),
-                                entry(95.2, new ShotParams(25.85, 50.0)),
-                                entry(85.0, new ShotParams(23.55, 52.01)),
-                                entry(75.89, new ShotParams(23.06, 52.72)),
-                                entry(65.0, new ShotParams(22.72, 55.31)),
-                                entry(55.16, new ShotParams(22.22, 57.67)),
-                                entry(47.28, new ShotParams(21.39, 59.32)),
-                                entry(32.45, new ShotParams(20.51, 64.15)),
-                                entry(19.71, new ShotParams(20.25, 69.1))));
+                                entry(101.1, new ShotParams(28.63, 45.41)),
+                                entry(114.2, new ShotParams(27.24, 46.4)),
+                                entry(95.2, new ShotParams(26.95, 48.55)),
+                                entry(92.06, new ShotParams(26.21, 47.65)),
+                                entry(81.89, new ShotParams(25, 49.65)),
+                                entry(70.81, new ShotParams(24.26,49.89)),
+                                entry(59.58, new ShotParams(23.01, 53.19)),
+                                entry(44.66, new ShotParams(22, 55.55)),
+                                entry(32.45, new ShotParams(21.25, 62.15)),
+                                entry(27.7, new ShotParams(20.93, 60.147)),
+                                entry(18.48, new ShotParams(20.45, 63.144))));
     }
 
     public ShotParams getShotParam(double distance) {
