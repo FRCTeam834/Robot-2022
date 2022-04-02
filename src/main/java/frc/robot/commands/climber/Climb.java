@@ -6,6 +6,7 @@ package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Parameters;
@@ -39,30 +40,26 @@ public class Climb extends SequentialCommandGroup {
                 // Home the climber tubes
                 new HomeClimberTubes(),
 
+                new PrintCommand("Homed!"),
                 // Now extend the tubes
                 new ParallelCommandGroup(
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.leftLift,
-                                Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT,
+                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT+1),
                                 1),
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.rightLift,
-                                Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT,
+                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT+1),
                                 1),
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.leftTilt,
-                                Parameters.climber.tilt.LEFT_LEGAL_DISTANCE,
+                                (Parameters.climber.tilt.LEFT_LEGAL_DISTANCE+1),
                                 1),
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.rightTilt,
-                                Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE,
-                                1)),
+                                (Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE+1),
+                                1)).withTimeout(2.5),
 
-                // Disable the tubes during tilting
-                new InstantCommand(RobotContainer.climbers2.leftLift::stop),
-                new InstantCommand(RobotContainer.climbers2.rightLift::stop),
-                new InstantCommand(RobotContainer.climbers2.leftTilt::stop),
-                new InstantCommand(RobotContainer.climbers2.rightTilt::stop),
 
                 // Tilt the robot
                 new DriveUntilAngle(

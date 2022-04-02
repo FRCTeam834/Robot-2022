@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -32,10 +33,12 @@ import frc.robot.Parameters.indexer;
 import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.autons.FourBallAuton;
 import frc.robot.commands.autons.OneBallAuton;
+import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.autons.ThreeBallAuton;
 import frc.robot.commands.autons.TwoBallHP;
 import frc.robot.commands.autons.TwoBallHangar;
 import frc.robot.commands.climber.Climb;
+import frc.robot.commands.climber.MoveTubeToPosition;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.HomeIntake;
@@ -196,16 +199,17 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 12).whenPressed(new Climb());
 
         // right and left lift up
-        BM.whenHeld(
-                new StartEndCommand(
-                                () -> RobotContainer.climbers2.leftLift.setWithLimitSwitch(1),
-                                RobotContainer.climbers2.leftLift::stop)
-                        .alongWith(
-                                new StartEndCommand(
-                                        () ->
-                                                RobotContainer.climbers2.rightLift
-                                                        .setWithLimitSwitch(-1),
-                                        RobotContainer.climbers2.rightLift::stop)));
+        BM.whenPressed(
+
+            new ParallelCommandGroup(
+                new MoveTubeToPosition(
+                        RobotContainer.climbers2.leftLift,
+                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT),
+                        1),
+                new MoveTubeToPosition(
+                        RobotContainer.climbers2.rightLift,
+                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
+                        1)));
 
         // right and lift down
         BR.whenHeld(
@@ -252,9 +256,9 @@ public class RobotContainer {
         //     .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
 
         new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
-        new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
+        new JoystickButton(xbox, Button.kB.value).whenPressed(() -> shooter.setDesiredPID(15));
         new JoystickButton(xbox, Button.kX.value)
-                .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
+                .whenPressed(new PrepareShooterForVision());
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
         new JoystickButton(xbox, Button.kRightBumper.value)
@@ -353,6 +357,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return autoChooser.getSelected();
+        return new TestAuton();
     }
 }

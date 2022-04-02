@@ -269,20 +269,19 @@ public final class Parameters {
             public static final int LEFT_MOTOR_ID = 21;
 
             // The gearbox ratio
-            public static final double GEARBOX_RATIO = 48;
+            public static final double GEARBOX_RATIO = 27;
 
             // Limit switch ports used for lift
             public static final int RIGHT_LIMIT_SWITCH_PORT = 1;
             public static final int LEFT_LIMIT_SWITCH_PORT = 2;
 
             // PID constants (I not used)
-            public static final double kP = 20;
+            public static final double kP = 45;
             public static final double kD = 0;
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
 
             // The tolerance for positioning the tubes (in m)
-            public static final double POS_TOLERANCE = 0.01; // 5 mm of tolerance
-
+            public static final double POS_TOLERANCE = 0.1; // 5 mm of tolerance
             // Maximum motor duty
             public static final double MAX_DUTY = 1;
 
@@ -290,13 +289,19 @@ public final class Parameters {
             public static final double SPOOL_CIRCUMFERENCE =
                     (Math.PI
                             * Units.inchesToMeters(
-                                    1)); // Diameter is 1 inch, circumference is in meters
+                                    1.06)); // Diameter is 1 inch, circumference is in meters
 
+                                    /*
+                                                        Units.inchesToMeters(21.25); // The distance of the string in the up position
+            public static final double UP_LEGAL_DISTANCE_RIGHT =
+                    Units.inchesToMeters(20.5); // The distance of the string in the up position
+
+                                    */
             // Distances to move to
             public static final double UP_LEGAL_DISTANCE_LEFT =
-                    Units.inchesToMeters(15); // The distance of the string in the up position
+                    Units.inchesToMeters(24.75); // The distance of the string in the up position
             public static final double UP_LEGAL_DISTANCE_RIGHT =
-                    Units.inchesToMeters(14); // The distance of the string in the up position
+                    Units.inchesToMeters(24.2); // The distance of the string in the up position
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
                             4); // The distance at which the hook grabs the bar, but doesn't lift
@@ -323,7 +328,7 @@ public final class Parameters {
             public static final int LEFT_LIMIT_SWITCH_PORT = 4;
 
             // PID constants (I not used)
-            public static final double kP = 20;
+            public static final double kP = 25;
             public static final double kD = 0;
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
 
@@ -340,7 +345,7 @@ public final class Parameters {
                                     1)); // Diameter is 1 inch, circumference is in meters
 
             // Distances to move to
-            public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(19.375);
+            public static final double LEFT_LEGAL_DISTANCE = Units.inchesToMeters(19.1);
             public static final double RIGHT_LEGAL_DISTANCE = Units.inchesToMeters(17.95);
 
             public static final double DOWN_DISTANCE =
@@ -365,10 +370,10 @@ public final class Parameters {
         }
 
         // The speed of the drivetrain (in m/s) to move when tilting the robot
-        public static final double DRIVE_TILT_SPEED = 2;
+        public static final double DRIVE_TILT_SPEED = 1;
 
         // The angle to tilt the robot to before lifting the climbers
-        public static final double ROBOT_TILT_ANGLE = 26;
+        public static final double ROBOT_TILT_ANGLE = 27.5;
     }
 
     public static final class intake {
