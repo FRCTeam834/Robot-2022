@@ -9,20 +9,10 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.Parameters;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.intake.IntakeBalls;
-import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
-import frc.robot.commands.swerve.TurnToAngleVision;
-import frc.robot.subsystems.climber.HomeClimberTubes;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -35,11 +25,17 @@ public class TestAuton extends SequentialCommandGroup {
         PathPlannerTrajectory testPart1 = PathPlanner.loadPath("Test Part 1", 4, 3);
         PathPlannerTrajectory testPart2 = PathPlanner.loadPath("Test Part 2", 4, 3);
         addCommands(
-                new InstantCommand(() -> RobotContainer.driveTrain.resetOdometry(new Pose2d(testPart1.getInitialState().poseMeters.getTranslation(), testPart1.getInitialState().holonomicRotation))),
+                new InstantCommand(
+                        () ->
+                                RobotContainer.driveTrain.resetOdometry(
+                                        new Pose2d(
+                                                testPart1
+                                                        .getInitialState()
+                                                        .poseMeters
+                                                        .getTranslation(),
+                                                testPart1.getInitialState().holonomicRotation))),
                 new FollowPath(testPart1),
                 new FollowPath(testPart2),
-                new InstantCommand(() -> RobotContainer.driveTrain.haltAllModules())
-                );
-
+                new InstantCommand(() -> RobotContainer.driveTrain.haltAllModules()));
     }
 }

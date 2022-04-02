@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.RobotContainer;
-import frc.robot.utilityClasses.SpartechsHolonomicDriveController;
 
 @SuppressWarnings("MemberName")
 public class FollowPath extends CommandBase {
@@ -68,7 +67,7 @@ public class FollowPath extends CommandBase {
                         desiredState.holonomicRotation);
 
         System.out.println(desiredState.velocityMetersPerSecond);
-        RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds,false);
+        RobotContainer.driveTrain.setModuleStates(targetChassisSpeeds, false);
     }
 
     public Pose2d getStartingPose(PathPlannerTrajectory trajectory) {

@@ -291,7 +291,7 @@ public final class Parameters {
                             * Units.inchesToMeters(
                                     1.06)); // Diameter is 1 inch, circumference is in meters
 
-                                    /*
+            /*
                                                         Units.inchesToMeters(21.25); // The distance of the string in the up position
             public static final double UP_LEGAL_DISTANCE_RIGHT =
                     Units.inchesToMeters(20.5); // The distance of the string in the up position

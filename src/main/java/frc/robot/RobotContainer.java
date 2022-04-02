@@ -46,7 +46,6 @@ import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.intake.MoveIntakeDownDumb;
 import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
-import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.BeyBlade;
@@ -200,16 +199,15 @@ public class RobotContainer {
 
         // right and left lift up
         BM.whenPressed(
-
-            new ParallelCommandGroup(
-                new MoveTubeToPosition(
-                        RobotContainer.climbers2.leftLift,
-                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT),
-                        1),
-                new MoveTubeToPosition(
-                        RobotContainer.climbers2.rightLift,
-                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
-                        1)));
+                new ParallelCommandGroup(
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.leftLift,
+                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT),
+                                1),
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.rightLift,
+                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
+                                1)));
 
         // right and lift down
         BR.whenHeld(
@@ -257,8 +255,7 @@ public class RobotContainer {
 
         new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
         new JoystickButton(xbox, Button.kB.value).whenPressed(() -> shooter.setDesiredPID(15));
-        new JoystickButton(xbox, Button.kX.value)
-                .whenPressed(new PrepareShooterForVision());
+        new JoystickButton(xbox, Button.kX.value).whenPressed(new PrepareShooterForVision());
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
         new JoystickButton(xbox, Button.kRightBumper.value)

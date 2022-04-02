@@ -7,7 +7,6 @@ package frc.robot.commands.shooting;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.LEDColors;
 import frc.robot.utilityClasses.interpolation.ShotParams;
@@ -51,7 +50,7 @@ public class PrepareShooterForVision extends CommandBase {
             shotParams = RobotContainer.interpolatingTable.getShotParam(distance);
 
             // Set the hood and shooter's desired angles
-            RobotContainer.hood.setDesiredAngle(shotParams.getAngle()+.5);
+            RobotContainer.hood.setDesiredAngle(shotParams.getAngle() + .5);
             RobotContainer.shooter.setDesiredPID(shotParams.getSpeed());
         } else {
             // RobotContainer.hood.setDesiredAngle(70);
