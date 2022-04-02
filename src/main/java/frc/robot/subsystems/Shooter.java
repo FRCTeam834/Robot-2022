@@ -18,7 +18,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
 
@@ -46,7 +45,8 @@ public class Shooter extends SubsystemBase {
         shooterMotor.setInverted(false);
         shooterMotor.setSmartCurrentLimit(Parameters.shooter.CURRENT_LIMIT);
 
-        // Reduce the status frame updates for position (we only use the velocity reading, so it would just clog up the readings)
+        // Reduce the status frame updates for position (we only use the velocity reading, so it
+        // would just clog up the readings)
         shooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000);
 
         // Get the encoder of the shooter motor

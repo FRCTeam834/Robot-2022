@@ -177,7 +177,8 @@ public class SwerveModule extends SubsystemBase {
         // Status 2 - position
         // Status 3 - analog sensor data (never used)
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
-        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 100); // We never use velocity, temp, or current
+        steerMotor.setPeriodicFramePeriod(
+                PeriodicFrame.kStatus1, 100); // We never use velocity, temp, or current
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 60000);
 

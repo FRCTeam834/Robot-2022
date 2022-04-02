@@ -21,7 +21,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -87,7 +86,8 @@ public class RobotContainer {
     public static LEDs leds = new LEDs();
 
     // Commands
-    // Normally we can just declare a new object for the command, but we need to keep track of if the intake command isn't running
+    // Normally we can just declare a new object for the command, but we need to keep track of if
+    // the intake command isn't running
     public static IntakeBalls intakeBalls = new IntakeBalls();
 
     // Auton chooser
@@ -252,15 +252,17 @@ public class RobotContainer {
         BL.whenPressed(new HomeIntake());
 
         // This has to be special, because it should only schedule when the intake isn't being used
-        new JoystickButton(xbox, Button.kY.value).whenActive(new Runnable() {
-            public void run() {
-                if (!Robot.usingSubsystem(intake)) {
-                    CommandScheduler.getInstance().schedule(intakeBalls);
-                }
-            }
-        });
-        new JoystickButton(xbox, Button.kY.value).whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
-
+        new JoystickButton(xbox, Button.kY.value)
+                .whenActive(
+                        new Runnable() {
+                            public void run() {
+                                if (!Robot.usingSubsystem(intake)) {
+                                    CommandScheduler.getInstance().schedule(intakeBalls);
+                                }
+                            }
+                        });
+        new JoystickButton(xbox, Button.kY.value)
+                .whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
 
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value)

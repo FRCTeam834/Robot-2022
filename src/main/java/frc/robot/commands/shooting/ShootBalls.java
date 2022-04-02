@@ -23,7 +23,11 @@ public class ShootBalls extends CommandBase {
 
     public ShootBalls() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.hood, RobotContainer.shooter, RobotContainer.indexer, RobotContainer.intake);
+        addRequirements(
+                RobotContainer.hood,
+                RobotContainer.shooter,
+                RobotContainer.indexer,
+                RobotContainer.intake);
         timeSinceLastIndexedBall = new Timer();
         intakePulseTimer = new Timer();
     }
@@ -35,7 +39,8 @@ public class ShootBalls extends CommandBase {
         // Reset the last indexed ball timer
         timeSinceLastIndexedBall.reset();
 
-        // Turn on the intake (will shift balls down into the pocket if they're stuck on the front bumper)
+        // Turn on the intake (will shift balls down into the pocket if they're stuck on the front
+        // bumper)
         RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
         intakePulseTimer.reset();
 
@@ -67,7 +72,9 @@ public class ShootBalls extends CommandBase {
         }
 
         // If everything is ready, we can start the indexer/LEDs
-        if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle() && RobotContainer.vision.isLinedUp()) {
+        if (RobotContainer.shooter.isReady()
+                && RobotContainer.hood.isAtDesiredAngle()
+                && RobotContainer.vision.isLinedUp()) {
 
             // Start the indexer
             RobotContainer.indexer.set(Parameters.indexer.FEED_SPEED);
