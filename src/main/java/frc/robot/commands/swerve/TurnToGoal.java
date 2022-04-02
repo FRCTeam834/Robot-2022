@@ -19,18 +19,14 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class TurnToGoal extends CommandBase {
 
-    boolean exitWhenAligned;
     PIDController rotationalPID = new PIDController(3, 0, 0);
     double omega = 0;
 
-    public TurnToGoal(boolean shouldExitWhenAligned) {
+    public TurnToGoal() {
 
         // Set up the rotational PID controller
         rotationalPID.enableContinuousInput(0, 360);
         rotationalPID.setTolerance(.5);
-
-        // Save if we should exit when aligned
-        exitWhenAligned = shouldExitWhenAligned;
 
         // Request the drivetrain
         addRequirements(RobotContainer.driveTrain);
@@ -88,10 +84,6 @@ public class TurnToGoal extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (exitWhenAligned) {
-            return rotationalPID.atSetpoint();
-        } else {
-            return false;
-        }
+        return rotationalPID.atSetpoint();
     }
 }

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -84,6 +85,10 @@ public class RobotContainer {
     public static Vision vision = new Vision();
     public static InterpolatingTable interpolatingTable = new InterpolatingTable();
     public static LEDs leds = new LEDs();
+
+    // Commands
+    // Normally we can just declare a new object for the command, but we need to keep track of if the intake command isn't running
+    public static IntakeBalls intakeBalls = new IntakeBalls();
 
     // Auton chooser
     SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -245,10 +250,18 @@ public class RobotContainer {
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
         BL.whenPressed(new HomeIntake());
-        // new JoystickButton(xbox, Button.kA.value)
-        //     .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
 
-        new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
+        // This has to be special, because it should only schedule when the intake isn't being used
+        new JoystickButton(xbox, Button.kY.value).whenActive(new Runnable() {
+            public void run() {
+                if (!Robot.usingSubsystem(intake)) {
+                    CommandScheduler.getInstance().schedule(intakeBalls);
+                }
+            }
+        });
+        new JoystickButton(xbox, Button.kY.value).whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
+
+
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value)
                 .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
@@ -267,14 +280,6 @@ public class RobotContainer {
         // Holding down keeps the test running, letting go cycles to the next on the next button
         // push
         // new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
-
-        // new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() ->
-        // intake.set(.75), intake::stop, intake));
-
-        // new POVButton(xbox, 0).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));
-        // new POVButton(xbox, 180).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));
-
-        // new POVButton(xbox, 270).whenPressed(new SwitchIntakeState());
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)

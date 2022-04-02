@@ -171,13 +171,20 @@ public class SwerveModule extends SubsystemBase {
         // ! THIS IS EXTREMELY DANGEROUS, DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING!!!
         // ! THIS COULD CAUSE MOTORS TO STOP RESPONDING OR OTHERWISE MALFUNCTION!!!
         // No need to burn the flash, the update rates are not saved
-        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
-        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
-        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
 
-        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 10);
+        // Status 0 - faults, applied output (percentage), following
+        // Status 1 - velocity, temperature, voltage, current
+        // Status 2 - position
+        // Status 3 - analog sensor data (never used)
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 100); // We never use velocity, temp, or current
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
+        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 60000);
+
+        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
-        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
+        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000); // We never use position
+        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 60000);
 
         // Seed if the motor should be reversed
         isDriveReversed = reversedDrive;
@@ -498,10 +505,6 @@ public class SwerveModule extends SubsystemBase {
                         getAdjSteerMotorAng(),
                         getActSteerMotorAngle(),
                         angularOffset));
-    }
-
-    public void resetDriveEncoder() {
-        driveMotorEncoder.setPosition(0);
     }
 
     @Override

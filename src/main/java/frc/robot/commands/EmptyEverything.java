@@ -12,6 +12,7 @@ public class EmptyEverything extends CommandBase {
     /** Creates a new EmptyEverything. */
     public EmptyEverything() {
         // Use addRequirements() here to declare subsystem dependencies.
+        addRequirements(RobotContainer.shooter, RobotContainer.indexer, RobotContainer.intake);
     }
 
     // Called when the command is initially scheduled.
@@ -29,9 +30,9 @@ public class EmptyEverything extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.shooter.set(0);
-        RobotContainer.indexer.set(0);
-        RobotContainer.intake.set(0);
+        RobotContainer.shooter.stop();
+        RobotContainer.indexer.stop();
+        RobotContainer.intake.stop();
     }
 
     // Returns true when the command should end.

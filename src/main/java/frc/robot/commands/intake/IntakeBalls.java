@@ -5,7 +5,7 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class IntakeBalls extends CommandBase {
@@ -18,7 +18,7 @@ public class IntakeBalls extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.intake.set(.65);
+        RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
 
         // Tell the indexer to autoindex
         RobotContainer.autoIndex = true;

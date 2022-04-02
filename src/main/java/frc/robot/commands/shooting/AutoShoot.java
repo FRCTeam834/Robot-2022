@@ -16,6 +16,6 @@ public class AutoShoot extends ParallelCommandGroup {
     public AutoShoot() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        addCommands(new TurnToGoal(false), new ShootBalls());
+        addCommands(new TurnToGoal().perpetually(), new ShootBalls());
     }
 }

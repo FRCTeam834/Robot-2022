@@ -46,6 +46,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor.setInverted(false);
         shooterMotor.setSmartCurrentLimit(Parameters.shooter.CURRENT_LIMIT);
 
+        // Reduce the status frame updates for position (we only use the velocity reading, so it would just clog up the readings)
         shooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000);
 
         // Get the encoder of the shooter motor
@@ -80,8 +81,8 @@ public class Shooter extends SubsystemBase {
         return setVelocity;
     }
 
-    public boolean readyToShoot() {
-        return shooterPIDController.atSetpoint() && RobotContainer.hood.isAtDesiredAngle();
+    public boolean isReady() {
+        return shooterPIDController.atSetpoint() && usingPID;
     }
 
     public void stop() {

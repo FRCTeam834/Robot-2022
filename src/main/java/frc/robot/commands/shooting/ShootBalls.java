@@ -16,27 +16,28 @@ public class ShootBalls extends CommandBase {
     /** Creates a new PrepareShooter. */
     double distance = 0;
 
-    boolean ready = false;
+    boolean feeding = false;
     ShotParams shotParams;
-    Timer timer;
     Timer timeSinceLastIndexedBall;
+    Timer intakePulseTimer;
 
     public ShootBalls() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.hood, RobotContainer.shooter, RobotContainer.indexer);
-        timer = new Timer();
+        addRequirements(RobotContainer.hood, RobotContainer.shooter, RobotContainer.indexer, RobotContainer.intake);
         timeSinceLastIndexedBall = new Timer();
+        intakePulseTimer = new Timer();
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
 
-        // Reset the timer
-        timer.reset();
-
         // Reset the last indexed ball timer
         timeSinceLastIndexedBall.reset();
+
+        // Turn on the intake (will shift balls down into the pocket if they're stuck on the front bumper)
+        RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
+        intakePulseTimer.reset();
 
         // Clear the distance average
         RobotContainer.vision.flushDistAvg();
@@ -52,7 +53,9 @@ public class ShootBalls extends CommandBase {
         // Compute the distance from the target using the camera
         distance = RobotContainer.vision.getDistanceToGoalInches();
 
+        // If the distance isn't zero, we have a target
         if (distance != 0) {
+
             // Look up the shot parameters for that distance
             shotParams = RobotContainer.interpolatingTable.getShotParam(distance);
 
@@ -63,12 +66,19 @@ public class ShootBalls extends CommandBase {
             RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
         }
 
-        if (
-        /*RobotContainer.shooter.readyToShoot()*/ timer.hasElapsed(1)) {
-            RobotContainer.indexer.set(Parameters.indexer.MOTOR_SPEED);
-            ready = true;
-            timer.reset();
-            timer.start();
+        // If everything is ready, we can start the indexer/LEDs
+        if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle() && RobotContainer.vision.isLinedUp()) {
+
+            // Start the indexer
+            RobotContainer.indexer.set(Parameters.indexer.FEED_SPEED);
+
+            // Reset the timer for feeding
+            // We shouldn't do this, but it's needed to prevent the command from exiting prematurely
+            timeSinceLastIndexedBall.reset();
+
+            // Set that the shooter is ready for feeding
+            feeding = true;
+
             // We're ready to start shooting, turn them green
             RobotContainer.leds.setPrimaryColor(LEDColors.LIME);
         }
@@ -76,6 +86,11 @@ public class ShootBalls extends CommandBase {
         // Check if the time since the last indexed ball needs reset
         if (RobotContainer.indexer.hasBall()) {
             timeSinceLastIndexedBall.reset();
+        }
+
+        // Turn off the intake if we're done pulsing
+        if (intakePulseTimer.hasElapsed(Parameters.intake.PULSE_TIME)) {
+            RobotContainer.intake.stop();
         }
     }
 
@@ -86,7 +101,6 @@ public class ShootBalls extends CommandBase {
         // Stop the shooter
         RobotContainer.shooter.stop();
         RobotContainer.indexer.stop();
-        timer.stop();
 
         // Stop indexing the balls
         RobotContainer.autoIndex = false;
@@ -97,6 +111,6 @@ public class ShootBalls extends CommandBase {
     public boolean isFinished() {
 
         // Check the if the ball shooting delay has passed and we've started the shooter
-        return timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && ready;
+        return timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding;
     }
 }

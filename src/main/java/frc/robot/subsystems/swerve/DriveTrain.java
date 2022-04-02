@@ -442,10 +442,6 @@ public class DriveTrain extends SubsystemBase {
      */
     public void resetOdometry(Pose2d currentPosition) {
         swerveDriveOdometry.resetPosition(currentPosition, RobotContainer.navX.getRotation2d());
-        frontLeft.resetDriveEncoder();
-        frontRight.resetDriveEncoder();
-        backLeft.resetDriveEncoder();
-        backRight.resetDriveEncoder();
     }
 
     public void resetOdometry(Pose2d currentPosition, Rotation2d currentAngle) {
@@ -476,7 +472,7 @@ public class DriveTrain extends SubsystemBase {
         rotPID.reset(0);
     }
 
-    public PPSwerveControllerCommand getPPSwerveContollerCommand(PathPlannerTrajectory path) {
+    public PPSwerveControllerCommand getPPSwerveControllerCommand(PathPlannerTrajectory path) {
         return new PPSwerveControllerCommand(
                 path,
                 this::getEstPose2D,
@@ -536,7 +532,7 @@ public class DriveTrain extends SubsystemBase {
 
     public void reloadSteerAngles() {
 
-        // Go through each module, reseting their angle
+        // Go through each module, resetting their angle
         frontLeft.reloadSteerAngle();
         frontRight.reloadSteerAngle();
         backLeft.reloadSteerAngle();

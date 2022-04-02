@@ -372,12 +372,13 @@ public final class Parameters {
     }
 
     public static final class intake {
-        public static final double INTAKE_SPEED = .8;
+        public static final double INTAKE_SPEED = .65;
         public static final int INTAKE_MOTOR_ID = 16;
         public static final int INTAKE_MOTOR_CURRENT_LIMIT = 40;
         public static final double FRONT_WHEEL_DIA = 2;
         public static final double UPPER_WHEEL_DIA = 3;
         public static final double FRONT_WHEEL_DIA_M = Units.inchesToMeters(FRONT_WHEEL_DIA);
+        public static final double PULSE_TIME = 0.25;
 
         public static final class spool {
             // Ports
@@ -496,7 +497,7 @@ public final class Parameters {
         public static final int PROXIMITY_THRESHOLD = 85;
         public static final int PROX_MOVING_AVG_PTS = 100;
         public static final int ID = 14;
-        public static final double MOTOR_SPEED = 0.15; // Duty
+        public static final double FEED_SPEED = 0.15; // Duty
         public static final int CURRENT_LIMIT = 10; // A
 
         // Time for a ball to move out of the shooter after leaving the view of the color sensor
