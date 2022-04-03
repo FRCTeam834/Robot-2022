@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.Parameters;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.commands.indexing.AutoIndex;
 import frc.robot.utilityClasses.LEDColors;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
@@ -18,6 +20,7 @@ public class ShootBalls extends CommandBase {
     double distance = 0;
 
     boolean feeding = false;
+    boolean hasBadBall = false;
     ShotParams shotParams;
     Timer timeSinceLastIndexedBall;
     Timer intakePulseTimer;
@@ -39,6 +42,9 @@ public class ShootBalls extends CommandBase {
 
         // Remove the default command
         CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, null);
+
+        // Default to having a good ball
+        hasBadBall = false;
 
         // Reset the last indexed ball timer
         timeSinceLastIndexedBall.reset();
@@ -93,10 +99,25 @@ public class ShootBalls extends CommandBase {
             // We're ready to start shooting, turn them green
             RobotContainer.leds.setPrimaryColor(LEDColors.LIME);
         }
+        else {
+            // Stop the indexer, we're not ready to shoot (likely because the shooter isn't ready)
+            RobotContainer.indexer.stop();
+        }
 
-        // Check if the time since the last indexed ball needs reset
-        if (RobotContainer.indexer.hasBall()) {
+        // Get the color of the ball in the indexer
+        String indexedBallColor = RobotContainer.indexer.getBallColor();
+
+        // Check if the ball we have is ours, meaning that the time since the last indexed ball needs reset
+        if (indexedBallColor.equals(Robot.getOurBallColor())) {
             timeSinceLastIndexedBall.reset();
+        }
+        // Check if we have a ball, meaning that the ball isn't our color
+        else if (!indexedBallColor.equals("None")) {
+
+            // We must have a bad ball, so set the default command and just exit
+            // We will never have a wrong color ball first, so we can just stop shooting
+            CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new AutoIndex());
+            hasBadBall = true;
         }
 
         // Turn off the intake if we're done pulsing
@@ -112,9 +133,6 @@ public class ShootBalls extends CommandBase {
         // Stop the shooter
         RobotContainer.shooter.stop();
         RobotContainer.indexer.stop();
-
-        // Stop indexing the balls
-        RobotContainer.autoIndex = false;
     }
 
     // Returns true when the command should end.
@@ -122,6 +140,6 @@ public class ShootBalls extends CommandBase {
     public boolean isFinished() {
 
         // Check the if the ball shooting delay has passed and we've started the shooter
-        return timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding;
+        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding) || hasBadBall;
     }
 }

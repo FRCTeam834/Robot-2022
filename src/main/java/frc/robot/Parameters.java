@@ -502,7 +502,7 @@ public final class Parameters {
         public static final int PROXIMITY_THRESHOLD = 105;
         public static final int PROX_MOVING_AVG_PTS = 100;
         public static final int ID = 14;
-        public static final double FEED_DUTY = 0.15; // Duty
+        public static final double FEED_DUTY = 0.25; // Duty
         public static final double LOAD_DUTY = 0.05;
         public static final int CURRENT_LIMIT = 10; // A
 
