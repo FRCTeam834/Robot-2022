@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -33,7 +32,6 @@ import frc.robot.Parameters.indexer;
 import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.autons.FourBallAuton;
 import frc.robot.commands.autons.OneBallAuton;
-import frc.robot.commands.autons.TestAuton;
 import frc.robot.commands.autons.ThreeBallAuton;
 import frc.robot.commands.autons.TwoBallHP;
 import frc.robot.commands.autons.TwoBallHangar;
@@ -204,16 +202,15 @@ public class RobotContainer {
 
         // right and left lift up
         BM.whenPressed(
-
-            new ParallelCommandGroup(
-                new MoveTubeToPosition(
-                        RobotContainer.climbers2.leftLift,
-                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT),
-                        1),
-                new MoveTubeToPosition(
-                        RobotContainer.climbers2.rightLift,
-                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
-                        1)));
+                new ParallelCommandGroup(
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.leftLift,
+                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT),
+                                1),
+                        new MoveTubeToPosition(
+                                RobotContainer.climbers2.rightLift,
+                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
+                                1)));
 
         // right and lift down
         BR.whenHeld(
@@ -271,8 +268,7 @@ public class RobotContainer {
                 .whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
 
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
-        new JoystickButton(xbox, Button.kX.value)
-                .whenPressed(new ShootBalls());
+        new JoystickButton(xbox, Button.kX.value).whenPressed(new ShootBalls());
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
         new JoystickButton(xbox, Button.kRightBumper.value)

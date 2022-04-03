@@ -39,27 +39,26 @@ public class Climb extends SequentialCommandGroup {
 
                 // Home the climber tubes
                 new HomeClimberTubes(),
-
                 new PrintCommand("Homed!"),
                 // Now extend the tubes
                 new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftLift,
-                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT+1),
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightLift,
-                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT+1),
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftTilt,
-                                (Parameters.climber.tilt.LEFT_LEGAL_DISTANCE+1),
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightTilt,
-                                (Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE+1),
-                                1)).withTimeout(2.5),
-
+                                new MoveTubeToPosition(
+                                        RobotContainer.climbers2.leftLift,
+                                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT + 1),
+                                        1),
+                                new MoveTubeToPosition(
+                                        RobotContainer.climbers2.rightLift,
+                                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT + 1),
+                                        1),
+                                new MoveTubeToPosition(
+                                        RobotContainer.climbers2.leftTilt,
+                                        (Parameters.climber.tilt.LEFT_LEGAL_DISTANCE + 1),
+                                        1),
+                                new MoveTubeToPosition(
+                                        RobotContainer.climbers2.rightTilt,
+                                        (Parameters.climber.tilt.RIGHT_LEGAL_DISTANCE + 1),
+                                        1))
+                        .withTimeout(2.5),
 
                 // Tilt the robot
                 new DriveUntilAngle(
