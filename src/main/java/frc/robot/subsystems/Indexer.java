@@ -60,7 +60,7 @@ public class Indexer extends SubsystemBase {
         colorSensor = new ColorSensorV3(Port.kMXP);
 
         // Set up the proximity average
-        proximityAvg = new MovingAverage(Parameters.indexer.MOVING_AVG_PTS);
+        proximityAvg = new MovingAverage(Parameters.indexer.PROX_MOVING_AVG_PTS);
     }
 
     @Override
@@ -83,35 +83,27 @@ public class Indexer extends SubsystemBase {
     }
 
     public boolean hasBall() {
-        return (getProximity() > Parameters.indexer.PROXIMITY_THRESHOLD);
-    }
-
-    public boolean isRed() {
-
-        // Get the color once, saving large amounts of time
-        Color ballColor = colorSensor.getColor();
-
-        // Decide what the color
-        if ((ballColor.red / ballColor.blue) > 2.5) {
-            return true;
-        } else if ((ballColor.blue / ballColor.red) > 2.5) {
-            return false;
-        } else {
-            return false;
-        }
+        return (getProximity() > 105);
     }
 
     // For updating shuffleboard
-    public String getBallColorString() {
+    public String getBallColor() {
 
+        // Get the ball color once
         Color ballColor = colorSensor.getColor();
 
-        if ((ballColor.red > ballColor.blue) && hasBall()) {
-            return "Red";
-        } else if ((ballColor.blue > ballColor.red) && hasBall()) {
-            return "Blue";
-        } else {
+        // If we don't have a ball, return "None"
+        if (!hasBall()) {
             return "None";
+        } else {
+
+            // Check which color predominates
+            if (ballColor.red > ballColor.blue) {
+                return "Red";
+            } else {
+                // The ball must be blue
+                return "Blue";
+            }
         }
     }
 
@@ -120,11 +112,11 @@ public class Indexer extends SubsystemBase {
         return ballCount;
     }
 
-    public double getRedColor() {
+    private double getRedColor() {
         return colorSensor.getRed();
     }
 
-    public double getBlueColor() {
+    private double getBlueColor() {
         return colorSensor.getBlue();
     }
 
@@ -136,7 +128,7 @@ public class Indexer extends SubsystemBase {
             builder.addDoubleProperty("Color Red Value", this::getRedColor, null);
             builder.addDoubleProperty("Color Blue Value", this::getBlueColor, null);
             builder.addBooleanProperty("Ball Detected", this::hasBall, null);
-            builder.addStringProperty("Color", this::getBallColorString, null);
+            builder.addStringProperty("Color", this::getBallColor, null);
         }
     }
 }

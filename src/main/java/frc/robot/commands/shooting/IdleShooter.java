@@ -6,6 +6,7 @@ package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
 public class IdleShooter extends CommandBase {
@@ -17,8 +18,8 @@ public class IdleShooter extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.shooter.setDesiredPID(22);
-        RobotContainer.hood.setDesiredAngle(55);
+        RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
+        RobotContainer.hood.setDesiredAngle(Parameters.hood.IDLE_ANGLE);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

@@ -372,12 +372,13 @@ public final class Parameters {
     }
 
     public static final class intake {
-        public static final double INTAKE_SPEED = .8;
+        public static final double INTAKE_SPEED = .65;
         public static final int INTAKE_MOTOR_ID = 16;
         public static final int INTAKE_MOTOR_CURRENT_LIMIT = 40;
         public static final double FRONT_WHEEL_DIA = 2;
         public static final double UPPER_WHEEL_DIA = 3;
         public static final double FRONT_WHEEL_DIA_M = Units.inchesToMeters(FRONT_WHEEL_DIA);
+        public static final double PULSE_TIME = 0.25;
 
         public static final class spool {
             // Ports
@@ -423,34 +424,31 @@ public final class Parameters {
 
     public static final class shooter {
 
+        // CAN ID
+        public static final int ID = 13;
+
         // Velocity conversion factor
         // Converts from RPM to m/s of linear speed on the wheels of the shooter
-        // TODO: Calculate this
         public static final double WHEEL_DIA_IN = 5;
         public static final double WHEEL_DIA_M = Units.inchesToMeters(WHEEL_DIA_IN);
 
-        // The time for a shot to take place (in s)
-        public static final double SHOT_TIME = 5;
-
-        // TODO: set this to a real port
-        public static final int BOTTOM_SENSOR_PORT = 18;
-
-        // ! TESTING ONLY
-        public static final double SHOT_SPEED = 1; // In m/s
-        public static final double LOAD_SPEED = 0.25; // In percent
-
-        // Speed of shooter (in m/s of linear wheel speed)
+        // Speeds of shooter (in m/s of linear wheel speed)
         public static final double MAX_SPEED = 35; // verified using julia calc
-        public static final double DEFAULT_SPEED = 2;
+        public static final double IDLE_RPM = 3500;
         public static final double SPIT_SPEED = 0.5;
-        public static final int ID = 13;
 
         // Current limit
         public static final int CURRENT_LIMIT = 40;
 
+        // Tolerance
         public static final double VELOCITY_TOLERANCE = .15;
+
+        // Fender shot constants
         public static final double FENDER_SHOT_SPEED = 20.85;
         public static final double FENDER_HOOD_ANGLE = 70;
+
+        // If the indexer should automatically process balls
+        public static final boolean AUTO_PROCESS_BALLS = true;
     }
 
     public static final class hood {
@@ -469,7 +467,10 @@ public final class Parameters {
         public static final double HOME_ANGLE = 110; // The angle at home
 
         // The default angle (if there isn't a shot interpolation available)
-        public static final double DEFAULT_ANGLE = 75;
+        public static final double IDLE_ANGLE = 75;
+
+        // The spitting angle (all the way back to dispose of the balls behind the robot)
+        public static final double SPIT_ANGLE = 105;
 
         // The angle tolerance (before shooting)
         public static final double ANGLE_TOLERANCE = 2; // deg
@@ -494,11 +495,17 @@ public final class Parameters {
 
     public static final class indexer {
         public static final int PROXIMITY_THRESHOLD = 85;
-        public static final int MOVING_AVG_PTS = 100;
+        public static final int PROX_MOVING_AVG_PTS = 100;
         public static final int ID = 14;
-        public static final double MOTOR_SPEED = 0.15; // Duty
-        public static final int CURRENT_LIMIT = 40; // A
-        public static final double SHOT_TIME = 3; // s
+        public static final double FEED_SPEED = 0.15; // Duty
+        public static final int CURRENT_LIMIT = 10; // A
+
+        // Time for a ball to move out of the shooter after leaving the view of the color sensor
+        public static final double SHOT_TIME = 1; // s
+
+        // Time and speed to spit for
+        public static final double SPIT_SPEED = .5; // s
+        public static final double SPIT_TIME = 1; // s
     }
 
     public static final class led {

@@ -14,15 +14,14 @@ package frc.robot;
 
 // Imports
 import edu.wpi.first.wpilibj.GenericHID;
-// Imports
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -43,9 +42,8 @@ import frc.robot.commands.intake.IntakeBalls;
 import frc.robot.commands.intake.MoveIntakeDownDumb;
 import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
+import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.FenderShot;
-import frc.robot.commands.shooting.PrepareShooterForVision;
-import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.BeyBlade;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
@@ -87,6 +85,11 @@ public class RobotContainer {
     public static InterpolatingTable interpolatingTable = new InterpolatingTable();
     public static LEDs leds = new LEDs();
 
+    // Commands
+    // Normally we can just declare a new object for the command, but we need to keep track of if
+    // the intake command isn't running
+    public static IntakeBalls intakeBalls = new IntakeBalls();
+
     // Auton chooser
     SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -112,6 +115,9 @@ public class RobotContainer {
 
     // The robot's turn rate
     public static double turnRate = Parameters.driver.slowSteerRate;
+
+    // If the indexer should be running (autoschedules)
+    public static boolean autoIndex = false;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -142,9 +148,8 @@ public class RobotContainer {
     private void configureButtonBindings() {
 
         // Default commands
-        // Automatically load the balls into the indexer
-        // !!!!!!!CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new
-        // AutoLoadIntoIndexer());
+        // Automatically run the swerve when not shooting
+        //CommandScheduler.getInstance().setDefaultCommand(RobotContainer.driveTrain, new LetsRoll());
 
         // Left Joystick
         // new JoystickButton(leftJoystick, 1)
@@ -186,10 +191,7 @@ public class RobotContainer {
 
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
-        new JoystickButton(rightJoystick, 2)
-                .whenPressed(
-                        new ParallelRaceGroup(
-                                new TurnToAngleVision(true, false), new PrepareShooterForVision()));
+        new JoystickButton(rightJoystick, 2).whenPressed(new AutoShoot());
 
         new JoystickButton(rightJoystick, 10).whenPressed(new BeyBlade());
         new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());
@@ -248,10 +250,20 @@ public class RobotContainer {
         TL.whenPressed(new HomeClimberTubes());
         ML.whenPressed(new HomeHood());
         BL.whenPressed(new HomeIntake());
-        // new JoystickButton(xbox, Button.kA.value)
-        //     .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
 
-        new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
+        // This has to be special, because it should only schedule when the intake isn't being used
+        new JoystickButton(xbox, Button.kY.value)
+                .whenActive(
+                        new Runnable() {
+                            public void run() {
+                                if (!Robot.usingSubsystem(intake)) {
+                                    CommandScheduler.getInstance().schedule(intakeBalls);
+                                }
+                            }
+                        });
+        new JoystickButton(xbox, Button.kY.value)
+                .whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
+
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
         new JoystickButton(xbox, Button.kX.value)
                 .whileHeld(new StartEndCommand(() -> intake.set(-.5), intake::stop, intake));
@@ -262,21 +274,14 @@ public class RobotContainer {
         new JoystickButton(xbox, Button.kLeftBumper.value)
                 .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
 
-        new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() + 0.25));
-        new POVButton(xbox, 180).whileHeld(() -> shooter.setDesiredPID(shooter.getSpeed() - 0.25));
+        new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() + 0.25));
+        new POVButton(xbox, 180)
+                .whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() - 0.25));
 
         // Runs function tests
         // Holding down keeps the test running, letting go cycles to the next on the next button
         // push
         // new JoystickButton(rightJoystick, 10).whileHeld(new FunctionTest());
-
-        // new JoystickButton(xbox, Button.kA.value).whileHeld(new StartEndCommand(() ->
-        // intake.set(.75), intake::stop, intake));
-
-        // new POVButton(xbox, 0).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));
-        // new POVButton(xbox, 180).whileHeld(() ->hood.setDesiredAngle(hood.getCurrentAngle()+1));
-
-        // new POVButton(xbox, 270).whenPressed(new SwitchIntakeState());
     }
 
     // Joystick value array, in form (LX, LY, RX, RY)

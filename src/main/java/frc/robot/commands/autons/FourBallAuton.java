@@ -11,16 +11,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.IntakeBalls;
-import frc.robot.commands.shooting.PrepareShooterForVision;
+import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.swerve.FollowPath;
-import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -56,12 +54,9 @@ public class FourBallAuton extends SequentialCommandGroup {
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
                         new FollowPath(fourBallPart1), new IntakeBalls(), new HomeHood()),
-                new ParallelRaceGroup(
-                                new TurnToAngleVision(true, false), new PrepareShooterForVision())
-                        .withTimeout(3),
+                new AutoShoot().withTimeout(3),
                 new ParallelDeadlineGroup(new FollowPath(fourBallPart2), new IntakeBalls()),
-                new ParallelRaceGroup(
-                        new TurnToAngleVision(true, false), new PrepareShooterForVision()),
+                new AutoShoot(),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }

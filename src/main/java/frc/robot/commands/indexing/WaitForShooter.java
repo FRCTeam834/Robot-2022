@@ -30,7 +30,7 @@ public class WaitForShooter extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        if (RobotContainer.shooter.readyToShoot()) {
+        if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle()) {
             RobotContainer.indexer.set(.5);
             timer.start();
         }

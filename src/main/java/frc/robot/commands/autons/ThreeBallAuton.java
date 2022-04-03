@@ -18,10 +18,9 @@ import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.IntakeBalls;
+import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.IdleShooter;
-import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
-import frc.robot.commands.swerve.TurnToAngleVision;
 import frc.robot.commands.swerve.driving.DriveForTime;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
@@ -60,18 +59,14 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                         new IntakeBalls(),
                         new HomeHood(),
                         new IdleShooter()),
-                new ParallelDeadlineGroup(
-                                new PrepareShooterForVision(), new TurnToAngleVision(true, false))
-                        .withTimeout(3),
+                new AutoShoot().withTimeout(3),
                 new InstantCommand(
                         () -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0),
                         RobotContainer.driveTrain),
                 new WaitCommand(.5),
                 new ParallelDeadlineGroup(
                         new DriveForTime(1, 1), new IntakeBalls(), new IdleShooter()),
-                new ParallelDeadlineGroup(
-                                new PrepareShooterForVision(), new TurnToAngleVision(true, false))
-                        .withTimeout(3),
+                new AutoShoot().withTimeout(3),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }

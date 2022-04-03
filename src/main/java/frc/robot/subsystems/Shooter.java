@@ -18,7 +18,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.RobotContainer;
 
 public class Shooter extends SubsystemBase {
 
@@ -46,6 +45,8 @@ public class Shooter extends SubsystemBase {
         shooterMotor.setInverted(false);
         shooterMotor.setSmartCurrentLimit(Parameters.shooter.CURRENT_LIMIT);
 
+        // Reduce the status frame updates for position (we only use the velocity reading, so it
+        // would just clog up the readings)
         shooterMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000);
 
         // Get the encoder of the shooter motor
@@ -66,21 +67,22 @@ public class Shooter extends SubsystemBase {
         shooterMotor.set(percentage);
     }
 
-    public void setDesiredPID(double setpoint) {
+    public void setDesiredSpeed(double setpoint) {
         setVelocity = setpoint;
         usingPID = true;
     }
 
+    // WARNING: THIS IS DUMB, ONLY ESTIMATES MOTOR OUTPUT
     public void setRPM(double rpm) {
-        // shooterMotor.setRPM(rpm);
+        shooterMotor.set(rpm / 5820);
     }
 
     public double getSetpoint() {
         return setVelocity;
     }
 
-    public boolean readyToShoot() {
-        return shooterPIDController.atSetpoint() && RobotContainer.hood.isAtDesiredAngle();
+    public boolean isReady() {
+        return shooterPIDController.atSetpoint() && usingPID;
     }
 
     public void stop() {

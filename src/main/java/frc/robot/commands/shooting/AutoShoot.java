@@ -5,26 +5,17 @@
 package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import frc.robot.RobotContainer;
-import frc.robot.commands.StopEverything;
-import frc.robot.commands.indexing.IndexForTime;
-import frc.robot.commands.swerve.TurnToAngleVision;
+import frc.robot.commands.swerve.TurnToGoal;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoShoot extends SequentialCommandGroup {
+public class AutoShoot extends ParallelCommandGroup {
     /** Creates a new AutoShoot. */
     public AutoShoot() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        addCommands(
-                new ParallelCommandGroup(
-                                new TurnToAngleVision(false, true), new PrepareShooterForVision())
-                        .withInterrupt(RobotContainer.shooter::readyToShoot),
-                new IndexForTime(3),
-                new StopEverything());
+        addCommands(new TurnToGoal().perpetually(), new ShootBalls());
     }
 }

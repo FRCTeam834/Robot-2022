@@ -23,7 +23,7 @@ public class ManualShoot extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.shooter.setDesiredPID(
+        RobotContainer.shooter.setDesiredSpeed(
                 (RobotContainer.leftJoystick.getRawAxis(2) + 1) / 2 * Parameters.shooter.MAX_SPEED);
         ;
     }

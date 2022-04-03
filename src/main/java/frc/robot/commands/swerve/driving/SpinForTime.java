@@ -34,7 +34,7 @@ public class SpinForTime extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        RobotContainer.driveTrain.drive(0, 0, speed, false);
+        RobotContainer.driveTrain.drive(0, 0, speed, false, false);
     }
 
     // Called once the command ends or is interrupted.

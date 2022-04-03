@@ -21,7 +21,7 @@ public class ShootStupid extends SequentialCommandGroup {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
         addCommands(
-                new ParallelCommandGroup(new PrepareShooterForVision()),
+                new ParallelCommandGroup(new ShootBalls()),
                 new WaitCommand(2)
                         .andThen(() -> RobotContainer.indexer.set(.5))
                         .andThen(new WaitCommand(1)),
