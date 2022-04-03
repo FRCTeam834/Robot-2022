@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.indexing.AutoIndex;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
 /**
@@ -84,7 +83,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-/*
+        /*
         // If we should be automatically preparing the shooter, do so
         //if (Parameters.shooter.AUTO_PROCESS_BALLS) {
 
