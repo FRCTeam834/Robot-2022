@@ -39,7 +39,7 @@ public class FunctionTest extends CommandBase {
                 RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
                 break;
             case 1:
-                RobotContainer.indexer.set(Parameters.indexer.FEED_SPEED);
+                RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
                 break;
             default:
                 System.out.println("TEST NUMBER EXCEEDED MAXIMUM");

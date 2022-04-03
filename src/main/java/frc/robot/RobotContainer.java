@@ -22,11 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-<<<<<<< HEAD
-=======
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
->>>>>>> bbe26b4 (Final saturday testing updates, need to be put into dev branch)
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -51,6 +48,7 @@ import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.FenderShot;
+import frc.robot.commands.shooting.ShootBalls;
 import frc.robot.commands.swerve.driving.BeyBlade;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
@@ -156,8 +154,7 @@ public class RobotContainer {
 
         // Default commands
         // Automatically run the swerve when not shooting
-        // CommandScheduler.getInstance().setDefaultCommand(RobotContainer.driveTrain, new
-        // LetsRoll());
+        CommandScheduler.getInstance().setDefaultCommand(RobotContainer.driveTrain, new LetsRoll());
 
         // Left Joystick
         // new JoystickButton(leftJoystick, 1)
@@ -260,7 +257,6 @@ public class RobotContainer {
         ML.whenPressed(new HomeHood());
         BL.whenPressed(new HomeIntake());
 
-<<<<<<< HEAD
         // This has to be special, because it should only schedule when the intake isn't being used
         new JoystickButton(xbox, Button.kY.value)
                 .whenActive(
@@ -275,12 +271,8 @@ public class RobotContainer {
                 .whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
 
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
-=======
-        new JoystickButton(xbox, Button.kY.value).whileHeld(new IntakeBalls());
-        new JoystickButton(xbox, Button.kB.value).whenPressed(() -> shooter.setDesiredPID(15));
->>>>>>> bbe26b4 (Final saturday testing updates, need to be put into dev branch)
         new JoystickButton(xbox, Button.kX.value)
-                .whenPressed(new PrepareShooterForVision());
+                .whenPressed(new ShootBalls());
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
         new JoystickButton(xbox, Button.kRightBumper.value)
@@ -372,6 +364,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new TestAuton();
+        return autoChooser.getSelected();
     }
 }

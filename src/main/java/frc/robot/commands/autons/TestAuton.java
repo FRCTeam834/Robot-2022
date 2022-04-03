@@ -19,7 +19,6 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.IntakeBalls;
-import frc.robot.commands.shooting.PrepareShooterForVision;
 import frc.robot.commands.swerve.FollowPath;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 

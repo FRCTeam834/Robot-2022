@@ -34,7 +34,11 @@ public class IntakeBalls extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+
+        // The indexer is done, so stop it
         RobotContainer.intake.stop();
+
+        // Tell the indexer to default to autoindexing
         CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new AutoIndex());
     }
 

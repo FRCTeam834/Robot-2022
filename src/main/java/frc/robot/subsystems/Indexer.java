@@ -83,7 +83,7 @@ public class Indexer extends SubsystemBase {
     }
 
     public boolean hasBall() {
-        return (getProximity() > 105);
+        return (getProximity() > Parameters.indexer.PROXIMITY_THRESHOLD);
     }
 
     // For updating shuffleboard

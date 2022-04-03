@@ -6,7 +6,7 @@ package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.LEDColors;
@@ -35,6 +35,9 @@ public class ShootBalls extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+
+        // Remove the default command
+        CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, null);
 
         // Reset the last indexed ball timer
         timeSinceLastIndexedBall.reset();
@@ -77,7 +80,7 @@ public class ShootBalls extends CommandBase {
                 && RobotContainer.vision.isLinedUp()) {
 
             // Start the indexer
-            RobotContainer.indexer.set(Parameters.indexer.FEED_SPEED);
+            RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
 
             // Reset the timer for feeding
             // We shouldn't do this, but it's needed to prevent the command from exiting prematurely

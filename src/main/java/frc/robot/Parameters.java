@@ -439,8 +439,8 @@ public final class Parameters {
 
         // Speeds of shooter (in m/s of linear wheel speed)
         public static final double MAX_SPEED = 35; // verified using julia calc
-        public static final double IDLE_RPM = 3500;
-        public static final double SPIT_SPEED = 0.5;
+        public static final double IDLE_RPM = 2000;
+        public static final double SPIT_DUTY = 0.25;
 
         // Current limit
         public static final int CURRENT_LIMIT = 40;
@@ -472,7 +472,7 @@ public final class Parameters {
         public static final double HOME_ANGLE = 110; // The angle at home
 
         // The default angle (if there isn't a shot interpolation available)
-        public static final double IDLE_ANGLE = 75;
+        public static final double IDLE_ANGLE = 60;
 
         // The spitting angle (all the way back to dispose of the balls behind the robot)
         public static final double SPIT_ANGLE = 105;
@@ -499,10 +499,11 @@ public final class Parameters {
     }
 
     public static final class indexer {
-        public static final int PROXIMITY_THRESHOLD = 85;
+        public static final int PROXIMITY_THRESHOLD = 105;
         public static final int PROX_MOVING_AVG_PTS = 100;
         public static final int ID = 14;
-        public static final double FEED_SPEED = 0.15; // Duty
+        public static final double FEED_DUTY = 0.15; // Duty
+        public static final double LOAD_DUTY = 0.05;
         public static final int CURRENT_LIMIT = 10; // A
 
         // Time for a ball to move out of the shooter after leaving the view of the color sensor
@@ -510,7 +511,7 @@ public final class Parameters {
 
         // Time and speed to spit for
         public static final double SPIT_SPEED = .5; // s
-        public static final double SPIT_TIME = 1; // s
+        public static final double SPIT_TIME = 0.1; // s
     }
 
     public static final class led {
@@ -560,5 +561,9 @@ public final class Parameters {
 
         // Spin speed - used when looking for a target to lock on to (in deg/s)
         public static final double SPIN_SPEED = 0;
+
+        // The number of distance measurements to average
+        public static final int AVG_COUNT = 25;
+
     }
 }

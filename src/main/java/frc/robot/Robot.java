@@ -83,24 +83,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        /*
-        // If we should be automatically preparing the shooter, do so
-        //if (Parameters.shooter.AUTO_PROCESS_BALLS) {
-
-            // Check if any command is using the indexer, shooter, or hood
-          //  if (!usingSubsystem(RobotContainer.indexer)
-                    && !usingSubsystem(RobotContainer.shooter)
-                    && !usingSubsystem(RobotContainer.hood)
-                    && RobotContainer.autoIndex) {
-
-                // Schedule the autoindexing command
-                // Note that this command will not be scheduled if it's already running
-                CommandScheduler.getInstance().schedule(new AutoIndex());
-            }
-        }
-        */
-
-        System.out.println(RobotContainer.navX.getRoll());
 
         // Run the scheduler
         CommandScheduler.getInstance().run();
@@ -109,6 +91,8 @@ public class Robot extends TimedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
+
+        // Cancel any currently running command
         CommandScheduler.getInstance().cancelAll();
 
         // Stop all of the motors on the robot
@@ -153,6 +137,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
+        // Home the hood and climber tubes
         CommandScheduler.getInstance().schedule(new HomeClimberTubes(), new HomeHood());
 
         // Stop all of the motors on the robot
@@ -189,7 +175,7 @@ public class Robot extends TimedRobot {
             case Blue:
                 return "Blue";
 
-                // Also used when the alliance isn't valid (not set)
+                // Used when the alliance isn't valid (not set)
             default:
                 return "Blue";
         }

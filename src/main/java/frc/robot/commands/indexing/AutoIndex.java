@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.LEDColors;
 
@@ -36,10 +37,10 @@ public class AutoIndex extends CommandBase {
         spitting = false;
 
         // Idle the shooter
-        RobotContainer.shooter.setRPM(2000);
+        RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
 
         // Set the hood to the default angle
-        RobotContainer.hood.setDesiredAngle(60);
+        RobotContainer.hood.setDesiredAngle(Parameters.hood.IDLE_ANGLE);
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -50,11 +51,11 @@ public class AutoIndex extends CommandBase {
         if (spitting) {
 
             // Check if the timer is finished
-            if (spitTimer.hasElapsed(.1)) {
+            if (spitTimer.hasElapsed(Parameters.indexer.SPIT_TIME)) {
 
                 // We're done spitting, stop the indexer and go back to idling
                 RobotContainer.indexer.stop();
-                RobotContainer.shooter.setRPM(2000);
+                RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
                 RobotContainer.hood.setDesiredAngle(Parameters.hood.IDLE_ANGLE);
 
                 // Set that we're finished spitting
@@ -68,9 +69,9 @@ public class AutoIndex extends CommandBase {
             if (color.equals("None")) {
 
                 // No ball found, we need to continue to load
-                RobotContainer.indexer.set(0.05);
+                RobotContainer.indexer.set(Parameters.indexer.LOAD_DUTY);
                 RobotContainer.leds.setSecondaryColor(LEDColors.RED);
-            } else if (color.equals("Blue")) {
+            } else if (color.equals(Robot.getOurBallColor())) {
 
                 // This is a good ball, stop running the indexer, set the color to green
                 RobotContainer.indexer.stop();
@@ -81,8 +82,8 @@ public class AutoIndex extends CommandBase {
 
                 // Start the indexer and shooter
                 RobotContainer.indexer.set(Parameters.indexer.SPIT_SPEED);
-                RobotContainer.shooter.set(.25);
-                RobotContainer.hood.setDesiredAngle(105);
+                RobotContainer.shooter.set(Parameters.shooter.SPIT_DUTY);
+                RobotContainer.hood.setDesiredAngle(Parameters.hood.SPIT_ANGLE);
 
                 // Reset the timer
                 spitTimer.reset();
