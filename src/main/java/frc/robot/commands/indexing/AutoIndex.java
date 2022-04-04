@@ -85,6 +85,9 @@ public class AutoIndex extends CommandBase {
                 RobotContainer.shooter.set(Parameters.shooter.SPIT_DUTY);
                 RobotContainer.hood.setDesiredAngle(Parameters.hood.SPIT_ANGLE);
 
+                // Set the LEDs to be strobing red
+                RobotContainer.leds.setSecondaryColor(LEDColors.RED);
+
                 // Reset the timer
                 spitTimer.reset();
                 spitTimer.start();
