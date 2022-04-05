@@ -77,6 +77,7 @@ public class Shooter extends SubsystemBase {
 
     // WARNING: THIS IS DUMB, ONLY ESTIMATES MOTOR OUTPUT
     public void setRPM(double rpm) {
+        usingPID = false;
         shooterMotor.set(rpm / 5820);
     }
 

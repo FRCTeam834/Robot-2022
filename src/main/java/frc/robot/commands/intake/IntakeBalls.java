@@ -5,9 +5,10 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
+import frc.robot.commands.indexing.AutoIndex;
 
 public class IntakeBalls extends CommandBase {
     /** Creates a new IntakeBalls. */
@@ -19,10 +20,12 @@ public class IntakeBalls extends CommandBase {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+
+        // Run the intake at the regular speed
         RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
 
-        // Tell the indexer to autoindex
-        RobotContainer.autoIndex = false;
+        // Tell the indexer to default to autoindexing
+        CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new AutoIndex());
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -35,10 +38,6 @@ public class IntakeBalls extends CommandBase {
 
         // The indexer is done, so stop it
         RobotContainer.intake.stop();
-
-        // Tell the indexer to default to autoindexing
-        // CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new
-        // AutoIndex());
     }
 
     // Returns true when the command should end.

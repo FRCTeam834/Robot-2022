@@ -84,8 +84,8 @@ public class ShootBalls extends CommandBase {
             RobotContainer.hood.setDesiredAngle(shotParams.getAngle() + .5);
             RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed());
         } else {
-            RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
-            RobotContainer.hood.setDesiredAngle(Parameters.hood.IDLE_ANGLE);
+            RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.FENDER_SHOT_SPEED);
+            RobotContainer.hood.setDesiredAngle(Parameters.hood.FENDER_HOOD_ANGLE);
         }
 
         // If everything is ready, we can start the indexer/LEDs
@@ -139,6 +139,12 @@ public class ShootBalls extends CommandBase {
             // We will never have a wrong color ball first, so we can just stop shooting
             CommandScheduler.getInstance()
                     .setDefaultCommand(RobotContainer.indexer, new AutoIndex());
+
+            // Run the indexer backward really quickly to make sure the ball isn't loaded
+            //RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
+            RobotContainer.indexer.stop();
+
+            // Note that the command should end
             hasBadBall = true;
         }
 
@@ -163,6 +169,6 @@ public class ShootBalls extends CommandBase {
     public boolean isFinished() {
 
         // Check the if the ball shooting delay has passed and we've started the shooter
-        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding);
+        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding) || hasBadBall;
     }
 }

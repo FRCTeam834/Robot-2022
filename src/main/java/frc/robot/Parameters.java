@@ -439,8 +439,8 @@ public final class Parameters {
 
         // Speeds of shooter (in m/s of linear wheel speed)
         public static final double MAX_SPEED = 35; // verified using julia calc
-        public static final double IDLE_RPM = 1000;
-        public static final double SPIT_DUTY = 0.25;
+        public static final double IDLE_RPM = 3500;
+        public static final double SPIT_SPEED = 7.5;
 
         // Current limit
         public static final int CURRENT_LIMIT = 40;
@@ -450,7 +450,6 @@ public final class Parameters {
 
         // Fender shot constants
         public static final double FENDER_SHOT_SPEED = 20.85;
-        public static final double FENDER_HOOD_ANGLE = 70;
 
         // If the indexer should automatically process balls
         public static final boolean AUTO_PROCESS_BALLS = true;
@@ -471,8 +470,11 @@ public final class Parameters {
         public static final double HOME_SPEED = 0.15;
         public static final double HOME_ANGLE = 110; // The angle at home
 
-        // The default angle (if there isn't a shot interpolation available)
-        public static final double IDLE_ANGLE = 60;
+        // The default angle (if we're just chilling)
+        public static final double IDLE_ANGLE = 50;
+
+        // The angle of a fender shot (if there's no target)
+        public static final double FENDER_HOOD_ANGLE = 70;
 
         // The spitting angle (all the way back to dispose of the balls behind the robot)
         public static final double SPIT_ANGLE = 105;
@@ -510,7 +512,7 @@ public final class Parameters {
         public static final double SHOT_TIME = 1; // s
 
         // Time and speed to spit for
-        public static final double SPIT_SPEED = .5; // s
+        public static final double SPIT_DUTY = .5; // s
         public static final double SPIT_TIME = 0.1; // s
     }
 
