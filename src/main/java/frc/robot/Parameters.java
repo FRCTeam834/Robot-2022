@@ -306,7 +306,7 @@ public final class Parameters {
                     Units.inchesToMeters(
                             4); // The distance at which the hook grabs the bar, but doesn't lift
             // ground
-            public static final double GRAB_DISTANCE = Units.inchesToMeters(12);
+            public static final double GRAB_DISTANCE = Units.inchesToMeters(16);
 
             // Homing info
             public static final double HOME_SPEED = -0.75;
