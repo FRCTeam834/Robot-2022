@@ -145,7 +145,6 @@ public class Robot extends TimedRobot {
         RobotContainer.indexer.stop();
         RobotContainer.intake.stop();
         RobotContainer.shooter.stop();
-        RobotContainer.hood.stop();
     }
 
     /** This function is called periodically during operator control. */

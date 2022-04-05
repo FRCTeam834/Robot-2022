@@ -61,6 +61,10 @@ public class AutoIndex extends CommandBase {
                 // Set that we're finished spitting
                 spitting = false;
             }
+            if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle()) {
+                RobotContainer.indexer.set(Parameters.indexer.SPIT_DUTY);
+                spitTimer.start();
+            }
         } else {
             // Get the color of the ball
             String color = RobotContainer.indexer.getBallColor();
@@ -80,17 +84,19 @@ public class AutoIndex extends CommandBase {
                 // This is a bad ball, set it to be disposed of
                 spitting = true;
 
-                // Start the indexer and shooter
-                RobotContainer.indexer.set(Parameters.indexer.SPIT_SPEED);
-                RobotContainer.shooter.set(Parameters.shooter.SPIT_DUTY);
+                // Start the shooter, set the angle
+                RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.SPIT_SPEED);
                 RobotContainer.hood.setDesiredAngle(Parameters.hood.SPIT_ANGLE);
+
+                // Make sure that the indexer isn't running
+                RobotContainer.indexer.stop();
 
                 // Set the LEDs to be strobing red
                 RobotContainer.leds.setSecondaryColor(LEDColors.RED);
 
-                // Reset the timer
+                // Reset the timer, but don't start it. We'll start it once the hood has reached the
+                // correct angle
                 spitTimer.reset();
-                spitTimer.start();
             }
         }
     }

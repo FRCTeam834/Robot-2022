@@ -12,7 +12,6 @@ import frc.robot.Parameters;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.indexing.AutoIndex;
-import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.utilityClasses.LEDColors;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
@@ -23,7 +22,7 @@ public class ShootBalls extends CommandBase {
     boolean feeding = false;
     boolean hasBadBall = false;
     ShotParams shotParams;
-    static public Timer timeSinceLastIndexedBall = new Timer();
+    public static Timer timeSinceLastIndexedBall = new Timer();
     Timer intakePulseTimer;
 
     public ShootBalls() {
@@ -85,8 +84,8 @@ public class ShootBalls extends CommandBase {
             RobotContainer.hood.setDesiredAngle(shotParams.getAngle() + .5);
             RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed());
         } else {
-            RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
-            RobotContainer.hood.setDesiredAngle(Parameters.hood.IDLE_ANGLE);
+            RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.FENDER_SHOT_SPEED);
+            RobotContainer.hood.setDesiredAngle(Parameters.hood.FENDER_HOOD_ANGLE);
         }
 
         // If everything is ready, we can start the indexer/LEDs
@@ -97,7 +96,8 @@ public class ShootBalls extends CommandBase {
 
             if (!feeding) {
                 // Reset the timer for feeding
-                // We shouldn't do this, but it's needed to prevent the command from exiting prematurely
+                // We shouldn't do this, but it's needed to prevent the command from exiting
+                // prematurely
                 timeSinceLastIndexedBall.reset();
                 timeSinceLastIndexedBall.start();
 
@@ -139,6 +139,12 @@ public class ShootBalls extends CommandBase {
             // We will never have a wrong color ball first, so we can just stop shooting
             CommandScheduler.getInstance()
                     .setDefaultCommand(RobotContainer.indexer, new AutoIndex());
+
+            // Run the indexer backward really quickly to make sure the ball isn't loaded
+            // RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
+            RobotContainer.indexer.stop();
+
+            // Note that the command should end
             hasBadBall = true;
         }
 
@@ -163,6 +169,7 @@ public class ShootBalls extends CommandBase {
     public boolean isFinished() {
 
         // Check the if the ball shooting delay has passed and we've started the shooter
-        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding);
+        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding)
+                || hasBadBall;
     }
 }
