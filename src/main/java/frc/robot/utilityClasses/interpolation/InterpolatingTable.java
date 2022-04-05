@@ -30,7 +30,7 @@ public class InterpolatingTable {
                                 entry(101.1, new ShotParams(28.63, 45.41)),
                                 entry(114.2, new ShotParams(27.24, 46.4)),
                                 entry(95.2, new ShotParams(26.95, 48.55)),
-                                entry(92.06, new ShotParams(26.21, 47.65)),
+                                entry(90.63, new ShotParams(24.8667, 47.5)),
                                 entry(81.89, new ShotParams(25, 49.65)),
                                 entry(70.81, new ShotParams(24.26, 49.89)),
                                 entry(59.58, new ShotParams(23.01, 53.19)),

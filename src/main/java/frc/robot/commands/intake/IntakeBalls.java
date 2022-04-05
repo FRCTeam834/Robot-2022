@@ -39,7 +39,7 @@ public class IntakeBalls extends CommandBase {
         RobotContainer.intake.stop();
 
         // Tell the indexer to default to autoindexing
-        CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new AutoIndex());
+        //CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, new AutoIndex());
     }
 
     // Returns true when the command should end.

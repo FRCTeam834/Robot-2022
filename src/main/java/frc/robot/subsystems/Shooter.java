@@ -59,7 +59,7 @@ public class Shooter extends SubsystemBase {
         shooterMotor.burnFlash();
 
         shooterPIDController = new PIDController(0.065, 0, 0);
-        shooterPIDController.setTolerance(0.25);
+        shooterPIDController.setTolerance(.5);
     }
 
     public void set(double percentage) {

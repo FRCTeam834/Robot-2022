@@ -41,18 +41,20 @@ public class ShootBalls extends CommandBase {
     public void initialize() {
 
         // Remove the default command
-        CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, null);
+        //CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, null);
 
         // Default to having a good ball
         hasBadBall = false;
 
         // Reset the last indexed ball timer
         timeSinceLastIndexedBall.reset();
+        timeSinceLastIndexedBall.start();
 
         // Turn on the intake (will shift balls down into the pocket if they're stuck on the front
         // bumper)
         RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
         intakePulseTimer.reset();
+        intakePulseTimer.start();
 
         // Clear the distance average
         RobotContainer.vision.flushDistAvg();
@@ -75,16 +77,15 @@ public class ShootBalls extends CommandBase {
             shotParams = RobotContainer.interpolatingTable.getShotParam(distance);
 
             // Set the hood and shooter's desired angles
-            RobotContainer.hood.setDesiredAngle(shotParams.getAngle());
-            RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed() + .21375);
+            RobotContainer.hood.setDesiredAngle(shotParams.getAngle()+.5);
+            RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed());
         } else {
             RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
         }
 
         // If everything is ready, we can start the indexer/LEDs
         if (RobotContainer.shooter.isReady()
-                && RobotContainer.hood.isAtDesiredAngle()
-                && RobotContainer.vision.isLinedUp()) {
+                && RobotContainer.hood.isAtDesiredAngle()) {
 
             // Start the indexer
             RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
@@ -92,6 +93,7 @@ public class ShootBalls extends CommandBase {
             // Reset the timer for feeding
             // We shouldn't do this, but it's needed to prevent the command from exiting prematurely
             timeSinceLastIndexedBall.reset();
+            timeSinceLastIndexedBall.start();
 
             // Set that the shooter is ready for feeding
             feeding = true;
@@ -99,8 +101,15 @@ public class ShootBalls extends CommandBase {
             // We're ready to start shooting, turn them green
             RobotContainer.leds.setPrimaryColor(LEDColors.LIME);
         } else {
-            // Stop the indexer, we're not ready to shoot (likely because the shooter isn't ready)
-            RobotContainer.indexer.stop();
+            // Check if we have a ball
+            if (RobotContainer.indexer.getBallColor().equals("None")) {
+
+                // No ball found, we need to continue to load
+                RobotContainer.indexer.set(Parameters.indexer.LOAD_DUTY);
+            } else {
+                // Stop the indexer, we're not ready to shoot (likely because the shooter isn't ready)
+                RobotContainer.indexer.stop();
+            }
         }
 
         // Get the color of the ball in the indexer
@@ -110,6 +119,7 @@ public class ShootBalls extends CommandBase {
         // needs reset
         if (indexedBallColor.equals(Robot.getOurBallColor())) {
             timeSinceLastIndexedBall.reset();
+            timeSinceLastIndexedBall.start();
         }
         // Check if we have a ball, meaning that the ball isn't our color
         else if (!indexedBallColor.equals("None")) {
@@ -134,6 +144,7 @@ public class ShootBalls extends CommandBase {
         // Stop the shooter
         RobotContainer.shooter.stop();
         RobotContainer.indexer.stop();
+        RobotContainer.intake.stop();
     }
 
     // Returns true when the command should end.
@@ -141,7 +152,6 @@ public class ShootBalls extends CommandBase {
     public boolean isFinished() {
 
         // Check the if the ball shooting delay has passed and we've started the shooter
-        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding)
-                || hasBadBall;
+        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding);
     }
 }

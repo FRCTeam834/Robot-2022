@@ -383,7 +383,7 @@ public final class Parameters {
         public static final double FRONT_WHEEL_DIA = 2;
         public static final double UPPER_WHEEL_DIA = 3;
         public static final double FRONT_WHEEL_DIA_M = Units.inchesToMeters(FRONT_WHEEL_DIA);
-        public static final double PULSE_TIME = 0.25;
+        public static final double PULSE_TIME = 1;
 
         public static final class spool {
             // Ports
@@ -415,7 +415,7 @@ public final class Parameters {
                     Units.inchesToMeters(
                             15); // The distance of the string from the spool in the down position
             public static final double MAX_MOTOR_DUTY =
-                    0.35; // The maximum output of the motor when moving
+                    0.65; // The maximum output of the motor when moving
 
             public static class pid {
                 public static final NetworkTable SPOOL_TABLE =
@@ -502,7 +502,7 @@ public final class Parameters {
         public static final int PROXIMITY_THRESHOLD = 105;
         public static final int PROX_MOVING_AVG_PTS = 100;
         public static final int ID = 14;
-        public static final double FEED_DUTY = 0.25; // Duty
+        public static final double FEED_DUTY = 0.5; // Duty
         public static final double LOAD_DUTY = 0.05;
         public static final int CURRENT_LIMIT = 10; // A
 

@@ -31,7 +31,7 @@ public class AutoIndex extends CommandBase {
     public void initialize() {
 
         // Set that the LEDs should alternate
-        RobotContainer.leds.shouldAlternate(true);
+        //RobotContainer.leds.shouldAlternate(true);
 
         // Default to not spitting
         spitting = false;
@@ -103,7 +103,7 @@ public class AutoIndex extends CommandBase {
         RobotContainer.shooter.stop();
 
         // Set that the LEDs shouldn't alternate (only a primary color)
-        RobotContainer.leds.shouldAlternate(false);
+        //RobotContainer.leds.shouldAlternate(false);
     }
 
     // Returns true when the command should end.
