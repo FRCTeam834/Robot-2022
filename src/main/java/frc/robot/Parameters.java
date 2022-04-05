@@ -439,7 +439,7 @@ public final class Parameters {
 
         // Speeds of shooter (in m/s of linear wheel speed)
         public static final double MAX_SPEED = 35; // verified using julia calc
-        public static final double IDLE_RPM = 2000;
+        public static final double IDLE_RPM = 3500;
         public static final double SPIT_DUTY = 0.25;
 
         // Current limit

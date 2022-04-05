@@ -43,6 +43,9 @@ public class ShootBalls extends CommandBase {
         // Remove the default command
         // CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, null);
 
+        // Default to not feeding
+        feeding = false;
+
         // Default to having a good ball
         hasBadBall = false;
 
@@ -110,6 +113,9 @@ public class ShootBalls extends CommandBase {
                 // ready)
                 RobotContainer.indexer.stop();
             }
+
+            // If we're not ready to shoot, turn the LEDs red
+            RobotContainer.leds.setPrimaryColor(LEDColors.STROBE_RED);
         }
 
         // Get the color of the ball in the indexer

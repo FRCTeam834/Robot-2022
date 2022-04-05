@@ -100,6 +100,7 @@ public class LEDs extends SubsystemBase {
 
                 // Reset the timer
                 timer.reset();
+                timer.start();
             }
         } else {
             // Just set the color to the primary color
