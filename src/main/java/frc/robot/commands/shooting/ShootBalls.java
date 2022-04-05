@@ -12,6 +12,7 @@ import frc.robot.Parameters;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.indexing.AutoIndex;
+import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.utilityClasses.LEDColors;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
@@ -22,7 +23,7 @@ public class ShootBalls extends CommandBase {
     boolean feeding = false;
     boolean hasBadBall = false;
     ShotParams shotParams;
-    Timer timeSinceLastIndexedBall;
+    static public Timer timeSinceLastIndexedBall = new Timer();
     Timer intakePulseTimer;
 
     public ShootBalls() {
@@ -61,6 +62,7 @@ public class ShootBalls extends CommandBase {
 
         // Clear the distance average
         RobotContainer.vision.flushDistAvg();
+        RobotContainer.hood.setDesiredAngle(80);
 
         // Red LEDs
         RobotContainer.leds.setPrimaryColor(LEDColors.STROBE_RED);
@@ -84,21 +86,24 @@ public class ShootBalls extends CommandBase {
             RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed());
         } else {
             RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
+            RobotContainer.hood.setDesiredAngle(Parameters.hood.IDLE_ANGLE);
         }
 
         // If everything is ready, we can start the indexer/LEDs
-        if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle()) {
+        if (RobotContainer.hood.isAtDesiredAngle()) {
 
             // Start the indexer
             RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
 
-            // Reset the timer for feeding
-            // We shouldn't do this, but it's needed to prevent the command from exiting prematurely
-            timeSinceLastIndexedBall.reset();
-            timeSinceLastIndexedBall.start();
+            if (!feeding) {
+                // Reset the timer for feeding
+                // We shouldn't do this, but it's needed to prevent the command from exiting prematurely
+                timeSinceLastIndexedBall.reset();
+                timeSinceLastIndexedBall.start();
 
-            // Set that the shooter is ready for feeding
-            feeding = true;
+                // Set that the shooter is ready for feeding
+                feeding = true;
+            }
 
             // We're ready to start shooting, turn them green
             RobotContainer.leds.setPrimaryColor(LEDColors.LIME);

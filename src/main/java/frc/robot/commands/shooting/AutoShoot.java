@@ -5,17 +5,18 @@
 package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.commands.swerve.TurnToGoal;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoShoot extends ParallelCommandGroup {
+public class AutoShoot extends ParallelDeadlineGroup {
     /** Creates a new AutoShoot. */
     public AutoShoot() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        addCommands(new TurnToGoal().perpetually(), new ShootBalls());
+        super(new ShootBalls());
+        addCommands(new TurnToGoal().perpetually());
     }
 }
