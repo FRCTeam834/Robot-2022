@@ -41,7 +41,7 @@ public class ShootBalls extends CommandBase {
     public void initialize() {
 
         // Remove the default command
-        //CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, null);
+        // CommandScheduler.getInstance().setDefaultCommand(RobotContainer.indexer, null);
 
         // Default to having a good ball
         hasBadBall = false;
@@ -77,15 +77,14 @@ public class ShootBalls extends CommandBase {
             shotParams = RobotContainer.interpolatingTable.getShotParam(distance);
 
             // Set the hood and shooter's desired angles
-            RobotContainer.hood.setDesiredAngle(shotParams.getAngle()+.5);
+            RobotContainer.hood.setDesiredAngle(shotParams.getAngle() + .5);
             RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed());
         } else {
             RobotContainer.shooter.setRPM(Parameters.shooter.IDLE_RPM);
         }
 
         // If everything is ready, we can start the indexer/LEDs
-        if (RobotContainer.shooter.isReady()
-                && RobotContainer.hood.isAtDesiredAngle()) {
+        if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle()) {
 
             // Start the indexer
             RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
@@ -107,7 +106,8 @@ public class ShootBalls extends CommandBase {
                 // No ball found, we need to continue to load
                 RobotContainer.indexer.set(Parameters.indexer.LOAD_DUTY);
             } else {
-                // Stop the indexer, we're not ready to shoot (likely because the shooter isn't ready)
+                // Stop the indexer, we're not ready to shoot (likely because the shooter isn't
+                // ready)
                 RobotContainer.indexer.stop();
             }
         }

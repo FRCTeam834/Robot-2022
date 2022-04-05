@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.hood.HomeHood;
@@ -38,9 +39,9 @@ public class FourBallAuton extends SequentialCommandGroup {
                                 RobotContainer.intakeWinch.setCurrentDistance(
                                         Parameters.intake.spool.HOME_DISTANCE)),
                 new InstantCommand(
-                                            () ->
-                                                    RobotContainer.intakeWinch.setDesiredDistance(
-                                                            Parameters.intake.spool.DOWN_DISTANCE)),
+                        () ->
+                                RobotContainer.intakeWinch.setDesiredDistance(
+                                        Parameters.intake.spool.DOWN_DISTANCE)),
                 new WaitCommand(1),
                 new ParallelCommandGroup(
                         new InstantCommand(
@@ -58,27 +59,27 @@ public class FourBallAuton extends SequentialCommandGroup {
                         new FollowPath(fourBallPart1), new IntakeBalls(), new HomeHood()),
                 new AutoShoot().withTimeout(5),
                 new InstantCommand(
-                                () ->
-                                        RobotContainer.driveTrain.resetOdometry(
-                                                new Pose2d(
-                                                        fourBallPart2
-                                                                .getInitialState()
-                                                                .poseMeters
-                                                                .getTranslation(),
-                                                        fourBallPart2.getInitialState()
-                                                                .holonomicRotation))),
-               new ParallelDeadlineGroup(new FollowPath(fourBallPart2), new IntakeBalls()),
-               new ParallelDeadlineGroup(new WaitCommand(3), new IntakeBalls()),
+                        () ->
+                                RobotContainer.driveTrain.resetOdometry(
+                                        new Pose2d(
+                                                fourBallPart2
+                                                        .getInitialState()
+                                                        .poseMeters
+                                                        .getTranslation(),
+                                                fourBallPart2.getInitialState()
+                                                        .holonomicRotation))),
+                new ParallelDeadlineGroup(new FollowPath(fourBallPart2), new IntakeBalls()),
+                new ParallelDeadlineGroup(new WaitCommand(3), new IntakeBalls()),
                 new InstantCommand(
-                                () ->
-                                        RobotContainer.driveTrain.resetOdometry(
-                                                new Pose2d(
-                                                        fourBallPart3
-                                                                .getInitialState()
-                                                                .poseMeters
-                                                                .getTranslation(),
-                                                        fourBallPart3.getInitialState()
-                                                               .holonomicRotation))),
+                        () ->
+                                RobotContainer.driveTrain.resetOdometry(
+                                        new Pose2d(
+                                                fourBallPart3
+                                                        .getInitialState()
+                                                        .poseMeters
+                                                        .getTranslation(),
+                                                fourBallPart3.getInitialState()
+                                                        .holonomicRotation))),
                 new FollowPath(fourBallPart3),
                 new AutoShoot(),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
