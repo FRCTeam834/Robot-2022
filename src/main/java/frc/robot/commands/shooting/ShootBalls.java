@@ -141,7 +141,7 @@ public class ShootBalls extends CommandBase {
                     .setDefaultCommand(RobotContainer.indexer, new AutoIndex());
 
             // Run the indexer backward really quickly to make sure the ball isn't loaded
-            //RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
+            // RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
             RobotContainer.indexer.stop();
 
             // Note that the command should end
@@ -169,6 +169,7 @@ public class ShootBalls extends CommandBase {
     public boolean isFinished() {
 
         // Check the if the ball shooting delay has passed and we've started the shooter
-        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding) || hasBadBall;
+        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding)
+                || hasBadBall;
     }
 }

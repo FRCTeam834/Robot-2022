@@ -94,7 +94,8 @@ public class AutoIndex extends CommandBase {
                 // Set the LEDs to be strobing red
                 RobotContainer.leds.setSecondaryColor(LEDColors.RED);
 
-                // Reset the timer, but don't start it. We'll start it once the hood has reached the correct angle
+                // Reset the timer, but don't start it. We'll start it once the hood has reached the
+                // correct angle
                 spitTimer.reset();
             }
         }
