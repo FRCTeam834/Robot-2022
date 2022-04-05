@@ -41,8 +41,8 @@ public class TurnToGoal extends CommandBase {
     public void execute() {
 
         // Get the joystick values (for translational movement)
-        //double rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
-        //double rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
+        // double rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
+        // double rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
 
         // Get the vision target
         PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
@@ -65,12 +65,7 @@ public class TurnToGoal extends CommandBase {
                                     Parameters.vision.MAX_TURNING_SPEED));
         }
 
-        RobotContainer.driveTrain.drive(
-                0,
-                0,
-                omega,
-                true,
-                true);
+        RobotContainer.driveTrain.drive(0, 0, omega, true, true);
     }
 
     // Called once the command ends or is interrupted.
