@@ -12,7 +12,6 @@ import frc.robot.Parameters;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.indexing.AutoIndex;
-import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.utilityClasses.LEDColors;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
@@ -23,7 +22,7 @@ public class ShootBalls extends CommandBase {
     boolean feeding = false;
     boolean hasBadBall = false;
     ShotParams shotParams;
-    static public Timer timeSinceLastIndexedBall = new Timer();
+    public static Timer timeSinceLastIndexedBall = new Timer();
     Timer intakePulseTimer;
 
     public ShootBalls() {
@@ -97,7 +96,8 @@ public class ShootBalls extends CommandBase {
 
             if (!feeding) {
                 // Reset the timer for feeding
-                // We shouldn't do this, but it's needed to prevent the command from exiting prematurely
+                // We shouldn't do this, but it's needed to prevent the command from exiting
+                // prematurely
                 timeSinceLastIndexedBall.reset();
                 timeSinceLastIndexedBall.start();
 

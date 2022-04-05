@@ -19,7 +19,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.RobotContainer;
 import frc.robot.commands.shooting.ShootBalls;
 
 public class Shooter extends SubsystemBase {
@@ -33,7 +32,6 @@ public class Shooter extends SubsystemBase {
 
     // Store if we're using PID
     boolean usingPID = false;
-    
 
     // Store the set velocity
     double setVelocity = 0;
@@ -101,7 +99,7 @@ public class Shooter extends SubsystemBase {
                     shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity)
                                     * 12
                             + shooterFF.calculate(setVelocity));
-            //shooterMotor.setVoltage(shooterBangBangController.calculate(shooterMotorEncoder.getVelocity(), setVelocity) + shooterFF.calculate(setVelocity));
+            // shooterMotor.setVoltage(shooterBangBangController.calculate(shooterMotorEncoder.getVelocity(), setVelocity) + shooterFF.calculate(setVelocity));
         }
     }
 
@@ -119,7 +117,8 @@ public class Shooter extends SubsystemBase {
                     shooterPIDController::setSetpoint);
             builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, null);
             builder.addBooleanProperty("atSetpoint", shooterPIDController::atSetpoint, null);
-            builder.addDoubleProperty("Time Since Last Ball", ShootBalls.timeSinceLastIndexedBall::get, null);
+            builder.addDoubleProperty(
+                    "Time Since Last Ball", ShootBalls.timeSinceLastIndexedBall::get, null);
         }
     }
 }
