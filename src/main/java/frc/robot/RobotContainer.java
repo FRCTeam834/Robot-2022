@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -36,7 +35,6 @@ import frc.robot.commands.autons.ThreeBallAuton;
 import frc.robot.commands.autons.TwoBallHP;
 import frc.robot.commands.autons.TwoBallHangar;
 import frc.robot.commands.climber.Climb;
-import frc.robot.commands.climber.MoveTubeToPosition;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.HomeIntake;
@@ -46,8 +44,6 @@ import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.FenderShot;
-import frc.robot.commands.shooting.ShootBalls;
-import frc.robot.commands.swerve.TurnToGoal;
 import frc.robot.commands.swerve.driving.BeyBlade;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
@@ -203,31 +199,33 @@ public class RobotContainer {
 
         // right and left lift up
         /*BM.whenPressed(
-                new ParallelCommandGroup(
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.leftLift,
-                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT),
-                                1),
-                        new MoveTubeToPosition(
-                                RobotContainer.climbers2.rightLift,
-                                (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
-                                1)));*/
+        new ParallelCommandGroup(
+                new MoveTubeToPosition(
+                        RobotContainer.climbers2.leftLift,
+                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_LEFT),
+                        1),
+                new MoveTubeToPosition(
+                        RobotContainer.climbers2.rightLift,
+                        (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
+                        1)));*/
         BM.whenHeld(
-            new StartEndCommand(
-                            () -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(1),
-                            RobotContainer.climbers2.rightLift::stop, RobotContainer.climbers2)
-                    .alongWith(
-                            new StartEndCommand(
-                                    () ->
-                                            RobotContainer.climbers2.leftLift
-                                                    .setWithLimitSwitch(1),
-                                    RobotContainer.climbers2.leftLift::stop)));
+                new StartEndCommand(
+                                () -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(1),
+                                RobotContainer.climbers2.rightLift::stop,
+                                RobotContainer.climbers2)
+                        .alongWith(
+                                new StartEndCommand(
+                                        () ->
+                                                RobotContainer.climbers2.leftLift
+                                                        .setWithLimitSwitch(1),
+                                        RobotContainer.climbers2.leftLift::stop)));
 
         // right and lift down
         BR.whenHeld(
                 new StartEndCommand(
                                 () -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(-1),
-                                RobotContainer.climbers2.rightLift::stop, RobotContainer.climbers2)
+                                RobotContainer.climbers2.rightLift::stop,
+                                RobotContainer.climbers2)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->
@@ -239,7 +237,8 @@ public class RobotContainer {
         MM.whenHeld(
                 new StartEndCommand(
                                 () -> RobotContainer.climbers2.leftTilt.setWithLimitSwitch(1),
-                                RobotContainer.climbers2.leftTilt::stop, RobotContainer.climbers2)
+                                RobotContainer.climbers2.leftTilt::stop,
+                                RobotContainer.climbers2)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->
@@ -251,7 +250,8 @@ public class RobotContainer {
         MR.whenHeld(
                 new StartEndCommand(
                                 () -> RobotContainer.climbers2.leftTilt.setWithLimitSwitch(-1),
-                                RobotContainer.climbers2.leftTilt::stop, RobotContainer.climbers2)
+                                RobotContainer.climbers2.leftTilt::stop,
+                                RobotContainer.climbers2)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->

@@ -70,6 +70,7 @@ public class Shooter extends SubsystemBase {
     public void setP(double p) {
         shooterPIDController.setP(p);
     }
+
     public void set(double percentage) {
         usingPID = false;
         shooterMotor.set(percentage);
@@ -101,11 +102,14 @@ public class Shooter extends SubsystemBase {
 
     public void periodic() {
         if (usingPID) {
-            //shooterMotor.setVoltage(
-             //       shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity)
-              //                      * 12
-               //             + shooterFF.calculate(setVelocity));
-            shooterMotor.setVoltage(shooterBangBangController.calculate(shooterMotorEncoder.getVelocity(), setVelocity) + shooterFF.calculate(setVelocity));
+            // shooterMotor.setVoltage(
+            //       shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity)
+            //                      * 12
+            //             + shooterFF.calculate(setVelocity));
+            shooterMotor.setVoltage(
+                    shooterBangBangController.calculate(
+                                    shooterMotorEncoder.getVelocity(), setVelocity)
+                            + shooterFF.calculate(setVelocity));
         }
     }
 
@@ -117,12 +121,10 @@ public class Shooter extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Shooter");
+            builder.addDoubleProperty("Setpoint", shooterPIDController::getSetpoint, null);
+            // builder.addDoubleProperty("Shooter P", shooterPIDController::getP, this::setP);
             builder.addDoubleProperty(
-                    "Setpoint",
-                    shooterPIDController::getSetpoint,
-                    null);
-            //builder.addDoubleProperty("Shooter P", shooterPIDController::getP, this::setP);
-            builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
+                    "Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
             builder.addBooleanProperty("atSetpoint", shooterBangBangController::atSetpoint, null);
             builder.addDoubleProperty(
                     "Time Since Last Ball", ShootBalls.timeSinceLastIndexedBall::get, null);

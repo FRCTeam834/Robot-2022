@@ -6,12 +6,10 @@ package frc.robot.commands.shooting;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.Parameters;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.commands.indexing.AutoIndex;
 import frc.robot.utilityClasses.LEDColors;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
@@ -88,9 +86,9 @@ public class ShootBalls extends CommandBase {
         }
 
         // If everything is ready, we can start the indexer/LEDs
-        if (RobotContainer.shooter.isReady() &&
-            RobotContainer.hood.isAtDesiredAngle() && 
-            RobotContainer.vision.isLinedUp()) {
+        if (RobotContainer.shooter.isReady()
+                && RobotContainer.hood.isAtDesiredAngle()
+                && RobotContainer.vision.isLinedUp()) {
 
             // Start the indexer
             RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
@@ -138,15 +136,15 @@ public class ShootBalls extends CommandBase {
 
             // We must have a bad ball, so set the default command and just exit
             // We will never have a wrong color ball first, so we can just stop shooting
-            //CommandScheduler.getInstance()
+            // CommandScheduler.getInstance()
             //        .setDefaultCommand(RobotContainer.indexer, new AutoIndex());
 
             // Run the indexer backward really quickly to make sure the ball isn't loaded
             // RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
-            //RobotContainer.indexer.stop();
+            // RobotContainer.indexer.stop();
 
             // Note that the command should end
-            //hasBadBall = true;
+            // hasBadBall = true;
         }
 
         // Turn off the intake if we're done pulsing
