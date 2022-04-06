@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Parameters;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.swerve.driving.DriveUntilAngle;
 import frc.robot.subsystems.climber.HomeClimberTubes;
@@ -41,6 +42,7 @@ public class Climb extends SequentialCommandGroup {
                 new HomeClimberTubes(),
                 new PrintCommand("Homed!"),
                 // Now extend the tubes
+
                 new ParallelCommandGroup(
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.leftLift,
@@ -60,6 +62,8 @@ public class Climb extends SequentialCommandGroup {
                                 1)),
 
                 // Tilt the robot
+                new InstantCommand(() -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0)),
+                new WaitCommand(0.25),
                 new DriveUntilAngle(
                                 Parameters.climber.DRIVE_TILT_SPEED,
                                 Parameters.climber.ROBOT_TILT_ANGLE)

@@ -276,12 +276,12 @@ public final class Parameters {
             public static final int LEFT_LIMIT_SWITCH_PORT = 2;
 
             // PID constants (I not used)
-            public static final double kP = 45;
+            public static final double kP = 150;
             public static final double kD = 0;
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
 
             // The tolerance for positioning the tubes (in m)
-            public static final double POS_TOLERANCE = 0.1; // 5 mm of tolerance
+            public static final double POS_TOLERANCE = 0.01; // 5 mm of tolerance
             // Maximum motor duty
             public static final double MAX_DUTY = 1;
 
@@ -299,14 +299,14 @@ public final class Parameters {
                                     */
             // Distances to move to
             public static final double UP_LEGAL_DISTANCE_LEFT =
-                    Units.inchesToMeters(24.75); // The distance of the string in the up position
+                    Units.inchesToMeters(24.5); // The distance of the string in the up position
             public static final double UP_LEGAL_DISTANCE_RIGHT =
-                    Units.inchesToMeters(24.2); // The distance of the string in the up position
+                    Units.inchesToMeters(24.375); // The distance of the string in the up position
             public static final double DOWN_DISTANCE =
                     Units.inchesToMeters(
                             4); // The distance at which the hook grabs the bar, but doesn't lift
             // ground
-            public static final double GRAB_DISTANCE = Units.inchesToMeters(16);
+            public static final double GRAB_DISTANCE = Units.inchesToMeters(19);
 
             // Homing info
             public static final double HOME_SPEED = -0.75;
@@ -328,12 +328,12 @@ public final class Parameters {
             public static final int LEFT_LIMIT_SWITCH_PORT = 4;
 
             // PID constants (I not used)
-            public static final double kP = 25;
+            public static final double kP = 50;
             public static final double kD = 0;
             public static final ControlType CONTROL_TYPE = ControlType.kPosition;
 
             // The tolerance for positioning the tubes (in m)
-            public static final double POS_TOLERANCE = 0.005; // 5 mm of tolerance
+            public static final double POS_TOLERANCE = 0.01; // 5 mm of tolerance
 
             // Maximum motor duty
             public static final double MAX_DUTY = 1;
@@ -373,7 +373,7 @@ public final class Parameters {
         public static final double DRIVE_TILT_SPEED = 1;
 
         // The angle to tilt the robot to before lifting the climbers
-        public static final double ROBOT_TILT_ANGLE = 27.5;
+        public static final double ROBOT_TILT_ANGLE = 29;
     }
 
     public static final class intake {
@@ -501,15 +501,15 @@ public final class Parameters {
     }
 
     public static final class indexer {
-        public static final int PROXIMITY_THRESHOLD = 105;
+        public static final int PROXIMITY_THRESHOLD = 109;
         public static final int PROX_MOVING_AVG_PTS = 100;
         public static final int ID = 14;
-        public static final double FEED_DUTY = 0.5; // Duty
+        public static final double FEED_DUTY = 0.25; // Duty
         public static final double LOAD_DUTY = 0.05;
         public static final int CURRENT_LIMIT = 10; // A
 
         // Time for a ball to move out of the shooter after leaving the view of the color sensor
-        public static final double SHOT_TIME = 1; // s
+        public static final double SHOT_TIME = 0.375; // s
 
         // Time and speed to spit for
         public static final double SPIT_DUTY = .5; // s
@@ -556,7 +556,7 @@ public final class Parameters {
         public static final double GOAL_HEIGHT = Units.feetToMeters(8) + Units.inchesToMeters(8);
 
         // How far can the robot be from a target? (deg)
-        public static final double YAW_TOLERANCE = 2;
+        public static final double YAW_TOLERANCE = 10;
 
         // The maximum turning speed when turning to face a target (in deg/s)
         public static final double MAX_TURNING_SPEED = 60;

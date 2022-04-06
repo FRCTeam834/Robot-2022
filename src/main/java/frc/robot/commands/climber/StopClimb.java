@@ -14,17 +14,18 @@ public class StopClimb extends CommandBase {
     /** Creates a new StopClimb. */
     public StopClimb() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.climbers2);
+        addRequirements(RobotContainer.climbers2, RobotContainer.driveTrain);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         timer.start();
-        RobotContainer.climbers2.rightLift.set(0);
-        RobotContainer.climbers2.leftLift.set(0);
-        RobotContainer.climbers2.leftTilt.set(0);
-        RobotContainer.climbers2.rightTilt.set(0);
+        RobotContainer.climbers2.rightLift.stop();
+        RobotContainer.climbers2.leftLift.stop();
+        RobotContainer.climbers2.leftTilt.stop();
+        RobotContainer.climbers2.rightTilt.stop();
+        RobotContainer.driveTrain.stop();
     }
 
     // Called every time the scheduler runs while the command is scheduled.

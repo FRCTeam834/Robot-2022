@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
 import frc.robot.commands.shooting.ShootBalls;
+import frc.robot.utilityClasses.TuneableNumber;
 
 public class Shooter extends SubsystemBase {
 
@@ -29,6 +30,7 @@ public class Shooter extends SubsystemBase {
     RelativeEncoder shooterMotorEncoder;
     PIDController shooterPIDController;
     BangBangController shooterBangBangController = new BangBangController();
+    TuneableNumber shooterP;
 
     // Store if we're using PID
     boolean usingPID = false;
@@ -62,9 +64,12 @@ public class Shooter extends SubsystemBase {
         shooterMotor.burnFlash();
 
         shooterPIDController = new PIDController(0.065, 0, 0);
-        shooterPIDController.setTolerance(.5);
+        shooterPIDController.setTolerance(.1);
     }
 
+    public void setP(double p) {
+        shooterPIDController.setP(p);
+    }
     public void set(double percentage) {
         usingPID = false;
         shooterMotor.set(percentage);
@@ -86,7 +91,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isReady() {
-        return shooterPIDController.atSetpoint() && usingPID;
+        return shooterBangBangController.atSetpoint() && usingPID;
     }
 
     public void stop() {
@@ -96,11 +101,11 @@ public class Shooter extends SubsystemBase {
 
     public void periodic() {
         if (usingPID) {
-            shooterMotor.setVoltage(
-                    shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity)
-                                    * 12
-                            + shooterFF.calculate(setVelocity));
-            // shooterMotor.setVoltage(shooterBangBangController.calculate(shooterMotorEncoder.getVelocity(), setVelocity) + shooterFF.calculate(setVelocity));
+            //shooterMotor.setVoltage(
+             //       shooterPIDController.calculate(shooterMotorEncoder.getVelocity(), setVelocity)
+              //                      * 12
+               //             + shooterFF.calculate(setVelocity));
+            shooterMotor.setVoltage(shooterBangBangController.calculate(shooterMotorEncoder.getVelocity(), setVelocity) + shooterFF.calculate(setVelocity));
         }
     }
 
@@ -115,9 +120,10 @@ public class Shooter extends SubsystemBase {
             builder.addDoubleProperty(
                     "Setpoint",
                     shooterPIDController::getSetpoint,
-                    shooterPIDController::setSetpoint);
-            builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, null);
-            builder.addBooleanProperty("atSetpoint", shooterPIDController::atSetpoint, null);
+                    null);
+            //builder.addDoubleProperty("Shooter P", shooterPIDController::getP, this::setP);
+            builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
+            builder.addBooleanProperty("atSetpoint", shooterBangBangController::atSetpoint, null);
             builder.addDoubleProperty(
                     "Time Since Last Ball", ShootBalls.timeSinceLastIndexedBall::get, null);
         }

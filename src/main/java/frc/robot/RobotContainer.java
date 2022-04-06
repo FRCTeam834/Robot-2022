@@ -47,6 +47,7 @@ import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.shooting.ShootBalls;
+import frc.robot.commands.swerve.TurnToGoal;
 import frc.robot.commands.swerve.driving.BeyBlade;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
@@ -201,7 +202,7 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 12).whenPressed(new Climb());
 
         // right and left lift up
-        BM.whenPressed(
+        /*BM.whenPressed(
                 new ParallelCommandGroup(
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.leftLift,
@@ -210,13 +211,23 @@ public class RobotContainer {
                         new MoveTubeToPosition(
                                 RobotContainer.climbers2.rightLift,
                                 (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
-                                1)));
+                                1)));*/
+        BM.whenHeld(
+            new StartEndCommand(
+                            () -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(1),
+                            RobotContainer.climbers2.rightLift::stop, RobotContainer.climbers2)
+                    .alongWith(
+                            new StartEndCommand(
+                                    () ->
+                                            RobotContainer.climbers2.leftLift
+                                                    .setWithLimitSwitch(1),
+                                    RobotContainer.climbers2.leftLift::stop)));
 
         // right and lift down
         BR.whenHeld(
                 new StartEndCommand(
                                 () -> RobotContainer.climbers2.rightLift.setWithLimitSwitch(-1),
-                                RobotContainer.climbers2.rightLift::stop)
+                                RobotContainer.climbers2.rightLift::stop, RobotContainer.climbers2)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->
@@ -228,7 +239,7 @@ public class RobotContainer {
         MM.whenHeld(
                 new StartEndCommand(
                                 () -> RobotContainer.climbers2.leftTilt.setWithLimitSwitch(1),
-                                RobotContainer.climbers2.leftTilt::stop)
+                                RobotContainer.climbers2.leftTilt::stop, RobotContainer.climbers2)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->
@@ -240,7 +251,7 @@ public class RobotContainer {
         MR.whenHeld(
                 new StartEndCommand(
                                 () -> RobotContainer.climbers2.leftTilt.setWithLimitSwitch(-1),
-                                RobotContainer.climbers2.leftTilt::stop)
+                                RobotContainer.climbers2.leftTilt::stop, RobotContainer.climbers2)
                         .alongWith(
                                 new StartEndCommand(
                                         () ->
@@ -268,7 +279,7 @@ public class RobotContainer {
                 .whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
 
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
-        new JoystickButton(xbox, Button.kX.value).whenPressed(new ShootBalls());
+        new JoystickButton(xbox, Button.kX.value).whenPressed(() -> shooter.setDesiredSpeed(24));
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
         new JoystickButton(xbox, Button.kRightBumper.value)
@@ -278,7 +289,7 @@ public class RobotContainer {
 
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() + 0.25));
         new POVButton(xbox, 180)
-                .whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() - 0.25));
+                .whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() - 0.75));
 
         // Runs function tests
         // Holding down keeps the test running, letting go cycles to the next on the next button
