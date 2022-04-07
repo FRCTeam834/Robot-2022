@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.LEDColors;
 import frc.robot.utilityClasses.interpolation.ShotParams;
@@ -127,25 +126,25 @@ public class ShootBalls extends CommandBase {
 
         // Check if the ball we have is ours, meaning that the time since the last indexed ball
         // needs reset
-        if (indexedBallColor.equals(Robot.getOurBallColor())) {
+        if (!indexedBallColor.equals("None")) {
             timeSinceLastIndexedBall.reset();
             timeSinceLastIndexedBall.start();
-        }
-        // Check if we have a ball, meaning that the ball isn't our color
-        else if (!indexedBallColor.equals("None")) {
+        } /*
+          // Check if we have a ball, meaning that the ball isn't our color
+          else if (!indexedBallColor.equals("None")) {
 
-            // We must have a bad ball, so set the default command and just exit
-            // We will never have a wrong color ball first, so we can just stop shooting
-            // CommandScheduler.getInstance()
-            //        .setDefaultCommand(RobotContainer.indexer, new AutoIndex());
+              // We must have a bad ball, so set the default command and just exit
+              // We will never have a wrong color ball first, so we can just stop shooting
+              // CommandScheduler.getInstance()
+              //        .setDefaultCommand(RobotContainer.indexer, new AutoIndex());
 
-            // Run the indexer backward really quickly to make sure the ball isn't loaded
-            // RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
-            // RobotContainer.indexer.stop();
+              // Run the indexer backward really quickly to make sure the ball isn't loaded
+              // RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
+              // RobotContainer.indexer.stop();
 
-            // Note that the command should end
-            // hasBadBall = true;
-        }
+              // Note that the command should end
+              // hasBadBall = true;
+          }*/
 
         // Turn off the intake if we're done pulsing
         if (intakePulseTimer.hasElapsed(Parameters.intake.PULSE_TIME)) {

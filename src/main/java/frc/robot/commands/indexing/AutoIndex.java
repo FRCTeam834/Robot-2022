@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.LEDColors;
 
@@ -48,7 +47,7 @@ public class AutoIndex extends CommandBase {
     public void execute() {
 
         // Check if we should be spitting
-        if (spitting) {
+        /*if (spitting) {
 
             // Check if the timer is finished
             if (spitTimer.hasElapsed(Parameters.indexer.SPIT_TIME)) {
@@ -65,40 +64,40 @@ public class AutoIndex extends CommandBase {
                 RobotContainer.indexer.set(Parameters.indexer.SPIT_DUTY);
                 spitTimer.start();
             }
+        } else {*/
+        // Get the color of the ball
+        String color = RobotContainer.indexer.getBallColor();
+
+        // Check if we have a ball
+        if (color.equals("None")) {
+
+            // No ball found, we need to continue to load
+            RobotContainer.indexer.set(Parameters.indexer.LOAD_DUTY);
+            RobotContainer.leds.setSecondaryColor(LEDColors.RED);
         } else {
-            // Get the color of the ball
-            String color = RobotContainer.indexer.getBallColor();
 
-            // Check if we have a ball
-            if (color.equals("None")) {
+            // This is a good ball, stop running the indexer, set the color to green
+            RobotContainer.indexer.stop();
+            RobotContainer.leds.setSecondaryColor(LEDColors.LIME);
+        } /*else {
+              // This is a bad ball, set it to be disposed of
+              spitting = true;
 
-                // No ball found, we need to continue to load
-                RobotContainer.indexer.set(Parameters.indexer.LOAD_DUTY);
-                RobotContainer.leds.setSecondaryColor(LEDColors.RED);
-            } else if (color.equals(Robot.getOurBallColor())) {
+              // Start the shooter, set the angle
+              RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.SPIT_SPEED);
+              RobotContainer.hood.setDesiredAngle(Parameters.hood.SPIT_ANGLE);
 
-                // This is a good ball, stop running the indexer, set the color to green
-                RobotContainer.indexer.stop();
-                RobotContainer.leds.setSecondaryColor(LEDColors.LIME);
-            } else {
-                // This is a bad ball, set it to be disposed of
-                spitting = true;
+              // Make sure that the indexer isn't running
+              RobotContainer.indexer.stop();
 
-                // Start the shooter, set the angle
-                RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.SPIT_SPEED);
-                RobotContainer.hood.setDesiredAngle(Parameters.hood.SPIT_ANGLE);
+              // Set the LEDs to be strobing red
+              RobotContainer.leds.setSecondaryColor(LEDColors.RED);
 
-                // Make sure that the indexer isn't running
-                RobotContainer.indexer.stop();
-
-                // Set the LEDs to be strobing red
-                RobotContainer.leds.setSecondaryColor(LEDColors.RED);
-
-                // Reset the timer, but don't start it. We'll start it once the hood has reached the
-                // correct angle
-                spitTimer.reset();
-            }
-        }
+              // Reset the timer, but don't start it. We'll start it once the hood has reached the
+              // correct angle
+              spitTimer.reset();
+          }*/
+        // }
     }
 
     // Called once the command ends or is interrupted.
