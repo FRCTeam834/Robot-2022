@@ -65,6 +65,7 @@ public class Shooter extends SubsystemBase {
 
         shooterPIDController = new PIDController(0.065, 0, 0);
         shooterPIDController.setTolerance(.1);
+        shooterBangBangController.setTolerance(.1);
     }
 
     public void setP(double p) {
@@ -121,10 +122,12 @@ public class Shooter extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Shooter");
-            builder.addDoubleProperty("Setpoint", shooterPIDController::getSetpoint, null);
+            builder.addDoubleProperty("Setpoint", shooterBangBangController::getSetpoint, null);
             // builder.addDoubleProperty("Shooter P", shooterPIDController::getP, this::setP);
             builder.addDoubleProperty(
                     "Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
+            //builder.addDoubleProperty("Shooter P", shooterPIDController::getP, this::setP);
+            builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
             builder.addBooleanProperty("atSetpoint", shooterBangBangController::atSetpoint, null);
             builder.addDoubleProperty(
                     "Time Since Last Ball", ShootBalls.timeSinceLastIndexedBall::get, null);

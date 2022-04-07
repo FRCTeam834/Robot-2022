@@ -306,7 +306,7 @@ public final class Parameters {
                     Units.inchesToMeters(
                             4); // The distance at which the hook grabs the bar, but doesn't lift
             // ground
-            public static final double GRAB_DISTANCE = Units.inchesToMeters(19);
+            public static final double GRAB_DISTANCE = Units.inchesToMeters(17);
 
             // Homing info
             public static final double HOME_SPEED = -0.75;
@@ -373,7 +373,7 @@ public final class Parameters {
         public static final double DRIVE_TILT_SPEED = 1;
 
         // The angle to tilt the robot to before lifting the climbers
-        public static final double ROBOT_TILT_ANGLE = 29;
+        public static final double ROBOT_TILT_ANGLE = 27.5;
     }
 
     public static final class intake {

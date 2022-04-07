@@ -192,7 +192,7 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
         new JoystickButton(rightJoystick, 2).whenPressed(new AutoShoot());
-
+        new JoystickButton(rightJoystick, 9).whenPressed(new TurnToGoal().perpetually());
         new JoystickButton(rightJoystick, 10).whenPressed(new BeyBlade());
         new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());
         new JoystickButton(rightJoystick, 12).whenPressed(new Climb());
@@ -279,7 +279,7 @@ public class RobotContainer {
                 .whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
 
         new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
-        new JoystickButton(xbox, Button.kX.value).whenPressed(() -> shooter.setDesiredSpeed(24));
+        new JoystickButton(xbox, Button.kX.value).whenPressed(() -> shooter.setDesiredSpeed(15));
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
         new JoystickButton(xbox, Button.kRightBumper.value)
@@ -371,6 +371,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         // An ExampleCommand will run in autonomous
-        return new FourBallAuton();
+        return autoChooser.getSelected();
     }
 }

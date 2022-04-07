@@ -570,6 +570,7 @@ public class DriveTrain extends SubsystemBase {
 
             builder.addDoubleProperty("Current X Speed: ", this::getYSpeed, null);
             builder.addDoubleProperty("Pitch", RobotContainer.navX::getPitch, null);
+            builder.addDoubleProperty("Roll", RobotContainer.navX::getRoll, null);
         }
     }
 
