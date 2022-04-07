@@ -127,10 +127,10 @@ public class ShootBalls extends CommandBase {
 
         // Check if the ball we have is ours, meaning that the time since the last indexed ball
         // needs reset
-        if (indexedBallColor.equals(Robot.getOurBallColor())) {
+        if (!indexedBallColor.equals("None")) {
             timeSinceLastIndexedBall.reset();
             timeSinceLastIndexedBall.start();
-        }
+        }/*
         // Check if we have a ball, meaning that the ball isn't our color
         else if (!indexedBallColor.equals("None")) {
 
@@ -145,7 +145,7 @@ public class ShootBalls extends CommandBase {
 
             // Note that the command should end
             // hasBadBall = true;
-        }
+        }*/
 
         // Turn off the intake if we're done pulsing
         if (intakePulseTimer.hasElapsed(Parameters.intake.PULSE_TIME)) {
