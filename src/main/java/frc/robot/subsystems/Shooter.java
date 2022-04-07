@@ -126,8 +126,9 @@ public class Shooter extends SubsystemBase {
             // builder.addDoubleProperty("Shooter P", shooterPIDController::getP, this::setP);
             builder.addDoubleProperty(
                     "Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
-            //builder.addDoubleProperty("Shooter P", shooterPIDController::getP, this::setP);
-            builder.addDoubleProperty("Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
+            // builder.addDoubleProperty("Shooter P", shooterPIDController::getP, this::setP);
+            builder.addDoubleProperty(
+                    "Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
             builder.addBooleanProperty("atSetpoint", shooterBangBangController::atSetpoint, null);
             builder.addDoubleProperty(
                     "Time Since Last Ball", ShootBalls.timeSinceLastIndexedBall::get, null);
