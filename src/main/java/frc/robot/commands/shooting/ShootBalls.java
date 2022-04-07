@@ -168,6 +168,6 @@ public class ShootBalls extends CommandBase {
     public boolean isFinished() {
 
         // Check the if the ball shooting delay has passed and we've started the shooter
-        return (timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding);
+        return false; //(timeSinceLastIndexedBall.hasElapsed(Parameters.indexer.SHOT_TIME) && feeding);
     }
 }

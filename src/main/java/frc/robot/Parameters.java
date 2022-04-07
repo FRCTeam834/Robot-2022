@@ -509,7 +509,7 @@ public final class Parameters {
         public static final int CURRENT_LIMIT = 10; // A
 
         // Time for a ball to move out of the shooter after leaving the view of the color sensor
-        public static final double SHOT_TIME = 0.375; // s
+        public static final double SHOT_TIME = 0.75; // s
 
         // Time and speed to spit for
         public static final double SPIT_DUTY = .5; // s
