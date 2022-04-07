@@ -65,7 +65,7 @@ public class Shooter extends SubsystemBase {
 
         shooterPIDController = new PIDController(0.065, 0, 0);
         shooterPIDController.setTolerance(.1);
-        shooterBangBangController.setTolerance(.1);
+        shooterBangBangController.setTolerance(0.5);
     }
 
     public void setP(double p) {

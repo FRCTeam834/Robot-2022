@@ -26,12 +26,12 @@ public class InterpolatingTable {
         table =
                 new TreeMap<>(
                         Map.ofEntries(
-                                entry(19.3, new ShotParams(19.9, 59.8)),
+                                entry(19.3, new ShotParams(19.9, 65)),
                                 entry(30.6, new ShotParams(20.17, 59.79)),
                                 entry(40.05, new ShotParams(20.65, 59.79)),
                                 entry(50.6, new ShotParams(21.35, 56.73)),
                                 entry(60.1, new ShotParams(22, 55.08)),
-                                entry(70.6, new ShotParams(22.66, 54.72)),
+                                entry(75.38, new ShotParams(23.675, 56.14)),
                                 entry(80.3, new ShotParams(23.57, 51.54)),
                                 entry(90.96, new ShotParams(24.43, 49.19)),
                                 entry(100.0, new ShotParams(25.59, 46.59)),
