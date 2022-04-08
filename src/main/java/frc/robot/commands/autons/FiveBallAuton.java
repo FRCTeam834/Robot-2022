@@ -57,13 +57,13 @@ public class FiveBallAuton extends SequentialCommandGroup {
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
                         new FollowPath(fiveBallPart1), new IntakeBalls(), new HomeHood()),
-                new AutoShoot().withTimeout(2),
+                new AutoShoot(),
                 new ParallelDeadlineGroup(new FollowPath(fiveBallPart2), new IntakeBalls()),
                 new ParallelDeadlineGroup(new WaitCommand(2), new IntakeBalls()),
                 new FollowPath(fiveBallPart3),
-                new AutoShoot().withTimeout(3),
+                new AutoShoot(),
                 new FollowPath(fiveBallPart4),
-                new AutoShoot().withTimeout(3),
+                new AutoShoot(),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }

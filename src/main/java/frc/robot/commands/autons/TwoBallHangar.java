@@ -53,7 +53,7 @@ public class TwoBallHangar extends SequentialCommandGroup {
                                                 Parameters.intake.spool.DOWN_DISTANCE))),
                 new ParallelDeadlineGroup(
                         new FollowPath(examplePath), new IntakeBalls(), new HomeHood()),
-                new AutoShoot().withTimeout(3),
+                new AutoShoot(),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }

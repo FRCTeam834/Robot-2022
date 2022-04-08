@@ -59,14 +59,14 @@ public class ThreeBallAuton extends SequentialCommandGroup {
                         new IntakeBalls(),
                         new HomeHood(),
                         new IdleShooter()),
-                new AutoShoot().withTimeout(3),
+                new AutoShoot(),
                 new InstantCommand(
                         () -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0),
                         RobotContainer.driveTrain),
                 new WaitCommand(.5),
                 new ParallelDeadlineGroup(
                         new DriveForTime(1, 1), new IntakeBalls(), new IdleShooter()),
-                new AutoShoot().withTimeout(3),
+                new AutoShoot(),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
 }
