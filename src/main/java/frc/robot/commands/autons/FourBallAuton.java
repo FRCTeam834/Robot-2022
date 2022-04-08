@@ -58,7 +58,6 @@ public class FourBallAuton extends SequentialCommandGroup {
                 new ParallelDeadlineGroup(
                         new FollowPath(fourBallPart1), new IntakeBalls(), new HomeHood()),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules),
-
                 new AutoShoot(),
                 /*
                 new InstantCommand(
