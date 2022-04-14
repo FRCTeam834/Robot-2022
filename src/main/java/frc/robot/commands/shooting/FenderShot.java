@@ -19,7 +19,7 @@ public class FenderShot extends CommandBase {
     @Override
     public void initialize() {
         RobotContainer.shooter.set(2800.0 / 5280.0);
-        RobotContainer.hood.setDesiredAngle(75.1);
+        RobotContainer.hood.setDesiredAngle(76);
     }
 
     // Called every time the scheduler runs while the command is scheduled.

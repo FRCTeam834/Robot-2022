@@ -25,14 +25,13 @@ import frc.robot.subsystems.climber.HomeClimberTubes;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class FourBallAuton extends SequentialCommandGroup {
+public class NewFourBallAuton extends SequentialCommandGroup {
 
-    public FourBallAuton() {
+    public NewFourBallAuton() {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
-        PathPlannerTrajectory fourBallPart1 = PathPlanner.loadPath("4 Ball Part 1", 3, 1.5);
-        PathPlannerTrajectory fourBallPart2 = PathPlanner.loadPath("4 Ball Part 2", 3, 1.5);
-        PathPlannerTrajectory fourBallPart3 = PathPlanner.loadPath("4 Ball Part 3", 3, 3);
+        PathPlannerTrajectory fourBallPart1 = PathPlanner.loadPath("New 4 Ball Part 1", 3, 1.5);
+        PathPlannerTrajectory fourBallPart2 = PathPlanner.loadPath("New 4 Ball Part 2", 3, 1.5);
         addCommands(
             new InstantCommand(
                         () ->
@@ -61,31 +60,8 @@ public class FourBallAuton extends SequentialCommandGroup {
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules),
 
                 new AutoShoot(),
-                /*
-                new InstantCommand(
-                        () ->
-                                RobotContainer.driveTrain.resetOdometry(
-                                        new Pose2d(
-                                                fourBallPart2
-                                                        .getInitialState()
-                                                        .poseMeters
-                                                        .getTranslation(),
-                                                fourBallPart2.getInitialState()
-                                                        .holonomicRotation))),*/
+               
                 new ParallelDeadlineGroup(new FollowPath(fourBallPart2), new IntakeBalls()),
-                new InstantCommand(RobotContainer.driveTrain::haltAllModules),
-                new ParallelDeadlineGroup(new WaitCommand(1), new IntakeBalls()),
-                new InstantCommand(
-                        () ->
-                                RobotContainer.driveTrain.resetOdometry(
-                                        new Pose2d(
-                                                fourBallPart3
-                                                        .getInitialState()
-                                                        .poseMeters
-                                                        .getTranslation(),
-                                                fourBallPart3.getInitialState()
-                                                        .holonomicRotation))),
-                new FollowPath(fourBallPart3),
                 new AutoShoot(),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));
     }
