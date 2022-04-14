@@ -33,15 +33,14 @@ public class NewFourBallAuton extends SequentialCommandGroup {
         PathPlannerTrajectory fourBallPart1 = PathPlanner.loadPath("New 4 Ball Part 1", 3, 1.5);
         PathPlannerTrajectory fourBallPart2 = PathPlanner.loadPath("New 4 Ball Part 2", 3, 1.5);
         addCommands(
-            new InstantCommand(
+                new InstantCommand(
                         () ->
                                 RobotContainer.intakeWinch.setCurrentDistance(
                                         Parameters.intake.spool.HOME_DISTANCE)),
-            new InstantCommand(
+                new InstantCommand(
                         () ->
                                 RobotContainer.intakeWinch.setDesiredDistance(
-                                            Parameters.intake.spool.DOWN_DISTANCE)),
-                
+                                        Parameters.intake.spool.DOWN_DISTANCE)),
                 new WaitCommand(.5),
                 new ParallelCommandGroup(
                         new InstantCommand(
@@ -58,9 +57,7 @@ public class NewFourBallAuton extends SequentialCommandGroup {
                 new ParallelDeadlineGroup(
                         new FollowPath(fourBallPart1), new IntakeBalls(), new HomeHood()),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules),
-
                 new AutoShoot(),
-               
                 new ParallelDeadlineGroup(new FollowPath(fourBallPart2), new IntakeBalls()),
                 new AutoShoot(),
                 new InstantCommand(RobotContainer.driveTrain::haltAllModules));

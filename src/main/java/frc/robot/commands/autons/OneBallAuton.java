@@ -7,15 +7,12 @@ package frc.robot.commands.autons;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.commands.StopEverything;
 import frc.robot.commands.hood.HomeHood;
-import frc.robot.commands.indexing.IndexForTime;
 import frc.robot.commands.shooting.AutoShoot;
-import frc.robot.commands.shooting.FenderShot;
 import frc.robot.commands.swerve.driving.DriveForTime;
 import frc.robot.subsystems.climber.HomeClimberTubes;
 
