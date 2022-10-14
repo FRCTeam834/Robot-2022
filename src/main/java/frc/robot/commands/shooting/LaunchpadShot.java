@@ -12,27 +12,36 @@ public class LaunchpadShot extends CommandBase {
     /** Creates a new LaunchpadShot. */
     public LaunchpadShot() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.shooter, RobotContainer.hood);
+        addRequirements(RobotContainer.shooter, RobotContainer.hood, RobotContainer.indexer);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-        RobotContainer.shooter.setDesiredSpeed(23.675);
-        RobotContainer.hood.setDesiredAngle(56.14);
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {}
+    public void execute() {
+        RobotContainer.shooter.setDesiredSpeed(23.675);
+        RobotContainer.hood.setDesiredAngle(56.14);
+
+        if (
+            RobotContainer.shooter.isReady() &&
+            RobotContainer.hood.isAtDesiredAngle()
+        ) {
+            RobotContainer.indexer.set(0.5);
+        }
+    }
 
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        RobotContainer.indexer.stop();
+    }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return !RobotContainer.indexer.hasBall();
     }
 }

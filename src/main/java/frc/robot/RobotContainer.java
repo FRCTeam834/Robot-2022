@@ -281,7 +281,7 @@ public class RobotContainer {
         new JoystickButton(xbox, Button.kY.value)
                 .whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
 
-        new JoystickButton(xbox, Button.kB.value).whileHeld(new LaunchpadShot());
+        new JoystickButton(xbox, Button.kB.value).whenActive(new LaunchpadShot());
         new JoystickButton(xbox, Button.kX.value).whenPressed(() -> shooter.setDesiredSpeed(15));
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
