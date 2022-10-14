@@ -25,10 +25,7 @@ public class LaunchpadShot extends CommandBase {
         RobotContainer.shooter.setDesiredSpeed(23.675);
         RobotContainer.hood.setDesiredAngle(56.14);
 
-        if (
-            RobotContainer.shooter.isReady() &&
-            RobotContainer.hood.isAtDesiredAngle()
-        ) {
+        if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle()) {
             RobotContainer.indexer.set(0.5);
         }
     }
