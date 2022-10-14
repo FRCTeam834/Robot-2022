@@ -12,29 +12,35 @@ public class FenderShot extends CommandBase {
     /** Creates a new FenderShot. */
     public FenderShot() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.hood, RobotContainer.shooter);
+        addRequirements(RobotContainer.hood, RobotContainer.shooter, RobotContainer.indexer);
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
+    public void initialize() {}
+
+    @Override
+    public void execute() {
         RobotContainer.shooter.set(2800.0 / 5280.0);
         RobotContainer.hood.setDesiredAngle(76);
-    }
 
-    // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {}
+        if (
+            RobotContainer.shooter.isReady() &&
+            RobotContainer.hood.isAtDesiredAngle()
+        ) {
+            RobotContainer.indexer.set(0.5);
+        }
+    }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        // RobotContainer.shooter.stop();
+        RobotContainer.indexer.stop();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return true;
+        return !RobotContainer.indexer.hasBall();
     }
 }
