@@ -98,7 +98,8 @@ public final class Parameters {
         // Joystick settings
         public static final class controllers {
             public static final double deadzone = 0.075;
-            public static final JoystickOutputTypes clampingType = JoystickOutputTypes.SIGMOID_QUAD; // ZEROED_QUAD;
+            public static final JoystickOutputTypes clampingType =
+                    JoystickOutputTypes.SIGMOID_QUAD; // ZEROED_QUAD;
         }
 
         // ! NOT IMPLEMENTED YET!!!
