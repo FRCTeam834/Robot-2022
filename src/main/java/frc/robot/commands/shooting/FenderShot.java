@@ -24,10 +24,7 @@ public class FenderShot extends CommandBase {
         RobotContainer.shooter.set(2800.0 / 5280.0);
         RobotContainer.hood.setDesiredAngle(76);
 
-        if (
-            RobotContainer.shooter.isReady() &&
-            RobotContainer.hood.isAtDesiredAngle()
-        ) {
+        if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle()) {
             RobotContainer.indexer.set(0.5);
         }
     }
