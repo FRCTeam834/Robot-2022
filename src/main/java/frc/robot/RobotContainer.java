@@ -357,17 +357,19 @@ public class RobotContainer {
                                                 2)
                                         / Math.pow(Parameters.driver.controllers.deadzone - 1, 2));
                     }
-                case SIGMOID_QUAD: {
-                    /* Move consts into Parameters once verified */
-                    // see desmos for calculations
-                    double o = 0;
-                    double k = 5.29831736655;
-                    double b = 200;
-                    double L = 2;
+                case SIGMOID_QUAD:
+                    {
+                        /* Move consts into Parameters once verified */
+                        // see desmos for calculations
+                        double o = 0;
+                        double k = 5.29831736655;
+                        double b = 200;
+                        double L = 2;
 
-                    return Math.signum(rawValue) *
-                        (L / (1 + b * Math.pow(Math.E, -k * Math.abs(rawValue)))) + o;
-                }
+                        return Math.signum(rawValue)
+                                        * (L / (1 + b * Math.pow(Math.E, -k * Math.abs(rawValue))))
+                                + o;
+                    }
                 default:
                     // This will never be reached, but a default case is needed (0 for no output)
                     return 0;
