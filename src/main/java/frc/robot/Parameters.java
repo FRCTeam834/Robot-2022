@@ -90,7 +90,7 @@ public final class Parameters {
 
         public static final double slowSteerRate = 180;
         public static final double fastSteerRate = 540;
-        public static final boolean lockemUp = true;
+        public static final boolean lockemUp = false;
         public static final boolean fieldCentric = true;
         public static final double maxModVelocity = 8;
         public static final IdleMode driveIdleMode = IdleMode.kBrake;
@@ -98,7 +98,7 @@ public final class Parameters {
         // Joystick settings
         public static final class controllers {
             public static final double deadzone = 0.075;
-            public static final JoystickOutputTypes clampingType = JoystickOutputTypes.ZEROED_QUAD;
+            public static final JoystickOutputTypes clampingType = JoystickOutputTypes.SIGMOID_QUAD; // ZEROED_QUAD;
         }
 
         // ! NOT IMPLEMENTED YET!!!

@@ -10,7 +10,8 @@ public enum JoystickOutputTypes {
     LINEAR(0),
     ZEROED_LINEAR(1),
     ZEROED_QUAD(3),
-    ZEROED_QUAD_LINEAR(2);
+    ZEROED_QUAD_LINEAR(2),
+    SIGMOID_QUAD(10);
 
     // The index of each output type
     private int index;

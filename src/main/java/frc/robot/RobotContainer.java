@@ -98,7 +98,7 @@ public class RobotContainer {
     // Define the joysticks (need to be public so commands can access axes)
     public static Joystick leftJoystick = new Joystick(0);
     public static Joystick rightJoystick = new Joystick(1);
-    public static XboxController xbox = new XboxController(2);
+    public static XboxController xbox = new XboxController(5);
     public static Joystick buttonBoard = new Joystick(3);
 
     // Define button board buttons
@@ -357,6 +357,17 @@ public class RobotContainer {
                                                 2)
                                         / Math.pow(Parameters.driver.controllers.deadzone - 1, 2));
                     }
+                case SIGMOID_QUAD: {
+                    /* Move consts into Parameters once verified */
+                    // see desmos for calculations
+                    double o = 0;
+                    double k = 5.29831736655;
+                    double b = 200;
+                    double L = 2;
+
+                    return Math.signum(rawValue) *
+                        (L / (1 + b * Math.pow(Math.E, -k * Math.abs(rawValue)))) + o;
+                }
                 default:
                     // This will never be reached, but a default case is needed (0 for no output)
                     return 0;
