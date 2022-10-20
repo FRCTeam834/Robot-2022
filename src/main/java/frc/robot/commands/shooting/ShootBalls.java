@@ -77,7 +77,7 @@ public class ShootBalls extends CommandBase {
             shotParams = RobotContainer.interpolatingTable.getShotParam(distance);
 
             // Set the hood and shooter's desired angles
-            RobotContainer.hood.setDesiredAngle(shotParams.getAngle());
+            RobotContainer.hood.setDesiredAngle(shotParams.getAngle() + 5);
             RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed());
         } else {
             RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.FENDER_SHOT_SPEED);
