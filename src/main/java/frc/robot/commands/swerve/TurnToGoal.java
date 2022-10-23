@@ -28,6 +28,8 @@ public class TurnToGoal extends CommandBase {
         rotationalPID.enableContinuousInput(0, 360);
         rotationalPID.setTolerance(.5);
 
+        RobotContainer.vision.flushYawAvg();
+
         // Request the drivetrain
         addRequirements(RobotContainer.driveTrain);
     }
@@ -60,7 +62,7 @@ public class TurnToGoal extends CommandBase {
                     Math.toRadians(
                             MathUtil.clamp(
                                     rotationalPID.calculate(
-                                            latestResult.getYaw(), Parameters.vision.YAW_OFFSET),
+                                            RobotContainer.vision.getYaw(), Parameters.vision.YAW_OFFSET),
                                     -Parameters.vision.MAX_TURNING_SPEED,
                                     Parameters.vision.MAX_TURNING_SPEED));
         }

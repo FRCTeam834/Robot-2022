@@ -4,12 +4,15 @@
 
 package frc.robot.commands.shooting;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.LEDColors;
+import frc.robot.utilityClasses.MovingAverage;
 import frc.robot.utilityClasses.interpolation.ShotParams;
 
 public class ShootBalls extends CommandBase {
@@ -22,6 +25,10 @@ public class ShootBalls extends CommandBase {
     public static Timer timeSinceLastIndexedBall = new Timer();
     Timer intakePulseTimer;
 
+    Alliance currentAlliance = DriverStation.getAlliance();
+    String currentAllianceAsString = currentAlliance == Alliance.Blue ? "Blue" : "Red";
+    MovingAverage badBallAverage = new MovingAverage(Parameters.indexer.COLOR_MOVING_AVG_PTS);
+
     public ShootBalls() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(
@@ -30,7 +37,8 @@ public class ShootBalls extends CommandBase {
                 RobotContainer.indexer,
                 RobotContainer.intake);
         timeSinceLastIndexedBall = new Timer();
-        intakePulseTimer = new Timer();
+
+        badBallAverage.clearPts();
     }
 
     // Called when the command is initially scheduled.
@@ -66,7 +74,6 @@ public class ShootBalls extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-
         // Compute the distance from the target using the camera
         distance = RobotContainer.vision.getDistanceToGoalInches();
 
@@ -76,8 +83,21 @@ public class ShootBalls extends CommandBase {
             // Look up the shot parameters for that distance
             shotParams = RobotContainer.interpolatingTable.getShotParam(distance);
 
+            // temp sorta for spitting out bad balls
+            if (hasBadBall) {
+                // make sure ball doesnt go high enough to go in
+                RobotContainer.hood.set(shotParams.getAngle() - 20);
+                // higher shooter speed so we can be ready for 2nd shot faster
+                RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed() + 5);
+
+                if (RobotContainer.shooter.isReady() && RobotContainer.hood.isAtDesiredAngle()) {
+                    RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
+                }
+                return;
+            }
+
             // Set the hood and shooter's desired angles
-            RobotContainer.hood.setDesiredAngle(shotParams.getAngle() + 5);
+            RobotContainer.hood.setDesiredAngle(shotParams.getAngle());
             RobotContainer.shooter.setDesiredSpeed(shotParams.getSpeed());
         } else {
             RobotContainer.shooter.setDesiredSpeed(Parameters.shooter.FENDER_SHOT_SPEED);
@@ -129,7 +149,17 @@ public class ShootBalls extends CommandBase {
         if (!indexedBallColor.equals("None")) {
             timeSinceLastIndexedBall.reset();
             timeSinceLastIndexedBall.start();
-        } /*
+        }
+        if (
+            indexedBallColor != currentAllianceAsString &&
+            indexedBallColor != "None" &&
+            RobotContainer.indexer.getProximity() < Parameters.indexer.COLOR_PROXIMITY_THRESHOLD
+        ) {
+            hasBadBall = badBallAverage.addPt(1) >= Parameters.indexer.COLOR_MOVING_AVG_THRESHOLD;
+        } else {
+            hasBadBall = badBallAverage.addPt(0) >= Parameters.indexer.COLOR_MOVING_AVG_THRESHOLD;
+        }
+        /*
           // Check if we have a ball, meaning that the ball isn't our color
           else if (!indexedBallColor.equals("None")) {
 
