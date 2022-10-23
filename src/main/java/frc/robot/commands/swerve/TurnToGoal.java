@@ -47,10 +47,10 @@ public class TurnToGoal extends CommandBase {
         // double rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
 
         // Get the vision target
-        PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
+        double targetYaw = RobotContainer.vision.getYaw();
 
         // Make sure that we actually have a target
-        if (latestResult == null) {
+        if (targetYaw == Double.NaN) {
 
             // We shouldn't be moving if there isn't a target
             omega = 0;
@@ -62,7 +62,7 @@ public class TurnToGoal extends CommandBase {
                     Math.toRadians(
                             MathUtil.clamp(
                                     rotationalPID.calculate(
-                                            RobotContainer.vision.getYaw(), Parameters.vision.YAW_OFFSET),
+                                            targetYaw, Parameters.vision.YAW_OFFSET),
                                     -Parameters.vision.MAX_TURNING_SPEED,
                                     Parameters.vision.MAX_TURNING_SPEED));
         }

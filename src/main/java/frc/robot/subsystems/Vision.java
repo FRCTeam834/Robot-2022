@@ -87,15 +87,15 @@ public class Vision extends SubsystemBase {
      */
     public boolean isLinedUp() {
 
-        // Get the best target
-        PhotonTrackedTarget bestTarget = getBestTarget();
+        // Get the target yaw
+        double targetYaw = getYaw();
 
-        // Make sure that the target isn't null (that we have a target)
-        if (bestTarget != null) {
+        // Make sure that there is a target
+        if (targetYaw != Double.NaN) {
 
             // Check to see if the yaw deviation is below the tolerance
             return (Parameters.vision.YAW_TOLERANCE
-                    > Math.abs(bestTarget.getYaw() - Parameters.vision.YAW_OFFSET));
+                    > Math.abs(targetYaw - Parameters.vision.YAW_OFFSET));
         } else {
             // We don't have a target, so we're not lined up
             return false;
@@ -141,8 +141,9 @@ public class Vision extends SubsystemBase {
     public double getYaw() {
         // Get the best target
         PhotonTrackedTarget bestTarget = getBestTarget();
+        // Only add to the yaw avg if a target is detected, adding 0 will just skew the data
         if (bestTarget != null) return yawAverage.addPt(bestTarget.getYaw());
-        else return 0;
+        else return Double.NaN; // 0 yaw is possible so NaN
     }
 
     public boolean hasTargets() {
