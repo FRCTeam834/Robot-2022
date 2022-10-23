@@ -26,7 +26,7 @@ public class ShootBalls extends CommandBase {
     Timer intakePulseTimer;
 
     Alliance currentAlliance = DriverStation.getAlliance();
-    String currentAllianceAsString = currentAlliance == Alliance.Blue ? "Blue" : "Red";
+    String currentAllianceAsString = currentAlliance.equals(Alliance.Blue) ? "Blue" : "Red";
     MovingAverage badBallAverage = new MovingAverage(Parameters.indexer.COLOR_MOVING_AVG_PTS);
 
     public ShootBalls() {
