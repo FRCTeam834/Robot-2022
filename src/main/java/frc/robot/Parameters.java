@@ -507,7 +507,7 @@ public final class Parameters {
         public static final int COLOR_PROXIMITY_THRESHOLD = 100;
         public static final int COLOR_MOVING_AVG_PTS = 10;
         public static final double COLOR_MOVING_AVG_THRESHOLD = 0.75;
-        
+
         public static final int ID = 14;
         public static final double FEED_DUTY = 0.25; // Duty
         public static final double LOAD_DUTY = 0.05;

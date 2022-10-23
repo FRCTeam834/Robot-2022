@@ -21,7 +21,6 @@ import frc.robot.utilityClasses.LEDColors;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Climb extends SequentialCommandGroup {
     /** Creates a new Climb. */
-
     public Climb() {
 
         // Set the LEDs to red, we're climbing baby!
@@ -65,14 +64,11 @@ public class Climb extends SequentialCommandGroup {
                 // Tilt the robot
                 new InstantCommand(() -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0)),
                 new WaitCommand(0.25),
-
                 new InstantCommand(() -> RobotContainer.canManualLift = true),
-
                 new DriveUntilAngle(
                                 Parameters.climber.DRIVE_TILT_SPEED,
                                 Parameters.climber.ROBOT_TILT_ANGLE)
                         .withTimeout(5),
-
                 new InstantCommand(() -> RobotContainer.canManualLift = false),
 
                 // Grab the 3rd rung bar
