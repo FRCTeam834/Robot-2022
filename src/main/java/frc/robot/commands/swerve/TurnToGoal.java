@@ -15,8 +15,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Parameters;
 import frc.robot.RobotContainer;
 
-import org.photonvision.targeting.PhotonTrackedTarget;
-
 public class TurnToGoal extends CommandBase {
 
     PIDController rotationalPID = new PIDController(3, 0, 0);
