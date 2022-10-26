@@ -303,9 +303,9 @@ public class RobotContainer {
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 
         new JoystickButton(xbox, Button.kRightBumper.value)
-                .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 1));
+                .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() - 0.1));
         new JoystickButton(xbox, Button.kLeftBumper.value)
-                .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 1));
+                .whileHeld(() -> hood.setDesiredAngle(hood.getCurrentAngle() + 0.1));
 
         new POVButton(xbox, 0).whileHeld(() -> shooter.setDesiredSpeed(shooter.getSpeed() + 0.25));
         new POVButton(xbox, 180)
