@@ -6,10 +6,14 @@ package frc.robot.commands.shooting;
 
 <<<<<<< HEAD
 import edu.wpi.first.wpilibj.DriverStation;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 =======
 >>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
+=======
+>>>>>>> parent of 88726c0... Formatting fixes
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.Parameters;
@@ -136,15 +140,17 @@ public class ShootBalls extends CommandBase {
             timeSinceLastIndexedBall.start();
 <<<<<<< HEAD
         }
-        if (indexedBallColor != currentAllianceAsString
-                && indexedBallColor != "None"
-                && RobotContainer.indexer.getProximity()
-                        < Parameters.indexer.COLOR_PROXIMITY_THRESHOLD) {
+        if (
+            indexedBallColor != currentAllianceAsString &&
+            indexedBallColor != "None" &&
+            RobotContainer.indexer.getProximity() < Parameters.indexer.COLOR_PROXIMITY_THRESHOLD
+        ) {
             hasBadBall = badBallAverage.addPt(1) >= Parameters.indexer.COLOR_MOVING_AVG_THRESHOLD;
         } else {
             hasBadBall = badBallAverage.addPt(0) >= Parameters.indexer.COLOR_MOVING_AVG_THRESHOLD;
         }
         /*
+<<<<<<< HEAD
         // Check if we have a ball, meaning that the ball isn't our color
         else if (!indexedBallColor.equals("None")) {
 =======
@@ -152,19 +158,23 @@ public class ShootBalls extends CommandBase {
           // Check if we have a ball, meaning that the ball isn't our color
           else if (!indexedBallColor.equals("None")) {
 >>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
+=======
+          // Check if we have a ball, meaning that the ball isn't our color
+          else if (!indexedBallColor.equals("None")) {
+>>>>>>> parent of 88726c0... Formatting fixes
 
-            // We must have a bad ball, so set the default command and just exit
-            // We will never have a wrong color ball first, so we can just stop shooting
-            // CommandScheduler.getInstance()
-            //        .setDefaultCommand(RobotContainer.indexer, new AutoIndex());
+              // We must have a bad ball, so set the default command and just exit
+              // We will never have a wrong color ball first, so we can just stop shooting
+              // CommandScheduler.getInstance()
+              //        .setDefaultCommand(RobotContainer.indexer, new AutoIndex());
 
-            // Run the indexer backward really quickly to make sure the ball isn't loaded
-            // RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
-            // RobotContainer.indexer.stop();
+              // Run the indexer backward really quickly to make sure the ball isn't loaded
+              // RobotContainer.indexer.set(-Parameters.indexer.FEED_DUTY);
+              // RobotContainer.indexer.stop();
 
-            // Note that the command should end
-            // hasBadBall = true;
-        }*/
+              // Note that the command should end
+              // hasBadBall = true;
+          }*/
 
         // Turn off the intake if we're done pulsing
         if (intakePulseTimer.hasElapsed(Parameters.intake.PULSE_TIME)) {

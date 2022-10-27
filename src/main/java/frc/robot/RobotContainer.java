@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
@@ -46,11 +47,17 @@ import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 <<<<<<< HEAD
 import frc.robot.commands.shooting.FenderShot;
+<<<<<<< HEAD
 =======
 import frc.robot.commands.shooting.LaunchpadShot;
 import frc.robot.commands.swerve.TurnToGoal;
 import frc.robot.commands.swerve.driving.BeyBlade;
 >>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
+=======
+import frc.robot.commands.shooting.LaunchpadShot;
+import frc.robot.commands.swerve.TurnToGoal;
+import frc.robot.commands.swerve.driving.BeyBlade;
+>>>>>>> parent of 88726c0... Formatting fixes
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
 import frc.robot.subsystems.Hood;
@@ -203,17 +210,17 @@ public class RobotContainer {
 
         // new JoystickButton(rightJoystick, 9).whenPressed(new TurnToGoal().perpetually());
 
-        new JoystickButton(rightJoystick, 10)
-                .whenPressed(
-                        new InstantCommand(
-                                () -> {
-                                    if (!canManualLift) return;
-                                    RobotContainer.canManualLift = false;
-                                    // 99.999999% chance this is unncessary but taking no chances
-                                    new SequentialCommandGroup(
-                                            new InstantCommand(() -> climbCommand.cancel()),
-                                            new GrabAndLift());
-                                }));
+        new JoystickButton(rightJoystick, 10).whenPressed(
+            new InstantCommand(() -> {
+                    if(!canManualLift) return;
+                    RobotContainer.canManualLift = false;
+                    // 99.999999% chance this is unncessary but taking no chances
+                    new SequentialCommandGroup(
+                        new InstantCommand(() -> climbCommand.cancel()),
+                        new GrabAndLift()
+                    );
+            })
+        );  
 
 =======
         new JoystickButton(rightJoystick, 9).whenPressed(new TurnToGoal().perpetually());
