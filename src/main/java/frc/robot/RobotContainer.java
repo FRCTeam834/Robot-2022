@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -37,7 +36,6 @@ import frc.robot.commands.autons.ThreeBallAuton;
 import frc.robot.commands.autons.TwoBallHP;
 import frc.robot.commands.autons.TwoBallHangar;
 import frc.robot.commands.climber.Climb;
-import frc.robot.commands.climber.GrabAndLift;
 import frc.robot.commands.climber.StopClimb;
 import frc.robot.commands.hood.HomeHood;
 import frc.robot.commands.intake.HomeIntake;
@@ -46,7 +44,13 @@ import frc.robot.commands.intake.MoveIntakeDownDumb;
 import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
+<<<<<<< HEAD
 import frc.robot.commands.shooting.FenderShot;
+=======
+import frc.robot.commands.shooting.LaunchpadShot;
+import frc.robot.commands.swerve.TurnToGoal;
+import frc.robot.commands.swerve.driving.BeyBlade;
+>>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
 import frc.robot.subsystems.Hood;
@@ -120,10 +124,6 @@ public class RobotContainer {
 
     // If the indexer should be running (autoschedules)
     public static boolean autoIndex = false;
-
-    public static boolean canManualLift = false;
-
-    public static Command climbCommand;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -199,6 +199,7 @@ public class RobotContainer {
         new JoystickButton(rightJoystick, 1)
                 .whileHeld(new StartEndCommand(() -> indexer.set(0.5), indexer::stop, indexer));
         new JoystickButton(rightJoystick, 2).whenPressed(new AutoShoot());
+<<<<<<< HEAD
 
         // new JoystickButton(rightJoystick, 9).whenPressed(new TurnToGoal().perpetually());
 
@@ -214,8 +215,12 @@ public class RobotContainer {
                                             new GrabAndLift());
                                 }));
 
+=======
+        new JoystickButton(rightJoystick, 9).whenPressed(new TurnToGoal().perpetually());
+        new JoystickButton(rightJoystick, 10).whenPressed(new BeyBlade());
+>>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
         new JoystickButton(rightJoystick, 11).whenPressed(new HomeClimberTubes());
-        new JoystickButton(rightJoystick, 12).whenPressed(climbCommand = new Climb());
+        new JoystickButton(rightJoystick, 12).whenPressed(new Climb());
 
         // right and left lift up
         /*BM.whenPressed(
@@ -298,7 +303,7 @@ public class RobotContainer {
         new JoystickButton(xbox, Button.kY.value)
                 .whenReleased(() -> CommandScheduler.getInstance().cancel(intakeBalls));
 
-        new JoystickButton(xbox, Button.kB.value).whileHeld(new FenderShot());
+        new JoystickButton(xbox, Button.kB.value).whileHeld(new LaunchpadShot());
         new JoystickButton(xbox, Button.kX.value).whenPressed(() -> shooter.setDesiredSpeed(15));
         new JoystickButton(xbox, Button.kA.value).whenPressed(new SwitchIntakeState());
 

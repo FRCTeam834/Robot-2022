@@ -64,12 +64,18 @@ public class Climb extends SequentialCommandGroup {
                 // Tilt the robot
                 new InstantCommand(() -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0)),
                 new WaitCommand(0.25),
+<<<<<<< HEAD
                 new InstantCommand(() -> RobotContainer.canManualLift = true),
+=======
+>>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
                 new DriveUntilAngle(
                                 Parameters.climber.DRIVE_TILT_SPEED,
                                 Parameters.climber.ROBOT_TILT_ANGLE)
                         .withTimeout(5),
+<<<<<<< HEAD
                 new InstantCommand(() -> RobotContainer.canManualLift = false),
+=======
+>>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
 
                 // Grab the 3rd rung bar
                 new ParallelCommandGroup(

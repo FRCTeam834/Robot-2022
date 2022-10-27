@@ -24,7 +24,6 @@ public class Vision extends SubsystemBase {
     private static boolean LEDsOn;
     public static boolean hasTargets;
     private MovingAverage distAverage;
-    private MovingAverage yawAverage;
 
     public Vision() {
 
@@ -42,7 +41,6 @@ public class Vision extends SubsystemBase {
 
         // Set up the moving average filter
         distAverage = new MovingAverage(Parameters.vision.AVG_COUNT);
-        yawAverage = new MovingAverage(Parameters.vision.YAW_AVG_COUNT);
     }
 
     public void turnLEDsOn() {
@@ -106,10 +104,6 @@ public class Vision extends SubsystemBase {
         distAverage.clearPts();
     }
 
-    public void flushYawAvg() {
-        yawAverage.clearPts();
-    }
-
     public double getDistanceToGoal(PhotonTrackedTarget bestTarget) {
         if (bestTarget != null) {
             return PhotonUtils.calculateDistanceToTargetMeters(
@@ -141,7 +135,7 @@ public class Vision extends SubsystemBase {
     public double getYaw() {
         // Get the best target
         PhotonTrackedTarget bestTarget = getBestTarget();
-        if (bestTarget != null) return yawAverage.addPt(bestTarget.getYaw());
+        if (bestTarget != null) return bestTarget.getYaw();
         else return 0;
     }
 

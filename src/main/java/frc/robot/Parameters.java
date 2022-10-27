@@ -36,7 +36,7 @@ public final class Parameters {
     // Enables all debug statements
     public static final boolean debug = false;
     public static final boolean tuningMode = false;
-    public static final boolean telemetryMode = false;
+    public static final boolean telemetryMode = true;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -88,7 +88,7 @@ public final class Parameters {
          */
         public static final String name = "CAP1Sup";
 
-        public static final double slowSteerRate = 270; // 180
+        public static final double slowSteerRate = 180;
         public static final double fastSteerRate = 540;
         public static final boolean lockemUp = true;
         public static final boolean fieldCentric = true;
@@ -503,11 +503,14 @@ public final class Parameters {
     public static final class indexer {
         public static final int PROXIMITY_THRESHOLD = 90;
         public static final int PROX_MOVING_AVG_PTS = 100;
+<<<<<<< HEAD
 
         public static final int COLOR_PROXIMITY_THRESHOLD = 100;
         public static final int COLOR_MOVING_AVG_PTS = 10;
         public static final double COLOR_MOVING_AVG_THRESHOLD = 0.75;
 
+=======
+>>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
         public static final int ID = 14;
         public static final double FEED_DUTY = 0.25; // Duty
         public static final double LOAD_DUTY = 0.05;
@@ -564,14 +567,12 @@ public final class Parameters {
         public static final double YAW_TOLERANCE = 10;
 
         // The maximum turning speed when turning to face a target (in deg/s)
-        public static final double MAX_TURNING_SPEED = 180; // 60
+        public static final double MAX_TURNING_SPEED = 60;
 
         // Spin speed - used when looking for a target to lock on to (in deg/s)
         public static final double SPIN_SPEED = 0;
 
         // The number of distance measurements to average
         public static final int AVG_COUNT = 25;
-
-        public static final int YAW_AVG_COUNT = 5;
     }
 }
