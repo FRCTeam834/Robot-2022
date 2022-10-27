@@ -60,11 +60,7 @@ public class TurnToGoal extends CommandBase {
                     Math.toRadians(
                             MathUtil.clamp(
                                     rotationalPID.calculate(
-<<<<<<< HEAD
                                             latestResult.getYaw(), Parameters.vision.YAW_OFFSET),
-=======
-                                            RobotContainer.vision.getYaw(), Parameters.vision.YAW_OFFSET),
->>>>>>> parent of 88726c0... Formatting fixes
                                     -Parameters.vision.MAX_TURNING_SPEED,
                                     Parameters.vision.MAX_TURNING_SPEED));
         }

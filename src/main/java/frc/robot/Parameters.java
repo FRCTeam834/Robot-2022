@@ -503,18 +503,6 @@ public final class Parameters {
     public static final class indexer {
         public static final int PROXIMITY_THRESHOLD = 90;
         public static final int PROX_MOVING_AVG_PTS = 100;
-<<<<<<< HEAD
-
-        public static final int COLOR_PROXIMITY_THRESHOLD = 100;
-        public static final int COLOR_MOVING_AVG_PTS = 10;
-        public static final double COLOR_MOVING_AVG_THRESHOLD = 0.75;
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of f4fe4e8... Post havoc adjustments part 1
-=======
-        
->>>>>>> parent of 88726c0... Formatting fixes
         public static final int ID = 14;
         public static final double FEED_DUTY = 0.25; // Duty
         public static final double LOAD_DUTY = 0.05;
