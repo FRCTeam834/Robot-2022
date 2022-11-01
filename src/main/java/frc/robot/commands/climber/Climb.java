@@ -64,11 +64,16 @@ public class Climb extends SequentialCommandGroup {
                 // Tilt the robot
                 new InstantCommand(() -> RobotContainer.driveTrain.setDesiredAngles(0, 0, 0, 0)),
                 new WaitCommand(0.25),
+
+                new InstantCommand(() -> RobotContainer.canManualLift = true),
+
                 new DriveUntilAngle(
                                 Parameters.climber.DRIVE_TILT_SPEED,
                                 Parameters.climber.ROBOT_TILT_ANGLE)
                         .withTimeout(5),
 
+                new InstantCommand(() -> RobotContainer.canManualLift = false),
+                
                 // Grab the 3rd rung bar
                 new ParallelCommandGroup(
                         new MoveTubeToPosition(

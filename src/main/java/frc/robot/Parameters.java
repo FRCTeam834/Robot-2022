@@ -36,7 +36,7 @@ public final class Parameters {
     // Enables all debug statements
     public static final boolean debug = false;
     public static final boolean tuningMode = false;
-    public static final boolean telemetryMode = true;
+    public static final boolean telemetryMode = false;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -88,7 +88,7 @@ public final class Parameters {
          */
         public static final String name = "CAP1Sup";
 
-        public static final double slowSteerRate = 180;
+        public static final double slowSteerRate = 270;
         public static final double fastSteerRate = 540;
         public static final boolean lockemUp = true;
         public static final boolean fieldCentric = true;
