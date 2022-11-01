@@ -501,11 +501,11 @@ public final class Parameters {
     }
 
     public static final class indexer {
-        public static final int PROXIMITY_THRESHOLD = 109;
+        public static final int PROXIMITY_THRESHOLD = 90;
         public static final int PROX_MOVING_AVG_PTS = 100;
         public static final int ID = 14;
-        public static final double FEED_DUTY = 0.25; // Duty
-        public static final double LOAD_DUTY = 0.05;
+        public static final double FEED_DUTY = 0.5; // Duty
+        public static final double LOAD_DUTY = 0.1;
         public static final int CURRENT_LIMIT = 10; // A
 
         // Time for a ball to move out of the shooter after leaving the view of the color sensor
