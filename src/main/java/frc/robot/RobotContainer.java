@@ -45,7 +45,6 @@ import frc.robot.commands.intake.MoveIntakeUpDumb;
 import frc.robot.commands.intake.SwitchIntakeState;
 import frc.robot.commands.shooting.AutoShoot;
 import frc.robot.commands.shooting.FenderShot;
-import frc.robot.commands.shooting.LaunchpadShot;
 import frc.robot.commands.swerve.TurnToGoal;
 import frc.robot.commands.swerve.driving.BeyBlade;
 import frc.robot.commands.swerve.driving.LetsRoll;
