@@ -501,7 +501,7 @@ public final class Parameters {
     }
 
     public static final class indexer {
-        public static final int PROXIMITY_THRESHOLD = 109;
+        public static final int PROXIMITY_THRESHOLD = 90;
         public static final int PROX_MOVING_AVG_PTS = 100;
         public static final int ID = 14;
         public static final double FEED_DUTY = 0.25; // Duty
