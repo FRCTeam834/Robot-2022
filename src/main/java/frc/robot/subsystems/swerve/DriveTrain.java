@@ -146,13 +146,13 @@ public class DriveTrain extends SubsystemBase {
         // Check the X and Y values of the robot for tip protection
         // The chassis speeds are robot relative
         // Positive X is forward, positive Y is left
-        if (tipProtection) {
+        /*if (tipProtection) {
             double newXSpeed =
                     adjustSpeedForAngle(RobotContainer.navX.getRoll(), speeds.vxMetersPerSecond);
             double newYSpeed =
                     adjustSpeedForAngle(RobotContainer.navX.getPitch(), speeds.vyMetersPerSecond);
             speeds = new ChassisSpeeds(newXSpeed, newYSpeed, speeds.omegaRadiansPerSecond);
-        }
+        }*/
 
         // Set the modules to carry out the speeds
         setModuleStates(speeds, openLoop);

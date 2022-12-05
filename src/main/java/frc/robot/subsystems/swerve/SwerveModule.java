@@ -18,7 +18,6 @@ import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController.AccelStrategy;
 import com.revrobotics.SparkMaxPIDController.ArbFFUnits;
@@ -176,7 +175,7 @@ public class SwerveModule extends SubsystemBase {
         // Status 1 - velocity, temperature, voltage, current
         // Status 2 - position
         // Status 3 - analog sensor data (never used)
-        steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
+        /*steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
         steerMotor.setPeriodicFramePeriod(
                 PeriodicFrame.kStatus1, 100); // We never use velocity, temp, or current
         steerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20);
@@ -185,7 +184,7 @@ public class SwerveModule extends SubsystemBase {
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 100);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
         driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 60000); // We never use position
-        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 60000);
+        driveMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 60000);*/
 
         // Seed if the motor should be reversed
         isDriveReversed = reversedDrive;

@@ -92,6 +92,7 @@ public class ShootBalls extends CommandBase {
             // Start the indexer
             RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
 
+            // This lets the end condition know that there has been a ball shot
             if (!feeding) {
                 // Reset the timer for feeding
                 // We shouldn't do this, but it's needed to prevent the command from exiting

@@ -92,14 +92,14 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
 
-        // Cancel any currently running command
-        CommandScheduler.getInstance().cancelAll();
-
         // Stop all of the motors on the robot
         RobotContainer.indexer.stop();
         RobotContainer.intake.stop();
         RobotContainer.shooter.stop();
         RobotContainer.hood.stop();
+
+        // Cancel any currently running command
+        CommandScheduler.getInstance().cancelAll();
     }
 
     @Override

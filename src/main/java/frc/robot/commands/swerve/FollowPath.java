@@ -36,7 +36,7 @@ public class FollowPath extends CommandBase {
         PIDController xPID = new PIDController(1, 0, 0);
         PIDController yPID = new PIDController(1, 0, 0);
         ProfiledPIDController rotPID =
-                new ProfiledPIDController(3, 0, 0, new Constraints(Math.PI, Math.PI * Math.PI));
+                new ProfiledPIDController(2.1, 0, 0, new Constraints(Math.PI, Math.PI * Math.PI));
 
         m_controller = new HolonomicDriveController(xPID, yPID, rotPID);
         rotPID.enableContinuousInput(-Math.PI, Math.PI);

@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Parameters.indexer;
 import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.autons.FourBallAuton;
+import frc.robot.commands.autons.NewFourBallAuton;
 import frc.robot.commands.autons.OneBallAuton;
 import frc.robot.commands.autons.ThreeBallAuton;
 import frc.robot.commands.autons.TwoBallHP;
@@ -127,6 +128,7 @@ public class RobotContainer {
         autoChooser.addOption("Two Ball Auton Hangar", new TwoBallHangar());
         autoChooser.addOption("Three Ball Auton (HP)", new ThreeBallAuton());
         autoChooser.addOption("Four Ball", new FourBallAuton());
+        autoChooser.addOption("New Four Ball", new NewFourBallAuton());
         SmartDashboard.putData(autoChooser);
         if (Parameters.telemetryMode) {
             SmartDashboard.putData(shooter);
