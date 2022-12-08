@@ -16,30 +16,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-import frc.robot.Parameters.indexer;
-import frc.robot.commands.swerve.driving.BeyBlade;
 import frc.robot.commands.swerve.driving.LetsRoll;
-import frc.robot.subsystems.Hood;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.IntakeWinch;
-import frc.robot.subsystems.LEDs;
-import frc.robot.subsystems.NavX;
-import frc.robot.subsystems.Vision;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
-import frc.robot.utilityClasses.interpolation.InterpolatingTable;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -51,24 +38,24 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
     // Subsystems
-    //public static NavX navX = new NavX();
+    // public static NavX navX = new NavX();
     public static DriveTrain driveTrain = new DriveTrain();
-    //public static Hood hood = new Hood();
+    // public static Hood hood = new Hood();
 
     // public static Climber climber = new Climber();
-    //public static StupidClimbers climbers2 = new StupidClimbers();
-    //public static Intake intake = new Intake();
-    //public static IntakeWinch intakeWinch = new IntakeWinch();
-    //public static Shooter shooter = new Shooter();
-    //public static Indexer indexer = new Indexer();
-    //public static Vision vision = new Vision();
-    //public static InterpolatingTable interpolatingTable = new InterpolatingTable();
-    //public static LEDs leds = new LEDs();
+    // public static StupidClimbers climbers2 = new StupidClimbers();
+    // public static Intake intake = new Intake();
+    // public static IntakeWinch intakeWinch = new IntakeWinch();
+    // public static Shooter shooter = new Shooter();
+    // public static Indexer indexer = new Indexer();
+    // public static Vision vision = new Vision();
+    // public static InterpolatingTable interpolatingTable = new InterpolatingTable();
+    // public static LEDs leds = new LEDs();
 
     // Commands
     // Normally we can just declare a new object for the command, but we need to keep track of if
     // the intake command isn't running
-    //public static IntakeBalls intakeBalls = new IntakeBalls();
+    // public static IntakeBalls intakeBalls = new IntakeBalls();
 
     // Auton chooser
     SendableChooser<Command> autoChooser = new SendableChooser<>();
@@ -97,16 +84,16 @@ public class RobotContainer {
     public static double turnRate = Parameters.driver.slowSteerRate;
 
     // If the indexer should be running (autoschedules)
-    //public static boolean autoIndex = false;
+    // public static boolean autoIndex = false;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         SmartDashboard.putData(autoChooser);
         if (Parameters.telemetryMode) {
-            //SmartDashboard.putData(shooter);
-            //SmartDashboard.putData(hood);
-            //SmartDashboard.putData(navX);
-            //SmartDashboard.putData(vision);
+            // SmartDashboard.putData(shooter);
+            // SmartDashboard.putData(hood);
+            // SmartDashboard.putData(navX);
+            // SmartDashboard.putData(vision);
             SmartDashboard.putData(driveTrain);
         }
 
@@ -170,7 +157,7 @@ public class RobotContainer {
                         RobotContainer.climbers2.rightLift,
                         (Parameters.climber.lift.UP_LEGAL_DISTANCE_RIGHT),
                         1)));*/
-        
+
         // Runs function tests
         // Holding down keeps the test running, letting go cycles to the next on the next button
         // push

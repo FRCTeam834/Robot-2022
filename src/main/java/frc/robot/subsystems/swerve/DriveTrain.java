@@ -12,8 +12,6 @@
 package frc.robot.subsystems.swerve;
 
 // Imports
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -22,14 +20,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
@@ -131,8 +127,7 @@ public class DriveTrain extends SubsystemBase {
         ChassisSpeeds speeds;
 
         // Set up the modules
-            speeds = new ChassisSpeeds(xVelocity, yVelocity, rot);
-        
+        speeds = new ChassisSpeeds(xVelocity, yVelocity, rot);
 
         // Check the X and Y values of the robot for tip protection
         // The chassis speeds are robot relative
@@ -417,40 +412,31 @@ public class DriveTrain extends SubsystemBase {
     }
 
     /** Updates the odometry. Should be called as frequently as possible to reduce error. */
-    public void updateOdometry() {
-    }
+    public void updateOdometry() {}
 
     /**
      * Reset the odometry measurements. This is kind of like "homing" the robot
      *
      * @param currentPosition The robot's current position
      */
-    public void resetOdometry(Pose2d currentPosition) {
-    }
-
-    
+    public void resetOdometry(Pose2d currentPosition) {}
 
     /**
      * Gets the estimated Y position of the drivetrain on the field
      *
      * @return Estimated Y position (m)
      */
-   
-
     public void resetAllPIDControllers() {
         xMovePID.reset();
         yMovePID.reset();
         rotPID.reset(0);
     }
 
-    
-
     /**
      * Gets the estimated angle of the drivetrain on the field
      *
      * @return Estimated angle (Rotation2d)
      */
-    
 
     // Sets all of the modules to treat their current position as the zero position.
     public void zeroEncoders() {
