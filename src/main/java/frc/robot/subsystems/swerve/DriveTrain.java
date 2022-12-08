@@ -68,10 +68,6 @@ public class DriveTrain extends SubsystemBase {
     // Create the drivetrain map
     SwerveDriveKinematics kinematics = new SwerveDriveKinematics(FL_POS, FR_POS, BL_POS, BR_POS);
 
-    // Pose estimator
-    private SwerveDriveOdometry swerveDriveOdometry =
-            new SwerveDriveOdometry(kinematics, RobotContainer.navX.getRotation2d());
-
     /** Creates a new Drivetrain object */
     public DriveTrain() {
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
@@ -135,13 +131,8 @@ public class DriveTrain extends SubsystemBase {
         ChassisSpeeds speeds;
 
         // Set up the modules
-        if (fieldRelative) {
-            speeds =
-                    ChassisSpeeds.fromFieldRelativeSpeeds(
-                            xVelocity, yVelocity, rot, RobotContainer.navX.getRotation2d());
-        } else {
             speeds = new ChassisSpeeds(xVelocity, yVelocity, rot);
-        }
+        
 
         // Check the X and Y values of the robot for tip protection
         // The chassis speeds are robot relative
@@ -427,12 +418,6 @@ public class DriveTrain extends SubsystemBase {
 
     /** Updates the odometry. Should be called as frequently as possible to reduce error. */
     public void updateOdometry() {
-        swerveDriveOdometry.update(
-                RobotContainer.navX.getRotation2d(),
-                frontLeft.getState(),
-                frontRight.getState(),
-                backLeft.getState(),
-                backRight.getState());
     }
 
     /**
@@ -441,30 +426,16 @@ public class DriveTrain extends SubsystemBase {
      * @param currentPosition The robot's current position
      */
     public void resetOdometry(Pose2d currentPosition) {
-        swerveDriveOdometry.resetPosition(currentPosition, RobotContainer.navX.getRotation2d());
     }
 
-    public void resetOdometry(Pose2d currentPosition, Rotation2d currentAngle) {
-        swerveDriveOdometry.resetPosition(currentPosition, currentAngle);
-    }
-
-    /**
-     * Gets the estimated X position of the drivetrain on the field
-     *
-     * @return Estimated X position (m)
-     */
-    public double getEstXPos() {
-        return swerveDriveOdometry.getPoseMeters().getX();
-    }
+    
 
     /**
      * Gets the estimated Y position of the drivetrain on the field
      *
      * @return Estimated Y position (m)
      */
-    public double getEstYPos() {
-        return swerveDriveOdometry.getPoseMeters().getY();
-    }
+   
 
     public void resetAllPIDControllers() {
         xMovePID.reset();
@@ -472,35 +443,14 @@ public class DriveTrain extends SubsystemBase {
         rotPID.reset(0);
     }
 
-    public PPSwerveControllerCommand getPPSwerveControllerCommand(PathPlannerTrajectory path) {
-        return new PPSwerveControllerCommand(
-                path,
-                this::getEstPose2D,
-                kinematics,
-                xMovePID,
-                yMovePID,
-                rotPID,
-                this::setModuleStates,
-                RobotContainer.driveTrain);
-    }
+    
 
     /**
      * Gets the estimated angle of the drivetrain on the field
      *
      * @return Estimated angle (Rotation2d)
      */
-    public Rotation2d getEstAngle() {
-        return swerveDriveOdometry.getPoseMeters().getRotation();
-    }
-
-    /**
-     * Gets the orientation of the robot on the field
-     *
-     * @return The orientation of the robot (Pose2d) (units in m)
-     */
-    public Pose2d getEstPose2D() {
-        return swerveDriveOdometry.getPoseMeters();
-    }
+    
 
     // Sets all of the modules to treat their current position as the zero position.
     public void zeroEncoders() {
@@ -561,16 +511,10 @@ public class DriveTrain extends SubsystemBase {
     public void initSendable(SendableBuilder builder) {
         if (Parameters.telemetryMode) {
             builder.setSmartDashboardType("Drivetrain");
-            builder.addDoubleProperty(
-                    "Current X Pose: ", () -> swerveDriveOdometry.getPoseMeters().getX(), null);
-            builder.addDoubleProperty(
-                    "Current Y Pose: ", () -> swerveDriveOdometry.getPoseMeters().getY(), null);
 
             builder.addDoubleProperty("Current X Speed ", this::getXSpeed, null);
 
             builder.addDoubleProperty("Current X Speed: ", this::getYSpeed, null);
-            builder.addDoubleProperty("Pitch", RobotContainer.navX::getPitch, null);
-            builder.addDoubleProperty("Roll", RobotContainer.navX::getRoll, null);
         }
     }
 

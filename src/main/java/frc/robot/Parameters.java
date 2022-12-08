@@ -91,7 +91,7 @@ public final class Parameters {
         public static final double slowSteerRate = 180;
         public static final double fastSteerRate = 540;
         public static final boolean lockemUp = false;
-        public static final boolean fieldCentric = true;
+        public static final boolean fieldCentric = false;
         public static final double maxModVelocity = 8;
         public static final IdleMode driveIdleMode = IdleMode.kBrake;
 

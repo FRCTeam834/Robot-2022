@@ -24,8 +24,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
-import frc.robot.commands.hood.HomeHood;
-import frc.robot.subsystems.climber.HomeClimberTubes;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -52,7 +50,6 @@ public class Robot extends TimedRobot {
         // LiveWindow.disableAllTelemetry();
 
         // Reset the angle of the NavX
-        RobotContainer.navX.resetYaw();
         // RobotContainer.navX.resetPitch();
     }
 
@@ -71,7 +68,6 @@ public class Robot extends TimedRobot {
         DriverStation.silenceJoystickConnectionWarning(true);
 
         // Set that the spool is homed (must be up to be legal)
-        RobotContainer.intakeWinch.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
     }
 
     /**
@@ -94,12 +90,6 @@ public class Robot extends TimedRobot {
 
         // Cancel any currently running command
         CommandScheduler.getInstance().cancelAll();
-
-        // Stop all of the motors on the robot
-        RobotContainer.indexer.stop();
-        RobotContainer.intake.stop();
-        RobotContainer.shooter.stop();
-        RobotContainer.hood.stop();
     }
 
     @Override
@@ -112,7 +102,6 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
 
         // Set the distancing on the intake winch
-        RobotContainer.intakeWinch.setCurrentDistance(Parameters.intake.spool.HOME_DISTANCE);
 
         // Get the auto command from the SmartDashboard chooser
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -138,19 +127,13 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
 
-        // Home the hood and climber tubes
-        CommandScheduler.getInstance().schedule(new HomeClimberTubes(), new HomeHood());
 
         // Stop all of the motors on the robot
-        RobotContainer.indexer.stop();
-        RobotContainer.intake.stop();
-        RobotContainer.shooter.stop();
     }
 
     /** This function is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        field.setRobotPose(RobotContainer.driveTrain.getEstPose2D());
     }
 
     @Override
