@@ -12,15 +12,13 @@ public class EmptyEverything extends CommandBase {
     /** Creates a new EmptyEverything. */
     public EmptyEverything() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.shooter, RobotContainer.indexer, RobotContainer.intake);
+        addRequirements();
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        RobotContainer.shooter.set(-.15);
-        RobotContainer.indexer.set(-.5);
-        RobotContainer.intake.set(-.5);
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -30,9 +28,7 @@ public class EmptyEverything extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        RobotContainer.shooter.stop();
-        RobotContainer.indexer.stop();
-        RobotContainer.intake.stop();
+
     }
 
     // Returns true when the command should end.

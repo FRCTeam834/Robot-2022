@@ -60,13 +60,7 @@ public class LetsRollEgoCentric extends CommandBase {
         }
 
         // Set the LEDs
-        // If we can see a target, make them green
-        if (RobotContainer.vision.getBestTarget() != null) {
-            RobotContainer.leds.setPrimaryColor(LEDColors.LIME);
-        } else {
-            // Otherwise, just default to regular team colors
-            RobotContainer.leds.setPrimaryColor(LEDColors.OCEAN);
-        }
+
     }
 
     // Called once the command ends or is interrupted.

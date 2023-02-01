@@ -40,32 +40,7 @@ public class TurnToGoal extends CommandBase {
     @Override
     public void execute() {
 
-        // Get the joystick values (for translational movement)
-        // double rightX = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getX());
-        // double rightY = RobotContainer.constrainJoystick(RobotContainer.rightJoystick.getY());
-
-        // Get the vision target
-        PhotonTrackedTarget latestResult = RobotContainer.vision.getBestTarget();
-
-        // Make sure that we actually have a target
-        if (latestResult == null) {
-
-            // We shouldn't be moving if there isn't a target
-            omega = 0;
-        } else {
-            // Use the target to feed the PID controller
-            // We need to convert from deg to rad because drive() uses radians
-            // Clamping is done to keep the movement within reasonable turning rates
-            omega =
-                    Math.toRadians(
-                            MathUtil.clamp(
-                                    rotationalPID.calculate(
-                                            latestResult.getYaw(), Parameters.vision.YAW_OFFSET),
-                                    -Parameters.vision.MAX_TURNING_SPEED,
-                                    Parameters.vision.MAX_TURNING_SPEED));
-        }
-
-        RobotContainer.driveTrain.drive(0, 0, omega, true, true);
+        
     }
 
     // Called once the command ends or is interrupted.

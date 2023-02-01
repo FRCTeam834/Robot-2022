@@ -15,16 +15,13 @@ public class StopEverything extends CommandBase {
 
     public StopEverything() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(RobotContainer.shooter, RobotContainer.indexer, RobotContainer.hood);
+        addRequirements();
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        timer.start();
-        RobotContainer.indexer.stop();
-        RobotContainer.shooter.stop();
-        RobotContainer.hood.stop();
+
     }
 
     // Called every time the scheduler runs while the command is scheduled.

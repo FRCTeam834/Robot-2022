@@ -19,7 +19,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.commands.shooting.ShootBalls;
 import frc.robot.utilityClasses.TuneableNumber;
 
 public class Shooter extends SubsystemBase {
@@ -42,7 +41,7 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
 
         // Create the shooter motor
-        shooterMotor = new CANSparkMax(Parameters.shooter.ID, MotorType.kBrushless);
+        shooterMotor = new CANSparkMax(200, MotorType.kBrushless);
 
         // Configure the motor's settings
         shooterMotor.restoreFactoryDefaults();
@@ -130,8 +129,6 @@ public class Shooter extends SubsystemBase {
             builder.addDoubleProperty(
                     "Measurement", shooterMotorEncoder::getVelocity, this::setDesiredSpeed);
             builder.addBooleanProperty("atSetpoint", shooterBangBangController::atSetpoint, null);
-            builder.addDoubleProperty(
-                    "Time Since Last Ball", ShootBalls.timeSinceLastIndexedBall::get, null);
         }
     }
 }

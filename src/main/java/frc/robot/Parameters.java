@@ -36,7 +36,7 @@ public final class Parameters {
     // Enables all debug statements
     public static final boolean debug = false;
     public static final boolean tuningMode = false;
-    public static final boolean telemetryMode = true;
+    public static final boolean telemetryMode = false;
 
     // Competition configurations
     // Flashing the controllers degrades them, so we should limit the number
@@ -90,7 +90,7 @@ public final class Parameters {
 
         public static final double slowSteerRate = 180;
         public static final double fastSteerRate = 540;
-        public static final boolean lockemUp = true;
+        public static final boolean lockemUp = false;
         public static final boolean fieldCentric = true;
         public static final double maxModVelocity = 8;
         public static final IdleMode driveIdleMode = IdleMode.kBrake;
@@ -430,7 +430,6 @@ public final class Parameters {
     public static final class shooter {
 
         // CAN ID
-        public static final int ID = 13;
 
         // Velocity conversion factor
         // Converts from RPM to m/s of linear speed on the wheels of the shooter

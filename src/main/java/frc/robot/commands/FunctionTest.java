@@ -21,29 +21,14 @@ public class FunctionTest extends CommandBase {
     public FunctionTest() {
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(
-                RobotContainer.driveTrain,
-                RobotContainer.hood,
-                RobotContainer.indexer,
-                RobotContainer.shooter,
-                RobotContainer.climbers2,
-                RobotContainer.intake);
+);
     }
 
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
 
-        // Decide what to run
-        switch (testNumber) {
-            case 0: // Intake
-                RobotContainer.intake.set(Parameters.intake.INTAKE_SPEED);
-                break;
-            case 1:
-                RobotContainer.indexer.set(Parameters.indexer.FEED_DUTY);
-                break;
-            default:
-                System.out.println("TEST NUMBER EXCEEDED MAXIMUM");
-        }
+        
     }
 
     // Called every time the scheduler runs while the command is scheduled.
@@ -54,17 +39,7 @@ public class FunctionTest extends CommandBase {
     @Override
     public void end(boolean interrupted) {
 
-        // Shuts off the motors after the command is done
-        // ! EXTREMELY IMPORTANT!
-        switch (testNumber) {
-            case 0:
-                RobotContainer.intake.stop();
-                break;
-            case 1:
-                RobotContainer.indexer.stop();
-            default:
-                System.out.println("TEST NUMBER EXCEEDED MAXIMUM");
-        }
+  
 
         // Increment the test number (so that we move to the next test)
         testNumber++;

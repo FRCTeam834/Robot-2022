@@ -124,13 +124,6 @@ public class Vision extends SubsystemBase {
         return distAverage.addPt(Units.metersToInches(getDistanceToGoal()));
     }
 
-    private double getShotSpeed() {
-        return RobotContainer.interpolatingTable.getShotParam(getDistanceToGoalInches()).getSpeed();
-    }
-
-    private double getShotAngle() {
-        return RobotContainer.interpolatingTable.getShotParam(getDistanceToGoalInches()).getAngle();
-    }
 
     public double getYaw() {
         // Get the best target
@@ -158,8 +151,6 @@ public class Vision extends SubsystemBase {
                     "hasTargets", () -> camera.getLatestResult().hasTargets(), null);
             builder.addBooleanProperty("isLinedUp", this::isLinedUp, null);
             builder.addDoubleProperty("distance_inches", this::getDistanceToGoalInches, null);
-            builder.addDoubleProperty("shot_speed", this::getShotSpeed, null);
-            builder.addDoubleProperty("shot_angle", this::getShotAngle, null);
         }
     }
 }
