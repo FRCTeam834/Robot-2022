@@ -6,9 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
-import frc.robot.RobotContainer;
-
 public class FunctionTest extends CommandBase {
 
     // The current thing that we're testing
@@ -20,16 +17,12 @@ public class FunctionTest extends CommandBase {
     /** Creates a new FunctionTest. */
     public FunctionTest() {
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(
-);
+        addRequirements();
     }
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-
-        
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
@@ -38,8 +31,6 @@ public class FunctionTest extends CommandBase {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-
-  
 
         // Increment the test number (so that we move to the next test)
         testNumber++;

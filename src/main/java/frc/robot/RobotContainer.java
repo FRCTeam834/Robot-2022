@@ -22,11 +22,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 
-import frc.robot.commands.EmptyEverything;
 import frc.robot.commands.IntakeCone;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
@@ -156,8 +153,6 @@ public class RobotContainer {
         // right and lift down
 
         // right and left tilt up
-
-
 
         // Runs function tests
         // Holding down keeps the test running, letting go cycles to the next on the next button

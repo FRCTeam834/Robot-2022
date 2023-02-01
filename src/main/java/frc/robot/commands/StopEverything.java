@@ -7,8 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.RobotContainer;
-
 public class StopEverything extends CommandBase {
     /** Creates a new StopEverything. */
     Timer timer = new Timer();
@@ -20,9 +18,7 @@ public class StopEverything extends CommandBase {
 
     // Called when the command is initially scheduled.
     @Override
-    public void initialize() {
-
-    }
+    public void initialize() {}
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override

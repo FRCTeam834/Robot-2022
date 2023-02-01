@@ -9,7 +9,6 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Parameters;
-import frc.robot.RobotContainer;
 import frc.robot.utilityClasses.MovingAverage;
 
 import org.photonvision.PhotonCamera;
@@ -123,7 +122,6 @@ public class Vision extends SubsystemBase {
     public double getDistanceToGoalInches() {
         return distAverage.addPt(Units.metersToInches(getDistanceToGoal()));
     }
-
 
     public double getYaw() {
         // Get the best target

@@ -7,43 +7,45 @@ package frc.robot.commands;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import frc.robot.RobotContainer;
 
 public class IntakeCone extends CommandBase {
-  /** Creates a new IntakeCone. */
-  public final LinearFilter filter;
-  private double a;
-  public IntakeCone() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    filter = LinearFilter.movingAverage(12);
-    addRequirements(RobotContainer.intake);
-  }
+    /** Creates a new IntakeCone. */
+    public final LinearFilter filter;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    filter.reset();
-    filter.calculate(-100000);
-    RobotContainer.intake.startMotorBackward();
-    
-  }
+    private double a;
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    a = filter.calculate(RobotContainer.intake.intakeEncoder.getVelocity());
-    DriverStation.reportWarning(String.format("%f", a), false);
-  }
+    public IntakeCone() {
+        // Use addRequirements() here to declare subsystem dependencies.
+        filter = LinearFilter.movingAverage(12);
+        addRequirements(RobotContainer.intake);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    RobotContainer.intake.stopMotor();
-  }
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        filter.reset();
+        filter.calculate(-100000);
+        RobotContainer.intake.startMotorBackward();
+    }
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return Math.abs(a) < 20;
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        a = filter.calculate(RobotContainer.intake.intakeEncoder.getVelocity());
+        DriverStation.reportWarning(String.format("%f", a), false);
+    }
+
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        RobotContainer.intake.stopMotor();
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return Math.abs(a) < 20;
+    }
 }

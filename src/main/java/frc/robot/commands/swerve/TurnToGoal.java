@@ -8,14 +8,10 @@
  */
 package frc.robot.commands.swerve;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import frc.robot.Parameters;
 import frc.robot.RobotContainer;
-
-import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class TurnToGoal extends CommandBase {
 
@@ -38,10 +34,7 @@ public class TurnToGoal extends CommandBase {
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {
-
-        
-    }
+    public void execute() {}
 
     // Called once the command ends or is interrupted.
     @Override
