@@ -23,14 +23,18 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.ArmMotorDown;
+import frc.robot.commands.ArmMotorUp;
 import frc.robot.commands.IntakeCone;
+import frc.robot.commands.StopArmMotor;
 import frc.robot.commands.swerve.driving.LetsRoll;
 import frc.robot.commands.swerve.driving.LetsRollEgoCentric;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.NavX;
 import frc.robot.subsystems.swerve.DriveTrain;
 import frc.robot.utilityClasses.ButtonBoard;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,6 +49,8 @@ public class RobotContainer {
     public static NavX navX = new NavX();
     public static DriveTrain driveTrain = new DriveTrain();
     public static Intake intake = new Intake();
+
+    public static Arm arm = new Arm();
 
     // Commands
     // Normally we can just declare a new object for the command, but we need to keep track of if
@@ -103,6 +109,7 @@ public class RobotContainer {
         // Automatically run the swerve when not shooting
         CommandScheduler.getInstance().setDefaultCommand(RobotContainer.driveTrain, new LetsRoll());
 
+        
         // Left Joystick
         // new JoystickButton(leftJoystick, 1)
         //        .whenPressed(
@@ -110,9 +117,15 @@ public class RobotContainer {
         //                        () -> RobotContainer.fieldCentric =
         // !RobotContainer.fieldCentric));
         new JoystickButton(leftJoystick, 1).whenPressed(new IntakeCone());
-        new JoystickButton(leftJoystick, 2).whenPressed(new LetsRoll());
-        new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
-        new JoystickButton(leftJoystick, 4).whenPressed(new LetsRollEgoCentric());
+
+        new JoystickButton(leftJoystick, 2).whenPressed(new ArmMotorUp(arm));
+        new JoystickButton(leftJoystick, 3).whenPressed(new ArmMotorDown(arm));
+        new JoystickButton(leftJoystick, 4).whenPressed(new StopArmMotor(arm));
+        
+
+        // new JoystickButton(leftJoystick, 2).whenPressed(new LetsRoll());
+        // new JoystickButton(leftJoystick, 3).whenPressed(new InstantCommand(navX::resetYaw));
+        // new JoystickButton(leftJoystick, 4).whenPressed(new LetsRollEgoCentric());
         new JoystickButton(leftJoystick, 8)
                 .and(new JoystickButton(leftJoystick, 9))
                 .whenActive(
