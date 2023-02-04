@@ -5,36 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+
 import frc.robot.subsystems.Arm;
 
 public class ArmMotorUp extends CommandBase {
-  /** Creates a new ArmMotor. */
-  private final Arm arm;
-  public ArmMotorUp(Arm arm) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.arm = arm;
+    /** Creates a new ArmMotor. */
+    private final Arm arm;
 
-    addRequirements(arm);
-  }
+    public ArmMotorUp(Arm arm) {
+        // Use addRequirements() here to declare subsystem dependencies.
+        this.arm = arm;
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    arm.setSpeed(0.1);
-  }
+        addRequirements(arm);
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
+    // Called when the command is initially scheduled.
+    @Override
+    public void initialize() {
+        arm.setSpeed(0.1);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {}
 
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {}
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

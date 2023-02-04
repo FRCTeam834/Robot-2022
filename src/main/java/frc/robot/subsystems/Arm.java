@@ -10,28 +10,24 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Arm extends SubsystemBase {
-  /** Creates a new Arm. */
-  CANSparkMax armMotor;
-    
+    /** Creates a new Arm. */
+    CANSparkMax armMotor;
 
-  public Arm() {
-    armMotor = new CANSparkMax(1, MotorType.kBrushless);
-    armMotor.setInverted(true);
-  }
-    
-  public void setSpeed(double speed){
-    armMotor.set(speed);
-  }
+    public Arm() {
+        armMotor = new CANSparkMax(1, MotorType.kBrushless);
+        armMotor.setInverted(true);
+    }
 
-  public void stopMotor(){
-    armMotor.set(0.0);
-  }
+    public void setSpeed(double speed) {
+        armMotor.set(speed);
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    public void stopMotor() {
+        armMotor.set(0.0);
+    }
 
-  
-
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }
